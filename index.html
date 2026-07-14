@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V1.0</title>
+  <title>Guzen Ikemen Maker V1.4</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -20,12 +20,15 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V1.0</span>
-        <h1 class="title">Guzen Ikemen Maker V1.0</h1>
-        <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・足元・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、足元・靴下設定や服装案は別枠で出力します。</p>
+        <span class="badge">GUZEN SLOT SYSTEM / V1.4</span>
+        <h1 class="title">Guzen Ikemen Maker V1.4</h1>
+        <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
-        <p class="notice">成人男性キャラクターの非性的な設定資料・画像生成プロンプト作成用アプリです。結果はブラウザ内に保存され、外部サーバーへ送信されません。</p>
+        <p class="notice" id="heroNotice">成人男性キャラクターの非性的な画像生成用指示文を作成するアプリです。結果はブラウザ内に保存され、外部サーバーへ送信されません。</p>
+        <div class="form" style="margin-top:12px;margin-bottom:12px;grid-template-columns:minmax(180px,240px)">
+          <label class="field"><span id="makerLanguageLabel">メーカー言語 / App Language</span><select id="makerLanguage"><option value="ja">日本語</option><option value="en">English</option></select></label>
+        </div>
         <div class="toolbar" style="margin-top:12px">
           <button class="btn primary" id="startBtn">SLOT START</button>
           <button class="btn dark" id="rerollUnlockedBtn">ロック以外を回す</button>
@@ -36,7 +39,7 @@
 
     <nav class="tabs">
       <button class="tab active" data-tab="slot">スロット</button>
-      <button class="tab" data-tab="result">結果・プロンプト</button>
+      <button class="tab" data-tab="result">結果・画像指示文</button>
       <button class="tab" data-tab="history">保存結果</button>
       <button class="tab" data-tab="settings">条件固定</button>
     </nav>
@@ -46,13 +49,17 @@
       <div class="form">
         <label class="field"><span>初期国籍</span><select id="initialNationality"></select></label>
         <label class="field"><span>初期人種</span><select id="initialEthnicity"></select></label>
+        <label class="field"><span>年齢下限</span><select id="initialAgeMin"></select></label>
+        <label class="field"><span>年齢上限</span><select id="initialAgeMax"></select></label>
+        <label class="field"><span>雰囲気系統</span><select id="initialVibe"></select></label>
         <label class="field"><span>背景</span><select id="initialBackground"></select></label>
         <label class="field"><span>光</span><select id="initialLighting"></select></label>
         <label class="field"><span>画質・質感</span><select id="initialQuality"></select></label>
         <label class="field"><span>出力タイプ</span><select id="initialOutputType"></select></label>
         <label class="field"><span>出力枚数</span><select id="initialCount"></select></label>
+        <label class="field"><span>指示文言語</span><select id="initialPromptLanguage"></select></label>
       </div>
-      <p class="notice" style="margin-top:12px">ここで国籍・人種・背景・光・画質・出力タイプ・出力枚数を指定します。出力系は抽選せず、ここで選んだ内容が生成プロンプトへ反映されます。</p>
+      <p class="notice" style="margin-top:12px">ここで国籍・人種・年齢範囲・雰囲気系統・背景・光・画質・出力タイプ・出力枚数を指定します。出力系は抽選せず、ここで選んだ内容が画像指示文へ反映されます。雰囲気系統を選ぶと、髪型・顔立ち・提案服装の抽選傾向が連動します。</p>
     </section>
 
     <main class="grid cols">
@@ -86,17 +93,20 @@
         <div class="result-card" id="profileView"></div>
       </div>
       <div class="panel">
-        <div class="section-title"><h2>生成プロンプト</h2><button class="btn primary" id="copyPromptBtn">メインをコピー</button></div>
+        <div class="section-title"><h2>メイン画像用 指示文</h2><button class="btn primary" id="copyPromptBtn">メインをコピー</button></div>
         <div class="form" style="margin-bottom:12px">
           <label class="field"><span>出力タイプ</span><select id="manualOutputType"></select></label>
           <label class="field"><span>出力枚数</span><select id="manualCount"></select></label>
           <label class="field"><span>画風・質感</span><select id="manualQuality"></select></label>
           <label class="field"><span>背景</span><select id="manualBackground"></select></label>
           <label class="field"><span>光</span><select id="manualLighting"></select></label>
+          <label class="field"><span>指示文言語</span><select id="manualPromptLanguage"></select></label>
         </div>
         <textarea class="textarea" id="promptBox" readonly></textarea>
-        <div class="section-title" style="margin-top:14px"><h2>提案服装プロンプト（追加用）</h2><button class="btn dark" id="copyOutfitBtn">服装案をコピー</button></div>
+        <div class="section-title" style="margin-top:14px"><h2>服装差分用 指示文</h2><button class="btn dark" id="copyOutfitBtn">服装案をコピー</button></div>
         <textarea class="textarea" id="outfitPromptBox" readonly style="min-height:190px"></textarea>
+        <div class="section-title" style="margin-top:14px"><h2>偶然見かけた場面 指示文</h2><button class="btn dark" id="copySceneBtn">場面案をコピー</button></div>
+        <textarea class="textarea" id="scenePromptBox" readonly style="min-height:190px"></textarea>
       </div>
     </section>
 
@@ -111,7 +121,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V1.0</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V1.4</p>
   </div>
 
 <script>
@@ -127,10 +137,12 @@
     surnames:['佐藤','鈴木','高橋','田中','伊藤','山本','中村','小林','加藤','吉田','山田','松本','井上','木村','清水','森','池田','橋本','阿志賀','杉田'],
     givenModern:['蓮','湊','悠真','陽翔','颯真','大翔','樹','蒼','律','新','陸','悠斗','隼太','亮太','聡介','光希','大輔','斗真'],
     ages:[20,21,22,23,24,25,26,27,28,29,30,31,32,35,38,40,42],
-    nationalities:['日本','韓国','中国','台湾','アメリカ','イギリス','フランス','ブラジル','メキシコ','タイ','ベトナム'],
-    ethnicities:['日本人','韓国系','東アジア系','中国系','東南アジア系','白人系','ラテン系','ミックス'],
-    roles:['成人男性キャラクター','若手社会人','大学生風の成人男性','スポーツ経験者','新人アナウンサー風','テーマパークスタッフ風','モデル風','俳優風','営業職風'],
-    facePresets:['普通顔','爽やか知的アナウンサー系','大学サッカー部系','スーツ映え社会人系','高身長モデル系','親しみやすい大学生系','体育会系スポーツ男子','清潔感のある若手俳優風','落ち着いた大人系','韓国アイドル風','日本の若手俳優風','ワイルド系','真面目系','中性系'],
+    nationalities:['日本','韓国','中国','台湾','アメリカ','カナダ','イギリス','フランス','ドイツ','イタリア','スペイン','ブラジル','メキシコ','タイ','ベトナム','フィリピン','インドネシア','マレーシア','インド','オーストラリア'],
+    ethnicities:['日本人','韓国系','東アジア系','中国系','東南アジア系','南アジア系','白人系','黒人系','中東系','ラテン系','中央アジア系','ミックス'],
+    roles:['成人男性キャラクター','若手社会人','大学生風の成人男性','スポーツ経験者','モデル風','俳優風','営業職風','事務職風','クリエイター風','研究職風','販売員風','インストラクター風','IT系会社員風','フリーランス風'],
+    vibes:['ランダム','爽やか系','真面目系','ワイルド系','スポーツ系','きれいめ系','カジュアル系','韓国風','中性系','大人っぽい系','やりらふぃー系','ストリート系','塩顔系','犬系男子','クール系','ミステリアス系','サブカル系','古着系','清楚系','陽キャ大学生系'],
+    ageLooks:['実年齢相応','やや若く見える','少し大人びて見える'],
+    facePresets:['普通顔','爽やか知的アナウンサー系','大学サッカー部系','スーツ映え社会人系','高身長モデル系','親しみやすい大学生系','体育会系スポーツ男子','清潔感のある若手俳優風','落ち着いた大人系','韓国アイドル風','日本の若手俳優風','ワイルド系','真面目系','中性系','やりらふぃー系','塩顔系','犬系男子風','クール系','ミステリアス系','サブカル系'],
     bodyTypes:['標準体型','やせ型','細身','痩せマッチョ','引き締まったスポーツ体型','サッカー選手体型','スーツ映え体型','高身長モデル体型','筋肉質','がっしり体型','腹だけぽっちゃり','ぽっちゃり','脚が長い'],
     faceLines:['自然なフェイスライン','シャープなフェイスライン','しっかりしたフェイスライン','柔らかいフェイスライン','逆三角形に近いフェイスライン','やや角ばったフェイスライン'],
     eyes:['二重風・親しみやすい目元','奥二重風・クールな目元','切れ長で知的','丸みのある優しい目元','力強い目元','伏し目がちで落ち着いた目元'],
@@ -160,13 +172,14 @@
     lighting:['自然光。明るく清潔感がある。','柔らかいスタジオ照明。','曇天の拡散光。','写真館風の正面ライト。','斜め45度のスタジオライト。','屋外スポーツ撮影風の明るい光。','夜景に馴染む控えめなライティング。'],
     qualities:['実写風','高精細','スマホスナップ風','写真館風','ファッションカタログ風','AI感を抑えた自然写真','商業写真風','雑誌グラビアではなく設定資料風','イラスト風','アニメ風イラスト','漫画風線画','キャラクター設定画風'],
     outputTypes:['前面・側面を1枚にまとめた設定画像','前面・側面・背面を1枚にまとめた設定画像','16:9リファレンスカード（全身前面・側面／顔正面・側面／足詳細）','SNSプロフィール風画像','就活写真風画像','スポーツ選手紹介風画像'],
-    counts:['1枚','3パターン別々の画像','5パターン別々の画像','10パターン別々の画像']
+    counts:['1枚','3パターン別々の画像','5パターン別々の画像','10パターン別々の画像'],
+    promptLanguages:['日本語','English']
   };
 
   const slotDefs = [
-    ['name','名前','basic'],['age','年齢','basic'],['nationality','国籍','basic'],['ethnicity','人種','basic'],['role','役割','basic'],
+    ['name','名前','basic'],['age','年齢','basic'],['nationality','国籍','basic'],['ethnicity','人種','basic'],['role','役割','basic'],['vibe','雰囲気系統','basic'],
     ['height','身長','body'],['weight','体重','body'],['bodyType','体型','body'],['footSize','足サイズ','body'],['footShape','足の形','body'],
-    ['facePreset','顔立ち','face'],['faceLine','フェイスライン','face'],['eyes','目','face'],['tearBags','涙袋','face'],['nose','鼻','face'],['mouth','口','face'],['skin','肌','face'],['facialHair','ひげ','face'],
+    ['facePreset','顔立ち','face'],['ageAppearance','年齢感','face'],['faceLine','フェイスライン','face'],['eyes','目','face'],['tearBags','涙袋','face'],['nose','鼻','face'],['mouth','口','face'],['skin','肌','face'],['facialHair','ひげ','face'],
     ['hairStyle','髪型','hair'],['hairColor','髪色','hair'],
     ['outfitType','提案服装','outfit'],['outfitBrand','提案服装ブランド','outfit'],['jacket','上着','outfit'],['top','トップス','outfit'],['bottom','ボトムス','outfit'],['boxerBrand','下着ブランド','outfit'],
     ['shoes','靴','feet'],['sockBrand','靴下ブランド','feet'],['sockType','靴下種類','feet'],['sockShape','靴下形状','feet'],['sockMaterial','靴下素材','feet'],['sockColor','靴下色・柄','feet'],['sockUse','靴下使用感','feet']
@@ -176,6 +189,186 @@
   let locks = {};
   let mode = 'full';
   let spinning = false;
+  let uiLang = 'ja';
+
+  const slotLabelMap = {
+    name:{ja:'名前',en:'Name'}, age:{ja:'年齢',en:'Age'}, nationality:{ja:'国籍',en:'Nationality'}, ethnicity:{ja:'人種',en:'Ethnicity'}, role:{ja:'役割',en:'Role'}, vibe:{ja:'雰囲気系統',en:'Vibe'},
+    height:{ja:'身長',en:'Height'}, weight:{ja:'体重',en:'Weight'}, bodyType:{ja:'体型',en:'Body Type'}, footSize:{ja:'足サイズ',en:'Foot Size'}, footShape:{ja:'足の形',en:'Foot Shape'},
+    facePreset:{ja:'顔立ち',en:'Face Type'}, ageAppearance:{ja:'年齢感',en:'Age Appearance'}, faceLine:{ja:'フェイスライン',en:'Face Line'}, eyes:{ja:'目',en:'Eyes'}, tearBags:{ja:'涙袋',en:'Tear Bags'}, nose:{ja:'鼻',en:'Nose'}, mouth:{ja:'口',en:'Mouth'}, skin:{ja:'肌',en:'Skin'}, facialHair:{ja:'ひげ',en:'Facial Hair'},
+    hairStyle:{ja:'髪型',en:'Hairstyle'}, hairColor:{ja:'髪色',en:'Hair Color'}, outfitType:{ja:'提案服装',en:'Suggested Outfit'}, outfitBrand:{ja:'提案服装ブランド',en:'Outfit Brand'}, jacket:{ja:'上着',en:'Outerwear'}, top:{ja:'トップス',en:'Top'}, bottom:{ja:'ボトムス',en:'Bottom'}, boxerBrand:{ja:'下着ブランド',en:'Underwear Brand'}, shoes:{ja:'靴',en:'Shoes'}, sockBrand:{ja:'靴下ブランド',en:'Sock Brand'}, sockType:{ja:'靴下種類',en:'Sock Type'}, sockShape:{ja:'靴下形状',en:'Sock Shape'}, sockMaterial:{ja:'靴下素材',en:'Sock Material'}, sockColor:{ja:'靴下色・柄',en:'Sock Color / Pattern'}, sockUse:{ja:'靴下使用感',en:'Sock Condition'}
+  };
+  const fixedFieldLabelMap = {
+    age:{ja:'年齢固定',en:'Fixed Age'}, nationality:{ja:'国籍固定',en:'Fixed Nationality'}, ethnicity:{ja:'人種固定',en:'Fixed Ethnicity'}, bodyType:{ja:'体型固定',en:'Fixed Body Type'}, facePreset:{ja:'顔立ち固定',en:'Fixed Face Type'}, vibe:{ja:'雰囲気系統固定',en:'Fixed Vibe'}, outfitType:{ja:'服装固定',en:'Fixed Outfit'}
+  };
+  const uiText = {
+    ja:{
+      subtitle:'偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。',
+      heroNotice:'成人男性キャラクターの非性的な画像生成用指示文を作成するアプリです。結果はブラウザ内に保存され、外部サーバーへ送信されません。',
+      startBtn:'SLOT START', rerollUnlockedBtn:'ロック以外を回す', resetLocksBtn:'ロック解除',
+      tab_slot:'スロット', tab_result:'結果・画像指示文', tab_history:'保存結果', tab_settings:'条件固定',
+      initialTitle:'初期設定', initialPill:'スロットを回す前に指定', initialNotice:'ここで国籍・人種・年齢範囲・雰囲気系統・背景・光・画質・出力タイプ・出力枚数を指定します。出力系は抽選せず、ここで選んだ内容が画像指示文へ反映されます。雰囲気系統を選ぶと、髪型・顔立ち・提案服装の抽選傾向が連動します。',
+      resultTitle:'完成プロフィール', saveBtn:'結果を保存', jsonBtn:'JSONを書き出す', promptTitle:'メイン画像用 指示文', copyPromptBtn:'メインをコピー', outfitTitle:'服装差分用 指示文', copyOutfitBtn:'服装案をコピー', sceneTitle:'偶然見かけた場面 指示文', copySceneBtn:'場面案をコピー',
+      historyTitle:'保存結果', clearHistoryBtn:'履歴クリア', noHistory:'保存結果はまだありません。', loadBtn:'読み込む',
+      settingsTitle:'条件固定ランダム', settingsPill:'空欄はランダム', settingsNotice:'固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。',
+      slotResult:'Slot Result', waiting:'待機中', spinning:'回転中', done:'完成', lock:'LOCK', locked:'LOCKED', clickLock:'クリックで固定', rarityNoteIdle:'スロットを回すと判定されます。', rarityTitle:'Rarity', modesTitle:'Modes',
+      mode_full:'完全ランダム', mode_face:'顔だけ', mode_outfit:'服装だけ', mode_rare:'レア設定', currentMode:'現在：', mode_full_note:'完全ランダム', mode_face_note:'顔だけランダム', mode_outfit_note:'服装だけランダム', mode_rare_note:'レア設定モード',
+      saveFirst:'先にスロットを回してください。', saved:'保存しました。', copyMainDone:'メイン指示文をコピーしました。', copyOutfitDone:'服装差分指示文をコピーしました。', copySceneDone:'場面指示文をコピーしました。', confirmClear:'保存結果を削除しますか？',
+      rows:{name:'名前',age:'年齢',natEth:'国籍 / 人種',roleVibe:'役割 / 系統',hw:'身長 / 体重',body:'体型',foot:'足サイズ',face:'顔立ち',hair:'髪型',main:'メイン服装',outfit:'提案服装',sock:'提案靴下',background:'背景',output:'出力',scene:'偶然見かけた場面'},
+      fieldLabels:{initialNationality:'初期国籍',initialEthnicity:'初期人種',initialAgeMin:'年齢下限',initialAgeMax:'年齢上限',initialVibe:'雰囲気系統',initialBackground:'背景',initialLighting:'光',initialQuality:'画質・質感',initialOutputType:'出力タイプ',initialCount:'出力枚数',initialPromptLanguage:'指示文言語',manualOutputType:'出力タイプ',manualCount:'出力枚数',manualQuality:'画風・質感',manualBackground:'背景',manualLighting:'光',manualPromptLanguage:'指示文言語'},
+      rarityNotes:{normal:'自然で使いやすい標準寄りの組み合わせです。',rare:'少し特徴的な組み合わせです。',super:'目立つ特徴が複数あります。',legend:'かなり個性的な偶然の組み合わせです。'}
+    },
+    en:{
+      subtitle:'A chance-based handsome character generator. Age, height, build, facial impression, vibe, and suggested outfit are decided like a slot machine. The main generation uses boxer briefs only, while outfit and candid-scene prompts are output separately.',
+      heroNotice:'This app creates non-sexual image prompts for adult male characters. Results are stored in your browser and are not sent to an external server.',
+      startBtn:'SLOT START', rerollUnlockedBtn:'Spin unlocked only', resetLocksBtn:'Reset locks',
+      tab_slot:'Slots', tab_result:'Results & Prompts', tab_history:'Saved Results', tab_settings:'Fixed Conditions',
+      initialTitle:'Initial Settings', initialPill:'Set before spinning', initialNotice:'Set nationality, ethnicity, age range, vibe, background, lighting, quality, output type, and output count here. Output settings are not randomized and will be reflected directly in the image prompts. Choosing a vibe also influences hairstyle, face type, and suggested outfit generation.',
+      resultTitle:'Final Profile', saveBtn:'Save Result', jsonBtn:'Export JSON', promptTitle:'Main Image Prompt', copyPromptBtn:'Copy Main Prompt', outfitTitle:'Outfit Variation Prompt', copyOutfitBtn:'Copy Outfit Prompt', sceneTitle:'Candid Encounter Prompt', copySceneBtn:'Copy Scene Prompt',
+      historyTitle:'Saved Results', clearHistoryBtn:'Clear History', noHistory:'No saved results yet.', loadBtn:'Load',
+      settingsTitle:'Random with Fixed Conditions', settingsPill:'Blank = random', settingsNotice:'If you press “SLOT START” after setting fixed conditions, the selected character and outfit items will be prioritized during random generation. Background, lighting, quality, output type, and output count are set in the initial settings or in the result panel.',
+      slotResult:'Slot Result', waiting:'Waiting', spinning:'Spinning', done:'Done', lock:'LOCK', locked:'LOCKED', clickLock:'click to lock', rarityNoteIdle:'Spin the slots to evaluate.', rarityTitle:'Rarity', modesTitle:'Modes',
+      mode_full:'Full Random', mode_face:'Face Only', mode_outfit:'Outfit Only', mode_rare:'Rare Mode', currentMode:'Current: ', mode_full_note:'Full random', mode_face_note:'Face-only random', mode_outfit_note:'Outfit-only random', mode_rare_note:'Rare-mode random',
+      saveFirst:'Please spin the slots first.', saved:'Saved.', copyMainDone:'Copied the main prompt.', copyOutfitDone:'Copied the outfit prompt.', copySceneDone:'Copied the scene prompt.', confirmClear:'Clear saved results?',
+      rows:{name:'Name',age:'Age',natEth:'Nationality / Ethnicity',roleVibe:'Role / Vibe',hw:'Height / Weight',body:'Body Type',foot:'Foot Size',face:'Face',hair:'Hair',main:'Main Clothing',outfit:'Suggested Outfit',sock:'Suggested Socks',background:'Background',output:'Output',scene:'Candid Scene'},
+      fieldLabels:{initialNationality:'Initial Nationality',initialEthnicity:'Initial Ethnicity',initialAgeMin:'Age Min',initialAgeMax:'Age Max',initialVibe:'Vibe',initialBackground:'Background',initialLighting:'Lighting',initialQuality:'Quality / Texture',initialOutputType:'Output Type',initialCount:'Output Count',initialPromptLanguage:'Prompt Language',manualOutputType:'Output Type',manualCount:'Output Count',manualQuality:'Art / Texture',manualBackground:'Background',manualLighting:'Lighting',manualPromptLanguage:'Prompt Language'},
+      rarityNotes:{normal:'A natural and versatile combination.',rare:'A slightly distinctive combination.',super:'Several standout features are present.',legend:'A highly distinctive chance-based combination.'}
+    }
+  };
+  function T(key){ return uiText[uiLang][key]; }
+  function slotLabel(key, fallback){ return (slotLabelMap[key]||{})[uiLang] || fallback; }
+  function fixedLabel(key, fallback){ return (fixedFieldLabelMap[key]||{})[uiLang] || fallback; }
+
+  const valueTranslations = {
+    'ランダム':'Random','日本':'Japan','韓国':'South Korea','中国':'China','台湾':'Taiwan','アメリカ':'United States','カナダ':'Canada','イギリス':'United Kingdom','フランス':'France','ドイツ':'Germany','イタリア':'Italy','スペイン':'Spain','ブラジル':'Brazil','メキシコ':'Mexico','タイ':'Thailand','ベトナム':'Vietnam','フィリピン':'Philippines','インドネシア':'Indonesia','マレーシア':'Malaysia','インド':'India','オーストラリア':'Australia',
+    '日本人':'Japanese','韓国系':'Korean','東アジア系':'East Asian','中国系':'Chinese','東南アジア系':'Southeast Asian','南アジア系':'South Asian','白人系':'White','黒人系':'Black','中東系':'Middle Eastern','ラテン系':'Latino','中央アジア系':'Central Asian','ミックス':'Mixed',
+    '成人男性キャラクター':'Adult male character','若手社会人':'Young working adult','大学生風の成人男性':'Adult man with a university-student vibe','スポーツ経験者':'Athletic / sports-experienced','モデル風':'Model-like','俳優風':'Actor-like','営業職風':'Sales professional','事務職風':'Office worker','クリエイター風':'Creative professional','研究職風':'Research professional','販売員風':'Retail staff','インストラクター風':'Instructor-like','IT系会社員風':'IT office worker','フリーランス風':'Freelancer-like',
+    '爽やか系':'Fresh / clean-cut','真面目系':'Serious','ワイルド系':'Wild','スポーツ系':'Sporty','きれいめ系':'Clean / polished','カジュアル系':'Casual','韓国風':'Korean-inspired','中性系':'Androgynous','大人っぽい系':'Mature','やりらふぃー系':'Trendy party-boy','ストリート系':'Streetwear','塩顔系':'Salt-faced / understated','犬系男子':'Puppy-like boyish','クール系':'Cool','ミステリアス系':'Mysterious','サブカル系':'Subculture','古着系':'Vintage / thrift','清楚系':'Neat / gentle','陽キャ大学生系':'Outgoing college-guy',
+    '実年齢相応':'Looks his age','やや若く見える':'Looks slightly younger','少し大人びて見える':'Looks slightly older',
+    '普通顔':'Average-looking','爽やか知的アナウンサー系':'Fresh, intelligent announcer type','大学サッカー部系':'University soccer-player type','スーツ映え社会人系':'Suit-friendly working professional type','高身長モデル系':'Tall model type','親しみやすい大学生系':'Friendly college-student type','体育会系スポーツ男子':'Athletic sports guy','清潔感のある若手俳優風':'Clean young-actor type','落ち着いた大人系':'Calm mature type','韓国アイドル風':'K-pop idol type','日本の若手俳優風':'Young Japanese actor type','中性系':'Androgynous','塩顔系':'Understated face type','犬系男子風':'Puppy-like boyish type','クール系':'Cool type','ミステリアス系':'Mysterious type','サブカル系':'Subculture type',
+    '標準体型':'Average build','やせ型':'Slim','細身':'Lean','痩せマッチョ':'Lean muscular','引き締まったスポーツ体型':'Toned athletic build','サッカー選手体型':'Soccer-player build','スーツ映え体型':'Suit-friendly build','高身長モデル体型':'Tall model build','筋肉質':'Muscular','がっしり体型':'Solid build','腹だけぽっちゃり':'Only slightly chubby around the belly','ぽっちゃり':'Chubby','脚が長い':'Long-legged',
+    '自然なフェイスライン':'Natural face line','シャープなフェイスライン':'Sharp face line','しっかりしたフェイスライン':'Defined face line','柔らかいフェイスライン':'Soft face line','逆三角形に近いフェイスライン':'Near-inverted-triangle face line','やや角ばったフェイスライン':'Slightly angular face line',
+    '二重風・親しみやすい目元':'Friendly double-eyelid eyes','奥二重風・クールな目元':'Cool inner-double-eyelid eyes','切れ長で知的':'Narrow and intelligent','丸みのある優しい目元':'Soft rounded eyes','力強い目元':'Strong eyes','伏し目がちで落ち着いた目元':'Relaxed downcast eyes',
+    'なし':'None','控えめ':'Subtle','自然':'Natural','ややはっきり':'Slightly defined','ふっくら':'Full','笑うと少し出る':'Slightly visible when smiling',
+    '自然な鼻筋':'Natural nose bridge','通った鼻筋':'Defined nose bridge','高めの鼻筋':'High nose bridge','すっきりした鼻筋':'Clean nose bridge','しっかりした鼻':'Well-defined nose','控えめで自然な鼻':'Subtle natural nose',
+    '自然な笑顔':'Natural smile','控えめな微笑み':'Subtle smile','落ち着いた表情':'Calm expression','爽やかな笑顔':'Fresh smile','誠実な表情':'Sincere expression','余裕のある表情':'Composed expression',
+    '自然な肌質':'Natural skin texture','健康的な肌質':'Healthy skin texture','透明感のある肌':'Clear-looking skin','少し日焼けした肌':'Slightly tanned skin','マットで自然な肌':'Matte natural skin','スポーツ経験者らしい肌':'Sporty skin texture',
+    'ごく薄い青ひげ':'Very light beard shadow','自然な無精ひげ':'Natural stubble','整えた短いひげ':'Neatly trimmed short beard','口ひげあり':'Mustache','あごひげあり':'Goatee',
+    '短髪':'Short hair','アップバング':'Up-bangs','センターパート':'Center part','サイドパート':'Side part','マッシュ':'Mushroom cut','ソフトツーブロック':'Soft two-block','ビジネス短髪':'Business short hair','韓国風センターパート':'Korean-style center part','ニュアンスパーマ':'Loose perm','ツイストパーマ':'Twist perm','スパイラルパーマ':'Spiral perm','波巻きパーマ':'Wave perm','ウルフミディアム':'Medium wolf cut','ロング寄りミディアム':'Long medium hair','マンバン':'Man bun',
+    '黒':'Black','ブルーブラック':'Blue-black','黒に近いダークブラウン':'Very dark brown','自然な茶髪':'Natural brown','アッシュブラウン':'Ash brown','グレージュ':'Greige','明るめブラウン':'Light brown',
+    '紺スーツ':'Navy suit','黒スーツ':'Black suit','グレースーツ':'Gray suit','大学生カジュアル':'College casual','社会人カジュアル':'Working-adult casual','スポーツ練習着':'Sports practice wear','学生服（学ラン）':'School uniform (gakuran)','学生服（ブレザー）':'School uniform (blazer)','制服風コーデ':'Uniform-inspired outfit','私服通学風':'Casual commuting outfit','ジャケットスタイル':'Jacket style','ストリート系':'Streetwear',
+    '指定なし':'Not specified','無地ノーブランド':'Plain unbranded','学生服メーカー指定なし':'School uniform brand not specified',
+    'テーラードジャケット':'Tailored jacket','学生ブレザー':'School blazer','学ラン上着':'Gakuran jacket','ステンカラーコート':'Bal-collar coat','チェスターコート':'Chester coat','MA-1':'MA-1 jacket','スタジャン':'Varsity jacket','カーディガン':'Cardigan','パーカー':'Hoodie','デニムジャケット':'Denim jacket','ナイロンジャケット':'Nylon jacket','スポーツジャケット':'Sports jacket',
+    '白シャツ':'White shirt','サックスブルーシャツ':'Sax blue shirt','制服用ワイシャツ':'Uniform shirt','ブレザー用シャツ':'Blazer shirt','ネクタイ付きシャツ':'Shirt with tie','無地Tシャツ':'Plain T-shirt','オーバーサイズTシャツ':'Oversized T-shirt','ロングスリーブTシャツ':'Long-sleeve T-shirt','ポロシャツ':'Polo shirt','ニット':'Knit top','カーディガンインナー':'Cardigan innerwear','スウェット':'Sweatshirt','スポーツシャツ':'Sports shirt','ゲームシャツ':'Game shirt',
+    '黒スラックス':'Black slacks','紺スラックス':'Navy slacks','グレースラックス':'Gray slacks','学生スラックス':'Student slacks','ブレザー用スラックス':'Blazer slacks','学ラン用ズボン':'Gakuran trousers','チノパン':'Chinos','ワイドパンツ':'Wide pants','カーゴパンツ':'Cargo pants','デニム':'Denim jeans','ストレートデニム':'Straight jeans','ジャージパンツ':'Track pants','ナイロンパンツ':'Nylon pants','黒ショートパンツ':'Black shorts','ハーフパンツ':'Half pants',
+    'ライトグレー':'Light gray','ネイビー':'Navy','白':'White','チャコール':'Charcoal','ダークグレー':'Dark gray',
+    '黒革靴':'Black leather shoes','茶革靴':'Brown leather shoes','ローファー':'Loafers','白スニーカー':'White sneakers','黒スニーカー':'Black sneakers','キャンバススニーカー':'Canvas sneakers','ランニングシューズ':'Running shoes','サッカースパイク':'Soccer cleats','バスケットシューズ':'Basketball shoes','サンダル':'Sandals','ブーツ':'Boots',
+    'ビジネスソックス':'Business socks','柄ありビジネスソックス':'Patterned business socks','スポーツソックス':'Sports socks','クルー丈ソックス':'Crew socks','くるぶしソックス':'Ankle socks','インビジブルソックス':'Invisible socks','ライン入りソックス':'Striped socks','ワンポイントソックス':'Socks with one-point accent','ロゴ入りソックス':'Logo socks',
+    'クルー丈':'Crew length','ミドル丈':'Mid length','くるぶし丈':'Ankle length','インビジブル丈':'Invisible length','リブ編み':'Ribbed','薄手ビジネス形状':'Thin business shape','厚手スポーツ形状':'Thick sports shape',
+    '綿混':'Cotton blend','綿＋ナイロン':'Cotton + nylon','ウール混':'Wool blend','薄手ナイロン混':'Light nylon blend','パイル編み':'Pile knit','リブ編みコットン':'Ribbed cotton','吸汗速乾素材':'Moisture-wicking quick-dry material',
+    'グレー':'Gray','ブラウン':'Brown','ネイビー地ストライプ':'Navy striped','黒地ドット':'Black with dots','アーガイル柄':'Argyle pattern','ライン入り白':'White with lines',
+    '新品に近い':'Like new','自然な使用感':'Naturally worn','少し履き込まれている':'Slightly well-worn','毛羽立ちが少しある':'Slightly fuzzy','スポーツ後の自然な使用感':'Naturally worn after sports','清潔だが生活感あり':'Clean but lived-in',
+    'ギリシャ型':'Greek foot','エジプト型':'Egyptian foot','スクエア型':'Square foot','幅広':'Wide','細め':'Narrow','甲高':'High instep','土踏まず高め':'High arch','土踏まず低め':'Low arch','足指が長め':'Long toes','親指が長め':'Long big toe',
+    'シンプルなグレーバック':'Simple gray backdrop','白背景のスタジオ':'White studio background','ライトグレーのスタジオ':'Light gray studio','黒背景のスタジオ':'Black studio background','大学キャンパス背景':'University campus background','学校の廊下背景':'School hallway background','街中スナップ背景':'Street-snap background','オフィス背景':'Office background','スポーツ施設背景':'Sports facility background','ジム背景':'Gym background','テーマパーク風背景':'Theme-park-like background','海辺・港町背景':'Seaside / harbor-town background','夜景背景':'Nightscape background','公園背景':'Park background','室内の自然光背景':'Indoor natural-light background',
+    '自然光。明るく清潔感がある。':'Natural light, bright and clean.','柔らかいスタジオ照明。':'Soft studio lighting.','曇天の拡散光。':'Overcast diffused light.','写真館風の正面ライト。':'Photo-studio frontal lighting.','斜め45度のスタジオライト。':'45-degree studio lighting.','屋外スポーツ撮影風の明るい光。':'Bright outdoor sports-style lighting.','夜景に馴染む控えめなライティング。':'Subtle lighting suited to night scenes.',
+    '実写風':'Photorealistic','高精細':'High detail','スマホスナップ風':'Smartphone snapshot style','写真館風':'Studio portrait style','ファッションカタログ風':'Fashion catalog style','AI感を抑えた自然写真':'Natural photo with reduced AI look','商業写真風':'Commercial photography style','雑誌グラビアではなく設定資料風':'Reference-sheet style rather than gravure','イラスト風':'Illustration style','アニメ風イラスト':'Anime-style illustration','漫画風線画':'Manga-style line art','キャラクター設定画風':'Character reference sheet style',
+    '前面・側面を1枚にまとめた設定画像':'Combined front-and-side reference image','前面・側面・背面を1枚にまとめた設定画像':'Combined front-side-back reference image','16:9リファレンスカード（全身前面・側面／顔正面・側面／足詳細）':'16:9 reference card (full body front/side, face front/side, foot details)','SNSプロフィール風画像':'SNS profile-style image','就活写真風画像':'Job-hunting photo style image','スポーツ選手紹介風画像':'Athlete introduction-style image',
+    '1枚':'1 image','3パターン別々の画像':'3 separate variations','5パターン別々の画像':'5 separate variations','10パターン別々の画像':'10 separate variations','日本語':'Japanese','English':'English'
+  };
+  const sceneTranslations = {
+    '駅から学校へ向かう途中、朝の通学路でふと見かけた場面':'A casually spotted moment on the morning route from the station to school.',
+    '出勤前の駅前やオフィス街で偶然すれ違った場面':'A chance encounter near a station or office district before work.',
+    '大学施設や作業スペースの近くで、資料やPCを持って移動しているところを偶然見かけた場面':'A chance sighting near a university facility or workspace while he is moving with documents or a laptop.',
+    'スポーツ施設の外や練習帰りの通路で、汗が引いた自然な状態を偶然見かけた場面':'A chance sighting outside a sports facility or on the way back from practice, after he has cooled down.',
+    '街中で撮影や移動の合間に、ふと立ち止まった瞬間を偶然見かけた場面':'A chance sighting in the city when he briefly pauses between shoots or while moving around.',
+    '夕方の街角で、少しラフな雰囲気で歩いているところを偶然見かけた場面':'A chance sighting at a street corner in the evening, walking with a slightly rough vibe.',
+    '駅前や繁華街の通りで、友人と合流する前の自然な姿を偶然見かけた場面':'A chance sighting near a station or downtown street before meeting friends.',
+    'カフェ前や落ち着いた街角で、柔らかい雰囲気の立ち姿を偶然見かけた場面':'A chance sighting near a café or a calm street corner, standing with a soft vibe.',
+    '古着屋や小さなギャラリーの近くで、個性的な私服姿を偶然見かけた場面':'A chance sighting near a thrift shop or a small gallery, wearing distinctive casual clothes.',
+    '夜の駅前や静かな通りで、落ち着いた雰囲気で歩く姿を偶然見かけた場面':'A chance sighting near a station at night or on a quiet street, walking with a calm vibe.',
+    'カフェや商業施設の近くで、洗練された私服姿を偶然見かけた場面':'A chance sighting near a café or shopping complex, wearing polished casual clothes.',
+    '駅前や商店街、学校やオフィスの近くで、日常の流れの中に自然に溶け込んでいるところを偶然見かけた場面':'A chance sighting near a station, shopping street, school, or office, naturally blending into everyday life.',
+    '都会的なカフェ通りや商業施設の近くで、洗練された雰囲気の立ち姿を偶然見かけた場面':'A chance sighting near an urban café street or shopping complex, standing with a refined vibe.',
+    '大型商業施設や夜の街並みの近くで、都会的な私服姿を偶然見かけた場面':'A chance sighting near a large shopping complex or a night cityscape, wearing urban casual clothes.',
+    '大学キャンパス周辺やダウンタウンの歩道で、自然に歩いている姿を偶然見かけた場面':'A chance sighting around a university campus or downtown sidewalk, walking naturally.',
+    '街路樹のある通りやカフェテラスの近くで、さりげなく立っている姿を偶然見かけた場面':'A chance sighting on a tree-lined street or near a café terrace, standing casually.',
+    '広場やスポーツコートの近くで、活動的で親しみやすい雰囲気の姿を偶然見かけた場面':'A chance sighting near a plaza or sports court, with an active and friendly vibe.',
+    'にぎやかな通りや屋外カフェの近くで、軽やかな私服姿を偶然見かけた場面':'A chance sighting near a lively street or outdoor café, wearing light casual clothes.',
+    '東南アジアの都市部の街角や屋外カフェの近くで、軽やかな私服姿を偶然見かけた場面':'A chance sighting near an urban street corner or outdoor café in Southeast Asia, wearing light casual clothes.',
+    '日常の街中で、自然体の姿を偶然見かけた場面':'A chance sighting in an everyday urban setting, looking natural and at ease.'
+  };
+  function displayValue(key, value){
+    if(value===undefined || value===null) return value;
+    if(uiLang!=='en') return value;
+    if(key==='age') return `${value} years old`;
+    if(key==='sceneIdea') return sceneTranslations[String(value)] || value;
+    return valueTranslations[String(value)] || value;
+  }
+
+  function displayOptionLabel(key, value){
+    if(uiLang!=='en'){
+      if(key==='age') return `${value}歳`;
+      return value;
+    }
+    if(key==='age') return `${value} years old`;
+    if(key==='sceneIdea') return sceneTranslations[String(value)] || value;
+    return valueTranslations[String(value)] || value;
+  }
+  function renderSelectOptions(selectEl, key, values, selectedValue, includeRandom=false){
+    if(!selectEl) return;
+    const items = includeRandom ? ['ランダム', ...values] : values;
+    selectEl.innerHTML = items.map(v=>`<option value="${String(v).replace(/"/g,'&quot;')}">${displayOptionLabel(key, v)}</option>`).join('');
+    const match = items.find(v => String(v) === String(selectedValue));
+    if(match!==undefined) selectEl.value = String(match);
+    else if(items.length) selectEl.value = String(items[0]);
+  }
+  function setFieldLabel(selectId, text){ const el=document.getElementById(selectId); const span=el?.parentElement?.querySelector('span'); if(span) span.textContent=text; }
+  function updateModeNote(){
+    const m={full:T('mode_full_note'), face:T('mode_face_note'), outfit:T('mode_outfit_note'), rare:T('mode_rare_note')};
+    const note=document.getElementById('modeNote'); if(note) note.textContent=T('currentMode')+m[mode];
+  }
+  function applyUiLanguage(){
+    document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V1.4';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V1.4';
+    document.querySelector('.subtitle').textContent = T('subtitle');
+    const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
+    const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
+    document.querySelectorAll('.tab').forEach(t=>{ const k=tabMap[t.dataset.tab]; if(k) t.textContent=T(k); });
+    const startBtn=document.getElementById('startBtn'); if(startBtn) startBtn.textContent=T('startBtn');
+    const rerollBtn=document.getElementById('rerollUnlockedBtn'); if(rerollBtn) rerollBtn.textContent=T('rerollUnlockedBtn');
+    const resetBtn=document.getElementById('resetLocksBtn'); if(resetBtn) resetBtn.textContent=T('resetLocksBtn');
+    document.querySelector('section.panel .section-title h2').textContent = T('initialTitle');
+    document.querySelector('section.panel .section-title .pill').textContent = T('initialPill');
+    document.querySelector('section.panel .notice[style*="margin-top:12px"]').textContent = T('initialNotice');
+    const slotTitles=document.querySelectorAll('.grid.cols > section.panel .section-title h2'); if(slotTitles[0]) slotTitles[0].textContent=T('slotResult');
+    const statusPill=document.getElementById('statusPill'); if(statusPill && (!statusPill.textContent || ['待機中','Waiting'].includes(statusPill.textContent))) statusPill.textContent=T('waiting');
+    const sideTitles=document.querySelectorAll('aside .section-title h2'); if(sideTitles[0]) sideTitles[0].textContent=T('rarityTitle'); if(sideTitles[1]) sideTitles[1].textContent=T('modesTitle');
+    const rarityNote=document.getElementById('rarityNote'); if(rarityNote && (!current)) rarityNote.textContent=T('rarityNoteIdle');
+    document.querySelectorAll('[data-mode]').forEach(b=>{ b.textContent=T('mode_'+b.dataset.mode); });
+    updateModeNote();
+    const resultTitles=document.querySelectorAll('#tab-result .section-title h2');
+    if(resultTitles[0]) resultTitles[0].textContent=T('resultTitle');
+    if(resultTitles[1]) resultTitles[1].textContent=T('promptTitle');
+    if(resultTitles[2]) resultTitles[2].textContent=T('outfitTitle');
+    if(resultTitles[3]) resultTitles[3].textContent=T('sceneTitle');
+    const saveBtn=document.getElementById('saveBtn'); if(saveBtn) saveBtn.textContent=T('saveBtn');
+    const jsonBtn=document.getElementById('jsonBtn'); if(jsonBtn) jsonBtn.textContent=T('jsonBtn');
+    const cp1=document.getElementById('copyPromptBtn'); if(cp1) cp1.textContent=T('copyPromptBtn');
+    const cp2=document.getElementById('copyOutfitBtn'); if(cp2) cp2.textContent=T('copyOutfitBtn');
+    const cp3=document.getElementById('copySceneBtn'); if(cp3) cp3.textContent=T('copySceneBtn');
+    const histTitle=document.querySelector('#tab-history .section-title h2'); if(histTitle) histTitle.textContent=T('historyTitle');
+    const chBtn=document.getElementById('clearHistoryBtn'); if(chBtn) chBtn.textContent=T('clearHistoryBtn');
+    const setTitle=document.querySelector('#tab-settings .section-title h2'); if(setTitle) setTitle.textContent=T('settingsTitle');
+    const setPill=document.querySelector('#tab-settings .section-title .pill'); if(setPill) setPill.textContent=T('settingsPill');
+    const setNotice=document.querySelector('#tab-settings .notice'); if(setNotice) setNotice.textContent=T('settingsNotice');
+    Object.entries(T('fieldLabels')).forEach(([id,label])=>setFieldLabel(id,label));
+    const makerLabel=document.getElementById('makerLanguageLabel'); if(makerLabel) makerLabel.textContent = uiLang==='ja' ? 'メーカー言語 / App Language' : 'App Language / メーカー言語';
+    initSlots();
+    initFixedForm();
+    initManualControls();
+    initInitialSettings();
+    renderAll();
+  }
 
   const els = {
     slotGrid: document.getElementById('slotGrid'), status: document.getElementById('statusPill'), rarity: document.getElementById('rarity'), rareScore: document.getElementById('rareScore'), rarityNote: document.getElementById('rarityNote'), profileView: document.getElementById('profileView'), promptBox: document.getElementById('promptBox'), historyList: document.getElementById('historyList'), fixedForm: document.getElementById('fixedForm')
@@ -187,53 +380,77 @@
     const bg = document.getElementById('manualBackground');
     const light = document.getElementById('manualLighting');
     const count = document.getElementById('manualCount');
-    if(out) out.innerHTML = pools.outputTypes.map(v=>`<option>${v}</option>`).join('');
-    if(qual) qual.innerHTML = pools.qualities.map(v=>`<option>${v}</option>`).join('');
-    if(bg) bg.innerHTML = pools.backgrounds.map(v=>`<option>${v}</option>`).join('');
-    if(light) light.innerHTML = pools.lighting.map(v=>`<option>${v}</option>`).join('');
-    if(count) count.innerHTML = pools.counts.map(v=>`<option>${v}</option>`).join('');
+    const lang = document.getElementById('manualPromptLanguage');
+    const selected = {
+      out: current?.outputType || out?.value || pools.outputTypes[0],
+      qual: current?.quality || qual?.value || pools.qualities[0],
+      bg: current?.background || bg?.value || pools.backgrounds[0],
+      light: current?.lighting || light?.value || pools.lighting[0],
+      count: current?.count || count?.value || pools.counts[0],
+      lang: current?.promptLanguage || lang?.value || pools.promptLanguages[0]
+    };
+    renderSelectOptions(out, 'outputType', pools.outputTypes, selected.out, false);
+    renderSelectOptions(qual, 'quality', pools.qualities, selected.qual, false);
+    renderSelectOptions(bg, 'background', pools.backgrounds, selected.bg, false);
+    renderSelectOptions(light, 'lighting', pools.lighting, selected.light, false);
+    renderSelectOptions(count, 'count', pools.counts, selected.count, false);
+    renderSelectOptions(lang, 'promptLanguage', pools.promptLanguages, selected.lang, false);
     if(out) out.onchange = () => { if(current){ current.outputType = out.value; renderAll(); } };
     if(qual) qual.onchange = () => { if(current){ current.quality = qual.value; renderAll(); } };
     if(bg) bg.onchange = () => { if(current){ current.background = bg.value; renderAll(); } };
     if(light) light.onchange = () => { if(current){ current.lighting = light.value; renderAll(); } };
     if(count) count.onchange = () => { if(current){ current.count = count.value; renderAll(); } };
+    if(lang) lang.onchange = () => { if(current){ current.promptLanguage = lang.value; renderAll(); } };
   }
 
   function initInitialSettings(){
     const nat = document.getElementById('initialNationality');
     const eth = document.getElementById('initialEthnicity');
+    const ageMin = document.getElementById('initialAgeMin');
+    const ageMax = document.getElementById('initialAgeMax');
+    const vibe = document.getElementById('initialVibe');
     const bg = document.getElementById('initialBackground');
     const light = document.getElementById('initialLighting');
     const qual = document.getElementById('initialQuality');
     const out = document.getElementById('initialOutputType');
     const count = document.getElementById('initialCount');
-    if(nat) nat.innerHTML = ['ランダム',...pools.nationalities].map(v=>`<option>${v}</option>`).join('');
-    if(eth) eth.innerHTML = ['ランダム',...pools.ethnicities].map(v=>`<option>${v}</option>`).join('');
-    if(bg) bg.innerHTML = pools.backgrounds.map(v=>`<option>${v}</option>`).join('');
-    if(light) light.innerHTML = pools.lighting.map(v=>`<option>${v}</option>`).join('');
-    if(qual) qual.innerHTML = pools.qualities.map(v=>`<option>${v}</option>`).join('');
-    if(out) out.innerHTML = pools.outputTypes.map(v=>`<option>${v}</option>`).join('');
-    if(count) count.innerHTML = pools.counts.map(v=>`<option>${v}</option>`).join('');
-    if(nat) nat.value = '日本';
-    if(eth) eth.value = '日本人';
-    if(bg) bg.value = 'シンプルなグレーバック';
-    if(light) light.value = '自然光。明るく清潔感がある。';
-    if(qual) qual.value = '実写風';
-    if(out) out.value = '16:9リファレンスカード（全身前面・側面／顔正面・側面／足詳細）';
-    if(count) count.value = '1枚';
+    const promptLang = document.getElementById('initialPromptLanguage');
+    const selected = {
+      nat: nat?.value || '日本', eth: eth?.value || '日本人', ageMin: ageMin?.value || '20', ageMax: ageMax?.value || '32', vibe: vibe?.value || 'ランダム',
+      bg: bg?.value || 'シンプルなグレーバック', light: light?.value || '自然光。明るく清潔感がある。', qual: qual?.value || '実写風',
+      out: out?.value || '16:9リファレンスカード（全身前面・側面／顔正面・側面／足詳細）', count: count?.value || '1枚', lang: promptLang?.value || '日本語'
+    };
+    renderSelectOptions(nat, 'nationality', pools.nationalities, selected.nat, true);
+    renderSelectOptions(eth, 'ethnicity', pools.ethnicities, selected.eth, true);
+    renderSelectOptions(ageMin, 'age', pools.ages, selected.ageMin, false);
+    renderSelectOptions(ageMax, 'age', pools.ages, selected.ageMax, false);
+    renderSelectOptions(vibe, 'vibe', pools.vibes, selected.vibe, false);
+    renderSelectOptions(bg, 'background', pools.backgrounds, selected.bg, false);
+    renderSelectOptions(light, 'lighting', pools.lighting, selected.light, false);
+    renderSelectOptions(qual, 'quality', pools.qualities, selected.qual, false);
+    renderSelectOptions(out, 'outputType', pools.outputTypes, selected.out, false);
+    renderSelectOptions(count, 'count', pools.counts, selected.count, false);
+    renderSelectOptions(promptLang, 'promptLanguage', pools.promptLanguages, selected.lang, false);
   }
 
   function getInitial(){
     const nat = document.getElementById('initialNationality')?.value || 'ランダム';
     const eth = document.getElementById('initialEthnicity')?.value || 'ランダム';
+    let ageMin = Number(document.getElementById('initialAgeMin')?.value || 20);
+    let ageMax = Number(document.getElementById('initialAgeMax')?.value || 32);
+    if(ageMin > ageMax){ const tmp = ageMin; ageMin = ageMax; ageMax = tmp; }
     return {
       nationality: nat && nat !== 'ランダム' ? nat : '',
       ethnicity: eth && eth !== 'ランダム' ? eth : '',
+      ageMin,
+      ageMax,
+      vibe: document.getElementById('initialVibe')?.value || 'ランダム',
       background: document.getElementById('initialBackground')?.value || pools.backgrounds[0],
       lighting: document.getElementById('initialLighting')?.value || pools.lighting[0],
       quality: document.getElementById('initialQuality')?.value || pools.qualities[0],
       outputType: document.getElementById('initialOutputType')?.value || pools.outputTypes[0],
-      count: document.getElementById('initialCount')?.value || pools.counts[0]
+      count: document.getElementById('initialCount')?.value || pools.counts[0],
+      promptLanguage: document.getElementById('initialPromptLanguage')?.value || pools.promptLanguages[0]
     };
   }
 
@@ -241,8 +458,9 @@
     if(nationality==='日本') return '日本人';
     if(nationality==='韓国') return '韓国系';
     if(['中国','台湾'].includes(nationality)) return '中国系';
-    if(['タイ','ベトナム'].includes(nationality)) return '東南アジア系';
-    if(['アメリカ','イギリス','フランス'].includes(nationality)) return '白人系';
+    if(['タイ','ベトナム','フィリピン','インドネシア','マレーシア'].includes(nationality)) return '東南アジア系';
+    if(nationality==='インド') return '南アジア系';
+    if(['アメリカ','カナダ','イギリス','フランス','ドイツ','イタリア','スペイン','オーストラリア'].includes(nationality)) return '白人系';
     if(['ブラジル','メキシコ'].includes(nationality)) return 'ラテン系';
     return pick(pools.ethnicities);
   }
@@ -250,41 +468,54 @@
   function nameByNationality(nationality){
     if(nationality==='韓国') return `${pick(['キム','パク','イ','チェ','チョン'])} ${pick(['ミンジュン','ソジュン','ジフン','ドユン','ヒョヌ'])}`;
     if(['中国','台湾'].includes(nationality)) return `${pick(['王','李','張','陳','林'])} ${pick(['俊傑','宇航','子軒','浩然','一辰'])}`;
-    if(['アメリカ','イギリス','フランス'].includes(nationality)) return `${pick(['Alex','Noah','Liam','Lucas','Ethan'])} ${pick(['Smith','Brown','Taylor','Martin','Wilson'])}`;
+    if(['アメリカ','カナダ','イギリス','オーストラリア'].includes(nationality)) return `${pick(['Alex','Noah','Liam','Lucas','Ethan'])} ${pick(['Smith','Brown','Taylor','Martin','Wilson'])}`;
+    if(['フランス','ドイツ','イタリア','スペイン'].includes(nationality)) return `${pick(['Lucas','Matteo','Leon','Hugo','Theo'])} ${pick(['Martin','Rossi','Garcia','Muller','Dubois'])}`;
     if(['ブラジル','メキシコ'].includes(nationality)) return `${pick(['Mateo','Diego','Lucas','Gabriel','Santiago'])} ${pick(['Silva','Garcia','Lopez','Santos','Martinez'])}`;
-    if(['タイ','ベトナム'].includes(nationality)) return `${pick(['An','Minh','Kiet','Arun','Niran'])} ${pick(['Tran','Nguyen','Phan','Somsak','Prasert'])}`;
+    if(['タイ','ベトナム','フィリピン','インドネシア','マレーシア'].includes(nationality)) return `${pick(['An','Minh','Kiet','Arun','Niran','Paolo','Rizky','Aiman'])} ${pick(['Tran','Nguyen','Phan','Somsak','Prasert','Santos','Tan','Ahmad'])}`;
+    if(nationality==='インド') return `${pick(['Arjun','Rahul','Vihaan','Ayaan','Kabir'])} ${pick(['Sharma','Patel','Singh','Kumar','Gupta'])}`;
     return `${pick(pools.surnames)} ${pick(pools.givenModern)}`;
   }
 
   function faceByEthnicity(ethnicity){
     if(ethnicity==='韓国系') return {facePreset:'韓国アイドル風', skin:'透明感のある肌', hairColor:'黒', eyes:'奥二重風・クールな目元'};
-    if(ethnicity==='白人系') return {facePreset:'高身長モデル系', skin:'明るめで自然な肌', hairColor:pick(['自然な茶髪','アッシュブラウン','グレージュ']), eyes:'切れ長で知的'};
-    if(ethnicity==='ラテン系') return {facePreset:'ワイルド系', skin:'健康的に日焼けした肌', hairColor:'黒に近いダークブラウン', eyes:'力強い目元'};
+    if(ethnicity==='白人系') return {facePreset:'高身長モデル系', skin:'自然な肌質', hairColor:pick(['自然な茶髪','アッシュブラウン','グレージュ']), eyes:'切れ長で知的'};
+    if(ethnicity==='ラテン系') return {facePreset:'ワイルド系', skin:'少し日焼けした肌', hairColor:'黒に近いダークブラウン', eyes:'力強い目元'};
     if(ethnicity==='東南アジア系') return {facePreset:'親しみやすい大学生系', skin:'少し日焼けした肌', hairColor:'黒', eyes:'丸みのある優しい目元'};
+    if(ethnicity==='南アジア系') return {facePreset:'落ち着いた大人系', skin:'健康的な肌質', hairColor:'黒', eyes:'力強い目元'};
+    if(ethnicity==='黒人系') return {facePreset:'体育会系スポーツ男子', skin:'健康的な肌質', hairColor:'黒', eyes:'力強い目元'};
+    if(ethnicity==='中東系') return {facePreset:'ミステリアス系', skin:'マットで自然な肌', hairColor:'黒', eyes:'切れ長で知的'};
+    if(ethnicity==='中央アジア系') return {facePreset:'クール系', skin:'自然な肌質', hairColor:'黒に近いダークブラウン', eyes:'奥二重風・クールな目元'};
     if(ethnicity==='中国系') return {facePreset:'真面目系', skin:'自然な肌質', hairColor:'黒', eyes:'奥二重風・クールな目元'};
     return {facePreset:'普通顔', skin:'健康的な肌質', hairColor:'黒', eyes:'二重風・親しみやすい目元'};
   }
 
   function initSlots(){
-    els.slotGrid.innerHTML = slotDefs.map(([key,label])=>`<div class="slot" id="slot-${key}"><button class="lock" data-lock="${key}">LOCK</button><small>${label}</small><div class="value">？？？</div><div class="meta">click LOCK to keep</div></div>`).join('');
+    els.slotGrid.innerHTML = slotDefs.map(([key,label])=>`<div class="slot" id="slot-${key}"><button class="lock" data-lock="${key}">${T('lock')}</button><small>${slotLabel(key,label)}</small><div class="value">？？？</div><div class="meta">${T('clickLock')}</div></div>`).join('');
     document.querySelectorAll('[data-lock]').forEach(b=>b.addEventListener('click',()=>{locks[b.dataset.lock]=!locks[b.dataset.lock]; renderSlots(current,false);}));
   }
 
   function initFixedForm(){
     const fixedFields = [
-      ['age','年齢固定', ['ランダム',...pools.ages.map(v=>`${v}歳`)]],
-      ['nationality','国籍固定',['ランダム',...pools.nationalities]],
-      ['ethnicity','人種固定',['ランダム',...pools.ethnicities]],
-      ['bodyType','体型固定',['ランダム',...pools.bodyTypes]],
-      ['facePreset','顔立ち固定',['ランダム',...pools.facePresets]],
-      ['outfitType','服装固定',['ランダム',...pools.outfitTypes]]
+      ['age','年齢固定', pools.ages],
+      ['nationality','国籍固定', pools.nationalities],
+      ['ethnicity','人種固定', pools.ethnicities],
+      ['bodyType','体型固定', pools.bodyTypes],
+      ['facePreset','顔立ち固定', pools.facePresets],
+      ['vibe','雰囲気系統固定', pools.vibes.filter(v=>v!=='ランダム')],
+      ['outfitType','服装固定', pools.outfitTypes]
     ];
-    els.fixedForm.innerHTML = fixedFields.map(([key,label,options])=>`<label class="field"><span>${label}</span><select data-fixed="${key}">${options.map(o=>`<option>${o}</option>`).join('')}</select></label>`).join('');
+    const selected = {};
+    document.querySelectorAll('[data-fixed]').forEach(s=>{ selected[s.dataset.fixed] = s.value; });
+    els.fixedForm.innerHTML = fixedFields.map(([key,label,options])=>`<label class="field"><span>${fixedLabel(key,label)}</span><select data-fixed="${key}"></select></label>`).join('');
+    fixedFields.forEach(([key,label,options])=>{
+      const el = els.fixedForm.querySelector(`[data-fixed="${key}"]`);
+      renderSelectOptions(el, key, options, selected[key] || 'ランダム', true);
+    });
   }
 
   function getFixed(){
     const fixed = {};
-    document.querySelectorAll('[data-fixed]').forEach(s=>{ if(s.value && s.value !== 'ランダム') fixed[s.dataset.fixed] = s.value.replace('歳',''); });
+    document.querySelectorAll('[data-fixed]').forEach(s=>{ if(s.value && s.value !== 'ランダム') fixed[s.dataset.fixed] = String(s.value); });
     return fixed;
   }
 
@@ -304,7 +535,16 @@
     if(height<=170) return weighted([['やせ型',3],['細身',3],['標準体型',3],['痩せマッチョ',2],['サッカー選手体型',1]]);
     return weighted([['標準体型',4],['細身',3],['スーツ映え体型',2],['筋肉質',2],['引き締まったスポーツ体型',2],['腹だけぽっちゃり',1]]);
   }
-  function chooseOutfit(age, rare){
+  function chooseOutfit(age, rare, vibe='ランダム'){
+    if(vibe==='スポーツ系') return weighted([['スポーツ練習着',5],['大学生カジュアル',2],['私服通学風',2]]);
+    if(vibe==='真面目系' || vibe==='大人っぽい系') return weighted([['紺スーツ',4],['グレースーツ',3],['ジャケットスタイル',3],['社会人カジュアル',2]]);
+    if(vibe==='韓国風') return weighted([['ジャケットスタイル',3],['大学生カジュアル',3],['社会人カジュアル',2],['ストリート系',2]]);
+    if(vibe==='中性系') return weighted([['大学生カジュアル',3],['ストリート系',3],['社会人カジュアル',2],['私服通学風',2]]);
+    if(vibe==='ワイルド系') return weighted([['ストリート系',4],['社会人カジュアル',2],['スポーツ練習着',2],['大学生カジュアル',2]]);
+    if(vibe==='やりらふぃー系' || vibe==='ストリート系' || vibe==='陽キャ大学生系') return weighted([['ストリート系',4],['大学生カジュアル',3],['私服通学風',2],['スポーツ練習着',1]]);
+    if(vibe==='塩顔系' || vibe==='犬系男子' || vibe==='古着系' || vibe==='サブカル系') return weighted([['大学生カジュアル',3],['私服通学風',3],['社会人カジュアル',2],['ストリート系',2]]);
+    if(vibe==='クール系' || vibe==='ミステリアス系') return weighted([['黒スーツ',2],['ジャケットスタイル',3],['社会人カジュアル',2],['ストリート系',2]]);
+    if(vibe==='清楚系') return weighted([['ジャケットスタイル',3],['社会人カジュアル',3],['紺スーツ',2],['大学生カジュアル',2]]);
     if(age<=22) return weighted([['大学生カジュアル',3],['私服通学風',3],['学生服（ブレザー）', rare?3:1],['学生服（学ラン）', rare?3:1],['スポーツ練習着',2],['制服風コーデ',2],['ストリート系',2]]);
     if(age<=30) return weighted([['紺スーツ',3],['社会人カジュアル',3],['大学生カジュアル',1],['ジャケットスタイル',2],['黒スーツ',2],['ストリート系',1]]);
     return weighted([['紺スーツ',3],['グレースーツ',3],['ジャケットスタイル',3],['社会人カジュアル',2],['黒スーツ',2]]);
@@ -312,65 +552,178 @@
 
   function weightedPickMap(items){ return weighted(items.map(v=>Array.isArray(v)?v:[v,1])); }
 
-  function generateCoordinatedOutfit(outfitType, age, rareMode){
-    const formalBrands = ['AOKI','ORIHICA','SUIT SELECT','THE SUIT COMPANY','P.S.FA','UNIQLO','UNITED ARROWS','SHIPS','nano・universe'];
-    const casualBrands = ['UNIQLO','GU','無印良品','BEAMS','UNITED ARROWS','SHIPS','GLOBAL WORK','nano・universe','URBAN RESEARCH','JOURNAL STANDARD','ZARA','H&M','Calvin Klein','POLO RALPH LAUREN','TOMMY HILFIGER','LACOSTE','Champion','THE NORTH FACE'];
-    const sportsBrands = ['NIKE','adidas','MIZUNO','ASICS','PUMA','New Balance','UNDER ARMOUR','Champion'];
+  function chooseAge(min,max){
+    const candidates = pools.ages.filter(v=>v>=min && v<=max);
+    return pick(candidates.length?candidates:pools.ages);
+  }
+  function ageAppearanceByAge(age){
+    if(age<=22) return weighted([['実年齢相応',4],['やや若く見える',4],['少し大人びて見える',1]]);
+    if(age<=29) return weighted([['実年齢相応',5],['やや若く見える',2],['少し大人びて見える',2]]);
+    return weighted([['実年齢相応',5],['少し大人びて見える',4],['やや若く見える',1]]);
+  }
+  function chooseRole(age,vibe){
+    const early = ['大学生風の成人男性','スポーツ経験者','クリエイター風','モデル風','俳優風','フリーランス風'];
+    const mid = ['若手社会人','営業職風','事務職風','IT系会社員風','研究職風','販売員風','インストラクター風','アナウンサー風'];
+    let arr = age<=22 ? early.concat(['成人男性キャラクター']) : mid.concat(['成人男性キャラクター','若手社会人','スポーツ経験者','モデル風']);
+    if(vibe==='スポーツ系') arr = ['スポーツ経験者','インストラクター風','大学生風の成人男性','モデル風'];
+    if(vibe==='真面目系') arr = ['若手社会人','事務職風','研究職風','IT系会社員風','営業職風'];
+    if(vibe==='韓国風') arr = ['モデル風','俳優風','クリエイター風','若手社会人'];
+    if(vibe==='ワイルド系') arr = ['スポーツ経験者','俳優風','フリーランス風','販売員風'];
+    if(vibe==='やりらふぃー系' || vibe==='ストリート系' || vibe==='陽キャ大学生系') arr = ['大学生風の成人男性','販売員風','フリーランス風','モデル風','スポーツ経験者'];
+    if(vibe==='塩顔系' || vibe==='犬系男子' || vibe==='清楚系') arr = ['若手社会人','大学生風の成人男性','事務職風','販売員風','モデル風'];
+    if(vibe==='クール系' || vibe==='ミステリアス系' || vibe==='サブカル系' || vibe==='古着系') arr = ['クリエイター風','フリーランス風','研究職風','IT系会社員風','モデル風'];
+    return pick(arr);
+  }
+  function vibeProfile(vibe, age){
+    const map = {
+      '爽やか系': { facePresets:[['普通顔',4],['親しみやすい大学生系',4],['日本の若手俳優風',3],['爽やか知的アナウンサー系',2]], hairStyles:[['短髪',3],['アップバング',3],['センターパート',2],['ニュアンスパーマ',2]], hairColors:[['黒',4],['ブルーブラック',3],['黒に近いダークブラウン',2]], outfits:[['大学生カジュアル',3],['社会人カジュアル',3],['ジャケットスタイル',2],['私服通学風',2]], bodyTypes:[['標準体型',4],['細身',3],['スーツ映え体型',2]] },
+      '真面目系': { facePresets:[['真面目系',5],['スーツ映え社会人系',4],['普通顔',3]], hairStyles:[['ビジネス短髪',4],['サイドパート',4],['短髪',2]], hairColors:[['黒',5],['ブルーブラック',3]], outfits:[['紺スーツ',4],['グレースーツ',3],['ジャケットスタイル',3],['社会人カジュアル',2]], bodyTypes:[['標準体型',4],['スーツ映え体型',4],['細身',2]] },
+      'ワイルド系': { facePresets:[['ワイルド系',5],['体育会系スポーツ男子',3],['清潔感のある若手俳優風',2]], hairStyles:[['ツイストパーマ',3],['スパイラルパーマ',3],['アップバング',2],['ウルフミディアム',2]], hairColors:[['黒',3],['黒に近いダークブラウン',3],['自然な茶髪',2]], outfits:[['ストリート系',4],['社会人カジュアル',2],['スポーツ練習着',2]], bodyTypes:[['筋肉質',4],['引き締まったスポーツ体型',3],['がっしり体型',2]] },
+      'スポーツ系': { facePresets:[['体育会系スポーツ男子',5],['大学サッカー部系',4],['普通顔',2]], hairStyles:[['短髪',4],['アップバング',3],['ソフトツーブロック',2]], hairColors:[['黒',4],['ブルーブラック',2]], outfits:[['スポーツ練習着',5],['大学生カジュアル',2],['私服通学風',2]], bodyTypes:[['引き締まったスポーツ体型',4],['サッカー選手体型',4],['筋肉質',3],['痩せマッチョ',2]] },
+      'きれいめ系': { facePresets:[['スーツ映え社会人系',4],['高身長モデル系',3],['日本の若手俳優風',3]], hairStyles:[['センターパート',3],['サイドパート',3],['韓国風センターパート',2],['ビジネス短髪',2]], hairColors:[['黒',3],['ブルーブラック',3],['アッシュブラウン',2]], outfits:[['ジャケットスタイル',4],['社会人カジュアル',3],['紺スーツ',2]], bodyTypes:[['細身',3],['スーツ映え体型',3],['高身長モデル体型',2]] },
+      'カジュアル系': { facePresets:[['親しみやすい大学生系',4],['普通顔',4],['日本の若手俳優風',2]], hairStyles:[['マッシュ',3],['センターパート',2],['ソフトツーブロック',3],['ニュアンスパーマ',2]], hairColors:[['黒',3],['黒に近いダークブラウン',2],['自然な茶髪',2]], outfits:[['大学生カジュアル',4],['私服通学風',4],['ストリート系',2],['社会人カジュアル',2]], bodyTypes:[['標準体型',4],['細身',3],['やせ型',2]] },
+      '韓国風': { facePresets:[['韓国アイドル風',6],['中性系',3],['高身長モデル系',2]], hairStyles:[['韓国風センターパート',5],['センターパート',3],['ニュアンスパーマ',2]], hairColors:[['黒',3],['ブルーブラック',3],['グレージュ',2]], outfits:[['きれいめカジュアル',1],['ジャケットスタイル',3],['大学生カジュアル',2],['社会人カジュアル',2]], bodyTypes:[['細身',4],['高身長モデル体型',3],['標準体型',2]] },
+      '中性系': { facePresets:[['中性系',6],['韓国アイドル風',3],['普通顔',2]], hairStyles:[['センターパート',3],['マッシュ',3],['ロング寄りミディアム',2],['ウルフミディアム',2]], hairColors:[['黒',3],['ブルーブラック',2],['グレージュ',2],['アッシュブラウン',2]], outfits:[['大学生カジュアル',3],['ストリート系',2],['社会人カジュアル',2],['ジャケットスタイル',2]], bodyTypes:[['細身',4],['やせ型',3],['高身長モデル体型',2]] },
+      '大人っぽい系': { facePresets:[['落ち着いた大人系',5],['スーツ映え社会人系',4],['高身長モデル系',2]], hairStyles:[['サイドパート',3],['ビジネス短髪',3],['センターパート',2]], hairColors:[['黒',4],['黒に近いダークブラウン',2],['アッシュブラウン',1]], outfits:[['紺スーツ',4],['グレースーツ',3],['ジャケットスタイル',3],['社会人カジュアル',2]], bodyTypes:[['スーツ映え体型',4],['標準体型',3],['高身長モデル体型',2]] },
+      'やりらふぃー系': { facePresets:[['やりらふぃー系',5],['ワイルド系',3],['日本の若手俳優風',2],['普通顔',1]], hairStyles:[['ツイストパーマ',4],['波巻きパーマ',4],['スパイラルパーマ',3],['アップバング',2],['ウルフミディアム',2]], hairColors:[['黒',3],['明るめブラウン',4],['アッシュブラウン',3],['自然な茶髪',3]], outfits:[['ストリート系',5],['大学生カジュアル',3],['私服通学風',3],['スポーツ練習着',1]], bodyTypes:[['細身',3],['痩せマッチョ',3],['標準体型',2],['引き締まったスポーツ体型',2]] },
+      'ストリート系': { facePresets:[['ワイルド系',3],['やりらふぃー系',3],['日本の若手俳優風',2],['普通顔',2]], hairStyles:[['ツイストパーマ',3],['波巻きパーマ',3],['マッシュ',2],['ウルフミディアム',2],['センターパート',2]], hairColors:[['黒',3],['自然な茶髪',3],['明るめブラウン',2],['アッシュブラウン',2]], outfits:[['ストリート系',6],['大学生カジュアル',2],['私服通学風',2]], bodyTypes:[['細身',3],['標準体型',3],['痩せマッチョ',2],['腹だけぽっちゃり',1]] },
+      '塩顔系': { facePresets:[['塩顔系',6],['中性系',3],['普通顔',3],['韓国アイドル風',2]], hairStyles:[['マッシュ',4],['センターパート',4],['韓国風センターパート',2],['ニュアンスパーマ',2]], hairColors:[['黒',5],['ブルーブラック',3],['黒に近いダークブラウン',2]], outfits:[['大学生カジュアル',3],['きれいめカジュアル',1],['社会人カジュアル',3],['ジャケットスタイル',2]], bodyTypes:[['細身',5],['やせ型',3],['標準体型',2]] },
+      '犬系男子': { facePresets:[['犬系男子風',6],['親しみやすい大学生系',4],['普通顔',3],['日本の若手俳優風',2]], hairStyles:[['マッシュ',4],['ニュアンスパーマ',3],['短髪',2],['ソフトツーブロック',2]], hairColors:[['黒',4],['黒に近いダークブラウン',3],['自然な茶髪',2]], outfits:[['大学生カジュアル',4],['私服通学風',3],['社会人カジュアル',2],['ジャケットスタイル',1]], bodyTypes:[['標準体型',4],['細身',3],['痩せマッチョ',2]] },
+      'クール系': { facePresets:[['クール系',5],['真面目系',3],['高身長モデル系',3],['韓国アイドル風',2]], hairStyles:[['センターパート',3],['サイドパート',3],['ビジネス短髪',2],['韓国風センターパート',2]], hairColors:[['黒',5],['ブルーブラック',4],['アッシュブラウン',1]], outfits:[['黒スーツ',3],['ジャケットスタイル',3],['社会人カジュアル',2],['ストリート系',1]], bodyTypes:[['細身',3],['スーツ映え体型',3],['高身長モデル体型',2],['標準体型',2]] },
+      'ミステリアス系': { facePresets:[['ミステリアス系',5],['中性系',3],['クール系',3],['高身長モデル系',2]], hairStyles:[['ロング寄りミディアム',3],['ウルフミディアム',3],['センターパート',3],['波巻きパーマ',2]], hairColors:[['黒',4],['ブルーブラック',3],['グレージュ',2],['アッシュブラウン',2]], outfits:[['黒スーツ',2],['ジャケットスタイル',3],['ストリート系',3],['社会人カジュアル',2]], bodyTypes:[['細身',4],['高身長モデル体型',2],['標準体型',2],['やせ型',2]] },
+      'サブカル系': { facePresets:[['サブカル系',5],['中性系',3],['普通顔',2],['塩顔系',2]], hairStyles:[['ウルフミディアム',4],['マッシュ',3],['ロング寄りミディアム',2],['ニュアンスパーマ',2]], hairColors:[['黒',3],['アッシュブラウン',3],['グレージュ',3],['自然な茶髪',2]], outfits:[['古着系',1],['ストリート系',3],['大学生カジュアル',3],['私服通学風',2]], bodyTypes:[['細身',4],['やせ型',3],['標準体型',2]] },
+      '古着系': { facePresets:[['普通顔',3],['サブカル系',3],['塩顔系',2],['親しみやすい大学生系',2]], hairStyles:[['マッシュ',3],['ウルフミディアム',3],['ニュアンスパーマ',3],['センターパート',2]], hairColors:[['黒',3],['自然な茶髪',3],['アッシュブラウン',2],['黒に近いダークブラウン',2]], outfits:[['大学生カジュアル',4],['私服通学風',3],['ストリート系',2],['社会人カジュアル',1]], bodyTypes:[['標準体型',4],['細身',3],['やせ型',2],['腹だけぽっちゃり',1]] },
+      '清楚系': { facePresets:[['普通顔',4],['真面目系',4],['親しみやすい大学生系',3],['塩顔系',2]], hairStyles:[['短髪',3],['センターパート',3],['サイドパート',2],['マッシュ',2]], hairColors:[['黒',5],['ブルーブラック',3],['黒に近いダークブラウン',2]], outfits:[['ジャケットスタイル',3],['社会人カジュアル',3],['大学生カジュアル',2],['紺スーツ',2]], bodyTypes:[['標準体型',4],['細身',3],['スーツ映え体型',2]] },
+      '陽キャ大学生系': { facePresets:[['親しみやすい大学生系',5],['やりらふぃー系',3],['日本の若手俳優風',3],['普通顔',2]], hairStyles:[['アップバング',3],['ニュアンスパーマ',3],['波巻きパーマ',2],['短髪',2],['センターパート',2]], hairColors:[['黒',3],['自然な茶髪',3],['明るめブラウン',2],['アッシュブラウン',2]], outfits:[['大学生カジュアル',5],['私服通学風',4],['ストリート系',2],['スポーツ練習着',1]], bodyTypes:[['標準体型',3],['細身',3],['痩せマッチョ',2],['引き締まったスポーツ体型',2]] }
+    };
+    const chosen = map[vibe] || null;
+    if(!chosen) return null;
+    if(vibe==='韓国風' && age<22) chosen.outfits = [['大学生カジュアル',3],['ジャケットスタイル',2],['社会人カジュアル',2]];
+    return chosen;
+  }
+  function chooseFaceAgeCompatible(facePreset, ageAppearance, vibe){
+    if(vibe==='大人っぽい系' || ageAppearance==='少し大人びて見える') return weighted([[facePreset,4],['落ち着いた大人系',4],['スーツ映え社会人系',3],['真面目系',2]]);
+    if(vibe==='スポーツ系') return weighted([[facePreset,4],['体育会系スポーツ男子',3],['大学サッカー部系',3],['普通顔',2]]);
+    if(ageAppearance==='やや若く見える') return weighted([[facePreset,4],['親しみやすい大学生系',4],['普通顔',3],['日本の若手俳優風',2],['韓国アイドル風',2]]);
+    return weighted([[facePreset,5],['普通顔',3],['真面目系',2],['清潔感のある若手俳優風',2]]);
+  }
+  function buildEncounterScene(c){
+    const scenes = [];
+    const nat = c.nationality || '';
+    if(c.role.includes('大学生') || c.outfitType.includes('通学') || c.outfitType.includes('学生服')) scenes.push('駅から学校へ向かう途中、朝の通学路でふと見かけた場面');
+    if(c.role.includes('社会人') || c.role.includes('営業') || c.role.includes('事務') || c.role.includes('IT')) scenes.push('出勤前の駅前やオフィス街で偶然すれ違った場面');
+    if(c.role.includes('研究') || c.role.includes('クリエイター')) scenes.push('大学施設や作業スペースの近くで、資料やPCを持って移動しているところを偶然見かけた場面');
+    if(c.role.includes('スポーツ') || c.vibe==='スポーツ系') scenes.push('スポーツ施設の外や練習帰りの通路で、汗が引いた自然な状態を偶然見かけた場面');
+    if(c.role.includes('モデル') || c.role.includes('俳優')) scenes.push('街中で撮影や移動の合間に、ふと立ち止まった瞬間を偶然見かけた場面');
+    if(c.vibe==='ワイルド系') scenes.push('夕方の街角で、少しラフな雰囲気で歩いているところを偶然見かけた場面');
+    if(c.vibe==='やりらふぃー系' || c.vibe==='ストリート系' || c.vibe==='陽キャ大学生系') scenes.push('駅前や繁華街の通りで、友人と合流する前の自然な姿を偶然見かけた場面');
+    if(c.vibe==='塩顔系' || c.vibe==='犬系男子' || c.vibe==='清楚系') scenes.push('カフェ前や落ち着いた街角で、柔らかい雰囲気の立ち姿を偶然見かけた場面');
+    if(c.vibe==='サブカル系' || c.vibe==='古着系') scenes.push('古着屋や小さなギャラリーの近くで、個性的な私服姿を偶然見かけた場面');
+    if(c.vibe==='クール系' || c.vibe==='ミステリアス系') scenes.push('夜の駅前や静かな通りで、落ち着いた雰囲気で歩く姿を偶然見かけた場面');
+    if(c.vibe==='韓国風' || c.vibe==='中性系') scenes.push('カフェや商業施設の近くで、洗練された私服姿を偶然見かけた場面');
+    if(nat==='日本') scenes.push('駅前や商店街、学校やオフィスの近くで、日常の流れの中に自然に溶け込んでいるところを偶然見かけた場面');
+    if(nat==='韓国') scenes.push('都会的なカフェ通りや商業施設の近くで、洗練された雰囲気の立ち姿を偶然見かけた場面');
+    if(nat==='中国' || nat==='台湾') scenes.push('大型商業施設や夜の街並みの近くで、都会的な私服姿を偶然見かけた場面');
+    if(nat==='アメリカ' || nat==='イギリス') scenes.push('大学キャンパス周辺やダウンタウンの歩道で、自然に歩いている姿を偶然見かけた場面');
+    if(nat==='フランス') scenes.push('街路樹のある通りやカフェテラスの近くで、さりげなく立っている姿を偶然見かけた場面');
+    if(nat==='ブラジル' || nat==='メキシコ') scenes.push('広場やスポーツコートの近くで、活動的で親しみやすい雰囲気の姿を偶然見かけた場面');
+    if(nat==='タイ' || nat==='ベトナム') scenes.push('にぎやかな通りや屋外カフェの近くで、軽やかな私服姿を偶然見かけた場面');
+    if(!scenes.length) scenes.push('日常の街中で、自然体の姿を偶然見かけた場面');
+    return pick(scenes);
+  }
+
+  function generateCoordinatedOutfit(outfitType, age, rareMode, nationality='', vibe='ランダム'){
+    const baseFormalBrands = ['AOKI','ORIHICA','SUIT SELECT','THE SUIT COMPANY','P.S.FA','UNITED ARROWS','SHIPS','nano・universe'];
+    const baseCasualBrands = ['UNIQLO','GU','無印良品','BEAMS','UNITED ARROWS','SHIPS','GLOBAL WORK','nano・universe','URBAN RESEARCH','JOURNAL STANDARD','ZARA','H&M','Calvin Klein','POLO RALPH LAUREN','TOMMY HILFIGER','LACOSTE','Champion','THE NORTH FACE'];
+    const baseSportsBrands = ['NIKE','adidas','MIZUNO','ASICS','PUMA','New Balance','UNDER ARMOUR','Champion'];
     const schoolBlazerBrands = ['KANKO','TOMBOW','EAST BOY','OLIVE des OLIVE School','学生服メーカー指定なし'];
     const schoolGakuranBrands = ['KANKO','TOMBOW','学生服メーカー指定なし'];
+    const profile = {
+      formal:[...baseFormalBrands], casual:[...baseCasualBrands], sports:[...baseSportsBrands], street:['NIKE','adidas','Calvin Klein','TOMMY HILFIGER','ZARA','H&M','BEAMS','GU'],
+      preppy:['BEAMS','UNITED ARROWS','SHIPS','POLO RALPH LAUREN','LACOSTE','UNIQLO'], socksBusiness:['Tabio','靴下屋','Fukuske','POLO RALPH LAUREN','Calvin Klein','無地ノーブランド'], socksCasual:['UNIQLO','無印良品','Tabio','靴下屋','POLO RALPH LAUREN','Calvin Klein','無地ノーブランド']
+    };
+    if(nationality==='日本'){
+      profile.formal = ['AOKI','ORIHICA','SUIT SELECT','P.S.FA','UNITED ARROWS','SHIPS','nano・universe'];
+      profile.casual = ['UNIQLO','GU','無印良品','BEAMS','URBAN RESEARCH','JOURNAL STANDARD','GLOBAL WORK','nano・universe','SHIPS'];
+      profile.street = ['NIKE','adidas','GU','BEAMS','Calvin Klein','TOMMY HILFIGER'];
+    } else if(nationality==='韓国'){
+      profile.formal = ['MUSINSA STANDARD','8seconds','SPAO','ANDERSSON BELL','ZARA','UNIQLO'];
+      profile.casual = ['MUSINSA STANDARD','8seconds','SPAO','ZARA','H&M','Calvin Klein','TOMMY HILFIGER'];
+      profile.street = ['MUSINSA STANDARD','thisisneverthat','Calvin Klein','adidas','NIKE','ZARA'];
+      profile.preppy = ['8seconds','SPAO','Calvin Klein','LACOSTE','ZARA'];
+    } else if(nationality==='中国' || nationality==='台湾'){
+      profile.formal = ['UNIQLO','MUJI','ZARA','GXG','SELECTED'];
+      profile.casual = ['UNIQLO','MUJI','ZARA','H&M','Calvin Klein','TOMMY HILFIGER'];
+      profile.street = ['adidas','NIKE','ZARA','H&M','Calvin Klein'];
+    } else if(['アメリカ','イギリス','フランス'].includes(nationality)){
+      profile.formal = ['POLO RALPH LAUREN','Calvin Klein','TOM FORD','BROOKS BROTHERS','ZARA','H&M'];
+      profile.casual = ['POLO RALPH LAUREN','Calvin Klein','TOMMY HILFIGER','LACOSTE','ZARA','H&M','THE NORTH FACE'];
+      profile.street = ['NIKE','adidas','Calvin Klein','TOMMY HILFIGER','Champion','THE NORTH FACE'];
+      profile.preppy = ['POLO RALPH LAUREN','LACOSTE','BROOKS BROTHERS','TOMMY HILFIGER'];
+    } else if(['ブラジル','メキシコ'].includes(nationality)){
+      profile.casual = ['NIKE','adidas','PUMA','ZARA','H&M','Calvin Klein','TOMMY HILFIGER'];
+      profile.sports = ['NIKE','adidas','PUMA','New Balance','UNDER ARMOUR'];
+      profile.street = ['NIKE','adidas','PUMA','Calvin Klein','ZARA'];
+    } else if(['タイ','ベトナム'].includes(nationality)){
+      profile.casual = ['UNIQLO','MUJI','ZARA','H&M','Calvin Klein','TOMMY HILFIGER'];
+      profile.street = ['NIKE','adidas','ZARA','H&M','Calvin Klein'];
+    }
+    if(vibe==='韓国風'){ profile.casual = ['MUSINSA STANDARD','8seconds','SPAO','Calvin Klein','ZARA','ANDERSSON BELL']; profile.preppy = ['8seconds','SPAO','Calvin Klein','LACOSTE']; }
+    if(vibe==='やりらふぃー系' || vibe==='ストリート系'){ profile.street = ['NIKE','adidas','Calvin Klein','TOMMY HILFIGER','GU','ZARA','H&M']; }
+    if(vibe==='真面目系' || vibe==='大人っぽい系'){ profile.formal = [...new Set(profile.formal.concat(['AOKI','ORIHICA','SUIT SELECT','BROOKS BROTHERS']))]; }
     const res = { outfitBrand:'無地ノーブランド', jacket:'指定なし', top:'白シャツ', bottom:'黒スラックス', shoes:'黒革靴', sockBrand:'Tabio', sockType:'ビジネスソックス', sockShape:'クルー丈', sockMaterial:'綿＋ナイロン', sockColor:'黒', sockUse:'新品に近い' };
 
     if(['紺スーツ','黒スーツ','グレースーツ'].includes(outfitType)){
-      res.outfitBrand = pick(formalBrands);
+      res.outfitBrand = pick(profile.formal);
       res.jacket = 'テーラードジャケット';
       res.top = weighted([['白シャツ',5],['サックスブルーシャツ',2],['ネクタイ付きシャツ',3]]);
       res.bottom = outfitType==='黒スーツ'?'黒スラックス':outfitType==='グレースーツ'?'グレースラックス':'紺スラックス';
       res.shoes = weighted([['黒革靴',5],['茶革靴',2],['ローファー',2]]);
-      res.sockBrand = pick(['Tabio','靴下屋','Fukuske','Calvin Klein','POLO RALPH LAUREN','無地ノーブランド']);
+      res.sockBrand = pick(profile.socksBusiness);
       res.sockType = weighted([['ビジネスソックス',6],['柄ありビジネスソックス', rareMode?3:1]]);
       res.sockShape = '薄手ビジネス形状';
       res.sockMaterial = weighted([['綿＋ナイロン',4],['薄手ナイロン混',3],['綿混',2]]);
       res.sockColor = res.sockType.includes('柄') ? weighted([['ネイビー地ストライプ',4],['黒地ドット',2],['アーガイル柄',2]]) : weighted([['黒',5],['紺',4],['チャコール',3],['グレー',2],['ブラウン',1]]);
     } else if(outfitType==='ジャケットスタイル'){
-      res.outfitBrand = pick(['BEAMS','UNITED ARROWS','SHIPS','nano・universe','POLO RALPH LAUREN','UNIQLO']);
+      res.outfitBrand = pick(vibe==='韓国風'?profile.preppy:profile.casual);
       res.jacket = weighted([['テーラードジャケット',4],['カーディガン',2],['ステンカラーコート',1]]);
-      res.top = weighted([['白シャツ',4],['サックスブルーシャツ',2],['ポロシャツ',2],['ニット',2]]);
+      res.top = vibe==='韓国風' ? weighted([['白シャツ',3],['ニット',3],['ポロシャツ',2],['無地Tシャツ',2]]) : weighted([['白シャツ',4],['サックスブルーシャツ',2],['ポロシャツ',2],['ニット',2]]);
       res.bottom = weighted([['黒スラックス',3],['紺スラックス',3],['グレースラックス',2],['チノパン',2]]);
       res.shoes = weighted([['ローファー',4],['黒革靴',3],['茶革靴',2],['白スニーカー',1]]);
-      res.sockBrand = pick(['Tabio','靴下屋','POLO RALPH LAUREN','Paul Smith','Calvin Klein','無地ノーブランド']);
+      res.sockBrand = pick(profile.socksBusiness);
       res.sockType = weighted([['ビジネスソックス',4],['柄ありビジネスソックス',2],['クルー丈ソックス',2]]);
       res.sockShape = res.sockType.includes('ビジネス') ? '薄手ビジネス形状' : 'クルー丈';
       res.sockMaterial = res.sockType.includes('ビジネス') ? '綿＋ナイロン' : '綿混';
       res.sockColor = res.sockType.includes('柄') ? weighted([['アーガイル柄',3],['ネイビー地ストライプ',3],['黒地ドット',2]]) : weighted([['黒',4],['紺',4],['チャコール',3],['グレー',2]]);
     } else if(outfitType==='社会人カジュアル'){
-      res.outfitBrand = pick(casualBrands);
+      res.outfitBrand = pick(vibe==='真面目系'||vibe==='大人っぽい系'?profile.preppy:profile.casual);
       res.jacket = weighted([['指定なし',3],['テーラードジャケット',1],['カーディガン',2],['パーカー',2],['ステンカラーコート',1]]);
-      res.top = weighted([['無地Tシャツ',3],['ロングスリーブTシャツ',2],['ポロシャツ',3],['ニット',2],['白シャツ',2],['スウェット',2]]);
+      res.top = vibe==='韓国風' ? weighted([['無地Tシャツ',2],['ニット',3],['白シャツ',3],['ポロシャツ',2]]) : weighted([['無地Tシャツ',3],['ロングスリーブTシャツ',2],['ポロシャツ',3],['ニット',2],['白シャツ',2],['スウェット',2]]);
       res.bottom = weighted([['チノパン',3],['黒スラックス',2],['紺スラックス',2],['デニム',2],['ワイドパンツ',1]]);
       res.shoes = weighted([['白スニーカー',3],['黒スニーカー',3],['ローファー',2],['茶革靴',1],['キャンバススニーカー',2]]);
-      res.sockBrand = pick(['UNIQLO','無印良品','Tabio','靴下屋','POLO RALPH LAUREN','Calvin Klein','無地ノーブランド']);
+      res.sockBrand = pick(profile.socksCasual);
       res.sockType = res.shoes.includes('スニーカー')||res.shoes.includes('キャンバス') ? weighted([['くるぶしソックス',4],['インビジブルソックス',3],['クルー丈ソックス',2],['ワンポイントソックス',2]]) : weighted([['ビジネスソックス',2],['クルー丈ソックス',3],['柄ありビジネスソックス',1]]);
       res.sockShape = res.sockType==='インビジブルソックス' ? 'インビジブル丈' : res.sockType==='くるぶしソックス' ? 'くるぶし丈' : 'クルー丈';
       res.sockMaterial = weighted([['綿混',3],['綿＋ナイロン',2],['リブ編みコットン',2],['薄手ナイロン混',1]]);
       res.sockColor = res.sockType.includes('柄') ? weighted([['アーガイル柄',2],['ネイビー地ストライプ',2],['黒地ドット',1]]) : weighted([['白',3],['黒',3],['紺',2],['グレー',2],['チャコール',1]]);
     } else if(outfitType==='大学生カジュアル' || outfitType==='私服通学風'){
-      res.outfitBrand = pick(casualBrands);
-      res.jacket = weighted([['指定なし',3],['パーカー',3],['カーディガン',2],['MA-1',1],['デニムジャケット',1],['ナイロンジャケット',1]]);
-      res.top = weighted([['無地Tシャツ',4],['オーバーサイズTシャツ',3],['ロングスリーブTシャツ',2],['スウェット',3],['パーカー',2],['ポロシャツ',1]]);
-      res.bottom = weighted([['デニム',4],['ストレートデニム',3],['チノパン',3],['カーゴパンツ',2],['ワイドパンツ',2],['黒ショートパンツ',1]]);
-      res.shoes = weighted([['白スニーカー',4],['黒スニーカー',3],['キャンバススニーカー',3],['ローファー',1],['サンダル', rareMode?2:1]]);
-      res.sockBrand = pick(['UNIQLO','無印良品','Tabio','靴下屋','NIKE','adidas','Champion','PUMA','New Balance','無地ノーブランド']);
+      res.outfitBrand = pick(vibe==='韓国風'?profile.casual:(vibe==='やりらふぃー系'||vibe==='ストリート系'||vibe==='陽キャ大学生系'?profile.street:profile.casual));
+      res.jacket = vibe==='韓国風' ? weighted([['指定なし',3],['カーディガン',2],['デニムジャケット',1],['パーカー',2]]) : weighted([['指定なし',3],['パーカー',3],['カーディガン',2],['MA-1',1],['デニムジャケット',1],['ナイロンジャケット',1]]);
+      res.top = vibe==='韓国風' ? weighted([['無地Tシャツ',3],['ニット',3],['ロングスリーブTシャツ',2],['オーバーサイズTシャツ',2]]) : weighted([['無地Tシャツ',4],['オーバーサイズTシャツ',3],['ロングスリーブTシャツ',2],['スウェット',3],['パーカー',2],['ポロシャツ',1]]);
+      res.bottom = vibe==='やりらふぃー系' ? weighted([['ワイドパンツ',3],['カーゴパンツ',3],['デニム',2],['黒ショートパンツ',2]]) : weighted([['デニム',4],['ストレートデニム',3],['チノパン',3],['カーゴパンツ',2],['ワイドパンツ',2],['黒ショートパンツ',1]]);
+      res.shoes = vibe==='韓国風' ? weighted([['白スニーカー',4],['黒スニーカー',3],['キャンバススニーカー',2]]) : weighted([['白スニーカー',4],['黒スニーカー',3],['キャンバススニーカー',3],['ローファー',1],['サンダル', rareMode?2:1]]);
+      res.sockBrand = pick(['UNIQLO','無印良品','Tabio','靴下屋','NIKE','adidas','Champion','PUMA','New Balance','Calvin Klein','無地ノーブランド']);
       res.sockType = res.shoes==='サンダル' ? weighted([['インビジブルソックス',4],['くるぶしソックス',2],['クルー丈ソックス',1]]) : weighted([['くるぶしソックス',4],['クルー丈ソックス',3],['ワンポイントソックス',2],['ライン入りソックス',2],['ロゴ入りソックス',1],['インビジブルソックス',2]]);
       res.sockShape = res.sockType==='インビジブルソックス' ? 'インビジブル丈' : res.sockType==='くるぶしソックス' ? 'くるぶし丈' : 'クルー丈';
       res.sockMaterial = weighted([['綿混',4],['リブ編みコットン',2],['綿＋ナイロン',2],['パイル編み',1]]);
       res.sockColor = res.sockType.includes('ライン') ? 'ライン入り白' : res.sockType.includes('ロゴ') || res.sockType.includes('ワンポイント') ? weighted([['白',3],['黒',3],['グレー',2]]) : weighted([['白',3],['黒',3],['グレー',3],['紺',2],['チャコール',1]]);
     } else if(outfitType==='スポーツ練習着'){
-      res.outfitBrand = pick(sportsBrands);
+      res.outfitBrand = pick(profile.sports);
       res.jacket = weighted([['スポーツジャケット',3],['指定なし',2],['ナイロンジャケット',2],['パーカー',1]]);
       res.top = weighted([['スポーツシャツ',5],['ゲームシャツ',2],['無地Tシャツ',1]]);
       res.bottom = weighted([['ジャージパンツ',4],['ナイロンパンツ',3],['黒ショートパンツ',2],['ハーフパンツ',2]]);
       res.shoes = weighted([['ランニングシューズ',4],['白スニーカー',1],['黒スニーカー',1],['サッカースパイク', age<28?2:1],['バスケットシューズ', age<28?2:1]]);
-      res.sockBrand = pick(['NIKE','adidas','MIZUNO','ASICS','PUMA','New Balance','UNDER ARMOUR']);
+      res.sockBrand = pick(profile.sports);
       res.sockType = weighted([['スポーツソックス',5],['クルー丈ソックス',3],['ライン入りソックス',2],['ロゴ入りソックス',2]]);
       res.sockShape = weighted([['クルー丈',4],['厚手スポーツ形状',4],['ミドル丈',2]]);
       res.sockMaterial = weighted([['吸汗速乾素材',5],['パイル編み',3],['綿＋ナイロン',2]]);
@@ -398,12 +751,12 @@
       res.sockMaterial = weighted([['綿＋ナイロン',4],['綿混',3]]);
       res.sockColor = res.sockType.includes('柄') ? weighted([['黒地ドット',2],['ネイビー地ストライプ',2]]) : weighted([['黒',4],['紺',3],['チャコール',2]]);
     } else if(outfitType==='ストリート系'){
-      res.outfitBrand = pick(['BEAMS','Calvin Klein','TOMMY HILFIGER','ZARA','H&M','GU','NIKE','adidas']);
+      res.outfitBrand = pick(profile.street);
       res.jacket = weighted([['指定なし',2],['MA-1',2],['スタジャン',2],['パーカー',3],['デニムジャケット',1]]);
-      res.top = weighted([['オーバーサイズTシャツ',4],['無地Tシャツ',3],['スウェット',3],['ゲームシャツ',2],['パーカー',2]]);
+      res.top = vibe==='やりらふぃー系' ? weighted([['オーバーサイズTシャツ',4],['パーカー',3],['ゲームシャツ',2],['スウェット',2]]) : weighted([['オーバーサイズTシャツ',4],['無地Tシャツ',3],['スウェット',3],['ゲームシャツ',2],['パーカー',2]]);
       res.bottom = weighted([['ワイドパンツ',3],['カーゴパンツ',3],['デニム',2],['黒ショートパンツ',1]]);
       res.shoes = weighted([['白スニーカー',4],['黒スニーカー',4],['キャンバススニーカー',3],['ブーツ',1]]);
-      res.sockBrand = pick(['NIKE','adidas','Champion','PUMA','New Balance','UNIQLO','無地ノーブランド']);
+      res.sockBrand = pick(['NIKE','adidas','Champion','PUMA','New Balance','UNIQLO','Calvin Klein','無地ノーブランド']);
       res.sockType = weighted([['クルー丈ソックス',4],['ライン入りソックス',3],['ロゴ入りソックス',2],['ワンポイントソックス',2]]);
       res.sockShape = weighted([['クルー丈',5],['ミドル丈',2]]);
       res.sockMaterial = weighted([['綿混',3],['パイル編み',2],['リブ編みコットン',2]]);
@@ -419,58 +772,68 @@
     const initial = getInitial();
     const rareMode = partialMode === 'rare';
     const base = current && partialMode !== 'full' && partialMode !== 'rare' ? {...current} : {};
-    const age = Number(fixed.age || base.age || pick(pools.ages));
+    const vibe = fixed.vibe || (initial.vibe && initial.vibe !== 'ランダム' ? initial.vibe : (base.vibe || 'ランダム'));
+    const age = Number(fixed.age || base.age || chooseAge(initial.ageMin || 20, initial.ageMax || 32));
     const height = Number(base.heightRaw || rnd(166,188,1));
-    const bodyType = fixed.bodyType || base.bodyType || chooseBody(height, rareMode);
-    const weight = calcWeight(height, bodyType);
-    const facePreset = fixed.facePreset || base.facePreset || weighted(pools.facePresets.map(v=>[v, v==='普通顔'?5:2]));
-    const outfitType = fixed.outfitType || base.outfitType || chooseOutfit(age, rareMode);
+    const profile = vibeProfile(vibe, age);
     const nationality = fixed.nationality || initial.nationality || base.nationality || pick(pools.nationalities);
     const ethnicity = fixed.ethnicity || initial.ethnicity || base.ethnicity || defaultEthnicityForNationality(nationality);
+    const bodyType = fixed.bodyType || base.bodyType || (profile ? weighted(profile.bodyTypes) : chooseBody(height, rareMode));
+    const weight = calcWeight(height, bodyType);
+    const ageAppearance = base.ageAppearance || ageAppearanceByAge(age);
     const ethnicFace = faceByEthnicity(ethnicity);
+    const rawFacePreset = fixed.facePreset || base.facePreset || (profile ? weighted(profile.facePresets) : weighted(pools.facePresets.map(v=>[v, v==='普通顔'?5:2])));
+    const facePreset = chooseFaceAgeCompatible(rawFacePreset, ageAppearance, vibe);
+    const outfitType = fixed.outfitType || base.outfitType || (profile ? weighted(profile.outfits.filter(v=>pools.outfitTypes.includes(v[0]))) : chooseOutfit(age, rareMode, vibe));
+    const hairStyle = base.hairStyle || (profile ? weighted(profile.hairStyles) : pick(pools.hairStyles));
+    const hairColor = base.hairColor || ethnicFace.hairColor || (profile ? weighted(profile.hairColors) : pick(pools.hairColors));
+    const role = base.role || chooseRole(age, vibe);
     const c = {
       id: uniqId(),
       name: base.name || nameByNationality(nationality),
-      age, nationality, ethnicity,
-      role: base.role || pick(pools.roles),
+      age, nationality, ethnicity, vibe,
+      role,
       heightRaw: height,
       height: `${height}cm`, weight: `${weight}kg`, bodyType,
       footSize: base.footSize || footByHeight(height, rareMode),
       footShape: base.footShape || pick(pools.footShapes),
-      facePreset: fixed.facePreset || base.facePreset || ethnicFace.facePreset || facePreset,
+      facePreset,
+      ageAppearance,
       faceLine: base.faceLine || pick(pools.faceLines),
       eyes: base.eyes || ethnicFace.eyes || pick(pools.eyes), tearBags: base.tearBags || pick(pools.tearBags), nose: base.nose || pick(pools.nose), mouth: base.mouth || pick(pools.mouth), skin: base.skin || ethnicFace.skin || pick(pools.skin), facialHair: base.facialHair || pick(pools.facialHair),
-      hairStyle: base.hairStyle || pick(pools.hairStyles), hairColor: base.hairColor || ethnicFace.hairColor || pick(pools.hairColors),
-      ...(()=>{const coord = generateCoordinatedOutfit(outfitType, age, rareMode); return {
+      hairStyle, hairColor,
+      ...(()=>{const coord = generateCoordinatedOutfit(outfitType, age, rareMode, nationality, vibe); return {
         outfitType, outfitBrand: base.outfitBrand || coord.outfitBrand, jacket: base.jacket || coord.jacket, top: base.top || coord.top, bottom: base.bottom || coord.bottom,
         boxerBrand: base.boxerBrand || pick(pools.boxerBrands), boxerColor: base.boxerColor || pick(pools.boxerColors),
         shoes: base.shoes || coord.shoes, sockBrand: base.sockBrand || coord.sockBrand, sockType: base.sockType || coord.sockType, sockShape: base.sockShape || coord.sockShape, sockMaterial: base.sockMaterial || coord.sockMaterial, sockColor: base.sockColor || coord.sockColor, sockUse: base.sockUse || coord.sockUse
       };})(),
-      background: initial.background, lighting: initial.lighting, quality: initial.quality, outputType: initial.outputType, count: initial.count,
+      background: initial.background, lighting: initial.lighting, quality: initial.quality, outputType: initial.outputType, count: initial.count, promptLanguage: initial.promptLanguage || '日本語',
+      sceneIdea: buildEncounterScene({role, outfitType, vibe, nationality, ethnicity}),
       createdAt: new Date().toISOString()
     };
-    if(partialMode==='face' && current){ Object.assign(c, current, {id:uniqId(), nationality:c.nationality, ethnicity:c.ethnicity, name:nameByNationality(c.nationality), facePreset:c.facePreset, faceLine:c.faceLine, eyes:c.eyes, tearBags:c.tearBags, nose:c.nose, mouth:c.mouth, skin:c.skin, facialHair:c.facialHair, hairStyle:c.hairStyle, hairColor:c.hairColor, createdAt:new Date().toISOString()}); }
-    if(partialMode==='outfit' && current){ Object.assign(c, current, {id:uniqId(), nationality:c.nationality, ethnicity:c.ethnicity, name:nameByNationality(c.nationality), outfitType:c.outfitType,outfitBrand:c.outfitBrand,jacket:c.jacket,top:c.top,bottom:c.bottom,boxerBrand:c.boxerBrand,boxerColor:c.boxerColor,shoes:c.shoes,sockBrand:c.sockBrand,sockType:c.sockType,sockShape:c.sockShape,sockMaterial:c.sockMaterial,sockColor:c.sockColor,sockUse:c.sockUse,createdAt:new Date().toISOString()}); }
+    if(partialMode==='face' && current){ Object.assign(c, current, {id:uniqId(), nationality:c.nationality, ethnicity:c.ethnicity, vibe:c.vibe, name:nameByNationality(c.nationality), role:c.role, facePreset:c.facePreset, ageAppearance:c.ageAppearance, faceLine:c.faceLine, eyes:c.eyes, tearBags:c.tearBags, nose:c.nose, mouth:c.mouth, skin:c.skin, facialHair:c.facialHair, hairStyle:c.hairStyle, hairColor:c.hairColor, sceneIdea:buildEncounterScene({role:c.role, outfitType:current.outfitType, vibe:c.vibe, nationality:c.nationality, ethnicity:c.ethnicity}), createdAt:new Date().toISOString()}); }
+    if(partialMode==='outfit' && current){ Object.assign(c, current, {id:uniqId(), nationality:c.nationality, ethnicity:c.ethnicity, vibe:c.vibe, name:nameByNationality(c.nationality), role:c.role, outfitType:c.outfitType,outfitBrand:c.outfitBrand,jacket:c.jacket,top:c.top,bottom:c.bottom,boxerBrand:c.boxerBrand,boxerColor:c.boxerColor,shoes:c.shoes,sockBrand:c.sockBrand,sockType:c.sockType,sockShape:c.sockShape,sockMaterial:c.sockMaterial,sockColor:c.sockColor,sockUse:c.sockUse,sceneIdea:buildEncounterScene({role:c.role, outfitType:c.outfitType, vibe:c.vibe, nationality:c.nationality, ethnicity:c.ethnicity}), createdAt:new Date().toISOString()}); }
     Object.keys(locks).forEach(k=>{ if(locks[k] && current && current[k]!==undefined) c[k]=current[k]; });
     return c;
   }
 
-  function slotValue(c,key){ return c ? String(c[key] ?? '？？？') : '？？？'; }
+  function slotValue(c,key){ return c ? String(displayValue(key, c[key]) ?? '？？？') : '？？？'; }
   function renderSlots(c, revealAll=true){
     slotDefs.forEach(([key,label])=>{
       const el = document.getElementById('slot-'+key); if(!el) return;
       el.classList.toggle('locked', !!locks[key]);
       el.classList.toggle('done', !!c && revealAll);
       el.querySelector('.value').textContent = c ? slotValue(c,key) : '？？？';
-      el.querySelector('.lock').textContent = locks[key] ? 'LOCKED' : 'LOCK';
+      el.querySelector('.lock').textContent = locks[key] ? T('locked') : T('lock');
     });
   }
   function randomPreview(key){
-    const map = {age:pools.ages.map(v=>v+'歳'), height:['168cm','172cm','175cm','181cm','188cm'], weight:['58kg','65kg','72kg','80kg'], footSize:['26cm','27.5cm','28.5cm','30cm']};
-    const arr = map[key] || pools[key+'s'] || pools[key] || ['???','GUZEN','SLOT']; return pick(arr);
+    const map = {age:pools.ages, height:['168cm','172cm','175cm','181cm','188cm'], weight:['58kg','65kg','72kg','80kg'], footSize:['26cm','27.5cm','28.5cm','30cm']};
+    const arr = map[key] || pools[key+'s'] || pools[key] || ['???','GUZEN','SLOT'];
+    return String(displayValue(key, pick(arr)));
   }
   async function spin(){
-    if(spinning) return; spinning=true; els.status.textContent='回転中';
+    if(spinning) return; spinning=true; els.status.textContent=T('spinning');
     const next = generateCharacter(mode);
     for(const [key,label,cat] of slotDefs){
       const el = document.getElementById('slot-'+key); if(!el) continue;
@@ -481,100 +844,150 @@
       for(let i=0;i<8;i++){ el.querySelector('.value').textContent = randomPreview(key); await sleep(35); }
       el.classList.remove('spin'); el.classList.add('done'); el.querySelector('.value').textContent = slotValue(next,key); await sleep(80);
     }
-    current = next; renderAll(); els.status.textContent='完成'; spinning=false; switchTab('result');
+    current = next; renderAll(); els.status.textContent=T('done'); spinning=false; switchTab('result');
   }
 
+
+  function isEnglish(c){ return (c?.promptLanguage || '日本語') === 'English'; }
+  function enOutputType(v){
+    if(!v) return 'a character image';
+    const map = {
+      '前面・側面を1枚にまとめた設定画像':'a reference sheet showing the front and side full-body views in one image',
+      '全身正面画像':'a full-body front-view image',
+      '全身斜め前画像':'a full-body three-quarter front-view image',
+      'バストアップ(前面+側面)':'a bust-up reference sheet showing the front and side views',
+      '16:9リファレンスカード（全身前面・側面／顔正面・側面／足詳細）':'a 16:9 reference card with full-body front and side views, face front and side views, and foot details'
+    };
+    return map[v] || v;
+  }
+  function enCount(v){
+    const map = {'1枚':'1 image','2パターン別々の画像':'2 separate variations','3パターン別々の画像':'3 separate variations','4パターン別々の画像':'4 separate variations','5パターン別々の画像':'5 separate variations'};
+    return map[v] || v;
+  }
+  function enQuality(v){
+    const map = {'実写風':'photorealistic','高精細':'high-detail','スマホスナップ風':'smartphone snapshot style','イラスト風':'illustration style','アニメ風イラスト':'anime-style illustration','キャラクター設定画風':'character reference sheet style'};
+    return map[v] || v;
+  }
   function scoreRarity(c){
-    if(!c) return [0,'NORMAL','スロットを回すと判定されます。'];
+    if(!c) return [0,'NORMAL','idle'];
     let s=0; const foot=parseFloat(c.footSize), h=c.heightRaw;
     if(h>=183) s+=20; if(foot>=29) s+=20; if(foot>=30) s+=25; if(c.bodyType.includes('高身長')||c.bodyType.includes('腹だけ')||c.bodyType.includes('ぽっちゃり')) s+=15;
     if(c.sockType.includes('柄')||c.sockType.includes('インビジブル')) s+=12; if(c.outfitType.includes('学生服')) s+=10; if(c.facePreset==='普通顔' && h>=180) s+=12; if(c.count.includes('10')) s+=10;
-    if(s>=75) return [s,'LEGEND','かなり個性的な偶然の組み合わせです。']; if(s>=50) return [s,'SUPER RARE','目立つ特徴が複数あります。']; if(s>=25) return [s,'RARE','少し特徴的な組み合わせです。']; return [s,'NORMAL','自然で使いやすい標準寄りの組み合わせです。'];
+    if(s>=75) return [s,'LEGEND','legend']; if(s>=50) return [s,'SUPER RARE','super']; if(s>=25) return [s,'RARE','rare']; return [s,'NORMAL','normal'];
   }
   function buildOutfitPrompt(c){
     if(!c) return '';
-    const adultUniform = c.outfitType.includes('学生服') ? '学生服は成人男性キャラクターが着る制服風衣装として扱い、未成年には見せない。' : '';
-    return `【提案服装プロンプト】
-以下はメイン設定画像とは別に、服装差分や着用イメージを作るための追加プロンプトです。
+    const adultUniformJa = c.outfitType.includes('学生服') ? '学生服は成人男性キャラクターが着る制服風衣装として扱い、未成年に見えないようにする。' : '';
+    const adultUniformEn = c.outfitType.includes('学生服') ? 'Treat the school uniform as a uniform-inspired outfit worn by an adult male character, and make sure he does not look underage.' : '';
+    if(isEnglish(c)){
+      return `Draw the adult male character "${c.name}" as the same person in an outfit variation.
 
-成人男性キャラクター「${c.name}」の顔立ち・体型・身長感を維持したまま、提案服装を着用した別画像を作成する。
+Preserve the character's identity. He is ${c.age} years old, ${c.nationality}, ${c.ethnicity}. His vibe is ${c.vibe}. His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. Height ${c.height}, weight ${c.weight}, body type ${c.bodyType}. Hair is ${c.hairColor} ${c.hairStyle}.
 
-提案服装：${c.outfitBrand}の${c.outfitType}
-上着：${c.jacket}
-トップス：${c.top}
-ボトムス：${c.bottom}
-靴：${c.shoes}
-靴下：${c.sockBrand}の${c.sockType}、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。
+Base the outfit on ${c.outfitBrand} ${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.
 
-${adultUniform}
-服装はトップス・ボトムス・靴・靴下の用途が一致した自然なコーディネートとして扱う。ブランドは提案服装のカテゴリに合うものとして扱い、フォーマル・学生服・スポーツ・カジュアルの混在で破綻しないようにする。キャラクター設定資料・ファッション提案として非性的に描写する。元の人物の顔立ち、体型、身長、足サイズ、髪型を変えない。`;
+${adultUniformEn}
+Make the top, bottom, shoes, and socks work together naturally. Do not mix formal, school uniform, sportswear, and casual elements in an unnatural way. Background: ${c.background}. Lighting: ${c.lighting}. Visual style: ${enQuality(c.quality)}. Depict him in a natural standing pose as a non-sexual fashion variation. Keep the same face, body proportions, height impression, and hairstyle.`;
+    }
+    return `成人男性キャラクター「${c.name}」を、同一人物の服装差分として描写する。
+
+人物の特徴は維持する。${c.age}歳、${c.nationality}、${c.ethnicity}。雰囲気は${c.vibe}。顔立ちは${c.facePreset}、年齢感は${c.ageAppearance}。身長${c.height}、体重${c.weight}、体型は${c.bodyType}。髪は${c.hairColor}の${c.hairStyle}。
+
+服装は${c.outfitBrand}の${c.outfitType}を基調にする。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}。靴下は${c.sockBrand}の${c.sockType}で、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。
+
+${adultUniformJa}
+トップス、ボトムス、靴、靴下の用途が一致した自然なコーディネートにする。フォーマル、学生服、スポーツ、カジュアルが不自然に混ざらないようにする。背景は${c.background}、光は${c.lighting}、質感は${c.quality}。非性的なファッション差分として、自然な立ち姿で描写する。元の顔立ち、体型、身長感、髪型を変えない。`;
+  }
+
+  function buildScenePrompt(c){
+    if(!c) return '';
+    const scene = c.sceneIdea || buildEncounterScene(c);
+    if(isEnglish(c)){
+      return `Draw the adult male character "${c.name}" in a natural everyday scene where he is casually spotted by chance.
+
+Scene: "${scene}". He is ${c.age} years old, ${c.nationality}, ${c.ethnicity}. His role is ${c.role}, and his vibe is ${c.vibe}. His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. Height ${c.height}, weight ${c.weight}, body type ${c.bodyType}. Hair is ${c.hairColor} ${c.hairStyle}.
+
+Use natural everyday clothing that fits the character and the scene, or clothing aligned with the suggested outfit direction. Base the background on ${c.background}, use ${c.lighting}, and render it in ${enQuality(c.quality)}. Avoid an overly direct camera-facing pose; make it feel like a naturally observed moment in a street or facility setting.
+
+Keep it non-sexual and candid, with a natural standing, walking, or relaxed posture. Preserve the same face, body proportions, height impression, and hairstyle as the same character.`;
+    }
+    return `成人男性キャラクター「${c.name}」を、日常の中で偶然見かけた自然な場面として描写する。
+
+場面は「${scene}」。${c.age}歳、${c.nationality}、${c.ethnicity}。役割は${c.role}、雰囲気は${c.vibe}。顔立ちは${c.facePreset}、年齢感は${c.ageAppearance}。身長${c.height}、体重${c.weight}、体型は${c.bodyType}。髪は${c.hairColor}の${c.hairStyle}。
+
+服装は人物像と場面に合う自然な私服、または提案服装の方向性に合わせる。背景は${c.background}を基調にし、光は${c.lighting}、質感は${c.quality}。カメラ目線にしすぎず、街中や施設内でふと見かけたような自然な距離感にする。
+
+作り込みすぎない日常スナップ風。非性的で、自然な立ち姿、歩き姿、たたずまいを描写する。顔立ち、体型、身長感、髪型は同一人物として保つ。`;
   }
 
   function buildPrompt(c){
     if(!c) return '';
-    const output = c.outputType.includes('16:9') ? '16:9のリファレンスカードとして、全身の前面・側面、顔の正面・側面、足元詳細、靴下詳細を1枚に整理して表示する。各ビューは同一人物として顔立ち・体型・足サイズを一致させる。' : `${c.outputType}として作成する。`;
-    return `成人男性キャラクターの非性的な設定画像を作成する。
+    const outputJa = c.outputType.includes('16:9') ? '16:9のリファレンスカード。全身の前面と側面、顔の正面と側面、体型バランスが分かる構成にする。各ビューは同一人物として顔立ち、体型、身長感を一致させる。' : `${c.outputType}。`;
+    const outputEn = c.outputType.includes('16:9') ? 'Create a 16:9 reference card that shows the full-body front and side views, the face front and side views, and a layout that makes the body balance clear. Keep every view clearly the same person.' : `Create ${enOutputType(c.outputType)}.`;
+    if(isEnglish(c)){
+      return `Create a non-sexual full-body image of the adult male character "${c.name}".
 
-【基本設定】
-名前：${c.name}
-年齢：${c.age}歳
-人種設定：${c.ethnicity}
-国籍設定：${c.nationality}
-役割：${c.role}
+He is ${c.age} years old, ${c.nationality}, ${c.ethnicity}. His role is ${c.role}. His overall vibe is ${c.vibe}. His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. His face line is ${c.faceLine}. Eyes: ${c.eyes}. Tear bags: ${c.tearBags}. Nose: ${c.nose}. Mouth: ${c.mouth}. Skin: ${c.skin}. Facial hair: ${c.facialHair}. Hair: ${c.hairColor} ${c.hairStyle}.
 
-【体型】
-身長${c.height}、体重${c.weight}、体型は${c.bodyType}。足のサイズは${c.footSize}、足の形は${c.footShape}。身長・体重・足サイズのバランスが自然に分かるようにする。
+Height ${c.height}, weight ${c.weight}, body type ${c.bodyType}. Foot size ${c.footSize}, foot shape ${c.footShape}. Use a natural standing pose that makes the balance of height, weight, and foot size easy to understand.
 
-【顔立ち】
-顔立ちプリセットは${c.facePreset}。フェイスラインは${c.faceLine}。目は${c.eyes}、涙袋は${c.tearBags}。鼻は${c.nose}。口元は${c.mouth}。肌は${c.skin}。ひげは${c.facialHair}。髪は${c.hairColor}の${c.hairStyle}。
+The main clothing is only ${c.boxerBrand&&c.boxerBrand!=='指定しない'?`${c.boxerBrand} `:''}${c.boxerColor} boxer briefs. Do not depict outerwear, tops, bottoms, regular outfits, school uniforms, jackets, shirts, trousers, coats, shoes, socks, sandals, or slippers. Do not include footwear settings or sock settings in this main image. Keep the underwear depiction non-sexual and suitable for neutral body reference purposes.
 
-【メイン服装】
-メイン生成では${c.boxerBrand&&c.boxerBrand!=='指定しない'?`${c.boxerBrand}の`:''}${c.boxerColor}のボクサーパンツのみを着用する。上着、トップス、ボトムス、通常服装、学生服、制服、ジャケット、シャツ、ズボン、コート、靴、靴下、サンダル、スリッパなどはこのメイン生成プロンプトには含めない。足元設定や靴下設定はメインでは指定しない。成人男性キャラクターの非性的な体型確認・設定資料として、自然な直立姿勢で描写する。下着表現は非性的で、全身バランス確認用の自然な見せ方にする。
+${outputEn}
+Create ${enCount(c.count)}. Background: ${c.background}. Lighting: ${c.lighting}. Visual quality/style: ${enQuality(c.quality)}.
 
-【出力】
-${output}
-画像比率は${c.outputType.includes('16:9')?'16:9':'内容に合わせて自然に'}。${c.count}を作成する。
-背景：${c.background}
-光：${c.lighting}
-画質・質感：${c.quality}
+Avoid: making him look underage, sexual poses, excessive body emphasis, emphasis on genitals, excessive close-ups of soles or toes, unnatural AI-looking skin, changing him into a different person, broken text, or mixing in outerwear, tops, bottoms, shoes, or socks.`;
+    }
+    return `成人男性キャラクター「${c.name}」の非性的な全身画像を作成する。
 
-【重要】
-提案服装・靴・靴下はこのメイン生成プロンプトには含めない。提案服装を使う場合は、別枠の「提案服装プロンプト（追加用）」だけを使用する。ボクサーパンツのブランド・色のみメイン生成プロンプトに反映する。
+${c.age}歳、${c.nationality}、${c.ethnicity}。役割は${c.role}。雰囲気は${c.vibe}。顔立ちは${c.facePreset}で、年齢感は${c.ageAppearance}。フェイスラインは${c.faceLine}。目は${c.eyes}、涙袋は${c.tearBags}。鼻は${c.nose}。口元は${c.mouth}。肌は${c.skin}。ひげは${c.facialHair}。髪は${c.hairColor}の${c.hairStyle}。
 
-【避けること】
-未成年に見える表現、性的なポーズ、過度な身体強調、局部の強調、足裏や指の過度な接写、AIっぽい肌、別人化、文字崩れ、上着・トップス・ボトムス・通常服装・制服・靴・靴下の混入。`;
+身長${c.height}、体重${c.weight}、体型は${c.bodyType}。足のサイズは${c.footSize}、足の形は${c.footShape}。身長、体重、足サイズのバランスが自然に分かる直立姿勢にする。
+
+メイン服装は${c.boxerBrand&&c.boxerBrand!=='指定しない'?`${c.boxerBrand}の`:''}${c.boxerColor}のボクサーパンツのみ。上着、トップス、ボトムス、通常服装、学生服、制服、ジャケット、シャツ、ズボン、コート、靴、靴下、サンダル、スリッパは描写しない。足元設定や靴下設定はこの画像には入れない。下着表現は非性的で、体型確認用の自然な見せ方にする。
+
+${outputJa}
+${c.count}を作成する。背景は${c.background}。光は${c.lighting}。画質・質感は${c.quality}。
+
+避けること：未成年に見える表現、性的なポーズ、過度な身体強調、局部の強調、足裏や足指の過度な接写、AIっぽい肌、別人化、文字崩れ、上着・トップス・ボトムス・靴・靴下の混入。`;
   }
+
   function renderProfile(){
-    if(!current){ els.profileView.innerHTML='<p class="notice">まだ結果がありません。</p>'; els.promptBox.value=''; document.getElementById('outfitPromptBox').value=''; return; }
-    const rows = [['名前',current.name],['年齢',current.age+'歳'],['身長 / 体重',`${current.height} / ${current.weight}`],['体型',current.bodyType],['足サイズ',current.footSize],['顔立ち',current.facePreset],['髪型',`${current.hairColor}・${current.hairStyle}`],['メイン服装',`${current.boxerBrand&&current.boxerBrand!=='指定しない'?current.boxerBrand+'・':''}${current.boxerColor}のボクサーパンツのみ`],['提案服装',`${current.outfitBrand}・${current.outfitType}`],['提案靴下',`${current.sockBrand}・${current.sockType}・${current.sockColor}`],['背景',current.background],['出力',`${current.outputType} / ${current.count}`]];
+    if(!current){ els.profileView.innerHTML=`<p class="notice">${uiLang==='ja'?'まだ結果がありません。':'No result yet.'}</p>`; els.promptBox.value=''; document.getElementById('outfitPromptBox').value=''; document.getElementById('scenePromptBox').value=''; return; }
+    const L=T('rows'); const mainWear = uiLang==='en' ? `${displayValue('boxerBrand',current.boxerBrand&&current.boxerBrand!=='指定しない'?current.boxerBrand:'')} ${displayValue('boxerColor',current.boxerColor)} boxer briefs only`.trim() : `${current.boxerBrand&&current.boxerBrand!=='指定しない'?current.boxerBrand+'・':''}${current.boxerColor}のボクサーパンツのみ`; const rows = [[L.name,current.name],[L.age,displayValue('age',current.age)],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}`],[L.hw,`${current.height} / ${current.weight}`],[L.body,displayValue('bodyType',current.bodyType)],[L.foot,current.footSize],[L.face,`${displayValue('facePreset',current.facePreset)} / ${displayValue('ageAppearance',current.ageAppearance)}`],[L.hair,`${displayValue('hairColor',current.hairColor)}・${displayValue('hairStyle',current.hairStyle)}`],[L.main,mainWear],[L.outfit,`${displayValue('outfitBrand',current.outfitBrand)}・${displayValue('outfitType',current.outfitType)}`],[L.sock,`${displayValue('sockBrand',current.sockBrand)}・${displayValue('sockType',current.sockType)}・${displayValue('sockColor',current.sockColor)}`],[L.background,displayValue('background',current.background)],[L.output,`${displayValue('outputType',current.outputType)} / ${displayValue('count',current.count)}`],[L.scene,displayValue('sceneIdea',current.sceneIdea)]];
     els.profileView.innerHTML = rows.map(([k,v])=>`<div class="kv"><b>${k}</b><span>${v}</span></div>`).join('');
     els.promptBox.value = buildPrompt(current);
     document.getElementById('outfitPromptBox').value = buildOutfitPrompt(current);
-    const mo=document.getElementById('manualOutputType'), mc=document.getElementById('manualCount'), mq=document.getElementById('manualQuality'), mb=document.getElementById('manualBackground'), ml=document.getElementById('manualLighting');
-    if(mo) mo.value=current.outputType; if(mc) mc.value=current.count; if(mq) mq.value=current.quality; if(mb) mb.value=current.background; if(ml) ml.value=current.lighting;
+    document.getElementById('scenePromptBox').value = buildScenePrompt(current);
+    if(document.getElementById('manualPromptLanguage')) document.getElementById('manualPromptLanguage').value = current.promptLanguage || '日本語';
+    const mo=document.getElementById('manualOutputType'), mc=document.getElementById('manualCount'), mq=document.getElementById('manualQuality'), mb=document.getElementById('manualBackground'), ml=document.getElementById('manualLighting'), mpl=document.getElementById('manualPromptLanguage');
+    if(mo) mo.value=current.outputType; if(mc) mc.value=current.count; if(mq) mq.value=current.quality; if(mb) mb.value=current.background; if(ml) ml.value=current.lighting; if(mpl) mpl.value=current.promptLanguage || '日本語';
   }
   function renderRarity(){
-    const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent=note;
+    const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); }
-  function saveCurrent(){ if(!current) return alert('先にスロットを回してください。'); const history=loadHistory(); history.unshift(current); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert('保存しました。'); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift(current); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
-  function renderHistory(){ const h=loadHistory(); els.historyList.innerHTML = h.length? h.map((c,i)=>`<div class="history-item"><b>${c.name} / ${c.age}歳 / ${c.height} / ${c.bodyType}</b><p class="notice">${c.facePreset}・${c.outfitType}・${c.sockType}・${scoreRarity(c)[1]}</p><button class="btn dark" data-load="${i}">読み込む</button></div>`).join('') : '<p class="notice">保存結果はまだありません。</p>'; document.querySelectorAll('[data-load]').forEach(b=>b.onclick=()=>{current=h[Number(b.dataset.load)]; renderAll(); switchTab('result');}); }
+  function renderHistory(){ const h=loadHistory(); els.historyList.innerHTML = h.length? h.map((c,i)=>`<div class="history-item"><b>${c.name} / ${uiLang==='en'? displayValue('age',c.age): c.age+'歳'} / ${c.height} / ${displayValue('bodyType',c.bodyType)}</b><p class="notice">${displayValue('facePreset',c.facePreset)}・${displayValue('outfitType',c.outfitType)}・${displayValue('sockType',c.sockType)}・${scoreRarity(c)[1]}</p><button class="btn dark" data-load="${i}">${T('loadBtn')}</button></div>`).join('') : `<p class="notice">${T('noHistory')}</p>`; document.querySelectorAll('[data-load]').forEach(b=>b.onclick=()=>{current=h[Number(b.dataset.load)]; renderAll(); switchTab('result');}); }
   function downloadJson(){ const data = current || {}; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})); a.download='guzen-ikemen-result.json'; a.click(); URL.revokeObjectURL(a.href); }
   function switchTab(name){ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name)); ['slot','result','history','settings'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('hidden',t!==name)); }
 
   document.getElementById('startBtn').onclick=spin;
   document.getElementById('rerollUnlockedBtn').onclick=()=>spin();
   document.getElementById('resetLocksBtn').onclick=()=>{locks={}; renderSlots(current,true);};
-  document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode; document.querySelectorAll('[data-mode]').forEach(x=>x.className='btn dark'); b.className=mode==='full'?'btn blue':'btn primary'; document.getElementById('modeNote').textContent='現在：'+({full:'完全ランダム',face:'顔だけランダム',outfit:'服装だけランダム',rare:'レア設定モード'}[mode]);});
+  const makerLangSel = document.getElementById('makerLanguage');
+  if(makerLangSel){ uiLang = makerLangSel.value || 'ja'; makerLangSel.onchange=()=>{ uiLang = makerLangSel.value || 'ja'; applyUiLanguage(); }; }
+  document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode; document.querySelectorAll('[data-mode]').forEach(x=>x.className='btn dark'); b.className=mode==='full'?'btn blue':'btn primary'; updateModeNote();});
   document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>switchTab(t.dataset.tab));
   document.getElementById('saveBtn').onclick=saveCurrent;
   document.getElementById('jsonBtn').onclick=downloadJson;
-  document.getElementById('copyPromptBtn').onclick=async()=>{ await navigator.clipboard.writeText(els.promptBox.value); alert('メインプロンプトをコピーしました。'); };
-  document.getElementById('copyOutfitBtn').onclick=async()=>{ await navigator.clipboard.writeText(document.getElementById('outfitPromptBox').value); alert('提案服装プロンプトをコピーしました。'); };
-  document.getElementById('clearHistoryBtn').onclick=()=>{ if(confirm('保存結果を削除しますか？')){localStorage.removeItem(STORAGE_KEY); renderHistory();} };
+  document.getElementById('copyPromptBtn').onclick=async()=>{ await navigator.clipboard.writeText(els.promptBox.value); alert(T('copyMainDone')); };
+  document.getElementById('copyOutfitBtn').onclick=async()=>{ await navigator.clipboard.writeText(document.getElementById('outfitPromptBox').value); alert(T('copyOutfitDone')); };
+  document.getElementById('copySceneBtn').onclick=async()=>{ await navigator.clipboard.writeText(document.getElementById('scenePromptBox').value); alert(T('copySceneDone')); };
+  document.getElementById('clearHistoryBtn').onclick=()=>{ if(confirm(T('confirmClear'))){localStorage.removeItem(STORAGE_KEY); renderHistory();} };
 
-  initSlots(); initFixedForm(); initManualControls(); initInitialSettings(); renderAll();
+  initSlots(); initFixedForm(); initManualControls(); initInitialSettings(); applyUiLanguage();
 })();
 </script>
 </body>
