@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V1.4</title>
+  <title>Guzen Ikemen Maker V1.5</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -20,8 +20,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V1.4</span>
-        <h1 class="title">Guzen Ikemen Maker V1.4</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V1.5</span>
+        <h1 class="title">Guzen Ikemen Maker V1.5</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -58,8 +58,20 @@
         <label class="field"><span>出力タイプ</span><select id="initialOutputType"></select></label>
         <label class="field"><span>出力枚数</span><select id="initialCount"></select></label>
         <label class="field"><span>指示文言語</span><select id="initialPromptLanguage"></select></label>
+        <label class="field"><span>生成先</span><select id="initialPromptTarget"></select></label>
+        <label class="field"><span>画像内スペック表示</span><select id="initialCaptionMode"></select></label>
+        <div class="field" style="grid-column:1/-1">
+          <span id="initialCaptionFieldsLabel">画像内に表示する項目</span>
+          <div class="toolbar" id="initialCaptionFields">
+            <label><input type="checkbox" data-caption-scope="initial" data-caption-field="name" checked> <span data-caption-label="name">氏名</span></label>
+            <label><input type="checkbox" data-caption-scope="initial" data-caption-field="height" checked> <span data-caption-label="height">身長</span></label>
+            <label><input type="checkbox" data-caption-scope="initial" data-caption-field="weight" checked> <span data-caption-label="weight">体重</span></label>
+            <label><input type="checkbox" data-caption-scope="initial" data-caption-field="footSize" checked> <span data-caption-label="footSize">足のサイズ</span></label>
+            <label><input type="checkbox" data-caption-scope="initial" data-caption-field="mbti" checked> <span data-caption-label="mbti">MBTI・性格</span></label>
+          </div>
+        </div>
       </div>
-      <p class="notice" style="margin-top:12px">ここで国籍・人種・年齢範囲・雰囲気系統・背景・光・画質・出力タイプ・出力枚数を指定します。出力系は抽選せず、ここで選んだ内容が画像指示文へ反映されます。雰囲気系統を選ぶと、髪型・顔立ち・提案服装の抽選傾向が連動します。</p>
+      <p class="notice" style="margin-top:12px">ここで国籍・人種・年齢範囲・雰囲気系統・背景・光・画質・出力タイプ・出力枚数・生成先・画像内表記を指定します。出力系は抽選せず、ここで選んだ内容が画像指示文へ反映されます。雰囲気系統を選ぶと、髪型・顔立ち・提案服装の抽選傾向が連動します。</p>
     </section>
 
     <main class="grid cols">
@@ -101,6 +113,18 @@
           <label class="field"><span>背景</span><select id="manualBackground"></select></label>
           <label class="field"><span>光</span><select id="manualLighting"></select></label>
           <label class="field"><span>指示文言語</span><select id="manualPromptLanguage"></select></label>
+          <label class="field"><span>生成先</span><select id="manualPromptTarget"></select></label>
+          <label class="field"><span>画像内スペック表示</span><select id="manualCaptionMode"></select></label>
+          <div class="field" style="grid-column:1/-1">
+            <span id="manualCaptionFieldsLabel">画像内に表示する項目</span>
+            <div class="toolbar" id="manualCaptionFields">
+              <label><input type="checkbox" data-caption-scope="manual" data-caption-field="name" checked> <span data-caption-label="name">氏名</span></label>
+              <label><input type="checkbox" data-caption-scope="manual" data-caption-field="height" checked> <span data-caption-label="height">身長</span></label>
+              <label><input type="checkbox" data-caption-scope="manual" data-caption-field="weight" checked> <span data-caption-label="weight">体重</span></label>
+              <label><input type="checkbox" data-caption-scope="manual" data-caption-field="footSize" checked> <span data-caption-label="footSize">足のサイズ</span></label>
+              <label><input type="checkbox" data-caption-scope="manual" data-caption-field="mbti" checked> <span data-caption-label="mbti">MBTI・性格</span></label>
+            </div>
+          </div>
         </div>
         <textarea class="textarea" id="promptBox" readonly></textarea>
         <div class="section-title" style="margin-top:14px"><h2>服装差分用 指示文</h2><button class="btn dark" id="copyOutfitBtn">服装案をコピー</button></div>
@@ -121,7 +145,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V1.4</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V1.5</p>
   </div>
 
 <script>
@@ -136,6 +160,7 @@
   const pools = {
     surnames:['佐藤','鈴木','高橋','田中','伊藤','山本','中村','小林','加藤','吉田','山田','松本','井上','木村','清水','森','池田','橋本','阿志賀','杉田'],
     givenModern:['蓮','湊','悠真','陽翔','颯真','大翔','樹','蒼','律','新','陸','悠斗','隼太','亮太','聡介','光希','大輔','斗真'],
+    mbtis:['INTJ','INTP','ENTJ','ENTP','INFJ','INFP','ENFJ','ENFP','ISTJ','ISFJ','ESTJ','ESFJ','ISTP','ISFP','ESTP','ESFP'],
     ages:[20,21,22,23,24,25,26,27,28,29,30,31,32,35,38,40,42],
     nationalities:['日本','韓国','中国','台湾','アメリカ','カナダ','イギリス','フランス','ドイツ','イタリア','スペイン','ブラジル','メキシコ','タイ','ベトナム','フィリピン','インドネシア','マレーシア','インド','オーストラリア'],
     ethnicities:['日本人','韓国系','東アジア系','中国系','東南アジア系','南アジア系','白人系','黒人系','中東系','ラテン系','中央アジア系','ミックス'],
@@ -173,11 +198,13 @@
     qualities:['実写風','高精細','スマホスナップ風','写真館風','ファッションカタログ風','AI感を抑えた自然写真','商業写真風','雑誌グラビアではなく設定資料風','イラスト風','アニメ風イラスト','漫画風線画','キャラクター設定画風'],
     outputTypes:['前面・側面を1枚にまとめた設定画像','前面・側面・背面を1枚にまとめた設定画像','16:9リファレンスカード（全身前面・側面／顔正面・側面／足詳細）','SNSプロフィール風画像','就活写真風画像','スポーツ選手紹介風画像'],
     counts:['1枚','3パターン別々の画像','5パターン別々の画像','10パターン別々の画像'],
-    promptLanguages:['日本語','English']
+    promptLanguages:['日本語','English'],
+    promptTargets:['ChatGPT','NanobananaPro','Grok'],
+    captionModes:['表記しない','画像下部に1行で表記']
   };
 
   const slotDefs = [
-    ['name','名前','basic'],['age','年齢','basic'],['nationality','国籍','basic'],['ethnicity','人種','basic'],['role','役割','basic'],['vibe','雰囲気系統','basic'],
+    ['name','名前','basic'],['age','年齢','basic'],['nationality','国籍','basic'],['ethnicity','人種','basic'],['role','役割','basic'],['vibe','雰囲気系統','basic'],['mbti','MBTI','basic'],
     ['height','身長','body'],['weight','体重','body'],['bodyType','体型','body'],['footSize','足サイズ','body'],['footShape','足の形','body'],
     ['facePreset','顔立ち','face'],['ageAppearance','年齢感','face'],['faceLine','フェイスライン','face'],['eyes','目','face'],['tearBags','涙袋','face'],['nose','鼻','face'],['mouth','口','face'],['skin','肌','face'],['facialHair','ひげ','face'],
     ['hairStyle','髪型','hair'],['hairColor','髪色','hair'],
@@ -192,45 +219,45 @@
   let uiLang = 'ja';
 
   const slotLabelMap = {
-    name:{ja:'名前',en:'Name'}, age:{ja:'年齢',en:'Age'}, nationality:{ja:'国籍',en:'Nationality'}, ethnicity:{ja:'人種',en:'Ethnicity'}, role:{ja:'役割',en:'Role'}, vibe:{ja:'雰囲気系統',en:'Vibe'},
+    name:{ja:'名前',en:'Name'}, age:{ja:'年齢',en:'Age'}, nationality:{ja:'国籍',en:'Nationality'}, ethnicity:{ja:'人種',en:'Ethnicity'}, role:{ja:'役割',en:'Role'}, vibe:{ja:'雰囲気系統',en:'Vibe'}, mbti:{ja:'MBTI',en:'MBTI'},
     height:{ja:'身長',en:'Height'}, weight:{ja:'体重',en:'Weight'}, bodyType:{ja:'体型',en:'Body Type'}, footSize:{ja:'足サイズ',en:'Foot Size'}, footShape:{ja:'足の形',en:'Foot Shape'},
     facePreset:{ja:'顔立ち',en:'Face Type'}, ageAppearance:{ja:'年齢感',en:'Age Appearance'}, faceLine:{ja:'フェイスライン',en:'Face Line'}, eyes:{ja:'目',en:'Eyes'}, tearBags:{ja:'涙袋',en:'Tear Bags'}, nose:{ja:'鼻',en:'Nose'}, mouth:{ja:'口',en:'Mouth'}, skin:{ja:'肌',en:'Skin'}, facialHair:{ja:'ひげ',en:'Facial Hair'},
     hairStyle:{ja:'髪型',en:'Hairstyle'}, hairColor:{ja:'髪色',en:'Hair Color'}, outfitType:{ja:'提案服装',en:'Suggested Outfit'}, outfitBrand:{ja:'提案服装ブランド',en:'Outfit Brand'}, jacket:{ja:'上着',en:'Outerwear'}, top:{ja:'トップス',en:'Top'}, bottom:{ja:'ボトムス',en:'Bottom'}, boxerBrand:{ja:'下着ブランド',en:'Underwear Brand'}, shoes:{ja:'靴',en:'Shoes'}, sockBrand:{ja:'靴下ブランド',en:'Sock Brand'}, sockType:{ja:'靴下種類',en:'Sock Type'}, sockShape:{ja:'靴下形状',en:'Sock Shape'}, sockMaterial:{ja:'靴下素材',en:'Sock Material'}, sockColor:{ja:'靴下色・柄',en:'Sock Color / Pattern'}, sockUse:{ja:'靴下使用感',en:'Sock Condition'}
   };
   const fixedFieldLabelMap = {
-    age:{ja:'年齢固定',en:'Fixed Age'}, nationality:{ja:'国籍固定',en:'Fixed Nationality'}, ethnicity:{ja:'人種固定',en:'Fixed Ethnicity'}, bodyType:{ja:'体型固定',en:'Fixed Body Type'}, facePreset:{ja:'顔立ち固定',en:'Fixed Face Type'}, vibe:{ja:'雰囲気系統固定',en:'Fixed Vibe'}, outfitType:{ja:'服装固定',en:'Fixed Outfit'}
+    age:{ja:'年齢固定',en:'Fixed Age'}, nationality:{ja:'国籍固定',en:'Fixed Nationality'}, ethnicity:{ja:'人種固定',en:'Fixed Ethnicity'}, bodyType:{ja:'体型固定',en:'Fixed Body Type'}, facePreset:{ja:'顔立ち固定',en:'Fixed Face Type'}, vibe:{ja:'雰囲気系統固定',en:'Fixed Vibe'}, mbti:{ja:'MBTI固定',en:'Fixed MBTI'}, outfitType:{ja:'服装固定',en:'Fixed Outfit'}
   };
   const uiText = {
     ja:{
-      subtitle:'偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。',
+      subtitle:'偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・MBTI・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。',
       heroNotice:'成人男性キャラクターの非性的な画像生成用指示文を作成するアプリです。結果はブラウザ内に保存され、外部サーバーへ送信されません。',
       startBtn:'SLOT START', rerollUnlockedBtn:'ロック以外を回す', resetLocksBtn:'ロック解除',
       tab_slot:'スロット', tab_result:'結果・画像指示文', tab_history:'保存結果', tab_settings:'条件固定',
-      initialTitle:'初期設定', initialPill:'スロットを回す前に指定', initialNotice:'ここで国籍・人種・年齢範囲・雰囲気系統・背景・光・画質・出力タイプ・出力枚数を指定します。出力系は抽選せず、ここで選んだ内容が画像指示文へ反映されます。雰囲気系統を選ぶと、髪型・顔立ち・提案服装の抽選傾向が連動します。',
+      initialTitle:'初期設定', initialPill:'スロットを回す前に指定', initialNotice:'ここで国籍・人種・年齢範囲・雰囲気系統・背景・光・画質・出力タイプ・出力枚数・生成先・画像内表記を指定します。これらは抽選せず、ここで選んだ内容が画像指示文へ反映されます。雰囲気系統を選ぶと、髪型・顔立ち・提案服装の抽選傾向が連動します。',
       resultTitle:'完成プロフィール', saveBtn:'結果を保存', jsonBtn:'JSONを書き出す', promptTitle:'メイン画像用 指示文', copyPromptBtn:'メインをコピー', outfitTitle:'服装差分用 指示文', copyOutfitBtn:'服装案をコピー', sceneTitle:'偶然見かけた場面 指示文', copySceneBtn:'場面案をコピー',
       historyTitle:'保存結果', clearHistoryBtn:'履歴クリア', noHistory:'保存結果はまだありません。', loadBtn:'読み込む',
-      settingsTitle:'条件固定ランダム', settingsPill:'空欄はランダム', settingsNotice:'固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。',
+      settingsTitle:'条件固定ランダム', settingsPill:'空欄はランダム', settingsNotice:'固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。MBTIも固定可能です。背景・光・画質・出力タイプ・出力枚数・生成先・画像内表記は上部の初期設定または結果画面の選択欄で指定します。',
       slotResult:'Slot Result', waiting:'待機中', spinning:'回転中', done:'完成', lock:'LOCK', locked:'LOCKED', clickLock:'クリックで固定', rarityNoteIdle:'スロットを回すと判定されます。', rarityTitle:'Rarity', modesTitle:'Modes',
       mode_full:'完全ランダム', mode_face:'顔だけ', mode_outfit:'服装だけ', mode_rare:'レア設定', currentMode:'現在：', mode_full_note:'完全ランダム', mode_face_note:'顔だけランダム', mode_outfit_note:'服装だけランダム', mode_rare_note:'レア設定モード',
       saveFirst:'先にスロットを回してください。', saved:'保存しました。', copyMainDone:'メイン指示文をコピーしました。', copyOutfitDone:'服装差分指示文をコピーしました。', copySceneDone:'場面指示文をコピーしました。', confirmClear:'保存結果を削除しますか？',
-      rows:{name:'名前',age:'年齢',natEth:'国籍 / 人種',roleVibe:'役割 / 系統',hw:'身長 / 体重',body:'体型',foot:'足サイズ',face:'顔立ち',hair:'髪型',main:'メイン服装',outfit:'提案服装',sock:'提案靴下',background:'背景',output:'出力',scene:'偶然見かけた場面'},
-      fieldLabels:{initialNationality:'初期国籍',initialEthnicity:'初期人種',initialAgeMin:'年齢下限',initialAgeMax:'年齢上限',initialVibe:'雰囲気系統',initialBackground:'背景',initialLighting:'光',initialQuality:'画質・質感',initialOutputType:'出力タイプ',initialCount:'出力枚数',initialPromptLanguage:'指示文言語',manualOutputType:'出力タイプ',manualCount:'出力枚数',manualQuality:'画風・質感',manualBackground:'背景',manualLighting:'光',manualPromptLanguage:'指示文言語'},
+      rows:{name:'名前',age:'年齢',natEth:'国籍 / 人種',roleVibe:'役割 / 系統',mbti:'MBTI / 性格',hw:'身長 / 体重',body:'体型',foot:'足サイズ',face:'顔立ち',hair:'髪型',main:'メイン服装',outfit:'提案服装',sock:'提案靴下',background:'背景',output:'出力',promptTarget:'生成先',imageText:'画像内表記',scene:'偶然見かけた場面'},
+      fieldLabels:{initialNationality:'初期国籍',initialEthnicity:'初期人種',initialAgeMin:'年齢下限',initialAgeMax:'年齢上限',initialVibe:'雰囲気系統',initialBackground:'背景',initialLighting:'光',initialQuality:'画質・質感',initialOutputType:'出力タイプ',initialCount:'出力枚数',initialPromptLanguage:'指示文言語',initialPromptTarget:'生成先',initialCaptionMode:'画像内スペック表示',manualOutputType:'出力タイプ',manualCount:'出力枚数',manualQuality:'画風・質感',manualBackground:'背景',manualLighting:'光',manualPromptLanguage:'指示文言語',manualPromptTarget:'生成先',manualCaptionMode:'画像内スペック表示'},
       rarityNotes:{normal:'自然で使いやすい標準寄りの組み合わせです。',rare:'少し特徴的な組み合わせです。',super:'目立つ特徴が複数あります。',legend:'かなり個性的な偶然の組み合わせです。'}
     },
     en:{
-      subtitle:'A chance-based handsome character generator. Age, height, build, facial impression, vibe, and suggested outfit are decided like a slot machine. The main generation uses boxer briefs only, while outfit and candid-scene prompts are output separately.',
+      subtitle:'A chance-based handsome character generator. Age, height, build, facial impression, vibe, MBTI, and suggested outfit are decided like a slot machine. The main generation uses boxer briefs only, while outfit and candid-scene prompts are output separately.',
       heroNotice:'This app creates non-sexual image prompts for adult male characters. Results are stored in your browser and are not sent to an external server.',
       startBtn:'SLOT START', rerollUnlockedBtn:'Spin unlocked only', resetLocksBtn:'Reset locks',
       tab_slot:'Slots', tab_result:'Results & Prompts', tab_history:'Saved Results', tab_settings:'Fixed Conditions',
-      initialTitle:'Initial Settings', initialPill:'Set before spinning', initialNotice:'Set nationality, ethnicity, age range, vibe, background, lighting, quality, output type, and output count here. Output settings are not randomized and will be reflected directly in the image prompts. Choosing a vibe also influences hairstyle, face type, and suggested outfit generation.',
+      initialTitle:'Initial Settings', initialPill:'Set before spinning', initialNotice:'Set nationality, ethnicity, age range, vibe, background, lighting, quality, output type, output count, prompt target, and image text here. These settings are not randomized and will be reflected directly in the image prompts. Choosing a vibe also influences hairstyle, face type, and suggested outfit generation.',
       resultTitle:'Final Profile', saveBtn:'Save Result', jsonBtn:'Export JSON', promptTitle:'Main Image Prompt', copyPromptBtn:'Copy Main Prompt', outfitTitle:'Outfit Variation Prompt', copyOutfitBtn:'Copy Outfit Prompt', sceneTitle:'Candid Encounter Prompt', copySceneBtn:'Copy Scene Prompt',
       historyTitle:'Saved Results', clearHistoryBtn:'Clear History', noHistory:'No saved results yet.', loadBtn:'Load',
-      settingsTitle:'Random with Fixed Conditions', settingsPill:'Blank = random', settingsNotice:'If you press “SLOT START” after setting fixed conditions, the selected character and outfit items will be prioritized during random generation. Background, lighting, quality, output type, and output count are set in the initial settings or in the result panel.',
+      settingsTitle:'Random with Fixed Conditions', settingsPill:'Blank = random', settingsNotice:'If you press “SLOT START” after setting fixed conditions, the selected character and outfit items will be prioritized during random generation. MBTI can also be fixed. Background, lighting, quality, output type, output count, prompt target, and image text are set in the initial settings or in the result panel.',
       slotResult:'Slot Result', waiting:'Waiting', spinning:'Spinning', done:'Done', lock:'LOCK', locked:'LOCKED', clickLock:'click to lock', rarityNoteIdle:'Spin the slots to evaluate.', rarityTitle:'Rarity', modesTitle:'Modes',
       mode_full:'Full Random', mode_face:'Face Only', mode_outfit:'Outfit Only', mode_rare:'Rare Mode', currentMode:'Current: ', mode_full_note:'Full random', mode_face_note:'Face-only random', mode_outfit_note:'Outfit-only random', mode_rare_note:'Rare-mode random',
       saveFirst:'Please spin the slots first.', saved:'Saved.', copyMainDone:'Copied the main prompt.', copyOutfitDone:'Copied the outfit prompt.', copySceneDone:'Copied the scene prompt.', confirmClear:'Clear saved results?',
       rows:{name:'Name',age:'Age',natEth:'Nationality / Ethnicity',roleVibe:'Role / Vibe',hw:'Height / Weight',body:'Body Type',foot:'Foot Size',face:'Face',hair:'Hair',main:'Main Clothing',outfit:'Suggested Outfit',sock:'Suggested Socks',background:'Background',output:'Output',scene:'Candid Scene'},
-      fieldLabels:{initialNationality:'Initial Nationality',initialEthnicity:'Initial Ethnicity',initialAgeMin:'Age Min',initialAgeMax:'Age Max',initialVibe:'Vibe',initialBackground:'Background',initialLighting:'Lighting',initialQuality:'Quality / Texture',initialOutputType:'Output Type',initialCount:'Output Count',initialPromptLanguage:'Prompt Language',manualOutputType:'Output Type',manualCount:'Output Count',manualQuality:'Art / Texture',manualBackground:'Background',manualLighting:'Lighting',manualPromptLanguage:'Prompt Language'},
+      fieldLabels:{initialNationality:'Initial Nationality',initialEthnicity:'Initial Ethnicity',initialAgeMin:'Age Min',initialAgeMax:'Age Max',initialVibe:'Vibe',initialBackground:'Background',initialLighting:'Lighting',initialQuality:'Quality / Texture',initialOutputType:'Output Type',initialCount:'Output Count',initialPromptLanguage:'Prompt Language',initialPromptTarget:'Prompt Target',initialCaptionMode:'Image Text',manualOutputType:'Output Type',manualCount:'Output Count',manualQuality:'Art / Texture',manualBackground:'Background',manualLighting:'Lighting',manualPromptLanguage:'Prompt Language',manualPromptTarget:'Prompt Target',manualCaptionMode:'Image Text'},
       rarityNotes:{normal:'A natural and versatile combination.',rare:'A slightly distinctive combination.',super:'Several standout features are present.',legend:'A highly distinctive chance-based combination.'}
     }
   };
@@ -298,6 +325,7 @@
   };
   function displayValue(key, value){
     if(value===undefined || value===null) return value;
+    if(key==='captionMode') return captionModeDisplay(value);
     if(uiLang!=='en') return value;
     if(key==='age') return `${value} years old`;
     if(key==='sceneIdea') return sceneTranslations[String(value)] || value;
@@ -305,6 +333,7 @@
   }
 
   function displayOptionLabel(key, value){
+    if(key==='captionMode') return captionModeDisplay(value);
     if(uiLang!=='en'){
       if(key==='age') return `${value}歳`;
       return value;
@@ -321,6 +350,99 @@
     if(match!==undefined) selectEl.value = String(match);
     else if(items.length) selectEl.value = String(items[0]);
   }
+
+  const captionFieldLabelMap = {
+    name:{ja:'氏名',en:'Name'}, height:{ja:'身長',en:'Height'}, weight:{ja:'体重',en:'Weight'}, footSize:{ja:'足のサイズ',en:'Foot Size'}, mbti:{ja:'MBTI・性格',en:'MBTI / Personality'}
+  };
+  function mbtiDescription(code, english=false){
+    const ja = {
+      INTJ:'戦略的で独立心が強い', INTP:'論理的で探究心が強い', ENTJ:'決断力がありリーダー気質', ENTP:'発想力豊かで刺激を好む',
+      INFJ:'理想志向で思慮深い', INFP:'感受性が高くマイペース', ENFJ:'面倒見がよく社交的', ENFP:'明るく自由なムードメーカー',
+      ISTJ:'誠実で安定感がある', ISFJ:'穏やかで気配り上手', ESTJ:'現実的で頼れる', ESFJ:'協調性が高く親しみやすい',
+      ISTP:'寡黙で実践的', ISFP:'自然体で柔らかい', ESTP:'行動的でノリが良い', ESFP:'華やかで人懐っこい'
+    };
+    const en = {
+      INTJ:'strategic and independent', INTP:'logical and curious', ENTJ:'decisive natural leader', ENTP:'inventive and stimulation-seeking',
+      INFJ:'idealistic and thoughtful', INFP:'sensitive and easygoing', ENFJ:'social and supportive', ENFP:'bright and free-spirited',
+      ISTJ:'sincere and steady', ISFJ:'gentle and attentive', ESTJ:'practical and dependable', ESFJ:'friendly and cooperative',
+      ISTP:'quiet and hands-on', ISFP:'soft and natural', ESTP:'action-oriented and upbeat', ESFP:'charismatic and approachable'
+    };
+    return (english?en:ja)[code] || code;
+  }
+  function mbtiDisplay(c){
+    if(!c?.mbti) return '';
+    return `${c.mbti} / ${mbtiDescription(c.mbti, uiLang==='en')}`;
+  }
+  function captionModeDisplay(mode){
+    if(uiLang!=='en') return mode || '表記しない';
+    return (mode==='画像下部に1行で表記') ? 'One-line footer text' : 'No text overlay';
+  }
+  function getCaptionFieldLabelsArray(c, english=false){
+    const labels = [];
+    const fields = c?.captionFields || {name:true,height:true,weight:true,footSize:true,mbti:true};
+    if(fields.name) labels.push(english?'Name':'氏名');
+    if(fields.height) labels.push(english?'Height':'身長');
+    if(fields.weight) labels.push(english?'Weight':'体重');
+    if(fields.footSize) labels.push(english?'Foot Size':'足のサイズ');
+    if(fields.mbti) labels.push(english?'MBTI / Personality':'MBTI・性格');
+    return labels;
+  }
+  function buildCaptionLine(c, english=false){
+    const parts = [];
+    const fields = c?.captionFields || {name:true,height:true,weight:true,footSize:true,mbti:true};
+    if(fields.name) parts.push(english ? `Name: ${c.name}` : `氏名：${c.name}`);
+    if(fields.height) parts.push(english ? `Height: ${c.height}` : `身長：${c.height}`);
+    if(fields.weight) parts.push(english ? `Weight: ${c.weight}` : `体重：${c.weight}`);
+    if(fields.footSize) parts.push(english ? `Foot Size: ${c.footSize}` : `足のサイズ：${c.footSize}`);
+    if(fields.mbti) parts.push(english ? `MBTI: ${c.mbti} (${mbtiDescription(c.mbti, true)})` : `MBTI：${c.mbti}（${mbtiDescription(c.mbti, false)}）`);
+    return parts.join(' / ');
+  }
+  function buildCaptionInstruction(c, english=false){
+    if(!c || c.captionMode!=='画像下部に1行で表記'){
+      return english ? 'Do not add any extra text inside the image.' : '画像内に追加の文字情報は入れない。';
+    }
+    const labelsArr = getCaptionFieldLabelsArray(c, english);
+    if(!labelsArr.length){
+      return english ? 'Do not add any extra text inside the image.' : '画像内に追加の文字情報は入れない。';
+    }
+    const labels = labelsArr.join(', ');
+    const sample = buildCaptionLine(c, english);
+    if(english) return `Add a clean single line of small readable text at the bottom of the image. Include: ${labels}. Use accurate text like: "${sample}".`;
+    return `画像下部に、小さく読みやすい1行の文字情報を入れる。記載項目は${labels}。例として「${sample}」のように正確に表記する。`;
+  }
+  function promptTargetGuide(c, english=false){
+    const target = c?.promptTarget || 'ChatGPT';
+    if(english){
+      if(target==='NanobananaPro') return 'Optimize the prompt for NanobananaPro with especially clear identity consistency, balanced full-body proportions, and accurate text rendering.';
+      if(target==='Grok') return 'Optimize the prompt for Grok with concise but explicit priorities, strong realism, and natural anatomy.';
+      return 'Optimize the prompt for ChatGPT image generation with faithful instruction following, clear attribute reflection, and accurate text rendering when text is requested.';
+    }
+    if(target==='NanobananaPro') return 'NanobananaPro向けに、同一人物性、全身バランス、文字表記の正確さが安定するように明確に指示する。';
+    if(target==='Grok') return 'Grok向けに、重要要素を簡潔かつ明確に優先し、写実性と自然な人体バランスを重視する。';
+    return 'ChatGPT向けに、設定項目を忠実に反映し、属性と文字表記を正確に生成できるよう明確に指示する。';
+  }
+  function outfitStyleGuide(c, english=false){
+    if(english) return 'Make the suggested outfit stylish, cohesive, and clearly suited to his vibe, nationality, and age. Keep the silhouette and color balance polished.';
+    return '提案服装は人物の雰囲気、国籍、年齢に合ったスタイリッシュで統一感のあるコーディネートにする。シルエットと配色のまとまりも良くする。';
+  }
+  function setCaptionCheckboxLabels(){
+    document.querySelectorAll('[data-caption-label]').forEach(el=>{
+      const key = el.dataset.captionLabel;
+      const map = captionFieldLabelMap[key];
+      if(map) el.textContent = uiLang==='en' ? map.en : map.ja;
+    });
+    const i=document.getElementById('initialCaptionFieldsLabel'); if(i) i.textContent = uiLang==='en' ? 'Image text fields' : '画像内に表示する項目';
+    const m=document.getElementById('manualCaptionFieldsLabel'); if(m) m.textContent = uiLang==='en' ? 'Image text fields' : '画像内に表示する項目';
+  }
+  function readCaptionFields(scope){
+    const fields = {name:false,height:false,weight:false,footSize:false,mbti:false};
+    document.querySelectorAll(`[data-caption-scope="${scope}"]`).forEach(el=>{ fields[el.dataset.captionField] = !!el.checked; });
+    return fields;
+  }
+  function writeCaptionFields(scope, fields){
+    const f = fields || {name:true,height:true,weight:true,footSize:true,mbti:true};
+    document.querySelectorAll(`[data-caption-scope="${scope}"]`).forEach(el=>{ el.checked = f[el.dataset.captionField] !== false; });
+  }
   function setFieldLabel(selectId, text){ const el=document.getElementById(selectId); const span=el?.parentElement?.querySelector('span'); if(span) span.textContent=text; }
   function updateModeNote(){
     const m={full:T('mode_full_note'), face:T('mode_face_note'), outfit:T('mode_outfit_note'), rare:T('mode_rare_note')};
@@ -328,8 +450,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V1.4';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V1.4';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V1.5';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V1.5';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -363,6 +485,7 @@
     const setNotice=document.querySelector('#tab-settings .notice'); if(setNotice) setNotice.textContent=T('settingsNotice');
     Object.entries(T('fieldLabels')).forEach(([id,label])=>setFieldLabel(id,label));
     const makerLabel=document.getElementById('makerLanguageLabel'); if(makerLabel) makerLabel.textContent = uiLang==='ja' ? 'メーカー言語 / App Language' : 'App Language / メーカー言語';
+    setCaptionCheckboxLabels();
     initSlots();
     initFixedForm();
     initManualControls();
@@ -381,13 +504,17 @@
     const light = document.getElementById('manualLighting');
     const count = document.getElementById('manualCount');
     const lang = document.getElementById('manualPromptLanguage');
+    const target = document.getElementById('manualPromptTarget');
+    const caption = document.getElementById('manualCaptionMode');
     const selected = {
       out: current?.outputType || out?.value || pools.outputTypes[0],
       qual: current?.quality || qual?.value || pools.qualities[0],
       bg: current?.background || bg?.value || pools.backgrounds[0],
       light: current?.lighting || light?.value || pools.lighting[0],
       count: current?.count || count?.value || pools.counts[0],
-      lang: current?.promptLanguage || lang?.value || pools.promptLanguages[0]
+      lang: current?.promptLanguage || lang?.value || pools.promptLanguages[0],
+      target: current?.promptTarget || target?.value || pools.promptTargets[0],
+      caption: current?.captionMode || caption?.value || pools.captionModes[0]
     };
     renderSelectOptions(out, 'outputType', pools.outputTypes, selected.out, false);
     renderSelectOptions(qual, 'quality', pools.qualities, selected.qual, false);
@@ -395,12 +522,18 @@
     renderSelectOptions(light, 'lighting', pools.lighting, selected.light, false);
     renderSelectOptions(count, 'count', pools.counts, selected.count, false);
     renderSelectOptions(lang, 'promptLanguage', pools.promptLanguages, selected.lang, false);
+    renderSelectOptions(target, 'promptTarget', pools.promptTargets, selected.target, false);
+    renderSelectOptions(caption, 'captionMode', pools.captionModes, selected.caption, false);
+    writeCaptionFields('manual', current?.captionFields || readCaptionFields('initial'));
     if(out) out.onchange = () => { if(current){ current.outputType = out.value; renderAll(); } };
     if(qual) qual.onchange = () => { if(current){ current.quality = qual.value; renderAll(); } };
     if(bg) bg.onchange = () => { if(current){ current.background = bg.value; renderAll(); } };
     if(light) light.onchange = () => { if(current){ current.lighting = light.value; renderAll(); } };
     if(count) count.onchange = () => { if(current){ current.count = count.value; renderAll(); } };
     if(lang) lang.onchange = () => { if(current){ current.promptLanguage = lang.value; renderAll(); } };
+    if(target) target.onchange = () => { if(current){ current.promptTarget = target.value; renderAll(); } };
+    if(caption) caption.onchange = () => { if(current){ current.captionMode = caption.value; renderAll(); } };
+    document.querySelectorAll('[data-caption-scope="manual"]').forEach(el=>{ el.onchange = () => { if(current){ current.captionFields = readCaptionFields('manual'); renderAll(); } }; });
   }
 
   function initInitialSettings(){
@@ -415,10 +548,13 @@
     const out = document.getElementById('initialOutputType');
     const count = document.getElementById('initialCount');
     const promptLang = document.getElementById('initialPromptLanguage');
+    const target = document.getElementById('initialPromptTarget');
+    const caption = document.getElementById('initialCaptionMode');
     const selected = {
       nat: nat?.value || '日本', eth: eth?.value || '日本人', ageMin: ageMin?.value || '20', ageMax: ageMax?.value || '32', vibe: vibe?.value || 'ランダム',
       bg: bg?.value || 'シンプルなグレーバック', light: light?.value || '自然光。明るく清潔感がある。', qual: qual?.value || '実写風',
-      out: out?.value || '16:9リファレンスカード（全身前面・側面／顔正面・側面／足詳細）', count: count?.value || '1枚', lang: promptLang?.value || '日本語'
+      out: out?.value || '16:9リファレンスカード（全身前面・側面／顔正面・側面／足詳細）', count: count?.value || '1枚', lang: promptLang?.value || '日本語',
+      target: target?.value || 'ChatGPT', caption: caption?.value || '表記しない'
     };
     renderSelectOptions(nat, 'nationality', pools.nationalities, selected.nat, true);
     renderSelectOptions(eth, 'ethnicity', pools.ethnicities, selected.eth, true);
@@ -431,6 +567,9 @@
     renderSelectOptions(out, 'outputType', pools.outputTypes, selected.out, false);
     renderSelectOptions(count, 'count', pools.counts, selected.count, false);
     renderSelectOptions(promptLang, 'promptLanguage', pools.promptLanguages, selected.lang, false);
+    renderSelectOptions(target, 'promptTarget', pools.promptTargets, selected.target, false);
+    renderSelectOptions(caption, 'captionMode', pools.captionModes, selected.caption, false);
+    writeCaptionFields('initial', readCaptionFields('initial'));
   }
 
   function getInitial(){
@@ -450,7 +589,10 @@
       quality: document.getElementById('initialQuality')?.value || pools.qualities[0],
       outputType: document.getElementById('initialOutputType')?.value || pools.outputTypes[0],
       count: document.getElementById('initialCount')?.value || pools.counts[0],
-      promptLanguage: document.getElementById('initialPromptLanguage')?.value || pools.promptLanguages[0]
+      promptLanguage: document.getElementById('initialPromptLanguage')?.value || pools.promptLanguages[0],
+      promptTarget: document.getElementById('initialPromptTarget')?.value || pools.promptTargets[0],
+      captionMode: document.getElementById('initialCaptionMode')?.value || pools.captionModes[0],
+      captionFields: readCaptionFields('initial')
     };
   }
 
@@ -502,6 +644,7 @@
       ['bodyType','体型固定', pools.bodyTypes],
       ['facePreset','顔立ち固定', pools.facePresets],
       ['vibe','雰囲気系統固定', pools.vibes.filter(v=>v!=='ランダム')],
+      ['mbti','MBTI固定', pools.mbtis],
       ['outfitType','服装固定', pools.outfitTypes]
     ];
     const selected = {};
@@ -788,10 +931,12 @@
     const hairStyle = base.hairStyle || (profile ? weighted(profile.hairStyles) : pick(pools.hairStyles));
     const hairColor = base.hairColor || ethnicFace.hairColor || (profile ? weighted(profile.hairColors) : pick(pools.hairColors));
     const role = base.role || chooseRole(age, vibe);
+    const mbti = fixed.mbti || base.mbti || pick(pools.mbtis);
     const c = {
       id: uniqId(),
       name: base.name || nameByNationality(nationality),
       age, nationality, ethnicity, vibe,
+      mbti,
       role,
       heightRaw: height,
       height: `${height}cm`, weight: `${weight}kg`, bodyType,
@@ -807,17 +952,23 @@
         boxerBrand: base.boxerBrand || pick(pools.boxerBrands), boxerColor: base.boxerColor || pick(pools.boxerColors),
         shoes: base.shoes || coord.shoes, sockBrand: base.sockBrand || coord.sockBrand, sockType: base.sockType || coord.sockType, sockShape: base.sockShape || coord.sockShape, sockMaterial: base.sockMaterial || coord.sockMaterial, sockColor: base.sockColor || coord.sockColor, sockUse: base.sockUse || coord.sockUse
       };})(),
-      background: initial.background, lighting: initial.lighting, quality: initial.quality, outputType: initial.outputType, count: initial.count, promptLanguage: initial.promptLanguage || '日本語',
+      personality: mbtiDescription(mbti, false),
+      background: initial.background, lighting: initial.lighting, quality: initial.quality, outputType: initial.outputType, count: initial.count, promptLanguage: initial.promptLanguage || '日本語', promptTarget: initial.promptTarget || 'ChatGPT', captionMode: initial.captionMode || '表記しない', captionFields: initial.captionFields || {name:true,height:true,weight:true,footSize:true,mbti:true},
       sceneIdea: buildEncounterScene({role, outfitType, vibe, nationality, ethnicity}),
       createdAt: new Date().toISOString()
     };
     if(partialMode==='face' && current){ Object.assign(c, current, {id:uniqId(), nationality:c.nationality, ethnicity:c.ethnicity, vibe:c.vibe, name:nameByNationality(c.nationality), role:c.role, facePreset:c.facePreset, ageAppearance:c.ageAppearance, faceLine:c.faceLine, eyes:c.eyes, tearBags:c.tearBags, nose:c.nose, mouth:c.mouth, skin:c.skin, facialHair:c.facialHair, hairStyle:c.hairStyle, hairColor:c.hairColor, sceneIdea:buildEncounterScene({role:c.role, outfitType:current.outfitType, vibe:c.vibe, nationality:c.nationality, ethnicity:c.ethnicity}), createdAt:new Date().toISOString()}); }
     if(partialMode==='outfit' && current){ Object.assign(c, current, {id:uniqId(), nationality:c.nationality, ethnicity:c.ethnicity, vibe:c.vibe, name:nameByNationality(c.nationality), role:c.role, outfitType:c.outfitType,outfitBrand:c.outfitBrand,jacket:c.jacket,top:c.top,bottom:c.bottom,boxerBrand:c.boxerBrand,boxerColor:c.boxerColor,shoes:c.shoes,sockBrand:c.sockBrand,sockType:c.sockType,sockShape:c.sockShape,sockMaterial:c.sockMaterial,sockColor:c.sockColor,sockUse:c.sockUse,sceneIdea:buildEncounterScene({role:c.role, outfitType:c.outfitType, vibe:c.vibe, nationality:c.nationality, ethnicity:c.ethnicity}), createdAt:new Date().toISOString()}); }
     Object.keys(locks).forEach(k=>{ if(locks[k] && current && current[k]!==undefined) c[k]=current[k]; });
+    c.personality = mbtiDescription(c.mbti, false);
     return c;
   }
 
-  function slotValue(c,key){ return c ? String(displayValue(key, c[key]) ?? '？？？') : '？？？'; }
+  function slotValue(c,key){
+    if(!c) return '？？？';
+    if(key==='mbti') return mbtiDisplay(c);
+    return String(displayValue(key, c[key]) ?? '？？？');
+  }
   function renderSlots(c, revealAll=true){
     slotDefs.forEach(([key,label])=>{
       const el = document.getElementById('slot-'+key); if(!el) return;
@@ -828,7 +979,7 @@
     });
   }
   function randomPreview(key){
-    const map = {age:pools.ages, height:['168cm','172cm','175cm','181cm','188cm'], weight:['58kg','65kg','72kg','80kg'], footSize:['26cm','27.5cm','28.5cm','30cm']};
+    const map = {age:pools.ages, mbti:pools.mbtis, height:['168cm','172cm','175cm','181cm','188cm'], weight:['58kg','65kg','72kg','80kg'], footSize:['26cm','27.5cm','28.5cm','30cm']};
     const arr = map[key] || pools[key+'s'] || pools[key] || ['???','GUZEN','SLOT'];
     return String(displayValue(key, pick(arr)));
   }
@@ -879,55 +1030,85 @@
     if(!c) return '';
     const adultUniformJa = c.outfitType.includes('学生服') ? '学生服は成人男性キャラクターが着る制服風衣装として扱い、未成年に見えないようにする。' : '';
     const adultUniformEn = c.outfitType.includes('学生服') ? 'Treat the school uniform as a uniform-inspired outfit worn by an adult male character, and make sure he does not look underage.' : '';
+    const capJa = buildCaptionInstruction(c, false);
+    const capEn = buildCaptionInstruction(c, true);
+    const targetJa = promptTargetGuide(c, false);
+    const targetEn = promptTargetGuide(c, true);
+    const styleJa = outfitStyleGuide(c, false);
+    const styleEn = outfitStyleGuide(c, true);
     if(isEnglish(c)){
       return `Draw the adult male character "${c.name}" as the same person in an outfit variation.
 
-Preserve the character's identity. He is ${c.age} years old, ${c.nationality}, ${c.ethnicity}. His vibe is ${c.vibe}. His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. Height ${c.height}, weight ${c.weight}, body type ${c.bodyType}. Hair is ${c.hairColor} ${c.hairStyle}.
+Preserve the character's identity. He is ${c.age} years old, ${c.nationality}, ${c.ethnicity}. His vibe is ${c.vibe}. MBTI: ${c.mbti} (${mbtiDescription(c.mbti, true)}). His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. Height ${c.height}, weight ${c.weight}, body type ${c.bodyType}. Hair is ${c.hairColor} ${c.hairStyle}.
 
 Base the outfit on ${c.outfitBrand} ${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.
 
+${styleEn}
 ${adultUniformEn}
-Make the top, bottom, shoes, and socks work together naturally. Do not mix formal, school uniform, sportswear, and casual elements in an unnatural way. Background: ${c.background}. Lighting: ${c.lighting}. Visual style: ${enQuality(c.quality)}. Depict him in a natural standing pose as a non-sexual fashion variation. Keep the same face, body proportions, height impression, and hairstyle.`;
+Make the top, bottom, shoes, and socks work together naturally. Do not mix formal, school uniform, sportswear, and casual elements in an unnatural way. Background: ${c.background}. Lighting: ${c.lighting}. Visual style: ${enQuality(c.quality)}. Depict him in a natural standing pose as a non-sexual fashion variation. Keep the same face, body proportions, height impression, and hairstyle.
+
+${capEn}
+${targetEn}`;
     }
     return `成人男性キャラクター「${c.name}」を、同一人物の服装差分として描写する。
 
-人物の特徴は維持する。${c.age}歳、${c.nationality}、${c.ethnicity}。雰囲気は${c.vibe}。顔立ちは${c.facePreset}、年齢感は${c.ageAppearance}。身長${c.height}、体重${c.weight}、体型は${c.bodyType}。髪は${c.hairColor}の${c.hairStyle}。
+人物の特徴は維持する。${c.age}歳、${c.nationality}、${c.ethnicity}。雰囲気は${c.vibe}。MBTIは${c.mbti}で、性格は${mbtiDescription(c.mbti,false)}。顔立ちは${c.facePreset}、年齢感は${c.ageAppearance}。身長${c.height}、体重${c.weight}、体型は${c.bodyType}。髪は${c.hairColor}の${c.hairStyle}。
 
 服装は${c.outfitBrand}の${c.outfitType}を基調にする。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}。靴下は${c.sockBrand}の${c.sockType}で、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。
 
+${styleJa}
 ${adultUniformJa}
-トップス、ボトムス、靴、靴下の用途が一致した自然なコーディネートにする。フォーマル、学生服、スポーツ、カジュアルが不自然に混ざらないようにする。背景は${c.background}、光は${c.lighting}、質感は${c.quality}。非性的なファッション差分として、自然な立ち姿で描写する。元の顔立ち、体型、身長感、髪型を変えない。`;
+トップス、ボトムス、靴、靴下の用途が一致した自然なコーディネートにする。フォーマル、学生服、スポーツ、カジュアルが不自然に混ざらないようにする。背景は${c.background}、光は${c.lighting}、質感は${c.quality}。非性的なファッション差分として、自然な立ち姿で描写する。元の顔立ち、体型、身長感、髪型を変えない。
+
+${capJa}
+${targetJa}`;
   }
 
   function buildScenePrompt(c){
     if(!c) return '';
     const scene = c.sceneIdea || buildEncounterScene(c);
+    const capJa = buildCaptionInstruction(c, false);
+    const capEn = buildCaptionInstruction(c, true);
+    const targetJa = promptTargetGuide(c, false);
+    const targetEn = promptTargetGuide(c, true);
+    const styleJa = outfitStyleGuide(c, false);
+    const styleEn = outfitStyleGuide(c, true);
     if(isEnglish(c)){
       return `Draw the adult male character "${c.name}" in a natural everyday scene where he is casually spotted by chance.
 
-Scene: "${scene}". He is ${c.age} years old, ${c.nationality}, ${c.ethnicity}. His role is ${c.role}, and his vibe is ${c.vibe}. His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. Height ${c.height}, weight ${c.weight}, body type ${c.bodyType}. Hair is ${c.hairColor} ${c.hairStyle}.
+Scene: "${scene}". He is ${c.age} years old, ${c.nationality}, ${c.ethnicity}. His role is ${c.role}, his vibe is ${c.vibe}, and his MBTI is ${c.mbti} (${mbtiDescription(c.mbti,true)}). His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. Height ${c.height}, weight ${c.weight}, body type ${c.bodyType}. Hair is ${c.hairColor} ${c.hairStyle}.
 
-Use natural everyday clothing that fits the character and the scene, or clothing aligned with the suggested outfit direction. Base the background on ${c.background}, use ${c.lighting}, and render it in ${enQuality(c.quality)}. Avoid an overly direct camera-facing pose; make it feel like a naturally observed moment in a street or facility setting.
+Use natural everyday clothing that fits the character and the scene, or clothing aligned with the suggested outfit direction. ${styleEn} Base the background on ${c.background}, use ${c.lighting}, and render it in ${enQuality(c.quality)}. Avoid an overly direct camera-facing pose; make it feel like a naturally observed moment in a street or facility setting.
 
-Keep it non-sexual and candid, with a natural standing, walking, or relaxed posture. Preserve the same face, body proportions, height impression, and hairstyle as the same character.`;
+Keep it non-sexual and candid, with a natural standing, walking, or relaxed posture. Preserve the same face, body proportions, height impression, and hairstyle as the same character.
+
+${capEn}
+${targetEn}`;
     }
     return `成人男性キャラクター「${c.name}」を、日常の中で偶然見かけた自然な場面として描写する。
 
-場面は「${scene}」。${c.age}歳、${c.nationality}、${c.ethnicity}。役割は${c.role}、雰囲気は${c.vibe}。顔立ちは${c.facePreset}、年齢感は${c.ageAppearance}。身長${c.height}、体重${c.weight}、体型は${c.bodyType}。髪は${c.hairColor}の${c.hairStyle}。
+場面は「${scene}」。${c.age}歳、${c.nationality}、${c.ethnicity}。役割は${c.role}、雰囲気は${c.vibe}、MBTIは${c.mbti}、性格は${mbtiDescription(c.mbti,false)}。顔立ちは${c.facePreset}、年齢感は${c.ageAppearance}。身長${c.height}、体重${c.weight}、体型は${c.bodyType}。髪は${c.hairColor}の${c.hairStyle}。
 
-服装は人物像と場面に合う自然な私服、または提案服装の方向性に合わせる。背景は${c.background}を基調にし、光は${c.lighting}、質感は${c.quality}。カメラ目線にしすぎず、街中や施設内でふと見かけたような自然な距離感にする。
+服装は人物像と場面に合う自然な私服、または提案服装の方向性に合わせる。${styleJa} 背景は${c.background}を基調にし、光は${c.lighting}、質感は${c.quality}。カメラ目線にしすぎず、街中や施設内でふと見かけたような自然な距離感にする。
 
-作り込みすぎない日常スナップ風。非性的で、自然な立ち姿、歩き姿、たたずまいを描写する。顔立ち、体型、身長感、髪型は同一人物として保つ。`;
+作り込みすぎない日常スナップ風。非性的で、自然な立ち姿、歩き姿、たたずまいを描写する。顔立ち、体型、身長感、髪型は同一人物として保つ。
+
+${capJa}
+${targetJa}`;
   }
 
   function buildPrompt(c){
     if(!c) return '';
     const outputJa = c.outputType.includes('16:9') ? '16:9のリファレンスカード。全身の前面と側面、顔の正面と側面、体型バランスが分かる構成にする。各ビューは同一人物として顔立ち、体型、身長感を一致させる。' : `${c.outputType}。`;
     const outputEn = c.outputType.includes('16:9') ? 'Create a 16:9 reference card that shows the full-body front and side views, the face front and side views, and a layout that makes the body balance clear. Keep every view clearly the same person.' : `Create ${enOutputType(c.outputType)}.`;
+    const capJa = buildCaptionInstruction(c, false);
+    const capEn = buildCaptionInstruction(c, true);
+    const targetJa = promptTargetGuide(c, false);
+    const targetEn = promptTargetGuide(c, true);
     if(isEnglish(c)){
       return `Create a non-sexual full-body image of the adult male character "${c.name}".
 
-He is ${c.age} years old, ${c.nationality}, ${c.ethnicity}. His role is ${c.role}. His overall vibe is ${c.vibe}. His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. His face line is ${c.faceLine}. Eyes: ${c.eyes}. Tear bags: ${c.tearBags}. Nose: ${c.nose}. Mouth: ${c.mouth}. Skin: ${c.skin}. Facial hair: ${c.facialHair}. Hair: ${c.hairColor} ${c.hairStyle}.
+He is ${c.age} years old, ${c.nationality}, ${c.ethnicity}. His role is ${c.role}. His overall vibe is ${c.vibe}. MBTI: ${c.mbti} (${c.personality || mbtiDescription(c.mbti,true)}). His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. His face line is ${c.faceLine}. Eyes: ${c.eyes}. Tear bags: ${c.tearBags}. Nose: ${c.nose}. Mouth: ${c.mouth}. Skin: ${c.skin}. Facial hair: ${c.facialHair}. Hair: ${c.hairColor} ${c.hairStyle}.
 
 Height ${c.height}, weight ${c.weight}, body type ${c.bodyType}. Foot size ${c.footSize}, foot shape ${c.footShape}. Use a natural standing pose that makes the balance of height, weight, and foot size easy to understand.
 
@@ -936,11 +1117,14 @@ The main clothing is only ${c.boxerBrand&&c.boxerBrand!=='指定しない'?`${c.
 ${outputEn}
 Create ${enCount(c.count)}. Background: ${c.background}. Lighting: ${c.lighting}. Visual quality/style: ${enQuality(c.quality)}.
 
+${capEn}
+${targetEn}
+
 Avoid: making him look underage, sexual poses, excessive body emphasis, emphasis on genitals, excessive close-ups of soles or toes, unnatural AI-looking skin, changing him into a different person, broken text, or mixing in outerwear, tops, bottoms, shoes, or socks.`;
     }
     return `成人男性キャラクター「${c.name}」の非性的な全身画像を作成する。
 
-${c.age}歳、${c.nationality}、${c.ethnicity}。役割は${c.role}。雰囲気は${c.vibe}。顔立ちは${c.facePreset}で、年齢感は${c.ageAppearance}。フェイスラインは${c.faceLine}。目は${c.eyes}、涙袋は${c.tearBags}。鼻は${c.nose}。口元は${c.mouth}。肌は${c.skin}。ひげは${c.facialHair}。髪は${c.hairColor}の${c.hairStyle}。
+${c.age}歳、${c.nationality}、${c.ethnicity}。役割は${c.role}。雰囲気は${c.vibe}。MBTIは${c.mbti}で、性格は${mbtiDescription(c.mbti,false)}。顔立ちは${c.facePreset}で、年齢感は${c.ageAppearance}。フェイスラインは${c.faceLine}。目は${c.eyes}、涙袋は${c.tearBags}。鼻は${c.nose}。口元は${c.mouth}。肌は${c.skin}。ひげは${c.facialHair}。髪は${c.hairColor}の${c.hairStyle}。
 
 身長${c.height}、体重${c.weight}、体型は${c.bodyType}。足のサイズは${c.footSize}、足の形は${c.footShape}。身長、体重、足サイズのバランスが自然に分かる直立姿勢にする。
 
@@ -949,19 +1133,44 @@ ${c.age}歳、${c.nationality}、${c.ethnicity}。役割は${c.role}。雰囲気
 ${outputJa}
 ${c.count}を作成する。背景は${c.background}。光は${c.lighting}。画質・質感は${c.quality}。
 
+${capJa}
+${targetJa}
+
 避けること：未成年に見える表現、性的なポーズ、過度な身体強調、局部の強調、足裏や足指の過度な接写、AIっぽい肌、別人化、文字崩れ、上着・トップス・ボトムス・靴・靴下の混入。`;
   }
 
   function renderProfile(){
     if(!current){ els.profileView.innerHTML=`<p class="notice">${uiLang==='ja'?'まだ結果がありません。':'No result yet.'}</p>`; els.promptBox.value=''; document.getElementById('outfitPromptBox').value=''; document.getElementById('scenePromptBox').value=''; return; }
-    const L=T('rows'); const mainWear = uiLang==='en' ? `${displayValue('boxerBrand',current.boxerBrand&&current.boxerBrand!=='指定しない'?current.boxerBrand:'')} ${displayValue('boxerColor',current.boxerColor)} boxer briefs only`.trim() : `${current.boxerBrand&&current.boxerBrand!=='指定しない'?current.boxerBrand+'・':''}${current.boxerColor}のボクサーパンツのみ`; const rows = [[L.name,current.name],[L.age,displayValue('age',current.age)],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}`],[L.hw,`${current.height} / ${current.weight}`],[L.body,displayValue('bodyType',current.bodyType)],[L.foot,current.footSize],[L.face,`${displayValue('facePreset',current.facePreset)} / ${displayValue('ageAppearance',current.ageAppearance)}`],[L.hair,`${displayValue('hairColor',current.hairColor)}・${displayValue('hairStyle',current.hairStyle)}`],[L.main,mainWear],[L.outfit,`${displayValue('outfitBrand',current.outfitBrand)}・${displayValue('outfitType',current.outfitType)}`],[L.sock,`${displayValue('sockBrand',current.sockBrand)}・${displayValue('sockType',current.sockType)}・${displayValue('sockColor',current.sockColor)}`],[L.background,displayValue('background',current.background)],[L.output,`${displayValue('outputType',current.outputType)} / ${displayValue('count',current.count)}`],[L.scene,displayValue('sceneIdea',current.sceneIdea)]];
+    if(!current.personality && current.mbti) current.personality = mbtiDescription(current.mbti, uiLang==='en');
+    const L=T('rows');
+    const mainWear = uiLang==='en' ? `${displayValue('boxerBrand',current.boxerBrand&&current.boxerBrand!=='指定しない'?current.boxerBrand:'')} ${displayValue('boxerColor',current.boxerColor)} boxer briefs only`.trim() : `${current.boxerBrand&&current.boxerBrand!=='指定しない'?current.boxerBrand+'・':''}${current.boxerColor}のボクサーパンツのみ`;
+    const rows = [
+      [L.name,current.name],
+      [L.age,displayValue('age',current.age)],
+      [L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`],
+      [L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}`],
+      [L.mbti,mbtiDisplay(current)],
+      [L.hw,`${current.height} / ${current.weight}`],
+      [L.body,displayValue('bodyType',current.bodyType)],
+      [L.foot,current.footSize],
+      [L.face,`${displayValue('facePreset',current.facePreset)} / ${displayValue('ageAppearance',current.ageAppearance)}`],
+      [L.hair,`${displayValue('hairColor',current.hairColor)}・${displayValue('hairStyle',current.hairStyle)}`],
+      [L.main,mainWear],
+      [L.outfit,`${displayValue('outfitBrand',current.outfitBrand)}・${displayValue('outfitType',current.outfitType)}`],
+      [L.sock,`${displayValue('sockBrand',current.sockBrand)}・${displayValue('sockType',current.sockType)}・${displayValue('sockColor',current.sockColor)}`],
+      [L.background,displayValue('background',current.background)],
+      [L.output,`${displayValue('outputType',current.outputType)} / ${displayValue('count',current.count)}`],
+      [L.promptTarget,current.promptTarget || 'ChatGPT'],
+      [L.imageText, current.captionMode==='画像下部に1行で表記' ? `${captionModeDisplay(current.captionMode)} / ${getCaptionFieldLabelsArray(current, uiLang==='en').join(', ')}` : captionModeDisplay(current.captionMode)],
+      [L.scene,displayValue('sceneIdea',current.sceneIdea)]
+    ];
     els.profileView.innerHTML = rows.map(([k,v])=>`<div class="kv"><b>${k}</b><span>${v}</span></div>`).join('');
     els.promptBox.value = buildPrompt(current);
     document.getElementById('outfitPromptBox').value = buildOutfitPrompt(current);
     document.getElementById('scenePromptBox').value = buildScenePrompt(current);
-    if(document.getElementById('manualPromptLanguage')) document.getElementById('manualPromptLanguage').value = current.promptLanguage || '日本語';
-    const mo=document.getElementById('manualOutputType'), mc=document.getElementById('manualCount'), mq=document.getElementById('manualQuality'), mb=document.getElementById('manualBackground'), ml=document.getElementById('manualLighting'), mpl=document.getElementById('manualPromptLanguage');
-    if(mo) mo.value=current.outputType; if(mc) mc.value=current.count; if(mq) mq.value=current.quality; if(mb) mb.value=current.background; if(ml) ml.value=current.lighting; if(mpl) mpl.value=current.promptLanguage || '日本語';
+    const mo=document.getElementById('manualOutputType'), mc=document.getElementById('manualCount'), mq=document.getElementById('manualQuality'), mb=document.getElementById('manualBackground'), ml=document.getElementById('manualLighting'), mpl=document.getElementById('manualPromptLanguage'), mpt=document.getElementById('manualPromptTarget'), mcm=document.getElementById('manualCaptionMode');
+    if(mo) mo.value=current.outputType; if(mc) mc.value=current.count; if(mq) mq.value=current.quality; if(mb) mb.value=current.background; if(ml) ml.value=current.lighting; if(mpl) mpl.value=current.promptLanguage || '日本語'; if(mpt) mpt.value=current.promptTarget || 'ChatGPT'; if(mcm) mcm.value=current.captionMode || '表記しない';
+    writeCaptionFields('manual', current.captionFields || {name:true,height:true,weight:true,footSize:true,mbti:true});
   }
   function renderRarity(){
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
