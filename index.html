@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V1.7.1</title>
+  <title>Guzen Ikemen Maker V1.7.2</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -57,8 +57,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V1.7.1</span>
-        <h1 class="title">Guzen Ikemen Maker V1.7.1</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V1.7.2</span>
+        <h1 class="title">Guzen Ikemen Maker V1.7.2</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -266,7 +266,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V1.7.1</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V1.7.2</p>
   </div>
 
 <script>
@@ -751,8 +751,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V1.7.1';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V1.7.1';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V1.7.2';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V1.7.2';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1517,8 +1517,8 @@
     const mode = c?.mainWearMode || 'ボクサーパンツのみ';
     const t = mode==='時代に合った下着の種類' ? (c?.underwearType || 'ボクサーパンツ') : 'ボクサーパンツ';
     if(t==='トランクス'){
-      if(english) return 'IMPORTANT underwear shape: depict the underwear strictly as loose woven trunks (classic boxer shorts) — a boxy, non-clinging silhouette with a roomy wide leg opening, side seams, an elastic waistband, visible loose fabric drape, and a hem that hangs freely a few centimeters down the thigh without touching it. The fabric must NOT hug the thighs or hips. Do NOT render them as tight knit boxer briefs, compression shorts, or briefs.';
-      return '【下着の形状指定・重要】下着は必ずトランクス（昔ながらの布帛のボクサーショーツ）として描く。角型でゆったりしたシルエット、広い裾口、サイドの縫い目、ゴムウエスト、布が余って自然に垂れる質感を明確に描き、裾は太ももに密着せず数センチ浮いた状態にする。太ももや腰に生地が密着してはいけない。ニット生地のボクサーパンツ、ボクサーブリーフ、コンプレッションショーツ、ブリーフとして描いてはいけない。';
+      if(english) return 'IMPORTANT underwear shape: depict the underwear strictly as woven trunks (classic boxer shorts) in a trim, well-fitted size — a clean, neat silhouette with no baggy or oversized look. The waistband and hips fit naturally, the fabric is non-stretch woven cloth with side seams and an elastic waistband, and the leg openings sit close along the thighs while the fabric still hangs slightly free instead of clinging to the skin. Do NOT render them as tight knit boxer briefs, compression shorts, or briefs, and do NOT make them baggy oversized boxers.';
+      return '【下着の形状指定・重要】下着は必ずトランクス（布帛のボクサーショーツ）として描く。サイズはジャストサイズで、だぶつきやオーバーサイズ感のない、すっきりと整ったシルエットにする。ウエストと腰回りは自然にフィットさせ、生地は伸縮しない織り生地（布帛）で、サイドの縫い目とゴムウエストを描く。裾口は太ももに沿う位置にありつつ、生地が肌に張り付かず軽く浮く程度にする。ニット生地で肌に密着するボクサーパンツ、ボクサーブリーフ、コンプレッションショーツ、ブリーフとして描いてはいけない。だぶだぶのオーバーサイズトランクスにもしない。';
     }
     if(t==='白ブリーフ' || t==='カラーブリーフ'){
       if(english) return 'IMPORTANT underwear shape: depict the underwear strictly as classic briefs — a Y-front style with NO leg coverage, cut high at the thigh joint so the entire thigh is bare, with an elastic waistband and leg openings that follow the crease of the legs. Do NOT render them as boxer briefs or trunks that cover any part of the thighs.';
@@ -1530,8 +1530,8 @@
   function underwearAvoid(c, english=false){
     const mode = c?.mainWearMode || 'ボクサーパンツのみ';
     if(mode!=='時代に合った下着の種類' || !c?.underwearType || c.underwearType==='ボクサーパンツ') return '';
-    if(english) return ' changing the underwear type (e.g., turning trunks or briefs into tight boxer briefs), adding tightness or compression to loose trunks,';
-    return '下着の種類の変更（トランクスやブリーフをボクサーパンツ化する等）、トランクスを密着シルエットで描くこと、';
+    if(english) return ' changing the underwear type (e.g., turning trunks or briefs into tight boxer briefs), rendering the trunks skin-tight like knit underwear, rendering the trunks baggy and oversized,';
+    return '下着の種類の変更（トランクスやブリーフをボクサーパンツ化する等）、トランクスをニット密着シルエットで描くこと、トランクスをだぶだぶのオーバーサイズで描くこと、';
   }
 
   function generateBodyHair(age, ethnicity, vibe, mbti, eraYear='2026'){
@@ -1933,7 +1933,7 @@ ${targetJa}
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V1.7.1'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V1.7.2'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
