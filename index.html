@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V1.9.22</title>
+  <title>Guzen Ikemen Maker V2.0.0</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -94,8 +94,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V1.9.22</span>
-        <h1 class="title">Guzen Ikemen Maker V1.9.22</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V2.0.0</span>
+        <h1 class="title">Guzen Ikemen Maker V2.0.0</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -232,7 +232,12 @@
 
     <section id="tab-result" class="grid cols hidden" style="margin-top:14px">
       <div class="panel">
-        <div class="section-title"><h2>完成プロフィール</h2><div class="toolbar"><button class="btn dark" id="saveBtn">結果を保存</button><button class="btn dark" id="jsonBtn">JSONを書き出す</button><button class="btn dark" id="importBtn">JSONを読み込む</button><input type="file" id="importFile" accept="application/json" style="display:none"></div></div>
+        <div class="section-title"><h2>完成プロフィール</h2><div class="toolbar"><button class="btn dark" id="friendBtn">👥 友人を作成</button><button class="btn dark" id="saveBtn">結果を保存</button><button class="btn dark" id="jsonBtn">JSONを書き出す</button><button class="btn dark" id="importBtn">JSONを読み込む</button><input type="file" id="importFile" accept="application/json" style="display:none"></div></div>
+        <div class="subcard hidden" id="friendPanel" style="margin-bottom:10px"><h3 id="friendPanelTitle">友人を作成</h3><div class="form">
+          <label class="field"><span id="friendRelationLabel">関係</span><select id="friendRelation"></select></label>
+          <label class="field" id="friendHierField"><span id="friendHierLabel">上下関係</span><select id="friendHierarchy"></select></label>
+          <div class="toolbar" style="grid-column:1/-1"><button class="btn primary" id="friendGoBtn">この関係で友人を作成</button><span class="notice" id="friendNote">元の人物は履歴に自動保存されます</span></div>
+        </div></div>
         <div class="toolbar hidden" id="memberTabs" style="margin-bottom:10px"></div>
         <div class="result-card" id="profileView"></div>
       </div>
@@ -317,6 +322,12 @@
         <textarea class="textarea" id="scenePromptBox" readonly style="min-height:190px"></textarea>
         <p class="notice charcount" id="cc-scenePromptBox"></p>
         </div>
+        <div class="prompt-pane hidden" id="pane-friendPair">
+        <div class="section-title"><h2 id="paneTitle-friendPair" style="font-size:15px">友人ツーショット 指示文</h2><button class="btn primary" id="copyFriendPairBtn">📋 コピー</button></div>
+        <p class="notice pane-desc" id="desc-friendPair"></p>
+        <textarea class="textarea" id="friendPairPromptBox" readonly style="min-height:190px"></textarea>
+        <p class="notice charcount" id="cc-friendPairPromptBox"></p>
+        </div>
         <div class="prompt-pane hidden" id="pane-derived">
         <div class="section-title"><h2 id="paneTitle-derived" style="font-size:15px">派生出力 指示文</h2><button class="btn primary" id="copyDerivedBtn">📋 コピー</button></div>
         <p class="notice pane-desc" id="desc-derived"></p>
@@ -349,7 +360,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V1.9.22</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.0.0</p>
   </div>
 
 <script>
@@ -470,17 +481,18 @@
       startBtn:'SLOT START', rerollUnlockedBtn:'ロック以外を回す', resetLocksBtn:'ロック解除',
       groupPromptTitle:'集合写真 指示文', copyGroupBtn:'📋 コピー', copyGroupDone:'集合写真の指示文をコピーしました', memberLabel:'メンバー',
       promptAreaTitle:'画像生成用 指示文', copiedLabel:'✓ コピーしました', copyLabel:'📋 コピー',
-      promptDescs:{main:'STEP1：キャラの基準になるリファレンスカード（ボクサーパンツ・16:9）を作る指示文です。まずこれで基準画像を生成してください。', derived:'STEP2：下で選んだ形式の派生画像を作る指示文です。基準カードで生成した画像を添付してから貼り付けてください。', outfit:'職業に合わせた仕事着・仕事帰りコーデの差分を作る指示文です。', outfitHoliday:'性格・雰囲気重視の私服コーデの差分を作る指示文です。仕事とは違う一面が出ます。', scene:'日常の一場面を切り取ったスナップ風差分を作る指示文です。', card:'トレーディングカード風の1枚に仕上げる指示文です。カード設定はこの上の「カード差分プロンプト設定」で変更できます。', group:'グループ全員を1枚の集合写真として描く指示文です。'},
+      promptDescs:{main:'STEP1：キャラの基準になるリファレンスカード（ボクサーパンツ・16:9）を作る指示文です。まずこれで基準画像を生成してください。', derived:'STEP2：下で選んだ形式の派生画像を作る指示文です。基準カードで生成した画像を添付してから貼り付けてください。', outfit:'職業に合わせた仕事着・仕事帰りコーデの差分を作る指示文です。', outfitHoliday:'性格・雰囲気重視の私服コーデの差分を作る指示文です。仕事とは違う一面が出ます。', scene:'日常の一場面を切り取ったスナップ風差分を作る指示文です。', card:'トレーディングカード風の1枚に仕上げる指示文です。カード設定はこの上の「カード差分プロンプト設定」で変更できます。', group:'グループ全員を1枚の集合写真として描く指示文です。', friendPair:'この人物と友人（元の人物）の2人を1枚のツーショット写真として描く指示文です。両者の基準カード画像があれば添付するとより安定します。'},
       editTitle:'この項目を直接変更', instantSkip:'演出スキップ', presetPlaceholder:'プリセット名', presetSave:'設定を保存', presetLoad:'読み込み', presetDelete:'削除', importJson:'JSONを読み込む', charsSuffix:'文字', diceTitle:'この項目だけ再抽選', favOn:'★', favOff:'☆', importedMsg:'読み込みました', presetSavedMsg:'プリセットを保存しました', presetNameNeeded:'プリセット名を入力してください',
       tab_slot:'スロット', tab_result:'結果・画像指示文', tab_history:'保存結果', tab_settings:'条件固定',
       initialTitle:'初期設定', initialPill:'スロットを回す前に指定', initialNotice:'ここで国籍・人種・年齢範囲・雰囲気系統・背景・光・画質・出力タイプ・出力枚数・生成先・画像内表記・カード差分プロンプト設定を指定します。これらは抽選せず、ここで選んだ内容が画像指示文へ反映されます。雰囲気系統を選ぶと、髪型・顔立ち・提案服装の抽選傾向が連動します。',
-      resultTitle:'完成プロフィール', saveBtn:'結果を保存', jsonBtn:'JSONを書き出す', promptTitle:'基準リファレンスカード 指示文', derivedTitle:'派生出力 指示文', derivedWarn:'⚠ 基準カードの画像を添付してから使用', copyPromptBtn:'📋 コピー', outfitTitle:'職業服装 指示文', outfitHolidayTitle:'私服服装 指示文', copyOutfitBtn:'📋 コピー', sceneTitle:'偶然見かけた場面 指示文', copySceneBtn:'📋 コピー', cardTitle:'トレーディングカード差分 指示文', copyCardBtn:'📋 コピー',
+      resultTitle:'完成プロフィール', saveBtn:'結果を保存', jsonBtn:'JSONを書き出す', promptTitle:'基準リファレンスカード 指示文', derivedTitle:'派生出力 指示文', derivedWarn:'⚠ 基準カードの画像を添付してから使用', copyPromptBtn:'📋 コピー', outfitTitle:'職業服装 指示文', outfitHolidayTitle:'私服服装 指示文', copyOutfitBtn:'📋 コピー', sceneTitle:'偶然見かけた場面 指示文', copySceneBtn:'📋 コピー', cardTitle:'トレーディングカード差分 指示文', copyCardBtn:'📋 コピー', friendPairTitle:'友人ツーショット 指示文',
       historyTitle:'保存結果', clearHistoryBtn:'履歴クリア', noHistory:'保存結果はまだありません。', loadBtn:'読み込む',
       settingsTitle:'条件固定ランダム', settingsPill:'空欄はランダム', settingsNotice:'固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。MBTIも固定可能です。背景・光・画質・出力タイプ・出力枚数・生成先・画像内表記は上部の初期設定または結果画面の選択欄で指定します。',
+      friendBtn:'👥 友人を作成', friendPanelTitle:'友人を作成', friendRelationLabel:'関係', friendHierLabel:'上下関係', friendGoBtn:'この関係で友人を作成', friendNote:'元の人物は履歴に自動保存されます', friendDone:'友人が完成しました',
       slotResult:'Slot Result', waiting:'待機中', spinning:'回転中', done:'完成', lock:'LOCK', locked:'LOCKED', clickLock:'クリックで固定', rarityNoteIdle:'スロットを回すと判定されます。', rarityTitle:'Rarity', modesTitle:'Modes',
       mode_full:'完全ランダム', mode_face:'顔だけ', mode_outfit:'服装だけ', mode_rare:'レア設定', currentMode:'現在：', mode_full_note:'完全ランダム', mode_face_note:'顔だけランダム', mode_outfit_note:'服装だけランダム', mode_rare_note:'レア設定モード',
       saveFirst:'先にスロットを回してください。', saved:'保存しました。', copyMainDone:'メイン指示文をコピーしました。', copyOutfitDone:'服装差分指示文をコピーしました。', copySceneDone:'場面指示文をコピーしました。', copyCardDone:'カード差分指示文をコピーしました。', confirmClear:'保存結果を削除しますか？',
-      rows:{weekdayOutfit:'職業コーデ',holidayOutfit:'私服コーデ',holidaySock:'私服の靴下',glasses:'眼鏡',group:'グループ',basic:'基本プロフィール',faceSection:'顔立ち',bodySection:'体型・身体',bodyHairSection:'ひげ・体毛',mainSection:'メイン服装',outfitSection:'提案服装',outputSection:'出力設定',sceneSection:'偶然見かけた場面',name:'名前',age:'年齢',natEth:'国籍 / 人種',roleVibe:'職業 / 系統',mbti:'MBTI / 性格',era:'時代設定',hw:'身長 / 体重',body:'体型',foot:'足サイズ',footShape:'足の形',face:'顔立ち',faceLine:'フェイスライン',eyes:'目',nose:'鼻',mouth:'口元',skin:'肌',facialHair:'ひげ',hair:'髪型',bodyHair:'体毛',main:'メイン服装',outfit:'提案服装',sock:'提案靴下',background:'背景',output:'出力',promptTarget:'生成先',imageText:'画像内表記',cardSetting:'カード出力設定',scene:'偶然見かけた場面'},
+      rows:{weekdayOutfit:'職業コーデ',holidayOutfit:'私服コーデ',holidaySock:'私服の靴下',glasses:'眼鏡',group:'グループ',basic:'基本プロフィール',faceSection:'顔立ち',bodySection:'体型・身体',bodyHairSection:'ひげ・体毛',mainSection:'メイン服装',outfitSection:'提案服装',outputSection:'出力設定',sceneSection:'偶然見かけた場面',name:'名前',age:'年齢',natEth:'国籍 / 人種',roleVibe:'職業 / 系統',mbti:'MBTI / 性格',era:'時代設定',hw:'身長 / 体重',body:'体型',foot:'足サイズ',footShape:'足の形',face:'顔立ち',faceLine:'フェイスライン',eyes:'目',nose:'鼻',mouth:'口元',skin:'肌',facialHair:'ひげ',hair:'髪型',bodyHair:'体毛',main:'メイン服装',outfit:'提案服装',sock:'提案靴下',background:'背景',output:'出力',promptTarget:'生成先',imageText:'画像内表記',cardSetting:'カード出力設定',scene:'偶然見かけた場面',uniformKind:'制服の種類',headwearRow:'着帽',friendRow:'友人関係'},
       fieldLabels:{initialNationality:'初期国籍',initialEthnicity:'初期人種',initialAgeMin:'年齢下限',initialAgeMax:'年齢上限',initialVibe:'雰囲気系統',initialEraYear:'時代設定',initialBackground:'背景',initialLighting:'光',initialQuality:'画質・質感',initialOutputType:'出力タイプ',initialMainWearMode:'メイン服装（下着）',initialGroupSize:'生成モード',initialOccupation:'職業',initialOccInfluence:'職業の影響',initialCatchphrase:'キャッチフレーズ',initialDerivedMode:'派生プロンプト形式',initialSeason:'季節',initialGroupPromptMode:'グループ出力形式',initialCount:'出力枚数',initialPromptLanguage:'指示文言語',initialPromptTarget:'生成先',initialCaptionMode:'画像内スペック表示',manualOutputType:'出力タイプ',manualCount:'出力枚数',manualQuality:'画風・質感',manualBackground:'背景',manualLighting:'光',manualPromptLanguage:'指示文言語',manualPromptTarget:'生成先',manualCaptionMode:'画像内スペック表示',initialCardStyle:'カードスタイル',initialCardRarity:'カードレアリティ表示',initialCardTheme:'カード配色テーマ',initialCardLayout:'カードレイアウト',initialCardWearMode:'カード衣装',initialCardEffect:'装飾効果（レアリティ連動）',manualCardStyle:'カードスタイル',manualCardRarity:'カードレアリティ表示',manualCardTheme:'カード配色テーマ',manualCardLayout:'カードレイアウト',manualCardWearMode:'カード衣装',manualCardEffect:'装飾効果（レアリティ連動）'},
       rarityNotes:{normal:'自然で使いやすい標準寄りの組み合わせです。',rare:'少し特徴的な組み合わせです。',super:'目立つ特徴が複数あります。',legend:'かなり個性的な偶然の組み合わせです。'}
     },
@@ -490,17 +502,18 @@
       startBtn:'SLOT START', rerollUnlockedBtn:'Spin unlocked only', resetLocksBtn:'Reset locks',
       groupPromptTitle:'Group Photo Prompt', copyGroupBtn:'📋 Copy', copyGroupDone:'Group photo prompt copied.', memberLabel:'Member',
       promptAreaTitle:'Image Generation Prompts', copiedLabel:'✓ Copied!', copyLabel:'📋 Copy',
-      promptDescs:{main:'STEP 1: builds the base reference card (boxer briefs, 16:9). Generate the base image with this first.', derived:'STEP 2: builds the selected derived output. Attach the base card image before using this prompt.', outfit:'His work outfit variation, shaped by his occupation.', outfitHoliday:'His casual outfit variation, shaped by his personality and vibe.', scene:'A candid everyday-scene variation prompt.', card:'A trading-card-style variation prompt. Card settings can be changed above.', group:'Renders the whole group as one photo.'},
+      promptDescs:{main:'STEP 1: builds the base reference card (boxer briefs, 16:9). Generate the base image with this first.', derived:'STEP 2: builds the selected derived output. Attach the base card image before using this prompt.', outfit:'His work outfit variation, shaped by his occupation.', outfitHoliday:'His casual outfit variation, shaped by his personality and vibe.', scene:'A candid everyday-scene variation prompt.', card:'A trading-card-style variation prompt. Card settings can be changed above.', group:'Renders the whole group as one photo.', friendPair:'Renders this person and his friend (the original person) together in one two-shot photo. Attaching both base card images makes the result more stable.'},
       editTitle:'Edit this value directly', instantSkip:'Skip animation', presetPlaceholder:'Preset name', presetSave:'Save preset', presetLoad:'Load', presetDelete:'Delete', importJson:'Import JSON', charsSuffix:' chars', diceTitle:'Re-roll this item only', favOn:'★', favOff:'☆', importedMsg:'Imported.', presetSavedMsg:'Preset saved.', presetNameNeeded:'Enter a preset name.',
       tab_slot:'Slots', tab_result:'Results & Prompts', tab_history:'Saved Results', tab_settings:'Fixed Conditions',
       initialTitle:'Initial Settings', initialPill:'Set before spinning', initialNotice:'Set nationality, ethnicity, age range, vibe, background, lighting, quality, output type, output count, prompt target, image text, and card output settings here. These settings are not randomized and will be reflected directly in the image prompts. Choosing a vibe also influences hairstyle, face type, and suggested outfit generation.',
-      resultTitle:'Final Profile', saveBtn:'Save Result', jsonBtn:'Export JSON', promptTitle:'Base Reference Card Prompt', derivedTitle:'Derived Output Prompt', derivedWarn:'⚠ Attach the base card image before use', copyPromptBtn:'📋 Copy', outfitTitle:'Work Outfit Prompt', outfitHolidayTitle:'Casual Outfit Prompt', copyOutfitBtn:'📋 Copy', sceneTitle:'Candid Encounter Prompt', copySceneBtn:'📋 Copy', cardTitle:'Trading Card Variation Prompt', copyCardBtn:'📋 Copy',
+      resultTitle:'Final Profile', saveBtn:'Save Result', jsonBtn:'Export JSON', promptTitle:'Base Reference Card Prompt', derivedTitle:'Derived Output Prompt', derivedWarn:'⚠ Attach the base card image before use', copyPromptBtn:'📋 Copy', outfitTitle:'Work Outfit Prompt', outfitHolidayTitle:'Casual Outfit Prompt', copyOutfitBtn:'📋 Copy', sceneTitle:'Candid Encounter Prompt', copySceneBtn:'📋 Copy', cardTitle:'Trading Card Variation Prompt', copyCardBtn:'📋 Copy', friendPairTitle:'Friend Two-shot Prompt',
       historyTitle:'Saved Results', clearHistoryBtn:'Clear History', noHistory:'No saved results yet.', loadBtn:'Load',
       settingsTitle:'Random with Fixed Conditions', settingsPill:'Blank = random', settingsNotice:'If you press “SLOT START” after setting fixed conditions, the selected character and outfit items will be prioritized during random generation. MBTI can also be fixed. Background, lighting, quality, output type, output count, prompt target, and image text are set in the initial settings or in the result panel.',
+      friendBtn:'👥 Create a Friend', friendPanelTitle:'Create a Friend', friendRelationLabel:'Relation', friendHierLabel:'Hierarchy', friendGoBtn:'Create friend with this relation', friendNote:'The original person is auto-saved to history', friendDone:'Friend created',
       slotResult:'Slot Result', waiting:'Waiting', spinning:'Spinning', done:'Done', lock:'LOCK', locked:'LOCKED', clickLock:'click to lock', rarityNoteIdle:'Spin the slots to evaluate.', rarityTitle:'Rarity', modesTitle:'Modes',
       mode_full:'Full Random', mode_face:'Face Only', mode_outfit:'Outfit Only', mode_rare:'Rare Mode', currentMode:'Current: ', mode_full_note:'Full random', mode_face_note:'Face-only random', mode_outfit_note:'Outfit-only random', mode_rare_note:'Rare-mode random',
       saveFirst:'Please spin the slots first.', saved:'Saved.', copyMainDone:'Copied the main prompt.', copyOutfitDone:'Copied the outfit prompt.', copySceneDone:'Copied the scene prompt.', copyCardDone:'Copied the card variation prompt.', confirmClear:'Clear saved results?',
-      rows:{weekdayOutfit:'Work Outfit',holidayOutfit:'Casual Outfit',holidaySock:'Casual Socks',glasses:'Glasses',group:'Group',basic:'Basic Profile',faceSection:'Face',bodySection:'Body',bodyHairSection:'Facial / Body Hair',mainSection:'Main Clothing',outfitSection:'Suggested Outfit',outputSection:'Output Settings',sceneSection:'Candid Scene',name:'Name',age:'Age',natEth:'Nationality / Ethnicity',roleVibe:'Role / Vibe',mbti:'MBTI / Personality',era:'Era',hw:'Height / Weight',body:'Body Type',foot:'Foot Size',footShape:'Foot Shape',face:'Face Type',faceLine:'Face Line',eyes:'Eyes',nose:'Nose',mouth:'Mouth',skin:'Skin',facialHair:'Facial Hair',hair:'Hair',bodyHair:'Body Hair',main:'Main Clothing',outfit:'Suggested Outfit',sock:'Suggested Socks',background:'Background',output:'Output',promptTarget:'Prompt Target',imageText:'Image Text',cardSetting:'Card Settings',scene:'Candid Scene'},
+      rows:{weekdayOutfit:'Work Outfit',holidayOutfit:'Casual Outfit',holidaySock:'Casual Socks',glasses:'Glasses',group:'Group',basic:'Basic Profile',faceSection:'Face',bodySection:'Body',bodyHairSection:'Facial / Body Hair',mainSection:'Main Clothing',outfitSection:'Suggested Outfit',outputSection:'Output Settings',sceneSection:'Candid Scene',name:'Name',age:'Age',natEth:'Nationality / Ethnicity',roleVibe:'Role / Vibe',mbti:'MBTI / Personality',era:'Era',hw:'Height / Weight',body:'Body Type',foot:'Foot Size',footShape:'Foot Shape',face:'Face Type',faceLine:'Face Line',eyes:'Eyes',nose:'Nose',mouth:'Mouth',skin:'Skin',facialHair:'Facial Hair',hair:'Hair',bodyHair:'Body Hair',main:'Main Clothing',outfit:'Suggested Outfit',sock:'Suggested Socks',background:'Background',output:'Output',promptTarget:'Prompt Target',imageText:'Image Text',cardSetting:'Card Settings',scene:'Candid Scene',uniformKind:'Uniform Type',headwearRow:'Headwear',friendRow:'Friendship'},
       fieldLabels:{initialNationality:'Initial Nationality',initialEthnicity:'Initial Ethnicity',initialAgeMin:'Age Min',initialAgeMax:'Age Max',initialVibe:'Vibe',initialEraYear:'Era Year',initialBackground:'Background',initialLighting:'Lighting',initialQuality:'Quality / Texture',initialOutputType:'Output Type',initialMainWearMode:'Main Underwear Style',initialGroupSize:'Generation Mode',initialOccupation:'Occupation',initialOccInfluence:'Occupation Influence',initialCatchphrase:'Catchphrase',initialDerivedMode:'Derived Prompt Format',initialSeason:'Season',initialGroupPromptMode:'Group Output Format',initialCount:'Output Count',initialPromptLanguage:'Prompt Language',initialPromptTarget:'Prompt Target',initialCaptionMode:'Image Text',manualOutputType:'Output Type',manualCount:'Output Count',manualQuality:'Art / Texture',manualBackground:'Background',manualLighting:'Lighting',manualPromptLanguage:'Prompt Language',manualPromptTarget:'Prompt Target',manualCaptionMode:'Image Text',initialCardStyle:'Card Style',initialCardRarity:'Card Rarity Label',initialCardTheme:'Card Color Theme',initialCardLayout:'Card Layout',initialCardWearMode:'Card Outfit',initialCardEffect:'Effect Linked to Rarity',manualCardStyle:'Card Style',manualCardRarity:'Card Rarity Label',manualCardTheme:'Card Color Theme',manualCardLayout:'Card Layout',manualCardWearMode:'Card Outfit',manualCardEffect:'Effect Linked to Rarity'},
       rarityNotes:{normal:'A natural and versatile combination.',rare:'A slightly distinctive combination.',super:'Several standout features are present.',legend:'A highly distinctive chance-based combination.'}
     }
@@ -510,6 +523,24 @@
   function fixedLabel(key, fallback){ return (fixedFieldLabelMap[key]||{})[uiLang] || fallback; }
 
   const valueTranslations = {
+    '防衛大学校の常装冬服風（花紺色の詰襟型短ジャケット）':'NDA winter dress (very dark navy stand-collar jacket)',
+    '防衛大学校の第1種夏服風（白の詰襟上下）':'NDA Type-1 summer uniform (white stand-collar)',
+    '防衛大学校の第3種夏服風（白の半袖開襟シャツ）':'NDA Type-3 summer uniform (white short-sleeve shirt)',
+    '防衛大学校の校内服装（OD色の作業服＋指定ジャンパー）':'NDA on-campus wear (OD work clothes + jumper)',
+    '防衛大学校の作業服装（65式作業服と同型・OD色）':'NDA work uniform (Type-65 pattern, olive drab)',
+    '消防署の活動服（紺の作業服スタイル）':'Firefighter station duty uniform (navy)',
+    '救助服（オレンジのレスキュー隊服）':'Rescue-squad uniform (orange)',
+    '防火衣（訓練場面向けの耐火装備スタイル）':'Protective fire gear (training style)',
+    '警察官の冬制服風（濃紺の長袖＋ネクタイ）':'Police winter uniform (dark navy + tie)',
+    '警察官の夏制服風（薄青の半袖シャツ）':'Police summer uniform (light-blue shirt)',
+    '警察官の活動服風（出動服スタイル）':'Police field-duty uniform',
+    '交通機動隊風の乗車服（白ヘルメット着用）':'Traffic-unit rider uniform (white helmet worn)',
+    '機動隊の出動服風（ヘルメット携行）':'Riot-unit duty uniform (helmet carried)',
+    '陸上自衛隊風の迷彩作業服':'JGSDF camouflage work uniform',
+    '陸自の常装制服風（紫紺）':'JGSDF dress uniform (dark purplish navy)',
+    '海自の夏制服風（白）':'JMSDF white summer uniform',
+    '空自の制服風（青）':'JASDF blue uniform',
+    '救急隊の活動服（白シャツ＋紺パンツ）':'Ambulance-crew duty uniform',
     'ランダム':'Random','日本':'Japan','韓国':'South Korea','中国':'China','台湾':'Taiwan','アメリカ':'United States','カナダ':'Canada','イギリス':'United Kingdom','フランス':'France','ドイツ':'Germany','イタリア':'Italy','スペイン':'Spain','ブラジル':'Brazil','メキシコ':'Mexico','タイ':'Thailand','ベトナム':'Vietnam','フィリピン':'Philippines','インドネシア':'Indonesia','マレーシア':'Malaysia','インド':'India','オーストラリア':'Australia',
     '日本人':'Japanese','韓国系':'Korean','東アジア系':'East Asian','中国系':'Chinese','東南アジア系':'Southeast Asian','南アジア系':'South Asian','白人系':'White','黒人系':'Black','中東系':'Middle Eastern','ラテン系':'Latino','中央アジア系':'Central Asian','ミックス':'Mixed',
     '成人男性キャラクター':'Adult male character','若手社会人':'Young working adult','大学生風の成人男性':'Adult man with a university-student vibe','スポーツ経験者':'Athletic / sports-experienced','モデル風':'Model-like','俳優風':'Actor-like','営業職風':'Sales professional','事務職風':'Office worker','クリエイター風':'Creative professional','研究職風':'Research professional','販売員風':'Retail staff','インストラクター風':'Instructor-like','IT系会社員風':'IT office worker','フリーランス風':'Freelancer-like',
@@ -826,8 +857,8 @@
   function cardWearDescription(c, english=false){
     const mode = c?.cardWearMode || 'ボクサーパンツのみ';
     if(mode==='提案服装'){
-      if(english) return `Use the suggested outfit: ${c.outfitBrand} ${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}.`;
-      return `カード内の服装は提案服装にする。${c.outfitBrand}の${c.outfitType}を基調に、上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}、靴下は${c.sockBrand}の${c.sockType}。`;
+      if(english) return `Use the suggested outfit: ${c.outfitBrand} ${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}${uniformHatPhrase(c, true)}. Socks: ${c.sockBrand} ${c.sockType}.`;
+      return `カード内の服装は提案服装にする。${c.outfitBrand}の${c.outfitType}を基調に、上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}、靴下は${c.sockBrand}の${c.sockType}。`;
     }
     if(english) return `Use only ${underwearDesc(c, true)} as the card outfit. ${underwearShapeGuide(c, true)} Keep the depiction non-sexual and neutral, like a body-reference character card.`;
     return `カード内の服装は${underwearDesc(c, false)}のみ。${underwearShapeGuide(c, false)}非性的で、体型確認用のキャラクターカードとして自然に見せる。`;
@@ -885,8 +916,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V1.9.22';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V1.9.22';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.0.0';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.0.0';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -919,8 +950,17 @@
     const pt2b=document.getElementById('paneTitle-outfitHoliday'); if(pt2b) pt2b.textContent=T('outfitHolidayTitle');
     const pt3=document.getElementById('paneTitle-scene'); if(pt3) pt3.textContent=T('sceneTitle');
     const pt4=document.getElementById('paneTitle-derived'); if(pt4) pt4.textContent=T('derivedTitle');
+    const pt5=document.getElementById('paneTitle-friendPair'); if(pt5) pt5.textContent=T('friendPairTitle');
+    const cp5=document.getElementById('copyFriendPairBtn'); if(cp5) cp5.textContent=T('copyPromptBtn');
     const dw=document.getElementById('derivedWarn'); if(dw) dw.textContent=T('derivedWarn');
     const saveBtn=document.getElementById('saveBtn'); if(saveBtn) saveBtn.textContent=T('saveBtn');
+    const frB=document.getElementById('friendBtn'); if(frB) frB.textContent=T('friendBtn');
+    const frT=document.getElementById('friendPanelTitle'); if(frT) frT.textContent=T('friendPanelTitle');
+    const frR=document.getElementById('friendRelationLabel'); if(frR) frR.textContent=T('friendRelationLabel');
+    const frH=document.getElementById('friendHierLabel'); if(frH) frH.textContent=T('friendHierLabel');
+    const frG=document.getElementById('friendGoBtn'); if(frG) frG.textContent=T('friendGoBtn');
+    const frN=document.getElementById('friendNote'); if(frN) frN.textContent=T('friendNote');
+    if(document.getElementById('friendRelation')) renderFriendPanel();
     const jsonBtn=document.getElementById('jsonBtn'); if(jsonBtn) jsonBtn.textContent=T('jsonBtn');
     const cp1=document.getElementById('copyPromptBtn'); if(cp1) cp1.textContent=T('copyPromptBtn');
     const cp2=document.getElementById('copyOutfitBtn'); if(cp2) cp2.textContent=T('copyOutfitBtn');
@@ -1773,31 +1813,32 @@
   };
   const UNIFORM_VARIANTS = {
     '消防士': [
-      ['消防署の活動服（紺の作業服スタイル）','a firefighter station duty uniform (navy work-wear style)','紺の活動服上衣','紺の活動服パンツ','編み上げの作業ブーツ',5,''],
-      ['救助服（オレンジのレスキュー隊服）','an orange rescue-squad duty uniform','オレンジの救助服上衣','オレンジの救助服パンツ','編み上げの救助ブーツ',2,''],
-      ['防火衣（訓練場面向けの耐火装備スタイル）','protective fire gear in a training-style setting','防火衣の上衣','防火衣のズボン','防火用ブーツ',1,'']
+      ['消防署の活動服（紺の作業服スタイル）','a firefighter station duty uniform (navy work-wear style)','紺の活動服上衣','紺の活動服パンツ','編み上げの作業ブーツ',5,'','紺のキャップ型活動帽'],
+      ['救助服（オレンジのレスキュー隊服）','an orange rescue-squad duty uniform','オレンジの救助服上衣','オレンジの救助服パンツ','編み上げの救助ブーツ',2,'','紺のキャップ型活動帽'],
+      ['防火衣（訓練場面向けの耐火装備スタイル）','protective fire gear in a training-style setting','防火衣の上衣','防火衣のズボン','防火用ブーツ',1,'','防火用ヘルメット']
     ],
     '警察官': [
-      ['警察官の冬制服風（濃紺の長袖＋ネクタイ）','a winter police-style uniform (dark navy long sleeves with tie)','濃紺の長袖制服シャツ＋ネクタイ','濃紺の制服スラックス','黒の革靴',4,'winter'],
-      ['警察官の夏制服風（薄青の半袖シャツ）','a summer police-style uniform (light-blue short-sleeve shirt)','薄青の半袖制服シャツ','濃紺の制服スラックス','黒の革靴',3,'summer'],
-      ['警察官の活動服風（出動服スタイル）','a police field-duty uniform style','紺の活動服上衣','紺の活動服パンツ','編み上げブーツ',2,''],
-      ['交通機動隊風の乗車服（白ヘルメット携行）','a traffic-motorcycle-unit rider uniform (white helmet carried)','乗車服の上衣','乗車用パンツ','ライディングブーツ',1,''],
-      ['機動隊の出動服風（ヘルメット携行）','a riot-unit duty uniform style (helmet carried)','紺の出動服上衣','紺の出動服パンツ','半長靴',1,'']
+      ['警察官の冬制服風（濃紺の長袖＋ネクタイ）','a winter police-style uniform (dark navy long sleeves with tie)','濃紺の長袖制服シャツ＋ネクタイ','濃紺の制服スラックス','黒の革靴',4,'winter','濃紺の制帽（黒つば・顎ひも・金色の帽章風エンブレム）'],
+      ['警察官の夏制服風（薄青の半袖シャツ）','a summer police-style uniform (light-blue short-sleeve shirt)','薄青の半袖制服シャツ','濃紺の制服スラックス','黒の革靴',3,'summer','濃紺の制帽（黒つば・顎ひも・金色の帽章風エンブレム）'],
+      ['警察官の活動服風（出動服スタイル）','a police field-duty uniform style','紺の活動服上衣','紺の活動服パンツ','編み上げブーツ',2,'','紺のキャップ型活動帽'],
+      ['交通機動隊風の乗車服（白ヘルメット着用）','a traffic-motorcycle-unit rider uniform (white riding helmet worn)','乗車服の上衣','乗車用パンツ','ライディングブーツ',1,'','白のライディングヘルメット'],
+      ['機動隊の出動服風（ヘルメット携行）','a riot-unit duty uniform style (helmet carried)','紺の出動服上衣','紺の出動服パンツ','半長靴',1,'','紺のキャップ型活動帽（出動ヘルメットは携行）']
     ],
     '自衛官': [
-      ['陸上自衛隊風の迷彩作業服','a JGSDF-style camouflage work uniform','迷彩の作業服上衣','迷彩の作業服パンツ','ミリタリーブーツ',5,''],
-      ['陸自の常装制服風（紫紺）','a JGSDF-style dress uniform (dark purplish navy)','常装制服の上衣','常装制服のスラックス','黒の革靴',2,''],
-      ['海自の夏制服風（白）','a JMSDF-style white summer uniform','白の制服上衣','白の制服スラックス','黒の革靴',1,'summer'],
-      ['空自の制服風（青）','a JASDF-style blue uniform','青の制服上衣','青の制服スラックス','黒の革靴',1,'']
+      ['陸上自衛隊風の迷彩作業服','a JGSDF-style camouflage work uniform','迷彩の作業服上衣','迷彩の作業服パンツ','ミリタリーブーツ',5,'','迷彩柄のキャップ型作業帽'],
+      ['陸自の常装制服風（紫紺）','a JGSDF-style dress uniform (dark purplish navy)','常装制服の上衣','常装制服のスラックス','黒の革靴',2,'','紫紺色の制帽（金色の帽章風エンブレム）'],
+      ['海自の夏制服風（白）','a JMSDF-style white summer uniform','白の制服上衣','白の制服スラックス','黒の革靴',1,'summer','白の制帽（黒つば・金色の帽章風エンブレム）'],
+      ['空自の制服風（青）','a JASDF-style blue uniform','青の制服上衣','青の制服スラックス','黒の革靴',1,'','濃い青系の制帽（金色の帽章風エンブレム）']
     ],
     '救急隊員': [
-      ['救急隊の活動服（白シャツ＋紺パンツ）','an ambulance-crew duty uniform (white shirt with navy pants)','白の活動シャツ','紺の活動パンツ','白系の活動シューズ',1,'']
+      ['救急隊の活動服（白シャツ＋紺パンツ）','an ambulance-crew duty uniform (white shirt with navy pants)','白の活動シャツ','紺の活動パンツ','白系の活動シューズ',1,'','紺のキャップ型活動帽']
     ],
     '防衛大学校学生': [
-      ['防衛大学校の常装制服風（濃紺の詰襟スタイル）','an NDA-style dark navy stand-collar dress uniform','濃紺の詰襟制服上衣','濃紺の制服スラックス','黒の革靴',3,'winter'],
-      ['防衛大学校の第1種夏服風（白の上衣）','an NDA-style Type-1 white summer uniform','白の制服上衣','黒の制服スラックス','黒の革靴',2,'summer'],
-      ['防衛大学校の校内服装（作業服スタイル）','NDA-style on-campus work clothing','作業服の上衣','作業服のパンツ','短靴',2,''],
-      ['防衛大学校の第3種夏服風（半袖シャツ）','an NDA-style Type-3 short-sleeve shirt uniform','半袖の制服シャツ','制服スラックス','黒の革靴',2,'summer']
+      ['防衛大学校の常装冬服風（花紺色の詰襟型短ジャケット）','an NDA-style winter dress uniform (very dark navy stand-collar short jacket with white collar trim and black braid lines)','花紺色（黒に近い濃紺）の詰襟型短ジャケット（襟と袖口に白のカラー、黒の飾線）','濃紺の制服スラックス','黒の短靴',3,'winter','花紺色の制帽（黒つば・顎ひも・金色の帽章風エンブレム）'],
+      ['防衛大学校の第1種夏服風（白の詰襟上下）','an NDA-style Type-1 white summer uniform (white stand-collar jacket and white trousers)','白の詰襟型上衣','白の制服ズボン','黒の短靴',2,'summer','白覆いの夏制帽（黒つば・金色の帽章風エンブレム）'],
+      ['防衛大学校の第3種夏服風（白の半袖開襟シャツ）','an NDA-style Type-3 summer uniform (white short-sleeve open-collar shirt)','白の半袖開襟シャツ','黒の制服スラックス','黒の短靴',2,'summer','白覆いの夏制帽（黒つば・金色の帽章風エンブレム）'],
+      ['防衛大学校の校内服装（OD色の作業服＋指定ジャンパー）','NDA-style on-campus wear (olive-drab moss-green work clothes with an approved plain jumper)','OD色（モスグリーン）の作業服上衣＋紺系の無地ジャンパー','OD色の作業服パンツ','短靴',2,'','OD色のキャップ型作業帽'],
+      ['防衛大学校の作業服装（65式作業服と同型・OD色）','an NDA work uniform of the same pattern as the Type-65 fatigues (olive-drab / moss-green cotton work clothes)','モスグリーン（OD色）の綿作業服上衣','モスグリーン（OD色）の作業服パンツ','半長靴',2,'','OD色のキャップ型作業帽']
     ]
   };
   function chooseUniformVariant(role, season){
@@ -2310,8 +2351,8 @@
     return null;
   }
   function outfitSummaryLine(c, english=false){
-    if(english) return c.workUniform ? `Work outfit for the outfit panels: ${c.workUniformEn} — top: ${c.top}, bottom: ${c.bottom}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}), shoes (only where allowed): ${c.shoes}. Do not reproduce real organizations' insignia or logos.` : `Suggested outfit for the outfit panels: ${c.outfitBrand} ${c.outfitType} — outerwear: ${c.jacket}, top: ${c.top}, bottom: ${c.bottom}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}), shoes (only where allowed): ${c.shoes}.`;
-    return c.workUniform ? `服装パネルの内容：${c.workUniform}。トップスは${c.top}、ボトムスは${c.bottom}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}）、靴（許可されたパネルのみ）は${c.shoes}。実在組織の記章・ロゴは正確に再現しない。` : `提案服装パネルの内容：${c.outfitBrand}の${c.outfitType}。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}）、靴（許可されたパネルのみ）は${c.shoes}。`;
+    if(english) return c.workUniform ? `Work outfit for the outfit panels: ${c.workUniformEn} — top: ${c.top}, bottom: ${c.bottom}${uniformHatPhrase(c, true)}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}), shoes (only where allowed): ${c.shoes}. Do not reproduce real organizations' insignia or logos.` : `Suggested outfit for the outfit panels: ${c.outfitBrand} ${c.outfitType} — outerwear: ${c.jacket}, top: ${c.top}, bottom: ${c.bottom}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}), shoes (only where allowed): ${c.shoes}.`;
+    return c.workUniform ? `服装パネルの内容：${c.workUniform}。トップスは${c.top}、ボトムスは${c.bottom}${uniformHatPhrase(c, false)}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}）、靴（許可されたパネルのみ）は${c.shoes}。実在組織の記章・ロゴは正確に再現しない。` : `提案服装パネルの内容：${c.outfitBrand}の${c.outfitType}。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}）、靴（許可されたパネルのみ）は${c.shoes}。`;
   }
   const POSTER_FOOT = {
     '僧侶':['寺内や和室の場面なら素足や足袋・雪駄が自然。屋外なら雪駄や作業用の履物を選ぶ','in a temple or tatami setting, bare feet or tabi/setta sandals are natural; outdoors, setta or work footwear'],
@@ -2327,10 +2368,14 @@
     if(english) return `Footwear should be whatever is most natural for his occupation and the chosen scene${sp ? ` — for him: ${sp[1]}` : ''}. If shoes would look unnatural (tatami rooms, dojos, beaches, etc.), consider bare feet, tabi, setta/geta sandals, or other footwear instead of defaulting to shoes and socks. `;
     return `足元は職業と場面に最も自然な状態を選ぶ${sp ? `（この人物の場合：${sp[0]}）` : ''}。靴が不自然な場面（和室・道場・砂浜など）では、靴と靴下に固定せず、素足・足袋・雪駄・下駄・サンダルなども検討する。`;
   }
+  function uniformHatPhrase(c, english=false){
+    if(!c || !c.workUniform || !c.headwear || c.headwearOn === false) return '';
+    return english ? `, headwear: ${c.headwear} (worn on the head)` : `、帽子は${c.headwear}を着用`;
+  }
   function workOutfitSpec(c, english=false){
     if(c.workUniform){
-      if(english) return `Work outfit contents: ${c.workUniformEn} — top: ${c.top}, bottom: ${c.bottom}, shoes: ${c.shoes}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}). Do not reproduce real organizations' insignia or logos. `;
-      return `職業服装の内容：${c.workUniform}。トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。実在組織の記章・ロゴは正確に再現しない。`;
+      if(english) return `Work outfit contents: ${c.workUniformEn} — top: ${c.top}, bottom: ${c.bottom}, shoes: ${c.shoes}${uniformHatPhrase(c, true)}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}). Do not reproduce real organizations' insignia or logos. `;
+      return `職業服装の内容：${c.workUniform}。トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。実在組織の記章・ロゴは正確に再現しない。`;
     }
     if(english) return `Work outfit contents: ${c.outfitBrand} ${c.outfitType} — outerwear: ${c.jacket}, top: ${c.top}, bottom: ${c.bottom}, shoes: ${c.shoes}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}). `;
     return `職業服装の内容：${c.outfitBrand}の${c.outfitType}。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。`;
@@ -2563,8 +2608,10 @@
     };
   }
 
+  let FRIEND_CTX = null;
   function generateCharacter(partialMode='full', groupCtx=null){
     const fixed = groupCtx ? {} : getFixed();
+    if(FRIEND_CTX){ if(FRIEND_CTX.age) fixed.age = FRIEND_CTX.age; if(FRIEND_CTX.nationality) fixed.nationality = FRIEND_CTX.nationality; if(FRIEND_CTX.season) fixed.season = FRIEND_CTX.season; }
     const initial = getInitial();
     const rareMode = partialMode === 'rare';
     const base = current && partialMode !== 'full' && partialMode !== 'rare' ? {...current} : {};
@@ -2573,17 +2620,17 @@
     const ethnicity = fixed.ethnicity || initial.ethnicity || base.ethnicity || defaultEthnicityForNationality(nationality);
     const mbti = fixed.mbti || base.mbti || (groupCtx ? weighted(groupCtx.mbtiWeights) : pick(pools.mbtis));
     const vibe = fixed.vibe || (initial.vibe && initial.vibe !== 'ランダム' ? initial.vibe : (base.vibe || (groupCtx && Math.random()<0.6 ? groupCtx.vibe : chooseVibeByMbti(mbti, age))));
-    const eraYear = initial.eraYear || '2026';
+    const eraYear = (FRIEND_CTX && FRIEND_CTX.eraYear) || initial.eraYear || '2026';
     const era = eraProfile(eraYear);
     const season = fixed.season || base.season || ((initial.season && initial.season !== 'ランダム') ? initial.season : pick(['春','夏','秋','冬']));
     const profile = vibeProfile(vibe, age);
     const gapMode = Math.random() < 0.15;
-    const role = base.role || (initial.occupation && initial.occupation !== 'ランダム' ? initial.occupation : chooseRoleByMbti(age, vibe, mbti, eraYear, gapMode));
+    const role = FRIEND_CTX ? (FRIEND_CTX.role || chooseRoleByMbti(age, vibe, mbti, eraYear, gapMode)) : (base.role || (initial.occupation && initial.occupation !== 'ランダム' ? initial.occupation : chooseRoleByMbti(age, vibe, mbti, eraYear, gapMode)));
     const holidayPersona = !!(VIBE_OCC[vibe] && VIBE_OCC[vibe].bad.includes(role));
     const occRowForAge = OCCUPATIONS.find(o=>o[0]===role);
     if(occRowForAge && !base.age){
       const aLo = occRowForAge[4] || 18, aHi = occRowForAge[5] || 80;
-      if(age < aLo || age > aHi) age = rnd(aLo, aHi, 1);
+      if(age < aLo || age > aHi) age = FRIEND_CTX ? Math.min(aHi, Math.max(aLo, age)) : rnd(aLo, aHi, 1);
     }
     const sportName = fixed.sportName || base.sportName || chooseSport(role, eraYear);
     const heightAvgBase = avgHeight(nationality, eraYear);
@@ -2724,6 +2771,7 @@
       coord.top = uniform[2];
       coord.bottom = uniform[3];
       coord.shoes = uniform[4];
+      coord.headwear = uniform[7] || '';
     }
     const PREWAR_COORD = {
       '書生風スタイル（着物＋袴＋学帽）':{jacket:'なし', top:'絣の着物', bottom:'袴', shoes:'下駄'},
@@ -2771,7 +2819,7 @@
       boxerBrand: base.boxerBrand || pick(eraBrandList(pools.boxerBrands, eraYear, '指定しない')), boxerColor: base.boxerColor || pick(pools.boxerColors),
       glasses: base.glasses || chooseGlasses(eraYear, vibe, role, age),
       holidayOutfitType, holidayOutfitBrand: hCoord.outfitBrand, holidayJacket: hCoord.jacket, holidayTop: hCoord.top, holidayBottom: hCoord.bottom, holidayShoes: hCoord.shoes, holidaySockBrand: hCoord.sockBrand, holidaySockType: hCoord.sockType, holidaySockColor: hCoord.sockColor, holidaySockUse: hCoord.sockUse,
-      occupationMode, occInfluence, holidayPersona, sportName, season, avgHeightBase: heightAvgBase, workUniform: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[0] : '', workUniformEn: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[1] : '', derivedMode: initial.derivedMode || '参照画像前提（簡潔版）', catchphraseMode: initial.catchphraseMode || '結果画面のみ表示',
+      occupationMode, occInfluence, holidayPersona, sportName, season, avgHeightBase: heightAvgBase, workUniform: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[0] : '', workUniformEn: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[1] : '', headwear: (uniform && !fixed.outfitType && !base.outfitType) ? (uniform[7] || '') : '', headwearOn: base.headwearOn !== undefined ? base.headwearOn : true, derivedMode: initial.derivedMode || '参照画像前提（簡潔版）', catchphraseMode: initial.catchphraseMode || '結果画面のみ表示',
       mainWearMode: initial.mainWearMode || 'ボクサーパンツのみ', underwearType: base.underwearType || (eraUw ? eraUw.type : ''), underwearColor: base.underwearColor || (eraUw ? eraUw.color : ''),
       shoes: base.shoes || coord.shoes, sockBrand: base.sockBrand || coord.sockBrand, sockType: base.sockType || coord.sockType, sockShape: base.sockShape || coord.sockShape, sockMaterial: base.sockMaterial || coord.sockMaterial, sockColor: base.sockColor || coord.sockColor, sockUse: base.sockUse || coord.sockUse,
       personality: mbtiDescription(mbti, false),
@@ -3142,6 +3190,62 @@ ${promptTargetGuide(lead, false)}`;
     nationality:['nationality','ethnicity','name'],
     age:['age','ageAppearance','name']
   };
+  const FRIEND_RELATIONS = {
+    '同僚':{sameRole:true, hier:['上司','先輩','同い年','後輩']},
+    '同期':{sameRole:true, hier:null, fixedHier:'同期', delta:[-2,2]},
+    '同級生':{sameRole:true, hier:null, fixedHier:'同い年', delta:[0,0]},
+    '幼なじみ':{sameRole:false, hier:['先輩','同い年','後輩']},
+    '趣味仲間':{sameRole:false, hier:['先輩','同い年','後輩']},
+    '学生時代からの友人':{sameRole:false, hier:['先輩','同い年','後輩']}
+  };
+  const FRIEND_HIER_DELTA = {'上司':[6,15],'先輩':[1,5],'同い年':[0,0],'後輩':[-5,-1]};
+  const FRIEND_REL_EN = {'同僚':'Colleague (same occupation)','同期':'Same-cohort colleague (same occupation, ±2 yrs)','同級生':'Classmate (same occupation, same age)','幼なじみ':'Childhood friend','趣味仲間':'Hobby friend','学生時代からの友人':'Friend since school days'};
+  const FRIEND_HIER_EN = {'上司':'Boss','先輩':'Senior','同い年':'Same age','後輩':'Junior'};
+  function renderFriendPanel(){
+    const relSel = document.getElementById('friendRelation'); if(!relSel) return;
+    const keep = relSel.value;
+    relSel.innerHTML = Object.keys(FRIEND_RELATIONS).map(r=>`<option value="${r}">${uiLang==='en' ? FRIEND_REL_EN[r] : r}</option>`).join('');
+    if(keep && FRIEND_RELATIONS[keep]) relSel.value = keep;
+    const rel = FRIEND_RELATIONS[relSel.value];
+    const hierField = document.getElementById('friendHierField');
+    const hierSel = document.getElementById('friendHierarchy');
+    if(rel.hier){
+      hierField.classList.remove('hidden');
+      const keepH = hierSel.value;
+      hierSel.innerHTML = rel.hier.map(h=>`<option value="${h}">${uiLang==='en' ? FRIEND_HIER_EN[h] : h}</option>`).join('');
+      if(keepH && rel.hier.includes(keepH)) hierSel.value = keepH;
+    } else {
+      hierField.classList.add('hidden');
+    }
+  }
+  function createFriend(){
+    if(!current || spinning) return;
+    const relName = document.getElementById('friendRelation').value;
+    const rel = FRIEND_RELATIONS[relName]; if(!rel) return;
+    const hierName = rel.hier ? document.getElementById('friendHierarchy').value : rel.fixedHier;
+    const baseC = {...current}; delete baseC.friendBase;
+    const [dLo, dHi] = rel.delta || FRIEND_HIER_DELTA[hierName] || [0,0];
+    const targetAge = Math.max(18, Math.min(80, Number(baseC.age) + rnd(dLo, dHi, 1)));
+    FRIEND_CTX = {
+      age: String(targetAge),
+      eraYear: String(baseC.eraYear || '2026'),
+      season: baseC.season || '',
+      nationality: Math.random() < 0.9 ? baseC.nationality : '',
+      role: rel.sameRole ? baseC.role : ''
+    };
+    let f = null;
+    for(let i=0;i<8;i++){ f = generateCharacter('full'); if(rel.sameRole || f.role !== baseC.role) break; }
+    FRIEND_CTX = null;
+    f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
+    f.friendBase = baseC;
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.0.0'});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
+    currentGroup = null; activeMember = 0;
+    current = f;
+    document.getElementById('friendPanel').classList.add('hidden');
+    renderAll(); switchTab('result');
+    els.status.textContent = T('friendDone');
+  }
   function rerollOne(key){
     if(!current || spinning) return;
     const fresh = generateCharacter('full');
@@ -3239,7 +3343,7 @@ Preserve the character's identity. Era setting: ${c.eraYear || '2026'} CE. ${era
 
 ${mode==='holiday'
   ? `[Casual outfit] This is his personal, off-duty style that reflects his personality and vibe. Base the outfit on ${c.holidayOutfitBrand || c.outfitBrand} ${c.holidayOutfitType || c.outfitType}. Outerwear: ${c.holidayJacket || 'none'}. Top: ${c.holidayTop || c.top}. Bottom: ${c.holidayBottom || c.bottom}. Shoes: ${c.holidayShoes || c.shoes}. Socks: ${c.holidaySockBrand || c.sockBrand} ${c.holidaySockType || c.sockType} (${c.holidaySockColor || c.sockColor}).`
-  : c.workUniform ? `[Work uniform — as a ${(typeof valueTranslations!=='undefined' && valueTranslations[c.role]) || displayValue('role', c.role) || c.role}] He wears ${c.workUniformEn}. Depict it as practical issued workwear. Do NOT accurately reproduce insignia or logos of any real organization, unit, or company — keep it a generic, standard uniform style for his occupation. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}. Socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).` : `[Work outfit${c.role ? ` — as a ${displayValue('role', c.role)}` : ''}] Base the outfit on ${c.outfitBrand} ${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.`}
+  : c.workUniform ? `[Work uniform — as a ${(typeof valueTranslations!=='undefined' && valueTranslations[c.role]) || displayValue('role', c.role) || c.role}] He wears ${c.workUniformEn}. Depict it as practical issued workwear. Do NOT accurately reproduce insignia or logos of any real organization, unit, or company — keep it a generic, standard uniform style for his occupation. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}${uniformHatPhrase(c, true)}. Socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).` : `[Work outfit${c.role ? ` — as a ${displayValue('role', c.role)}` : ''}] Base the outfit on ${c.outfitBrand} ${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.`}
 
 ${styleEn}
 Era setting: around ${c.eraYear || '2026'}. Match the garment silhouettes, fabrics, and accessories to this period.\n${adultUniformEn}
@@ -3254,7 +3358,7 @@ ${targetEn}`;
 
 ${mode==='holiday'
   ? `【私服コーデ】仕事とは違う、本人の性格や雰囲気が表れる私服として描く。服装は${c.holidayOutfitBrand || c.outfitBrand}の${c.holidayOutfitType || c.outfitType}を基調にする。上着は${c.holidayJacket || 'なし'}、トップスは${c.holidayTop || c.top}、ボトムスは${c.holidayBottom || c.bottom}、靴は${c.holidayShoes || c.shoes}。靴下は${c.holidaySockBrand || c.sockBrand}の${c.holidaySockType || c.sockType}（${c.holidaySockColor || c.sockColor}）。`
-  : c.workUniform ? `【職業コーデ（${c.role}の勤務服）】服装は${c.workUniform}。支給品らしい実用的な着こなしで描く。実在の特定組織・部隊・企業の記章やロゴを正確に再現せず、標準的な${c.role}の制服スタイルにとどめる。上着はなし、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}。靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。` : `【職業コーデ${c.role ? `（${c.role}の仕事着・仕事帰りの装い）` : ''}】服装は${c.outfitBrand}の${c.outfitType}を基調にする。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}。靴下は${c.sockBrand}の${c.sockType}で、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。`}
+  : c.workUniform ? `【職業コーデ（${c.role}の勤務服）】服装は${c.workUniform}。支給品らしい実用的な着こなしで描く。実在の特定組織・部隊・企業の記章やロゴを正確に再現せず、標準的な${c.role}の制服スタイルにとどめる。上着はなし、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}。靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。` : `【職業コーデ${c.role ? `（${c.role}の仕事着・仕事帰りの装い）` : ''}】服装は${c.outfitBrand}の${c.outfitType}を基調にする。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}。靴下は${c.sockBrand}の${c.sockType}で、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。`}
 
 ${styleJa}
 時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${seasonLine(c, false)}服のシルエット・素材感・小物もこの年代に合わせる。\n${adultUniformJa}
@@ -3396,18 +3500,100 @@ ${targetJa}
 避けること：未成年に見える表現、性的なポーズ、過度な身体強調、局部の強調、${underwearAvoid(c, false)}足裏や足指の過度な接写、AIっぽい肌、別人化、文字崩れ、${fullOutfitSheet ? '指定コーデ以外の服装への勝手な変更。' : allowsOutfitPanels ? '指定パネル以外への服装・靴の混入。' : '上着・トップス・ボトムス・靴・靴下の混入。'}`;
   }
 
+  function buildUniformEditRows(c, L){
+    if(!c.workUniform || !UNIFORM_VARIANTS[c.role]) return [];
+    const variants = UNIFORM_VARIANTS[c.role];
+    const rows = [];
+    if(variants.length > 1){
+      const opts = variants.map(v=>`<option value="${String(v[0]).replace(/"/g,'&quot;')}"${v[0]===c.workUniform?' selected':''}>${displayValue('workUniform', v[0]) || v[0]}</option>`).join('');
+      rows.push([L.uniformKind, `<select data-uniform-edit style="max-width:100%;background:#0d1a2c;border:1px solid var(--gold);border-radius:8px;color:#eaf2ff;padding:4px 6px;font-size:12px">${opts}</select>`]);
+    } else {
+      rows.push([L.uniformKind, displayValue('workUniform', c.workUniform) || c.workUniform]);
+    }
+    if(c.headwear){
+      const onLabel = uiLang==='en' ? 'Wear the cap' : '着帽する';
+      const offLabel = uiLang==='en' ? 'No cap' : '着帽しない';
+      rows.push([L.headwearRow, `<select data-headwear-edit style="background:#0d1a2c;border:1px solid var(--gold);border-radius:8px;color:#eaf2ff;padding:4px 6px;font-size:12px"><option value="on"${c.headwearOn!==false?' selected':''}>${onLabel}</option><option value="off"${c.headwearOn===false?' selected':''}>${offLabel}</option></select> <span class="notice" style="display:inline">${c.headwear}</span>`]);
+    }
+    return rows;
+  }
+  function applyUniformVariant(name){
+    if(!current || !UNIFORM_VARIANTS[current.role]) return;
+    const v = UNIFORM_VARIANTS[current.role].find(x=>x[0]===name);
+    if(!v) return;
+    current.workUniform = v[0]; current.workUniformEn = v[1];
+    current.top = v[2]; current.bottom = v[3]; current.shoes = v[4];
+    current.headwear = v[7] || '';
+    current.jacket = 'なし'; current.outfitBrand = '支給品・制服';
+    renderAll();
+  }
+  function friendRelationText(c, english=false){
+    const fo = c.friendOf; if(!fo) return '';
+    const relMapEn = {'同僚':'Colleague','同期':'Same-cohort colleague','同級生':'Classmate','幼なじみ':'Childhood friend','趣味仲間':'Hobby friend','学生時代からの友人':'Friend since school days'};
+    const hierMapEn = {'上司':'his boss','先輩':'his senior','同い年':'same age','後輩':'his junior','同期':'same cohort'};
+    if(english) return `${relMapEn[fo.relation] || fo.relation} (${hierMapEn[fo.hierarchy] || fo.hierarchy}) of ${fo.name} (${fo.age}, ${displayValue('role', fo.role)})`;
+    return `${fo.name}（${fo.age}歳・${fo.role}）の${fo.relation}（${fo.hierarchy}）`;
+  }
+  function friendPairPersonBlock(m, label, english=false){
+    const hat = uniformHatPhrase(m, english);
+    const outfit = m.workUniform
+      ? (english ? `Outfit: ${m.workUniformEn} — top: ${m.top}, bottom: ${m.bottom}, shoes: ${m.shoes}${hat}. Do not reproduce real organizations' insignia or logos.` : `服装は${m.workUniform}（トップスは${m.top}、ボトムスは${m.bottom}、靴は${m.shoes}${hat}）。実在組織の記章・ロゴは正確に再現しない。`)
+      : (english ? `Outfit: ${m.outfitBrand} ${m.outfitType} — outerwear: ${m.jacket}, top: ${m.top}, bottom: ${m.bottom}, shoes: ${m.shoes}.` : `服装は${m.outfitBrand}の${m.outfitType}（上着は${m.jacket}、トップスは${m.top}、ボトムスは${m.bottom}、靴は${m.shoes}）。`);
+    if(english) return `[${label}] ${m.name}, ${m.age} years old, height ${m.height}, ${displayValue('bodyType', m.bodyType)}. Face: ${displayValue('facePreset', m.facePreset)}, hair: ${displayValue('hairColor', m.hairColor)} ${displayValue('hairStyle', m.hairStyle)}. ${outfit}`;
+    return `【${label}】${m.name}、${m.age}歳、身長${m.height}、${m.bodyType}。顔立ちは${m.facePreset}、髪は${m.hairColor}の${m.hairStyle}。${outfit}`;
+  }
+  function friendPairScene(relation, english=false){
+    const map = {
+      '同僚':['仕事帰りに職場近くの通りを並んで歩きながら談笑している場面','walking side by side and chatting on a street near their workplace after work'],
+      '同期':['休憩時間に職場近くのベンチで並んで一息ついている場面','taking a short break together on a bench near their workplace'],
+      '同級生':['学校帰りに並んで歩きながら話している場面','walking and talking side by side on the way home from school'],
+      '幼なじみ':['地元の商店街で立ち話をしている場面','catching up on the street of their hometown shopping district'],
+      '趣味仲間':['趣味の集まりの帰りに並んで歩いている場面','walking together after a hobby meetup'],
+      '学生時代からの友人':['久しぶりに再会してカフェの前で談笑している場面','reuniting and chatting in front of a cafe']
+    };
+    const e = map[relation] || map['同僚'];
+    return english ? e[1] : e[0];
+  }
+  function buildFriendPairPrompt(c, english=false){
+    const a = c.friendBase, b = c;
+    if(!a) return '';
+    const fo = c.friendOf || {};
+    const relJa = `${b.name}は${a.name}の${fo.relation || '友人'}（${fo.hierarchy || '同い年'}）`;
+    const relEn = `${b.name} is ${a.name}'s ${ (FRIEND_REL_EN[fo.relation] || 'friend').toLowerCase() } (${(FRIEND_HIER_EN[fo.hierarchy] || fo.hierarchy || 'same age')})`;
+    const scene = friendPairScene(fo.relation, english);
+    if(english){
+      return `Generate one two-shot photo-style image of the following two adult men. Both are adults aged 18 or older. Keep the image non-sexual, wholesome, and like a natural everyday snapshot of two friends. Relationship: ${relEn}. Era setting: ${b.eraYear || '2026'} CE. ${eraStyleNote(b, true)}
+
+${friendPairPersonBlock(a, 'Person A (original)', true)}
+${friendPairPersonBlock(b, 'Person B (friend)', true)}
+
+Scene: ${scene}. Background: ${b.background}. Lighting: ${b.lighting}. Visual quality/style: ${enQuality(b.quality)}.
+If base reference card images of either person are attached, each man must remain exactly the same person as his own card; never blend or swap their features.
+Express their height and build differences accurately, with natural standing positions, distances, and expressions that convey their relationship. Avoid: making anyone look underage, sexual expression, changing anyone into a different person, extreme body emphasis, or broken text.
+${promptTargetGuide(b, true)}`;
+    }
+    return `以下の2人の成人男性を、1枚のツーショット写真風画像として生成してください。2人とも18歳以上の成人で、非性的で健全な、仲の良い友人同士の日常スナップとして描写する。関係：${relJa}。時代設定は${eraLabel(b.eraYear)}頃。${countryLine(b, false)}${seasonLine(b, false)}${eraStyleNote(b, false)}
+
+${friendPairPersonBlock(a, '人物A（元の人物）', false)}
+${friendPairPersonBlock(b, '人物B（友人）', false)}
+
+場面：${scene}。背景は${b.background}。光は${b.lighting}。画質・質感は${b.quality}。
+どちらかの基準リファレンスカード画像を添付した場合は、その人物は自分のカードと完全に同一人物として描き、2人の特徴を混ぜたり入れ替えたりしない。
+2人の身長差・体格差を正確に表現し、関係性が伝わる自然な立ち位置・距離感・表情にする。避けること：未成年に見える表現、性的表現、別人化、極端な身体強調、文字崩れ。
+${promptTargetGuide(b, false)}`;
+  }
   function renderProfile(){
     if(!current){ els.profileView.innerHTML=`<p class="notice">${uiLang==='ja'?'まだ結果がありません。':'No result yet.'}</p>`; els.promptBox.value=''; document.getElementById('outfitPromptBox').value=''; document.getElementById('scenePromptBox').value=''; const cardBox=document.getElementById('cardPromptBox'); if(cardBox) cardBox.value=''; return; }
     if(!current.personality && current.mbti) current.personality = mbtiDescription(current.mbti, false);
     const L=T('rows');
     const mainWear = uiLang==='en' ? `${underwearDesc(current, true)} only` : `${underwearDesc(current, false)}のみ`;
     const sections = [
-      ['basic', L.basic, [[L.name,current.name],[L.age,displayValue('age',current.age)],[L.era, uiLang==='en' ? `${current.eraYear || '2026'} (${eraProfile(current.eraYear || '2026').labelEn})${current.season ? ` / ${displayValue('season', current.season) || current.season}` : ''}` : `${eraLabel(current.eraYear)}（${eraProfile(current.eraYear || '2026').labelJa}）${current.season ? `・${current.season}` : ''}`],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}${current.occupationMode ? `（${uiLang==='en' ? displayValue('occupationMode', current.occupationMode) || current.occupationMode : current.occupationMode}）` : ''}`]].concat(current.groupSetting ? [[L.group, `${displayValue('groupSetting',current.groupSetting) || current.groupSetting} / ${displayValue('groupPosition',current.groupPosition) || current.groupPosition}`]] : []).concat([[L.mbti,`<span class="mini-badge">${mbtiDisplay(current)}</span>`]])],
+      ['basic', L.basic, [[L.name,current.name],[L.age,displayValue('age',current.age)],[L.era, uiLang==='en' ? `${current.eraYear || '2026'} (${eraProfile(current.eraYear || '2026').labelEn})${current.season ? ` / ${displayValue('season', current.season) || current.season}` : ''}` : `${eraLabel(current.eraYear)}（${eraProfile(current.eraYear || '2026').labelJa}）${current.season ? `・${current.season}` : ''}`],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}${current.occupationMode ? `（${uiLang==='en' ? displayValue('occupationMode', current.occupationMode) || current.occupationMode : current.occupationMode}）` : ''}`]].concat(current.groupSetting ? [[L.group, `${displayValue('groupSetting',current.groupSetting) || current.groupSetting} / ${displayValue('groupPosition',current.groupPosition) || current.groupPosition}`]] : []).concat(current.friendOf ? [[L.friendRow, friendRelationText(current, uiLang==='en')]] : []).concat([[L.mbti,`<span class="mini-badge">${mbtiDisplay(current)}</span>`]])],
       ['face', L.faceSection, [[L.face,`${displayValue('facePreset',current.facePreset)} / ${displayValue('ageAppearance',current.ageAppearance)}`],[L.faceLine,displayValue('faceLine',current.faceLine)],[L.eyes,displayValue('eyes',current.eyes)],[L.nose,displayValue('nose',current.nose)],[L.mouth,displayValue('mouth',current.mouth)],[L.skin,displayValue('skin',current.skin)],[L.facialHair,displayValue('facialHair',current.facialHair)],[L.glasses, displayValue('glasses', current.glasses || 'なし')],[L.hair,`${displayValue('hairColor',current.hairColor)}・${displayValue('hairStyle',current.hairStyle)}`]]],
       ['body', L.bodySection, [[L.hw,`${current.height} / ${current.weight}`],[L.body,displayValue('bodyType',current.bodyType)],[L.foot,current.footSize],[L.footShape,displayValue('footShape',current.footShape)]]],
       ['bodyhair', L.bodyHairSection, [[L.bodyHair, buildBodyHairSummary(current, uiLang==='en')]]],
       ['main', L.mainSection, [[L.main, mainWear]]],
-      ['outfit', L.outfitSection, [[L.weekdayOutfit,`${displayValue('outfitBrand',current.outfitBrand)}・${displayValue('outfitType',current.outfitType)}`],[L.sock,`${displayValue('sockBrand',current.sockBrand)}・${displayValue('sockType',current.sockType)}・${displayValue('sockColor',current.sockColor)}`]].concat(current.holidayOutfitType ? [[L.holidayOutfit,`${displayValue('outfitBrand',current.holidayOutfitBrand)}・${displayValue('outfitType',current.holidayOutfitType)}`],[L.holidaySock,`${displayValue('sockBrand',current.holidaySockBrand)}・${displayValue('sockType',current.holidaySockType)}・${displayValue('sockColor',current.holidaySockColor)}`]] : [])],
+      ['outfit', L.outfitSection, [[L.weekdayOutfit,`${displayValue('outfitBrand',current.outfitBrand)}・${displayValue('outfitType',current.outfitType)}`]].concat(buildUniformEditRows(current, L)).concat([[L.sock,`${displayValue('sockBrand',current.sockBrand)}・${displayValue('sockType',current.sockType)}・${displayValue('sockColor',current.sockColor)}`]]).concat(current.holidayOutfitType ? [[L.holidayOutfit,`${displayValue('outfitBrand',current.holidayOutfitBrand)}・${displayValue('outfitType',current.holidayOutfitType)}`],[L.holidaySock,`${displayValue('sockBrand',current.holidaySockBrand)}・${displayValue('sockType',current.holidaySockType)}・${displayValue('sockColor',current.holidaySockColor)}`]] : [])],
       ['output', L.outputSection, [[L.background,displayValue('background',current.background)],[L.output,`${displayValue('outputType',current.outputType)} / ${displayValue('count',current.count)}`],[L.promptTarget,`<span class="mini-badge">${current.promptTarget || 'ChatGPT'}</span>`],[L.imageText, current.captionMode==='表記しない' ? captionModeDisplay(current.captionMode) : `${captionModeDisplay(current.captionMode)} / ${getCaptionFieldLabelsArray(current, uiLang==='en').join(', ')}`],[L.cardSetting, `${displayValue('cardStyle',current.cardStyle)} / ${current.cardRarity} / ${displayValue('cardTheme',current.cardTheme)} / ${displayValue('cardLayout',current.cardLayout)} / ${displayValue('cardWearMode',current.cardWearMode || 'ボクサーパンツのみ')} / ${displayValue('cardEffect',cardEffectByRarity(current.cardRarity))}`]]],
       ['scene', L.sceneSection, [[L.scene,displayValue('sceneIdea',current.sceneIdea)]]]
     ];
@@ -3421,6 +3607,10 @@ ${targetJa}
       <span class="badge-cardinfo">🃏 ${displayValue('cardStyle',current.cardStyle)} / ${current.cardRarity || 'R'}</span>
     </div>`;
     els.profileView.innerHTML = badges + `<div class="profile-cards">` + sections.map(([key,title,rows])=>`<div class="profile-card pc-${key}${pcSpan2[key]?' span2':''}"><h3><span class="pc-icon">${pcIcons[key]||''}</span>${title}${key==='scene' ? ` <button class="dice" style="position:static;margin-left:auto" data-scene-edit title="${T('editTitle')}">✎</button>` : ''}</h3>${rows.map(([k,v])=>`<div class="kv"><b>${k}</b><span>${v}</span></div>`).join('')}</div>`).join('') + `</div>`;
+    const ue = els.profileView.querySelector('[data-uniform-edit]');
+    if(ue) ue.onchange = () => applyUniformVariant(ue.value);
+    const he = els.profileView.querySelector('[data-headwear-edit]');
+    if(he) he.onchange = () => { current.headwearOn = he.value === 'on'; renderAll(); };
     const se = els.profileView.querySelector('[data-scene-edit]');
     if(se) se.onclick = () => {
       const card = se.closest('.profile-card');
@@ -3447,6 +3637,7 @@ ${targetJa}
       const oh=document.getElementById('outfitHolidayPromptBox'); if(oh) oh.value = pref + buildOutfitPrompt(current, 'holiday') + (pref ? usageNote(isEnglish(current)) : '');
       document.getElementById('scenePromptBox').value = pref + buildScenePrompt(current) + (pref ? usageNote(isEnglish(current)) : '');
       const dv=document.getElementById('derivedPromptBox'); if(dv) dv.value = buildDerivedPrompt(current, isEnglish(current));
+      const fpb=document.getElementById('friendPairPromptBox'); if(fpb) fpb.value = current.friendBase ? buildFriendPairPrompt(current, isEnglish(current)) : '';
     }
     const mo=document.getElementById('manualOutputType'), mc=document.getElementById('manualCount'), mq=document.getElementById('manualQuality'), mb=document.getElementById('manualBackground'), ml=document.getElementById('manualLighting'), mpl=document.getElementById('manualPromptLanguage'), mpt=document.getElementById('manualPromptTarget'), mcm=document.getElementById('manualCaptionMode'), mcs=document.getElementById('manualCardStyle'), mcr=document.getElementById('manualCardRarity'), mct=document.getElementById('manualCardTheme'), mcl=document.getElementById('manualCardLayout'), mcw=document.getElementById('manualCardWearMode'), mce=document.getElementById('manualCardEffect');
     if(mo) mo.value=current.outputType; if(mc) mc.value=current.count; if(mq) mq.value=current.quality; if(mb) mb.value=current.background; if(ml) ml.value=current.lighting; if(mpl) mpl.value=current.promptLanguage || '日本語'; if(mpt) mpt.value=current.promptTarget || 'ChatGPT'; if(mcm) mcm.value=current.captionMode || '表記する';
@@ -3458,7 +3649,7 @@ ${targetJa}
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V1.9.22'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.0.0'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
@@ -3472,19 +3663,21 @@ ${targetJa}
 
   // ===== V1.9.1 A案 UI logic =====
   let promptTab = 'main';
-  const PROMPT_PANES = [['main','pane-main'],['derived','pane-derived'],['outfit','pane-outfit'],['outfitHoliday','pane-outfitHoliday'],['scene','pane-scene'],['group','pane-group']];
+  const PROMPT_PANES = [['main','pane-main'],['derived','pane-derived'],['outfit','pane-outfit'],['outfitHoliday','pane-outfitHoliday'],['scene','pane-scene'],['friendPair','pane-friendPair'],['group','pane-group']];
   function renderPromptTabs(){
     const bar = document.getElementById('promptTabs'); if(!bar) return;
     const labels = uiLang==='en'
-      ? {main:'🪪 Base Card', derived:'🎨 Derived Output', outfit:'👔 Work Outfit', outfitHoliday:'👕 Casual Outfit', scene:'🎬 Scene', group:'👥 Group Photo'}
-      : {main:'🪪 基準カード', derived:'🎨 派生出力', outfit:'👔 職業服装', outfitHoliday:'👕 私服服装', scene:'🎬 場面差分', group:'👥 集合写真'};
+      ? {main:'🪪 Base Card', derived:'🎨 Derived Output', outfit:'👔 Work Outfit', outfitHoliday:'👕 Casual Outfit', scene:'🎬 Scene', friendPair:'🤝 Friend Two-shot', group:'👥 Group Photo'}
+      : {main:'🪪 基準カード', derived:'🎨 派生出力', outfit:'👔 職業服装', outfitHoliday:'👕 私服服装', scene:'🎬 場面差分', friendPair:'🤝 友人ツーショット', group:'👥 集合写真'};
     const showGroup = !!(currentGroup && currentGroup.members.length>1 && currentGroup.promptMode !== '1つの指示文にまとめて生成');
+    const showFriendPair = !!(current && current.friendBase);
     if(promptTab==='group' && !showGroup) promptTab='main';
-    bar.innerHTML = PROMPT_PANES.filter(([k])=>k!=='group' || showGroup).map(([k])=>`<button class="ptab${promptTab===k?' active':''}" data-ptab="${k}">${labels[k]}</button>`).join('');
+    if(promptTab==='friendPair' && !showFriendPair) promptTab='main';
+    bar.innerHTML = PROMPT_PANES.filter(([k])=>(k!=='group' || showGroup) && (k!=='friendPair' || showFriendPair)).map(([k])=>`<button class="ptab${promptTab===k?' active':''}" data-ptab="${k}">${labels[k]}</button>`).join('');
     bar.querySelectorAll('[data-ptab]').forEach(b=>b.onclick=()=>{ promptTab=b.dataset.ptab; renderPromptTabs(); });
     PROMPT_PANES.forEach(([k,id])=>{ const el=document.getElementById(id); if(el) el.classList.toggle('hidden', promptTab!==k); });
     const descs = T('promptDescs') || {};
-    ['main','derived','outfit','outfitHoliday','scene','group'].forEach(k=>{ const el=document.getElementById('desc-'+k); if(el) el.textContent = descs[k] || ''; });
+    ['main','derived','outfit','outfitHoliday','scene','friendPair','group'].forEach(k=>{ const el=document.getElementById('desc-'+k); if(el) el.textContent = descs[k] || ''; });
     const f1=document.querySelector('[data-flow="1"]'), f2=document.querySelector('[data-flow="2"]');
     if(f1) f1.classList.toggle('active', promptTab==='main');
     if(f2) f2.classList.toggle('active', promptTab!=='main');
@@ -3607,7 +3800,7 @@ ${targetJa}
     refreshPresetSelect();
   }
   function updateCharCounts(){
-    [['promptBox','cc-promptBox'],['outfitPromptBox','cc-outfitPromptBox'],['outfitHolidayPromptBox','cc-outfitHolidayPromptBox'],['scenePromptBox','cc-scenePromptBox'],['derivedPromptBox','cc-derivedPromptBox'],['groupPromptBox','cc-groupPromptBox']].forEach(([t,cid])=>{
+    [['promptBox','cc-promptBox'],['outfitPromptBox','cc-outfitPromptBox'],['outfitHolidayPromptBox','cc-outfitHolidayPromptBox'],['scenePromptBox','cc-scenePromptBox'],['derivedPromptBox','cc-derivedPromptBox'],['friendPairPromptBox','cc-friendPairPromptBox'],['groupPromptBox','cc-groupPromptBox']].forEach(([t,cid])=>{
       const cEl = document.getElementById(cid); const tEl = document.getElementById(t);
       if(cEl && tEl) cEl.textContent = tEl.value ? `${tEl.value.length}${T('charsSuffix')}` : '';
     });
@@ -3651,6 +3844,10 @@ ${targetJa}
   document.getElementById('copyOutfitBtn').onclick=async(e)=>{ await navigator.clipboard.writeText(document.getElementById('outfitPromptBox').value); flashCopied(e.target); };
   document.getElementById('copyOutfitHolidayBtn').onclick=async(e)=>{ await navigator.clipboard.writeText(document.getElementById('outfitHolidayPromptBox').value); flashCopied(e.target); };
   document.getElementById('copyGroupBtn').onclick=async(e)=>{ await navigator.clipboard.writeText(document.getElementById('groupPromptBox').value); flashCopied(e.target); };
+  document.getElementById('copyFriendPairBtn').onclick=async(e)=>{ await navigator.clipboard.writeText(document.getElementById('friendPairPromptBox').value); flashCopied(e.target); };
+  document.getElementById('friendBtn').onclick=()=>{ if(!current){ alert(T('saveFirst')); return; } const fp=document.getElementById('friendPanel'); fp.classList.toggle('hidden'); if(!fp.classList.contains('hidden')) renderFriendPanel(); };
+  document.getElementById('friendRelation').onchange=()=>renderFriendPanel();
+  document.getElementById('friendGoBtn').onclick=()=>createFriend();
   document.getElementById('copySceneBtn').onclick=async(e)=>{ await navigator.clipboard.writeText(document.getElementById('scenePromptBox').value); flashCopied(e.target); };
   const copyDerivedBtn=document.getElementById('copyDerivedBtn'); if(copyDerivedBtn) copyDerivedBtn.onclick=async(e)=>{ await navigator.clipboard.writeText(document.getElementById('derivedPromptBox').value); flashCopied(e.target); };
   document.getElementById('clearHistoryBtn').onclick=()=>{ if(confirm(T('confirmClear'))){localStorage.removeItem(STORAGE_KEY); renderHistory();} };
