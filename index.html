@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V2.0.2</title>
+  <title>Guzen Ikemen Maker V2.0.3</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -94,8 +94,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V2.0.2</span>
-        <h1 class="title">Guzen Ikemen Maker V2.0.2</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V2.0.3</span>
+        <h1 class="title">Guzen Ikemen Maker V2.0.3</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -325,6 +325,11 @@
         <div class="prompt-pane hidden" id="pane-friendPair">
         <div class="section-title"><h2 id="paneTitle-friendPair" style="font-size:15px">友人ツーショット 指示文</h2><button class="btn primary" id="copyFriendPairBtn">📋 コピー</button></div>
         <p class="notice pane-desc" id="desc-friendPair"></p>
+        <div class="toolbar" style="margin:0 0 8px;align-items:center"><span class="pill warn-pill" id="friendPairWarn">⚠ 2人分の基準カード画像を添付してから使用</span></div>
+        <div class="toolbar" style="margin:0 0 8px;align-items:center;gap:10px">
+          <label class="field" style="margin:0"><span id="friendPairWearLabel">服装</span><select id="friendPairWearSel"></select></label>
+          <label class="field" style="margin:0"><span id="friendPairCountLabel">出力枚数</span><select id="friendPairCountSel"></select></label>
+        </div>
         <textarea class="textarea" id="friendPairPromptBox" readonly style="min-height:190px"></textarea>
         <p class="notice charcount" id="cc-friendPairPromptBox"></p>
         </div>
@@ -360,7 +365,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.0.2</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.0.3</p>
   </div>
 
 <script>
@@ -481,11 +486,11 @@
       startBtn:'SLOT START', rerollUnlockedBtn:'ロック以外を回す', resetLocksBtn:'ロック解除',
       groupPromptTitle:'集合写真 指示文', copyGroupBtn:'📋 コピー', copyGroupDone:'集合写真の指示文をコピーしました', memberLabel:'メンバー',
       promptAreaTitle:'画像生成用 指示文', copiedLabel:'✓ コピーしました', copyLabel:'📋 コピー',
-      promptDescs:{main:'STEP1：キャラの基準になるリファレンスカード（ボクサーパンツ・16:9）を作る指示文です。まずこれで基準画像を生成してください。', derived:'STEP2：下で選んだ形式の派生画像を作る指示文です。基準カードで生成した画像を添付してから貼り付けてください。', outfit:'職業に合わせた仕事着・仕事帰りコーデの差分を作る指示文です。', outfitHoliday:'性格・雰囲気重視の私服コーデの差分を作る指示文です。仕事とは違う一面が出ます。', scene:'日常の一場面を切り取ったスナップ風差分を作る指示文です。', card:'トレーディングカード風の1枚に仕上げる指示文です。カード設定はこの上の「カード差分プロンプト設定」で変更できます。', group:'グループ全員を1枚の集合写真として描く指示文です。', friendPair:'この人物と友人（元の人物）の2人を1枚のツーショット写真として描く指示文です。両者の基準カード画像があれば添付するとより安定します。'},
+      promptDescs:{main:'STEP1：キャラの基準になるリファレンスカード（ボクサーパンツ・16:9）を作る指示文です。まずこれで基準画像を生成してください。', derived:'STEP2：下で選んだ形式の派生画像を作る指示文です。基準カードで生成した画像を添付してから貼り付けてください。', outfit:'職業に合わせた仕事着・仕事帰りコーデの差分を作る指示文です。', outfitHoliday:'性格・雰囲気重視の私服コーデの差分を作る指示文です。仕事とは違う一面が出ます。', scene:'日常の一場面を切り取ったスナップ風差分を作る指示文です。', card:'トレーディングカード風の1枚に仕上げる指示文です。カード設定はこの上の「カード差分プロンプト設定」で変更できます。', group:'グループ全員を1枚の集合写真として描く指示文です。', friendPair:'参照画像2枚（本人と友人それぞれの基準カード）を添付して使う、2人のツーショット写真の指示文です。服装（職業服装/私服）と出力枚数はこの下で変更できます。'},
       editTitle:'この項目を直接変更', instantSkip:'演出スキップ', presetPlaceholder:'プリセット名', presetSave:'設定を保存', presetLoad:'読み込み', presetDelete:'削除', importJson:'JSONを読み込む', charsSuffix:'文字', diceTitle:'この項目だけ再抽選', favOn:'★', favOff:'☆', importedMsg:'読み込みました', presetSavedMsg:'プリセットを保存しました', presetNameNeeded:'プリセット名を入力してください',
       tab_slot:'スロット', tab_result:'結果・画像指示文', tab_history:'保存結果', tab_settings:'条件固定',
       initialTitle:'初期設定', initialPill:'スロットを回す前に指定', initialNotice:'ここで国籍・人種・年齢範囲・雰囲気系統・背景・光・画質・出力タイプ・出力枚数・生成先・画像内表記・カード差分プロンプト設定を指定します。これらは抽選せず、ここで選んだ内容が画像指示文へ反映されます。雰囲気系統を選ぶと、髪型・顔立ち・提案服装の抽選傾向が連動します。',
-      resultTitle:'完成プロフィール', saveBtn:'結果を保存', jsonBtn:'JSONを書き出す', promptTitle:'基準リファレンスカード 指示文', derivedTitle:'派生出力 指示文', derivedWarn:'⚠ 基準カードの画像を添付してから使用', copyPromptBtn:'📋 コピー', outfitTitle:'職業服装 指示文', outfitHolidayTitle:'私服服装 指示文', copyOutfitBtn:'📋 コピー', sceneTitle:'偶然見かけた場面 指示文', copySceneBtn:'📋 コピー', cardTitle:'トレーディングカード差分 指示文', copyCardBtn:'📋 コピー', friendPairTitle:'友人ツーショット 指示文',
+      resultTitle:'完成プロフィール', saveBtn:'結果を保存', jsonBtn:'JSONを書き出す', promptTitle:'基準リファレンスカード 指示文', derivedTitle:'派生出力 指示文', derivedWarn:'⚠ 基準カードの画像を添付してから使用', copyPromptBtn:'📋 コピー', outfitTitle:'職業服装 指示文', outfitHolidayTitle:'私服服装 指示文', copyOutfitBtn:'📋 コピー', sceneTitle:'偶然見かけた場面 指示文', copySceneBtn:'📋 コピー', cardTitle:'トレーディングカード差分 指示文', copyCardBtn:'📋 コピー', friendPairTitle:'友人ツーショット 指示文', friendPairWarn:'⚠ 2人分の基準カード画像を添付してから使用', friendPairWearLabel:'服装', friendPairCountLabel:'出力枚数',
       historyTitle:'保存結果', clearHistoryBtn:'履歴クリア', noHistory:'保存結果はまだありません。', loadBtn:'読み込む',
       settingsTitle:'条件固定ランダム', settingsPill:'空欄はランダム', settingsNotice:'固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。MBTIも固定可能です。背景・光・画質・出力タイプ・出力枚数・生成先・画像内表記は上部の初期設定または結果画面の選択欄で指定します。',
       friendBtn:'👥 友人を作成', friendPanelTitle:'友人を作成', friendRelationLabel:'関係', friendHierLabel:'上下関係', friendGoBtn:'この関係で友人を作成', friendNote:'元の人物は履歴に自動保存されます', friendDone:'友人が完成しました',
@@ -502,11 +507,11 @@
       startBtn:'SLOT START', rerollUnlockedBtn:'Spin unlocked only', resetLocksBtn:'Reset locks',
       groupPromptTitle:'Group Photo Prompt', copyGroupBtn:'📋 Copy', copyGroupDone:'Group photo prompt copied.', memberLabel:'Member',
       promptAreaTitle:'Image Generation Prompts', copiedLabel:'✓ Copied!', copyLabel:'📋 Copy',
-      promptDescs:{main:'STEP 1: builds the base reference card (boxer briefs, 16:9). Generate the base image with this first.', derived:'STEP 2: builds the selected derived output. Attach the base card image before using this prompt.', outfit:'His work outfit variation, shaped by his occupation.', outfitHoliday:'His casual outfit variation, shaped by his personality and vibe.', scene:'A candid everyday-scene variation prompt.', card:'A trading-card-style variation prompt. Card settings can be changed above.', group:'Renders the whole group as one photo.', friendPair:'Renders this person and his friend (the original person) together in one two-shot photo. Attaching both base card images makes the result more stable.'},
+      promptDescs:{main:'STEP 1: builds the base reference card (boxer briefs, 16:9). Generate the base image with this first.', derived:'STEP 2: builds the selected derived output. Attach the base card image before using this prompt.', outfit:'His work outfit variation, shaped by his occupation.', outfitHoliday:'His casual outfit variation, shaped by his personality and vibe.', scene:'A candid everyday-scene variation prompt.', card:'A trading-card-style variation prompt. Card settings can be changed above.', group:'Renders the whole group as one photo.', friendPair:'A two-shot prompt used with TWO attached reference images (each person\u2019s base card). Outfit (work/casual) and output count can be changed below.'},
       editTitle:'Edit this value directly', instantSkip:'Skip animation', presetPlaceholder:'Preset name', presetSave:'Save preset', presetLoad:'Load', presetDelete:'Delete', importJson:'Import JSON', charsSuffix:' chars', diceTitle:'Re-roll this item only', favOn:'★', favOff:'☆', importedMsg:'Imported.', presetSavedMsg:'Preset saved.', presetNameNeeded:'Enter a preset name.',
       tab_slot:'Slots', tab_result:'Results & Prompts', tab_history:'Saved Results', tab_settings:'Fixed Conditions',
       initialTitle:'Initial Settings', initialPill:'Set before spinning', initialNotice:'Set nationality, ethnicity, age range, vibe, background, lighting, quality, output type, output count, prompt target, image text, and card output settings here. These settings are not randomized and will be reflected directly in the image prompts. Choosing a vibe also influences hairstyle, face type, and suggested outfit generation.',
-      resultTitle:'Final Profile', saveBtn:'Save Result', jsonBtn:'Export JSON', promptTitle:'Base Reference Card Prompt', derivedTitle:'Derived Output Prompt', derivedWarn:'⚠ Attach the base card image before use', copyPromptBtn:'📋 Copy', outfitTitle:'Work Outfit Prompt', outfitHolidayTitle:'Casual Outfit Prompt', copyOutfitBtn:'📋 Copy', sceneTitle:'Candid Encounter Prompt', copySceneBtn:'📋 Copy', cardTitle:'Trading Card Variation Prompt', copyCardBtn:'📋 Copy', friendPairTitle:'Friend Two-shot Prompt',
+      resultTitle:'Final Profile', saveBtn:'Save Result', jsonBtn:'Export JSON', promptTitle:'Base Reference Card Prompt', derivedTitle:'Derived Output Prompt', derivedWarn:'⚠ Attach the base card image before use', copyPromptBtn:'📋 Copy', outfitTitle:'Work Outfit Prompt', outfitHolidayTitle:'Casual Outfit Prompt', copyOutfitBtn:'📋 Copy', sceneTitle:'Candid Encounter Prompt', copySceneBtn:'📋 Copy', cardTitle:'Trading Card Variation Prompt', copyCardBtn:'📋 Copy', friendPairTitle:'Friend Two-shot Prompt', friendPairWarn:'⚠ Attach both base card images before use', friendPairWearLabel:'Outfit', friendPairCountLabel:'Output count',
       historyTitle:'Saved Results', clearHistoryBtn:'Clear History', noHistory:'No saved results yet.', loadBtn:'Load',
       settingsTitle:'Random with Fixed Conditions', settingsPill:'Blank = random', settingsNotice:'If you press “SLOT START” after setting fixed conditions, the selected character and outfit items will be prioritized during random generation. MBTI can also be fixed. Background, lighting, quality, output type, output count, prompt target, and image text are set in the initial settings or in the result panel.',
       friendBtn:'👥 Create a Friend', friendPanelTitle:'Create a Friend', friendRelationLabel:'Relation', friendHierLabel:'Hierarchy', friendGoBtn:'Create friend with this relation', friendNote:'The original person is auto-saved to history', friendDone:'Friend created',
@@ -916,8 +921,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.0.2';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.0.2';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.0.3';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.0.3';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -952,6 +957,10 @@
     const pt4=document.getElementById('paneTitle-derived'); if(pt4) pt4.textContent=T('derivedTitle');
     const pt5=document.getElementById('paneTitle-friendPair'); if(pt5) pt5.textContent=T('friendPairTitle');
     const cp5=document.getElementById('copyFriendPairBtn'); if(cp5) cp5.textContent=T('copyPromptBtn');
+    const fpw=document.getElementById('friendPairWarn'); if(fpw) fpw.textContent=T('friendPairWarn');
+    const fpwl=document.getElementById('friendPairWearLabel'); if(fpwl) fpwl.textContent=T('friendPairWearLabel');
+    const fpcl=document.getElementById('friendPairCountLabel'); if(fpcl) fpcl.textContent=T('friendPairCountLabel');
+    renderFriendPairControls();
     const dw=document.getElementById('derivedWarn'); if(dw) dw.textContent=T('derivedWarn');
     const saveBtn=document.getElementById('saveBtn'); if(saveBtn) saveBtn.textContent=T('saveBtn');
     const frB=document.getElementById('friendBtn'); if(frB) frB.textContent=T('friendBtn');
@@ -3242,7 +3251,7 @@ ${promptTargetGuide(lead, false)}`;
     FRIEND_CTX = null;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.0.2'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.0.3'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -3558,13 +3567,20 @@ ${targetJa}
     if(english) return `${relMapEn[fo.relation] || fo.relation} (${hierMapEn[fo.hierarchy] || fo.hierarchy}) of ${fo.name} (${fo.age}, ${displayValue('role', fo.role)})`;
     return `${fo.name}（${fo.age}歳・${fo.role}）の${fo.relation}（${fo.hierarchy}）`;
   }
-  function friendPairPersonBlock(m, label, english=false){
-    const hat = uniformHatPhrase(m, english);
-    const outfit = m.workUniform
-      ? (english ? `Outfit: ${m.workUniformEn} — top: ${m.top}${uniformJacketPhrase(m, true)}, bottom: ${m.bottom}, shoes: ${m.shoes}${hat}. Do not reproduce real organizations' insignia or logos.` : `服装は${m.workUniform}（トップスは${m.top}${uniformJacketPhrase(m, false)}、ボトムスは${m.bottom}、靴は${m.shoes}${hat}）。実在組織の記章・ロゴは正確に再現しない。`)
-      : (english ? `Outfit: ${m.outfitBrand} ${m.outfitType} — outerwear: ${m.jacket}, top: ${m.top}, bottom: ${m.bottom}, shoes: ${m.shoes}.` : `服装は${m.outfitBrand}の${m.outfitType}（上着は${m.jacket}、トップスは${m.top}、ボトムスは${m.bottom}、靴は${m.shoes}）。`);
-    if(english) return `[${label}] ${m.name}, ${m.age} years old, height ${m.height}, ${displayValue('bodyType', m.bodyType)}. Face: ${displayValue('facePreset', m.facePreset)}, hair: ${displayValue('hairColor', m.hairColor)} ${displayValue('hairStyle', m.hairStyle)}. ${outfit}`;
-    return `【${label}】${m.name}、${m.age}歳、身長${m.height}、${m.bodyType}。顔立ちは${m.facePreset}、髪は${m.hairColor}の${m.hairStyle}。${outfit}`;
+  function friendPairOutfitPhrase(m, wear, english=false){
+    if(wear === '職業服装'){
+      if(m.workUniform){
+        const hat = uniformHatPhrase(m, english);
+        const jk = uniformJacketPhrase(m, english);
+        return english ? `${m.workUniformEn} — ${m.top}${jk} + ${m.bottom} + ${m.shoes}${hat}` : `${m.workUniform}（${m.top}${jk}＋${m.bottom}＋${m.shoes}${hat}）`;
+      }
+      const jkt = m.jacket && m.jacket !== 'なし' ? (english ? `${m.jacket} + ` : `${m.jacket}＋`) : '';
+      return english ? `${m.outfitBrand} ${m.outfitType} (${jkt}${m.top} + ${m.bottom} + ${m.shoes})` : `${m.outfitBrand}の${m.outfitType}（${jkt}${m.top}＋${m.bottom}＋${m.shoes}）`;
+    }
+    const hj = m.holidayJacket && m.holidayJacket !== 'なし' ? (english ? `${m.holidayJacket} + ` : `${m.holidayJacket}＋`) : '';
+    const brand = m.holidayOutfitBrand || m.outfitBrand, type = m.holidayOutfitType || m.outfitType;
+    const top = m.holidayTop || m.top, bottom = m.holidayBottom || m.bottom, shoes = m.holidayShoes || m.shoes;
+    return english ? `${brand} ${type} (${hj}${top} + ${bottom} + ${shoes})` : `${brand}の${type}（${hj}${top}＋${bottom}＋${shoes}）`;
   }
   function friendPairScene(relation, english=false){
     const map = {
@@ -3578,33 +3594,50 @@ ${targetJa}
     const e = map[relation] || map['同僚'];
     return english ? e[1] : e[0];
   }
+  const FRIEND_PAIR_COUNTS = ['1枚','2枚','3枚','4枚','5枚'];
+  function friendPairCountEn(v){ const n = parseInt(v, 10) || 3; return n === 1 ? 'one two-shot photo-style image' : `${n} two-shot photo-style images`; }
   function buildFriendPairPrompt(c, english=false){
     const a = c.friendBase, b = c;
     if(!a) return '';
     const fo = c.friendOf || {};
-    const relJa = `${b.name}は${a.name}の${fo.relation || '友人'}（${fo.hierarchy || '同い年'}）`;
-    const relEn = `${b.name} is ${a.name}'s ${ (FRIEND_REL_EN[fo.relation] || 'friend').toLowerCase() } (${(FRIEND_HIER_EN[fo.hierarchy] || fo.hierarchy || 'same age')})`;
+    const wear = c.friendPairWear || '私服';
+    const count = c.friendPairCount || '3枚';
     const scene = friendPairScene(fo.relation, english);
+    const uniformUsed = wear === '職業服装' && (a.workUniform || b.workUniform);
     if(english){
-      return `Generate one two-shot photo-style image of the following two adult men. Both are adults aged 18 or older. Keep the image non-sexual, wholesome, and like a natural everyday snapshot of two friends. Relationship: ${relEn}. Era setting: ${b.eraYear || '2026'} CE. ${eraStyleNote(b, true)}
-
-${friendPairPersonBlock(a, 'Person A (original)', true)}
-${friendPairPersonBlock(b, 'Person B (friend)', true)}
-
-Scene: ${scene}. Background: ${b.background}. Lighting: ${b.lighting}. Visual quality/style: ${enQuality(b.quality)}.
-If base reference card images of either person are attached, each man must remain exactly the same person as his own card; never blend or swap their features.
-Express their height and build differences accurately, with natural standing positions, distances, and expressions that convey their relationship. Avoid: making anyone look underage, sexual expression, changing anyone into a different person, extreme body emphasis, or broken text.
+      const guard = uniformUsed ? `\nDo not reproduce real organizations' insignia or logos on any uniform.` : '';
+      return `[TWO REFERENCE IMAGES PROVIDED — IMPORTANT] Generate ${friendPairCountEn(count)} of the two people in the reference images.
+Depict them as a natural everyday snapshot of two close friends. Both are adults aged 18 or older; keep the image non-sexual.
+Era setting: ${b.eraYear || '2026'} CE. Season: ${displayValue('season', b.season) || b.season || ''}. Scene: ${scene}. Background: ${b.background}.
+Reference image 1: ${a.name} — height ${a.height}, weight ${a.weight}, foot size ${a.footSize}, outfit: ${friendPairOutfitPhrase(a, wear, true)}
+Reference image 2: ${b.name} — height ${b.height}, weight ${b.weight}, foot size ${b.footSize}, outfit: ${friendPairOutfitPhrase(b, wear, true)}${guard}
+Visual quality/style: ${enQuality(b.quality)}.
+Keep each person's face and overall look exactly the same as in his reference image, drawing him as completely the same person; never blend or swap the two people's features.
+Express their height and build differences accurately, with natural positions, distance, and expressions that convey their relationship.
+Avoid: making anyone look underage, sexual expression, changing anyone into a different person, extreme body emphasis, or broken text.
 ${promptTargetGuide(b, true)}`;
     }
-    return `以下の2人の成人男性を、1枚のツーショット写真風画像として生成してください。2人とも18歳以上の成人で、非性的で健全な、仲の良い友人同士の日常スナップとして描写する。関係：${relJa}。時代設定は${eraLabel(b.eraYear)}頃。${countryLine(b, false)}${seasonLine(b, false)}${eraStyleNote(b, false)}
-
-${friendPairPersonBlock(a, '人物A（元の人物）', false)}
-${friendPairPersonBlock(b, '人物B（友人）', false)}
-
-場面：${scene}。背景は${b.background}。光は${b.lighting}。画質・質感は${b.quality}。
-どちらかの基準リファレンスカード画像を添付した場合は、その人物は自分のカードと完全に同一人物として描き、2人の特徴を混ぜたり入れ替えたりしない。
-2人の身長差・体格差を正確に表現し、関係性が伝わる自然な立ち位置・距離感・表情にする。避けること：未成年に見える表現、性的表現、別人化、極端な身体強調、文字崩れ。
+    const guardJa = uniformUsed ? `\n制服は実在組織の記章・ロゴを正確に再現しない。` : '';
+    return `【参照画像2枚あり・重要】参照画像の二人の人物のツーショット写真風画像を${count}生成してください。
+仲の良い友人同士の日常スナップとして描写する。2人とも18歳以上の成人で、非性的に描く。
+時代設定は${eraLabel(b.eraYear)}頃。${countryLine(b, false)}季節は${b.season || '指定なし'}。場面：${scene}。背景は${b.background}。
+参照画像１：${a.name}・身長${a.height}・体重${a.weight}・足のサイズ${a.footSize}・服装は${friendPairOutfitPhrase(a, wear, false)}
+参照画像２：${b.name}・身長${b.height}・体重${b.weight}・足のサイズ${b.footSize}・服装は${friendPairOutfitPhrase(b, wear, false)}${guardJa}
+画質・質感は${b.quality}。
+参照画像の人物の顔立ちや雰囲気は変えず完全に同一人物として描き、2人の特徴を混ぜたり入れ替えたりしない。
+2人の身長差・体格差を正確に表現し、関係性が伝わる自然な立ち位置・距離感・表情にする。
+避けること：未成年に見える表現、性的表現、別人化、極端な身体強調、文字崩れ。
 ${promptTargetGuide(b, false)}`;
+  }
+  function renderFriendPairControls(){
+    const wearSel = document.getElementById('friendPairWearSel');
+    const cntSel = document.getElementById('friendPairCountSel');
+    if(!wearSel || !cntSel) return;
+    const wearOpts = ['私服','職業服装'];
+    const wearLabels = uiLang==='en' ? {'私服':'Casual outfit','職業服装':'Work outfit'} : {'私服':'私服','職業服装':'職業服装'};
+    wearSel.innerHTML = wearOpts.map(v=>`<option value="${v}">${wearLabels[v]}</option>`).join('');
+    cntSel.innerHTML = FRIEND_PAIR_COUNTS.map(v=>`<option value="${v}">${uiLang==='en' ? (parseInt(v,10)+' image'+(parseInt(v,10)>1?'s':'')) : v}</option>`).join('');
+    if(current){ wearSel.value = current.friendPairWear || '私服'; cntSel.value = current.friendPairCount || '3枚'; }
   }
   function renderProfile(){
     if(!current){ els.profileView.innerHTML=`<p class="notice">${uiLang==='ja'?'まだ結果がありません。':'No result yet.'}</p>`; els.promptBox.value=''; document.getElementById('outfitPromptBox').value=''; document.getElementById('scenePromptBox').value=''; const cardBox=document.getElementById('cardPromptBox'); if(cardBox) cardBox.value=''; return; }
@@ -3663,6 +3696,7 @@ ${promptTargetGuide(b, false)}`;
       document.getElementById('scenePromptBox').value = pref + buildScenePrompt(current) + (pref ? usageNote(isEnglish(current)) : '');
       const dv=document.getElementById('derivedPromptBox'); if(dv) dv.value = buildDerivedPrompt(current, isEnglish(current));
       const fpb=document.getElementById('friendPairPromptBox'); if(fpb) fpb.value = current.friendBase ? buildFriendPairPrompt(current, isEnglish(current)) : '';
+      renderFriendPairControls();
     }
     const mo=document.getElementById('manualOutputType'), mc=document.getElementById('manualCount'), mq=document.getElementById('manualQuality'), mb=document.getElementById('manualBackground'), ml=document.getElementById('manualLighting'), mpl=document.getElementById('manualPromptLanguage'), mpt=document.getElementById('manualPromptTarget'), mcm=document.getElementById('manualCaptionMode'), mcs=document.getElementById('manualCardStyle'), mcr=document.getElementById('manualCardRarity'), mct=document.getElementById('manualCardTheme'), mcl=document.getElementById('manualCardLayout'), mcw=document.getElementById('manualCardWearMode'), mce=document.getElementById('manualCardEffect');
     if(mo) mo.value=current.outputType; if(mc) mc.value=current.count; if(mq) mq.value=current.quality; if(mb) mb.value=current.background; if(ml) ml.value=current.lighting; if(mpl) mpl.value=current.promptLanguage || '日本語'; if(mpt) mpt.value=current.promptTarget || 'ChatGPT'; if(mcm) mcm.value=current.captionMode || '表記する';
@@ -3674,7 +3708,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.0.2'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.0.3'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
@@ -3873,6 +3907,8 @@ ${promptTargetGuide(b, false)}`;
   document.getElementById('friendBtn').onclick=()=>{ if(!current){ alert(T('saveFirst')); return; } const fp=document.getElementById('friendPanel'); fp.classList.toggle('hidden'); if(!fp.classList.contains('hidden')) renderFriendPanel(); };
   document.getElementById('friendRelation').onchange=()=>renderFriendPanel();
   document.getElementById('friendGoBtn').onclick=()=>createFriend();
+  document.getElementById('friendPairWearSel').onchange=(e)=>{ if(current){ current.friendPairWear=e.target.value; renderAll(); } };
+  document.getElementById('friendPairCountSel').onchange=(e)=>{ if(current){ current.friendPairCount=e.target.value; renderAll(); } };
   document.getElementById('copySceneBtn').onclick=async(e)=>{ await navigator.clipboard.writeText(document.getElementById('scenePromptBox').value); flashCopied(e.target); };
   const copyDerivedBtn=document.getElementById('copyDerivedBtn'); if(copyDerivedBtn) copyDerivedBtn.onclick=async(e)=>{ await navigator.clipboard.writeText(document.getElementById('derivedPromptBox').value); flashCopied(e.target); };
   document.getElementById('clearHistoryBtn').onclick=()=>{ if(confirm(T('confirmClear'))){localStorage.removeItem(STORAGE_KEY); renderHistory();} };
