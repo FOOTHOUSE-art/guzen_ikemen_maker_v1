@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V2.0.0</title>
+  <title>Guzen Ikemen Maker V2.0.2</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -94,8 +94,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V2.0.0</span>
-        <h1 class="title">Guzen Ikemen Maker V2.0.0</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V2.0.2</span>
+        <h1 class="title">Guzen Ikemen Maker V2.0.2</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -360,7 +360,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.0.0</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.0.2</p>
   </div>
 
 <script>
@@ -524,9 +524,9 @@
 
   const valueTranslations = {
     '防衛大学校の常装冬服風（花紺色の詰襟型短ジャケット）':'NDA winter dress (very dark navy stand-collar jacket)',
-    '防衛大学校の第1種夏服風（白の詰襟上下）':'NDA Type-1 summer uniform (white stand-collar)',
+    '防衛大学校の第1種夏服風（白の詰襟上下）':'NDA Type-1 summer uniform (white stand-collar, white trousers)',
     '防衛大学校の第3種夏服風（白の半袖開襟シャツ）':'NDA Type-3 summer uniform (white short-sleeve shirt)',
-    '防衛大学校の校内服装（OD色の作業服＋指定ジャンパー）':'NDA on-campus wear (OD work clothes + jumper)',
+    '防衛大学校の校内服装（水色シャツ＋ネクタイ）':'NDA on-campus uniform (light-blue shirt + navy tie)',
     '防衛大学校の作業服装（65式作業服と同型・OD色）':'NDA work uniform (Type-65 pattern, olive drab)',
     '消防署の活動服（紺の作業服スタイル）':'Firefighter station duty uniform (navy)',
     '救助服（オレンジのレスキュー隊服）':'Rescue-squad uniform (orange)',
@@ -916,8 +916,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.0.0';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.0.0';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.0.2';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.0.2';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1834,11 +1834,11 @@
       ['救急隊の活動服（白シャツ＋紺パンツ）','an ambulance-crew duty uniform (white shirt with navy pants)','白の活動シャツ','紺の活動パンツ','白系の活動シューズ',1,'','紺のキャップ型活動帽']
     ],
     '防衛大学校学生': [
-      ['防衛大学校の常装冬服風（花紺色の詰襟型短ジャケット）','an NDA-style winter dress uniform (very dark navy stand-collar short jacket with white collar trim and black braid lines)','花紺色（黒に近い濃紺）の詰襟型短ジャケット（襟と袖口に白のカラー、黒の飾線）','濃紺の制服スラックス','黒の短靴',3,'winter','花紺色の制帽（黒つば・顎ひも・金色の帽章風エンブレム）'],
-      ['防衛大学校の第1種夏服風（白の詰襟上下）','an NDA-style Type-1 white summer uniform (white stand-collar jacket and white trousers)','白の詰襟型上衣','白の制服ズボン','黒の短靴',2,'summer','白覆いの夏制帽（黒つば・金色の帽章風エンブレム）'],
-      ['防衛大学校の第3種夏服風（白の半袖開襟シャツ）','an NDA-style Type-3 summer uniform (white short-sleeve open-collar shirt)','白の半袖開襟シャツ','黒の制服スラックス','黒の短靴',2,'summer','白覆いの夏制帽（黒つば・金色の帽章風エンブレム）'],
-      ['防衛大学校の校内服装（OD色の作業服＋指定ジャンパー）','NDA-style on-campus wear (olive-drab moss-green work clothes with an approved plain jumper)','OD色（モスグリーン）の作業服上衣＋紺系の無地ジャンパー','OD色の作業服パンツ','短靴',2,'','OD色のキャップ型作業帽'],
-      ['防衛大学校の作業服装（65式作業服と同型・OD色）','an NDA work uniform of the same pattern as the Type-65 fatigues (olive-drab / moss-green cotton work clothes)','モスグリーン（OD色）の綿作業服上衣','モスグリーン（OD色）の作業服パンツ','半長靴',2,'','OD色のキャップ型作業帽']
+      ['防衛大学校の常装冬服風（花紺色の詰襟型短ジャケット）','an NDA-style winter dress uniform — a very dark navy (near-black) waist-length stand-collar short jacket with a concealed zip front and no visible buttons, a single black braid line down the center front, black braid trim on the hem, lower sides, and lower sleeves, a thin white collar liner showing inside the stand collar and cuffs, gold collar-badge-style emblems on both collar tips, small gold star-shaped ornaments above the sleeve braid, and no front pockets','花紺色（黒に近い濃紺）の詰襟型短ジャケット（腰丈・立襟、前面はボタンの見えないファスナー留めの比翼仕立てで前中央に黒の飾線が縦に1本、裾まわり・両脇下部・袖下部にも黒の飾線、襟と袖口の内側から白いカラーが細く覗く、両襟に金色の襟章風エンブレム、袖の飾線の上に小さな金色の星形飾り、前面ポケットなし）','濃紺の制服スラックス','黒のプレーントゥ外羽根の短靴（履き込んだ使用感はあるが、つま先だけ鏡面のように磨き上げてある）',3,'winter','花紺色の制帽（黒つば・黒の帽体バンド・顎ひも・金色の帽章風エンブレム）'],
+      ['防衛大学校の第1種夏服風（白の詰襟上下）','an NDA-style Type-1 white summer uniform — a white waist-length stand-collar short jacket, hook-fastened at the throat, with a concealed button-free all-white front, gold collar-badge-style emblems on both collar tips, small gold buttons at the cuffs, no front pockets, worn with white trousers','白の詰襟型短ジャケット（腰丈・立襟、襟元はホック留め、前面はボタンの見えない比翼仕立てで装飾のない白一色、両襟に金色の襟章風エンブレム、袖口に小さな金色ボタン、前面ポケットなし）','白の制服ズボン','黒のプレーントゥ外羽根の短靴（履き込んだ使用感はあるが、つま先だけ鏡面のように磨き上げてある）',2,'summer','白覆いの制帽（黒つば・黒の帽体バンド・金色の帽章風エンブレム）'],
+      ['防衛大学校の第3種夏服風（白の半袖開襟シャツ）','an NDA-style Type-3 summer uniform — a white short-sleeve open-collar shirt with an open collar and no tie, white front buttons, two white-buttoned flap chest pockets and shoulder straps, tucked into white trousers with a silver-buckled white belt','白の半袖開襟シャツ（開いた襟元・ノーネクタイ、前面に白ボタン、両胸に白ボタン留めのフラップ付きポケット、肩章、裾はズボンにタックイン）','白の制服ズボン（銀色バックルの白ベルト）','黒のプレーントゥ外羽根の短靴（履き込んだ使用感はあるが、つま先だけ鏡面のように磨き上げてある）',2,'summer','白覆いの制帽（黒つば・金色の帽章風エンブレム）'],
+      ['防衛大学校の校内服装（水色シャツ＋ネクタイ）','an NDA-style on-campus uniform — a light-blue long-sleeve shirt with a pointed collar, buttoned front placket, two buttoned-flap chest pockets, shoulder straps, and buttoned cuffs, worn with a plain navy necktie held by a tie bar, tucked into dark blue trousers with a black belt','水色の長袖制服シャツ（尖った通常襟、前立てにボタン、両胸にボタン留めフラップ付きポケット、肩章、袖口はボタン留め、裾はスラックスにタックイン）＋紺の無地ネクタイ（タイピンで留める）','青紺色の制服スラックス（黒ベルト）','黒のプレーントゥ外羽根の短靴（履き込んだ使用感はあるが、つま先だけ鏡面のように磨き上げてある）',3,'','青紺色のキャップ型略帽（帽章風エンブレム）','ブルーのMA-1型ジャンパー（オレンジ色の裏地、リブ編みの襟・袖口・裾、ファスナー留め）'],
+      ['防衛大学校の作業服装（65式作業服と同型・OD色）','an NDA work uniform of the same pattern as the Type-65 fatigues (olive-drab / moss-green cotton work clothes with chest pockets)','モスグリーン（OD色）の綿作業服上衣（胸ポケット付き）','モスグリーン（OD色）の作業服パンツ','黒のベルクロ（面ファスナー）留めトレーニングシューズ型の作業靴',2,'','OD色のキャップ型作業帽']
     ]
   };
   function chooseUniformVariant(role, season){
@@ -2351,8 +2351,8 @@
     return null;
   }
   function outfitSummaryLine(c, english=false){
-    if(english) return c.workUniform ? `Work outfit for the outfit panels: ${c.workUniformEn} — top: ${c.top}, bottom: ${c.bottom}${uniformHatPhrase(c, true)}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}), shoes (only where allowed): ${c.shoes}. Do not reproduce real organizations' insignia or logos.` : `Suggested outfit for the outfit panels: ${c.outfitBrand} ${c.outfitType} — outerwear: ${c.jacket}, top: ${c.top}, bottom: ${c.bottom}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}), shoes (only where allowed): ${c.shoes}.`;
-    return c.workUniform ? `服装パネルの内容：${c.workUniform}。トップスは${c.top}、ボトムスは${c.bottom}${uniformHatPhrase(c, false)}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}）、靴（許可されたパネルのみ）は${c.shoes}。実在組織の記章・ロゴは正確に再現しない。` : `提案服装パネルの内容：${c.outfitBrand}の${c.outfitType}。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}）、靴（許可されたパネルのみ）は${c.shoes}。`;
+    if(english) return c.workUniform ? `Work outfit for the outfit panels: ${c.workUniformEn} — top: ${c.top}${uniformJacketPhrase(c, true)}, bottom: ${c.bottom}${uniformHatPhrase(c, true)}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}), shoes (only where allowed): ${c.shoes}. Do not reproduce real organizations' insignia or logos.` : `Suggested outfit for the outfit panels: ${c.outfitBrand} ${c.outfitType} — outerwear: ${c.jacket}, top: ${c.top}, bottom: ${c.bottom}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}), shoes (only where allowed): ${c.shoes}.`;
+    return c.workUniform ? `服装パネルの内容：${c.workUniform}。トップスは${c.top}${uniformJacketPhrase(c, false)}、ボトムスは${c.bottom}${uniformHatPhrase(c, false)}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}）、靴（許可されたパネルのみ）は${c.shoes}。実在組織の記章・ロゴは正確に再現しない。` : `提案服装パネルの内容：${c.outfitBrand}の${c.outfitType}。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}）、靴（許可されたパネルのみ）は${c.shoes}。`;
   }
   const POSTER_FOOT = {
     '僧侶':['寺内や和室の場面なら素足や足袋・雪駄が自然。屋外なら雪駄や作業用の履物を選ぶ','in a temple or tatami setting, bare feet or tabi/setta sandals are natural; outdoors, setta or work footwear'],
@@ -2368,14 +2368,18 @@
     if(english) return `Footwear should be whatever is most natural for his occupation and the chosen scene${sp ? ` — for him: ${sp[1]}` : ''}. If shoes would look unnatural (tatami rooms, dojos, beaches, etc.), consider bare feet, tabi, setta/geta sandals, or other footwear instead of defaulting to shoes and socks. `;
     return `足元は職業と場面に最も自然な状態を選ぶ${sp ? `（この人物の場合：${sp[0]}）` : ''}。靴が不自然な場面（和室・道場・砂浜など）では、靴と靴下に固定せず、素足・足袋・雪駄・下駄・サンダルなども検討する。`;
   }
+  function uniformJacketPhrase(c, english=false){
+    if(!c || !c.workUniform || !c.jacket || c.jacket === 'なし') return '';
+    return english ? ` (with ${c.jacket} worn over it)` : `（上に${c.jacket}を羽織る）`;
+  }
   function uniformHatPhrase(c, english=false){
     if(!c || !c.workUniform || !c.headwear || c.headwearOn === false) return '';
     return english ? `, headwear: ${c.headwear} (worn on the head)` : `、帽子は${c.headwear}を着用`;
   }
   function workOutfitSpec(c, english=false){
     if(c.workUniform){
-      if(english) return `Work outfit contents: ${c.workUniformEn} — top: ${c.top}, bottom: ${c.bottom}, shoes: ${c.shoes}${uniformHatPhrase(c, true)}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}). Do not reproduce real organizations' insignia or logos. `;
-      return `職業服装の内容：${c.workUniform}。トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。実在組織の記章・ロゴは正確に再現しない。`;
+      if(english) return `Work outfit contents: ${c.workUniformEn} — top: ${c.top}${uniformJacketPhrase(c, true)}, bottom: ${c.bottom}, shoes: ${c.shoes}${uniformHatPhrase(c, true)}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}). Do not reproduce real organizations' insignia or logos. `;
+      return `職業服装の内容：${c.workUniform}。トップスは${c.top}${uniformJacketPhrase(c, false)}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。実在組織の記章・ロゴは正確に再現しない。`;
     }
     if(english) return `Work outfit contents: ${c.outfitBrand} ${c.outfitType} — outerwear: ${c.jacket}, top: ${c.top}, bottom: ${c.bottom}, shoes: ${c.shoes}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}). `;
     return `職業服装の内容：${c.outfitBrand}の${c.outfitType}。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。`;
@@ -2767,7 +2771,7 @@
     const uniform = occFull ? (chooseUniformVariant(role, season) || UNIFORM_WORKWEAR[role]) : null;
     if(uniform && !fixed.outfitType && !base.outfitType){
       coord.outfitBrand = '支給品・制服';
-      coord.jacket = 'なし';
+      coord.jacket = (uniform[8] && season === '冬') ? uniform[8] : 'なし';
       coord.top = uniform[2];
       coord.bottom = uniform[3];
       coord.shoes = uniform[4];
@@ -3238,7 +3242,7 @@ ${promptTargetGuide(lead, false)}`;
     FRIEND_CTX = null;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.0.0'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.0.2'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -3343,7 +3347,7 @@ Preserve the character's identity. Era setting: ${c.eraYear || '2026'} CE. ${era
 
 ${mode==='holiday'
   ? `[Casual outfit] This is his personal, off-duty style that reflects his personality and vibe. Base the outfit on ${c.holidayOutfitBrand || c.outfitBrand} ${c.holidayOutfitType || c.outfitType}. Outerwear: ${c.holidayJacket || 'none'}. Top: ${c.holidayTop || c.top}. Bottom: ${c.holidayBottom || c.bottom}. Shoes: ${c.holidayShoes || c.shoes}. Socks: ${c.holidaySockBrand || c.sockBrand} ${c.holidaySockType || c.sockType} (${c.holidaySockColor || c.sockColor}).`
-  : c.workUniform ? `[Work uniform — as a ${(typeof valueTranslations!=='undefined' && valueTranslations[c.role]) || displayValue('role', c.role) || c.role}] He wears ${c.workUniformEn}. Depict it as practical issued workwear. Do NOT accurately reproduce insignia or logos of any real organization, unit, or company — keep it a generic, standard uniform style for his occupation. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}${uniformHatPhrase(c, true)}. Socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).` : `[Work outfit${c.role ? ` — as a ${displayValue('role', c.role)}` : ''}] Base the outfit on ${c.outfitBrand} ${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.`}
+  : c.workUniform ? `[Work uniform — as a ${(typeof valueTranslations!=='undefined' && valueTranslations[c.role]) || displayValue('role', c.role) || c.role}] He wears ${c.workUniformEn}. Depict it as practical issued workwear. Do NOT accurately reproduce insignia or logos of any real organization, unit, or company — keep it a generic, standard uniform style for his occupation. Outerwear: ${c.jacket && c.jacket !== 'なし' ? c.jacket : 'none'}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}${uniformHatPhrase(c, true)}. Socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).` : `[Work outfit${c.role ? ` — as a ${displayValue('role', c.role)}` : ''}] Base the outfit on ${c.outfitBrand} ${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.`}
 
 ${styleEn}
 Era setting: around ${c.eraYear || '2026'}. Match the garment silhouettes, fabrics, and accessories to this period.\n${adultUniformEn}
@@ -3358,7 +3362,7 @@ ${targetEn}`;
 
 ${mode==='holiday'
   ? `【私服コーデ】仕事とは違う、本人の性格や雰囲気が表れる私服として描く。服装は${c.holidayOutfitBrand || c.outfitBrand}の${c.holidayOutfitType || c.outfitType}を基調にする。上着は${c.holidayJacket || 'なし'}、トップスは${c.holidayTop || c.top}、ボトムスは${c.holidayBottom || c.bottom}、靴は${c.holidayShoes || c.shoes}。靴下は${c.holidaySockBrand || c.sockBrand}の${c.holidaySockType || c.sockType}（${c.holidaySockColor || c.sockColor}）。`
-  : c.workUniform ? `【職業コーデ（${c.role}の勤務服）】服装は${c.workUniform}。支給品らしい実用的な着こなしで描く。実在の特定組織・部隊・企業の記章やロゴを正確に再現せず、標準的な${c.role}の制服スタイルにとどめる。上着はなし、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}。靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。` : `【職業コーデ${c.role ? `（${c.role}の仕事着・仕事帰りの装い）` : ''}】服装は${c.outfitBrand}の${c.outfitType}を基調にする。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}。靴下は${c.sockBrand}の${c.sockType}で、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。`}
+  : c.workUniform ? `【職業コーデ（${c.role}の勤務服）】服装は${c.workUniform}。支給品らしい実用的な着こなしで描く。実在の特定組織・部隊・企業の記章やロゴを正確に再現せず、標準的な${c.role}の制服スタイルにとどめる。上着は${c.jacket && c.jacket !== 'なし' ? c.jacket : 'なし'}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}。靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。` : `【職業コーデ${c.role ? `（${c.role}の仕事着・仕事帰りの装い）` : ''}】服装は${c.outfitBrand}の${c.outfitType}を基調にする。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}。靴下は${c.sockBrand}の${c.sockType}で、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。`}
 
 ${styleJa}
 時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${seasonLine(c, false)}服のシルエット・素材感・小物もこの年代に合わせる。\n${adultUniformJa}
@@ -3500,6 +3504,25 @@ ${targetJa}
 避けること：未成年に見える表現、性的なポーズ、過度な身体強調、局部の強調、${underwearAvoid(c, false)}足裏や足指の過度な接写、AIっぽい肌、別人化、文字崩れ、${fullOutfitSheet ? '指定コーデ以外の服装への勝手な変更。' : allowsOutfitPanels ? '指定パネル以外への服装・靴の混入。' : '上着・トップス・ボトムス・靴・靴下の混入。'}`;
   }
 
+  const UNIFORM_NAME_MIGRATION = {
+    '防衛大学校の常装制服風（濃紺の詰襟スタイル）':'防衛大学校の常装冬服風（花紺色の詰襟型短ジャケット）',
+    '防衛大学校の第1種夏服風（白の上衣）':'防衛大学校の第1種夏服風（白の詰襟上下）',
+    '防衛大学校の第3種夏服風（半袖シャツ）':'防衛大学校の第3種夏服風（白の半袖開襟シャツ）',
+    '防衛大学校の校内服装（作業服スタイル）':'防衛大学校の校内服装（水色シャツ＋ネクタイ）',
+    '防衛大学校の校内服装（OD色の作業服＋指定ジャンパー）':'防衛大学校の校内服装（水色シャツ＋ネクタイ）'
+  };
+  function migrateUniformFields(c){
+    if(!c || !c.workUniform) return;
+    const nm = UNIFORM_NAME_MIGRATION[c.workUniform];
+    if(!nm || !UNIFORM_VARIANTS[c.role]) return;
+    const v = UNIFORM_VARIANTS[c.role].find(x=>x[0]===nm);
+    if(!v) return;
+    c.workUniform = v[0]; c.workUniformEn = v[1];
+    c.top = v[2]; c.bottom = v[3]; c.shoes = v[4];
+    c.headwear = v[7] || '';
+    if(c.headwearOn === undefined) c.headwearOn = true;
+    c.jacket = (v[8] && c.season === '冬') ? v[8] : 'なし';
+  }
   function buildUniformEditRows(c, L){
     if(!c.workUniform || !UNIFORM_VARIANTS[c.role]) return [];
     const variants = UNIFORM_VARIANTS[c.role];
@@ -3524,7 +3547,8 @@ ${targetJa}
     current.workUniform = v[0]; current.workUniformEn = v[1];
     current.top = v[2]; current.bottom = v[3]; current.shoes = v[4];
     current.headwear = v[7] || '';
-    current.jacket = 'なし'; current.outfitBrand = '支給品・制服';
+    current.jacket = (v[8] && current.season === '冬') ? v[8] : 'なし';
+    current.outfitBrand = '支給品・制服';
     renderAll();
   }
   function friendRelationText(c, english=false){
@@ -3537,7 +3561,7 @@ ${targetJa}
   function friendPairPersonBlock(m, label, english=false){
     const hat = uniformHatPhrase(m, english);
     const outfit = m.workUniform
-      ? (english ? `Outfit: ${m.workUniformEn} — top: ${m.top}, bottom: ${m.bottom}, shoes: ${m.shoes}${hat}. Do not reproduce real organizations' insignia or logos.` : `服装は${m.workUniform}（トップスは${m.top}、ボトムスは${m.bottom}、靴は${m.shoes}${hat}）。実在組織の記章・ロゴは正確に再現しない。`)
+      ? (english ? `Outfit: ${m.workUniformEn} — top: ${m.top}${uniformJacketPhrase(m, true)}, bottom: ${m.bottom}, shoes: ${m.shoes}${hat}. Do not reproduce real organizations' insignia or logos.` : `服装は${m.workUniform}（トップスは${m.top}${uniformJacketPhrase(m, false)}、ボトムスは${m.bottom}、靴は${m.shoes}${hat}）。実在組織の記章・ロゴは正確に再現しない。`)
       : (english ? `Outfit: ${m.outfitBrand} ${m.outfitType} — outerwear: ${m.jacket}, top: ${m.top}, bottom: ${m.bottom}, shoes: ${m.shoes}.` : `服装は${m.outfitBrand}の${m.outfitType}（上着は${m.jacket}、トップスは${m.top}、ボトムスは${m.bottom}、靴は${m.shoes}）。`);
     if(english) return `[${label}] ${m.name}, ${m.age} years old, height ${m.height}, ${displayValue('bodyType', m.bodyType)}. Face: ${displayValue('facePreset', m.facePreset)}, hair: ${displayValue('hairColor', m.hairColor)} ${displayValue('hairStyle', m.hairStyle)}. ${outfit}`;
     return `【${label}】${m.name}、${m.age}歳、身長${m.height}、${m.bodyType}。顔立ちは${m.facePreset}、髪は${m.hairColor}の${m.hairStyle}。${outfit}`;
@@ -3585,6 +3609,7 @@ ${promptTargetGuide(b, false)}`;
   function renderProfile(){
     if(!current){ els.profileView.innerHTML=`<p class="notice">${uiLang==='ja'?'まだ結果がありません。':'No result yet.'}</p>`; els.promptBox.value=''; document.getElementById('outfitPromptBox').value=''; document.getElementById('scenePromptBox').value=''; const cardBox=document.getElementById('cardPromptBox'); if(cardBox) cardBox.value=''; return; }
     if(!current.personality && current.mbti) current.personality = mbtiDescription(current.mbti, false);
+    migrateUniformFields(current);
     const L=T('rows');
     const mainWear = uiLang==='en' ? `${underwearDesc(current, true)} only` : `${underwearDesc(current, false)}のみ`;
     const sections = [
@@ -3649,7 +3674,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.0.0'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.0.2'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
