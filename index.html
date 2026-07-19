@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V1.9.19</title>
+  <title>Guzen Ikemen Maker V1.9.20</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -94,8 +94,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V1.9.19</span>
-        <h1 class="title">Guzen Ikemen Maker V1.9.19</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V1.9.20</span>
+        <h1 class="title">Guzen Ikemen Maker V1.9.20</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -348,7 +348,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V1.9.19</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V1.9.20</p>
   </div>
 
 <script>
@@ -881,8 +881,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V1.9.19';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V1.9.19';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V1.9.20';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V1.9.20';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1948,6 +1948,30 @@
     if(english) return `Era setting: around ${y}. Match streets, signage, props, vehicles, and garment textures to this period, exclude anything that did not exist yet, and render the image as ${p[1]}.\n`;
     return `時代設定：${eraLabel(y)}頃。街並み・看板・小物・車両・服の質感をこの年代に合わせ、その時代に存在しない物は描かない。画の質感は${p[0]}にする。\n`;
   }
+  function avgHeight(nationality, eraYear){
+    const y = Number(eraYear) || 2026;
+    if(!nationality || nationality === '日本'){
+      if(y < 1920) return 157; if(y < 1940) return 160; if(y < 1955) return 162;
+      if(y < 1970) return 166; if(y < 1985) return 168; if(y < 2000) return 170;
+      return 171;
+    }
+    const MODERN = {'韓国':174,'中国':172,'台湾':172,'タイ':169,'ベトナム':167,'フィリピン':167,'インドネシア':167,'マレーシア':168,'インド':167,'アメリカ':177,'カナダ':177,'イギリス':177,'フランス':176,'スペイン':176,'ドイツ':180,'イタリア':175,'オーストラリア':178,'ブラジル':175,'メキシコ':170};
+    const m = MODERN[nationality] || 172;
+    const decay = y >= 2000 ? 0 : Math.min(8, Math.round((2000 - y) * 0.07));
+    return m - decay;
+  }
+  function pickHeightAround(avg){
+    const off = weighted([[0,6],[1,5],[-1,5],[2,4],[-2,4],[3,3],[-3,3],[4,2],[-4,2],[5,1.5],[-5,1.5],[7,1],[-7,1],[10,0.5],[-10,0.5],[12,0.25],[-12,0.25]]);
+    return Math.max(155, Math.min(196, Math.round(avg + Number(off))));
+  }
+  function footFromHeight(height, ethnicity){
+    const bonus = (ethnicity === '白人系' || ethnicity === '黒人系') ? 0.5 : 0;
+    const fl = Number(weighted([[0,5],[0.5,4],[-0.5,4],[1,2],[-1,2],[1.5,1],[-1.5,1]]));
+    let f = (Number(height) || 171) * 0.149 + bonus + fl;
+    f = Math.round(f * 2) / 2;
+    f = Math.max(25.5, Math.min(30.5, f));
+    return `${f.toFixed(1).replace('.0','')}cm`;
+  }
   function eraProfile(year){
     const y = Number(year) || 2026;
     if(y < 1946) return {
@@ -2220,8 +2244,9 @@
     const bodyFeat = {'ビール腹':['ビール腹の','beer-bellied'],'ラグビー選手体型':['ラグビー体型の','rugby-built'],'華奢な体型':['華奢な','delicately built'],'細マッチョ':['細マッチョの','lean-muscled'],'ぽっちゃり':['ぽっちゃり','chubby'],'筋肉質':['筋肉質な','muscular'],'高身長モデル体型':['高身長','tall'],'隠れ筋肉質':['脱いだらすごい','secretly muscular'],'腹だけぽっちゃり':['お腹だけゆるい','belly-soft'],'柔道家体型':['柔道家体型の','judo-built'],'骨太体型':['骨太な','big-boned']};
     if(bodyFeat[c.bodyType]) feats.push(bodyFeat[c.bodyType]);
     const h = parseInt(c.height);
-    if(h >= 188) feats.push(['長身の','extra-tall']);
-    else if(h && h <= 163) feats.push(['小柄な','compact']);
+    const hb = c.avgHeightBase || 171;
+    if(h >= hb + 10) feats.push(['長身の','extra-tall']);
+    else if(h && h <= hb - 8) feats.push(['小柄な','compact']);
     if(c.glasses && c.glasses !== 'なし') feats.push([`${c.glasses}の`, 'bespectacled']);
     if(c.facialHair && c.facialHair !== 'なし') feats.push([c.facialHair.includes('無精') ? '無精ひげの' : 'ひげの', c.facialHair.includes('無精') ? 'stubbled' : 'bearded']);
     if(c.skinDetail && c.skinDetail !== 'なし（クリアな肌）'){
@@ -2305,8 +2330,8 @@
       if(english) return 'IMPORTANT underwear shape: depict the underwear strictly as classic briefs — a Y-front style with NO leg coverage, cut high at the thigh joint so the entire thigh is bare, with an elastic waistband and leg openings that follow the crease of the legs. Do NOT render them as boxer briefs or trunks that cover any part of the thighs.';
       return '【下着の形状指定・重要】下着は必ずブリーフとして描く。裾がなく脚の付け根で切り替わる形で、太もも部分には一切布がかからない。ゴムウエストで、脚口は脚の付け根のラインに沿う。太ももを覆うボクサーパンツやトランクスとして描いてはいけない。';
     }
-    if(english) return 'Underwear shape: fitted knit boxer briefs with a short leg that lightly covers the upper thigh.';
-    return '下着の形状は、太ももの上部を軽く覆うフィットしたニット生地のボクサーパンツとする。';
+    if(english) return 'Underwear: standard men\'s knit boxer briefs of an ordinary above-knee length, exactly like an everyday clothing-catalog product — completely standard specifications, never rendered as loose trunks.';
+    return '下着は一般的な男性用ボクサーパンツ（ニット素材・膝上丈の標準的な形状）とする。衣料品カタログに載っている通常の商品と同じ、ごく標準的な仕様で描き、トランクスのような太くゆとりのあるシルエットにはしない。';
   }
   function underwearAvoid(c, english=false){
     const mode = c?.mainWearMode || 'ボクサーパンツのみ';
@@ -2365,7 +2390,6 @@
     const rareMode = partialMode === 'rare';
     const base = current && partialMode !== 'full' && partialMode !== 'rare' ? {...current} : {};
     const age = Number(fixed.age || base.age || (groupCtx ? Math.min(45, Math.max(18, Number(groupCtx.ageCenter) + rnd(-3,3,1))) : chooseAge(initial.ageMin || 20, initial.ageMax || 32)));
-    const height = Number(base.heightRaw || rnd(166,188,1));
     const nationality = fixed.nationality || initial.nationality || base.nationality || (groupCtx && Math.random()<0.8 ? groupCtx.nationality : pick(pools.nationalities));
     const ethnicity = fixed.ethnicity || initial.ethnicity || base.ethnicity || defaultEthnicityForNationality(nationality);
     const mbti = fixed.mbti || base.mbti || (groupCtx ? weighted(groupCtx.mbtiWeights) : pick(pools.mbtis));
@@ -2377,6 +2401,9 @@
     const role = base.role || (initial.occupation && initial.occupation !== 'ランダム' ? initial.occupation : chooseRoleByMbti(age, vibe, mbti, eraYear, gapMode));
     const holidayPersona = !!(VIBE_OCC[vibe] && VIBE_OCC[vibe].bad.includes(role));
     const sportName = fixed.sportName || base.sportName || chooseSport(role, eraYear);
+    const heightAvgBase = avgHeight(nationality, eraYear);
+    const occHeightShift = (role === 'モデル' ? 7 : 0) + (sportName === 'バスケットボール' ? 8 : sportName === 'バレーボール' ? 7 : 0);
+    const height = Number(base.heightRaw || pickHeightAround(heightAvgBase + occHeightShift - (age >= 70 ? 1 : 0)));
     const occInfluence = initial.occInfluence || '服装・場面・体型に反映';
     const occFull = occInfluence === '服装・場面・体型に反映';
     const occupationMode = holidayPersona ? '休日' : (occFull ? (Math.random() < 0.65 ? '勤務帰り' : '休日') : '');
@@ -2503,7 +2530,7 @@
       age, eraYear, nationality, ethnicity, vibe, mbti, role,
       heightRaw: height,
       height: `${height}cm`, weight: `${weight}kg`, bodyType,
-      footSize: base.footSize || footByHeight(height, rareMode),
+      footSize: base.footSize || footFromHeight(height, ethnicity),
       footShape: base.footShape || pick(pools.footShapes),
       facePreset,
       ageAppearance,
@@ -2525,7 +2552,7 @@
       boxerBrand: base.boxerBrand || pick(eraBrandList(pools.boxerBrands, eraYear, '指定しない')), boxerColor: base.boxerColor || pick(pools.boxerColors),
       glasses: base.glasses || chooseGlasses(eraYear, vibe, role, age),
       holidayOutfitType, holidayOutfitBrand: hCoord.outfitBrand, holidayJacket: hCoord.jacket, holidayTop: hCoord.top, holidayBottom: hCoord.bottom, holidayShoes: hCoord.shoes, holidaySockBrand: hCoord.sockBrand, holidaySockType: hCoord.sockType, holidaySockColor: hCoord.sockColor, holidaySockUse: hCoord.sockUse,
-      occupationMode, occInfluence, holidayPersona, sportName, workUniform: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[0] : '', workUniformEn: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[1] : '', derivedMode: initial.derivedMode || '参照画像前提（簡潔版）', catchphraseMode: initial.catchphraseMode || '結果画面のみ表示',
+      occupationMode, occInfluence, holidayPersona, sportName, avgHeightBase: heightAvgBase, workUniform: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[0] : '', workUniformEn: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[1] : '', derivedMode: initial.derivedMode || '参照画像前提（簡潔版）', catchphraseMode: initial.catchphraseMode || '結果画面のみ表示',
       mainWearMode: initial.mainWearMode || 'ボクサーパンツのみ', underwearType: base.underwearType || (eraUw ? eraUw.type : ''), underwearColor: base.underwearColor || (eraUw ? eraUw.color : ''),
       shoes: base.shoes || coord.shoes, sockBrand: base.sockBrand || coord.sockBrand, sockType: base.sockType || coord.sockType, sockShape: base.sockShape || coord.sockShape, sockMaterial: base.sockMaterial || coord.sockMaterial, sockColor: base.sockColor || coord.sockColor, sockUse: base.sockUse || coord.sockUse,
       personality: mbtiDescription(mbti, false),
@@ -2826,9 +2853,9 @@ ${promptTargetGuide(lead, false)}`;
   }
   function slotEditPool(key){
     if(key==='name') return nameCandidates();
-    if(key==='height') return rangeOpts(158, 198, 1, 'cm');
+    if(key==='height') return rangeOpts(155, 196, 1, 'cm');
     if(key==='weight') return rangeOpts(45, 110, 1, 'kg');
-    if(key==='footSize') return rangeOpts(24, 31, 0.5, 'cm');
+    if(key==='footSize') return rangeOpts(25.5, 30.5, 0.5, 'cm');
     if(key==='jacket') return pools.jackets;
     if(key==='top') return pools.tops;
     if(key==='bottom') return pools.bottoms;
@@ -2854,9 +2881,11 @@ ${promptTargetGuide(lead, false)}`;
     if(!current) return;
     current[key] = value;
     if(key==='mbti') current.personality = mbtiDescription(value, uiLang==='en');
+    if(key==='footSize') current.footSizeManual = true;
     if(key==='height'){
       current.heightRaw = parseInt(value, 10) || current.heightRaw;
       current.weight = calcWeight(current.heightRaw || parseInt(current.height,10) || 175, current.bodyType) + 'kg';
+      if(!current.footSizeManual) current.footSize = footFromHeight(current.heightRaw || 171, current.ethnicity);
     }
     if(key==='bodyType'){
       const h = current.heightRaw || parseInt(current.height, 10) || 175;
@@ -3121,7 +3150,7 @@ Era setting: ${c.eraYear || '2026'} CE. ${eraStyleNote(c, true)} He is ${c.age} 
 
 Height ${c.height}, weight ${c.weight}, body type ${bodyTypeDesc(c.bodyType, true)}. Foot size ${c.footSize}, foot shape ${c.footShape}. Use a natural standing pose that makes the balance of height, weight, and foot size easy to understand.
 
-${fullOutfitSheet ? sheetWearEn : `The main clothing is only ${underwearDesc(c, true)}. ${underwearShapeGuide(c, true)}`} ${fullOutfitSheet ? '' : allowsOutfitPanels ? 'In the underwear-only panels, do not depict outerwear, tops, bottoms, shoes, or socks. In the outfit panels, dress him accurately in the specified suggested outfit, but never add shoes outside the panels where they are explicitly allowed.' : `Do not depict outerwear, tops, bottoms, regular outfits, school uniforms, jackets, shirts, trousers, coats, shoes, socks, sandals, or slippers. Do not include footwear settings or sock settings in this main image.`} Keep the underwear depiction non-sexual and suitable for neutral body reference purposes.
+${fullOutfitSheet ? sheetWearEn : `The main clothing is only ${underwearDesc(c, true)}. ${underwearShapeGuide(c, true)} Underwear panels are neutral reference material for body proportions — depict them in the same matter-of-fact tone as clothing product photos, with zero sexualized staging, emphasis, or posing.`} ${fullOutfitSheet ? '' : allowsOutfitPanels ? 'In the underwear-only panels, do not depict outerwear, tops, bottoms, shoes, or socks. In the outfit panels, dress him accurately in the specified suggested outfit, but never add shoes outside the panels where they are explicitly allowed.' : `Do not depict outerwear, tops, bottoms, regular outfits, school uniforms, jackets, shirts, trousers, coats, shoes, socks, sandals, or slippers. Do not include footwear settings or sock settings in this main image.`} Keep the underwear depiction non-sexual and suitable for neutral body reference purposes.
 
 ${outputEn}
 ${c.catchphraseMode==='画像内にも表示する' ? `Place the catchphrase "${catchphrase(c, true)}" in readable, title-logo-style text at the bottom or corner of the image, without breaking the characters.\n` : ''}Create ${enCount(c.count)}. Background: ${c.background}. Lighting: ${c.lighting}. Visual quality/style: ${enQuality(c.quality)}.
@@ -3137,7 +3166,7 @@ Avoid: making him look underage, sexual poses, excessive body emphasis, emphasis
 
 身長${c.height}、体重${c.weight}、体型は${bodyTypeDesc(c.bodyType, false)}。足のサイズは${c.footSize}、足の形は${c.footShape}。身長、体重、足サイズのバランスが自然に分かる直立姿勢にする。
 
-${fullOutfitSheet ? sheetWearJa : `メイン服装は${underwearDesc(c, false)}のみ。${underwearShapeGuide(c, false)}`}${fullOutfitSheet ? '' : allowsOutfitPanels ? '下着のみのパネルでは上着・トップス・ボトムス・靴・靴下を描かない。提案服装のパネルでは指定された提案服装を正確に着用させるが、靴は指示で許可されたパネル以外では履かせない。' : `上着、トップス、ボトムス、通常服装、学生服、制服、ジャケット、シャツ、ズボン、コート、靴、靴下、サンダル、スリッパは描写しない。足元設定や靴下設定はこの画像には入れない。`}下着表現は非性的で、体型確認用の自然な見せ方にする。
+${fullOutfitSheet ? sheetWearJa : `メイン服装は${underwearDesc(c, false)}のみ。${underwearShapeGuide(c, false)}下着姿のパネルは体型確認のための中立的な資料表現であり、衣料品の商品写真・体型資料と同じ即物的なトーンで描く。性的な演出・強調・ポーズは一切しない。`}${fullOutfitSheet ? '' : allowsOutfitPanels ? '下着のみのパネルでは上着・トップス・ボトムス・靴・靴下を描かない。提案服装のパネルでは指定された提案服装を正確に着用させるが、靴は指示で許可されたパネル以外では履かせない。' : `上着、トップス、ボトムス、通常服装、学生服、制服、ジャケット、シャツ、ズボン、コート、靴、靴下、サンダル、スリッパは描写しない。足元設定や靴下設定はこの画像には入れない。`}下着表現は非性的で、体型確認用の自然な見せ方にする。
 
 ${outputJa}
 ${c.catchphraseMode==='画像内にも表示する' ? `画像内の下部または隅に、キャッチフレーズ「${catchphrase(c, false)}」をタイトルロゴ風の読みやすい日本語文字で入れる。文字は崩さない。\n` : ''}${c.count}を作成する。背景は${c.background}。光は${c.lighting}。画質・質感は${c.quality}。
@@ -3210,7 +3239,7 @@ ${targetJa}
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V1.9.19'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V1.9.20'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
