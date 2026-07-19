@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V1.9.21</title>
+  <title>Guzen Ikemen Maker V1.9.22</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -94,8 +94,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V1.9.21</span>
-        <h1 class="title">Guzen Ikemen Maker V1.9.21</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V1.9.22</span>
+        <h1 class="title">Guzen Ikemen Maker V1.9.22</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -138,6 +138,7 @@
           <label class="field"><span>職業の影響</span><select id="initialOccInfluence"></select></label>
           <label class="field"><span>キャッチフレーズ</span><select id="initialCatchphrase"></select></label>
           <label class="field"><span>派生プロンプト形式</span><select id="initialDerivedMode"></select></label>
+          <label class="field"><span>季節</span><select id="initialSeason"></select></label>
           <label class="field"><span>グループ出力形式</span><select id="initialGroupPromptMode"></select></label>
           <label class="field"><span>時代設定</span><select id="initialEraYear"></select></label>
         </div></div>
@@ -348,7 +349,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V1.9.21</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V1.9.22</p>
   </div>
 
 <script>
@@ -381,7 +382,7 @@
     eraYears:Array.from({length:2030-1900+1},(_,i)=>1900+i),
     nationalities:['日本','韓国','中国','台湾','ロシア','アメリカ','カナダ','イギリス','フランス','ドイツ','イタリア','スペイン','スウェーデン','ポーランド','トルコ','ブラジル','メキシコ','アルゼンチン','タイ','ベトナム','フィリピン','インドネシア','マレーシア','インド','モンゴル','ナイジェリア','オーストラリア'],
     ethnicities:['日本人','韓国系','東アジア系','中国系','東南アジア系','南アジア系','白人系','スラブ系','北欧系','南欧系','黒人系','中東系','ラテン系','中央アジア系','ミックス'],
-    roles:['悠々自適（定年後）','お笑い芸人','声優','YouTuber','プロゲーマー','書道家','パティシエ','寿司職人','ラーメン店店主','僧侶','古着屋店主','大学生','大学院生','専門学校生','就活中の大学生','営業職','経理・事務職','企画職','公務員','銀行員','商社勤務','コンサルタント','不動産営業','ITエンジニア','Webデザイナー','ゲーム開発者','動画クリエイター','アプリ開発者','看護師','理学療法士','薬剤師','研修医','介護士','高校教師','塾講師','保育士','大学研究員','体育教師','アパレル店員','カフェ店員','美容師','バーテンダー','ホテルスタッフ','飲食店店長','書店員','コンビニ店長','自動車整備士','電気工事士','大工','建築士','工場勤務','配送ドライバー','農家','漁師','グラフィックデザイナー','カメラマン','ミュージシャン','編集者','イラストレーター','映像ディレクター','消防士','警察官','自衛官','ジムトレーナー','スポーツインストラクター','モデル','俳優','プロスポーツ選手','喫茶店マスター','新聞記者','国鉄職員'],
+    roles:['救急隊員','防衛大学校学生','悠々自適（定年後）','お笑い芸人','声優','YouTuber','プロゲーマー','書道家','パティシエ','寿司職人','ラーメン店店主','僧侶','古着屋店主','大学生','大学院生','専門学校生','就活中の大学生','営業職','経理・事務職','企画職','公務員','銀行員','商社勤務','コンサルタント','不動産営業','ITエンジニア','Webデザイナー','ゲーム開発者','動画クリエイター','アプリ開発者','看護師','理学療法士','薬剤師','研修医','介護士','高校教師','塾講師','保育士','大学研究員','体育教師','アパレル店員','カフェ店員','美容師','バーテンダー','ホテルスタッフ','飲食店店長','書店員','コンビニ店長','自動車整備士','電気工事士','大工','建築士','工場勤務','配送ドライバー','農家','漁師','グラフィックデザイナー','カメラマン','ミュージシャン','編集者','イラストレーター','映像ディレクター','消防士','警察官','自衛官','ジムトレーナー','スポーツインストラクター','モデル','俳優','プロスポーツ選手','喫茶店マスター','新聞記者','国鉄職員'],
     glasses:['なし','黒縁メガネ','細フレームメガネ','メタルフレームメガネ','丸メガネ','ハーフリムメガネ','縁なしメガネ','金縁メガネ'],
     occInfluences:['服装・場面・体型に反映','場面のみに反映','影響なし'],
     vibes:['ランダム','爽やか系','真面目系','ワイルド系','スポーツ系','きれいめ系','カジュアル系','韓国風','中性系','大人っぽい系','やりらふぃー系','ストリート系','塩顔系','犬系男子','クール系','ミステリアス系','サブカル系','古着系','清楚系','陽キャ大学生系','レトロ系','モード系','アウトドア系','バンドマン系','紳士系','ギャル男系','普通系','ブサイク系','地味系','オタク系','ヤンキー系','ホスト系','おじさん系','メガネ知的系'],
@@ -393,10 +394,10 @@
     tearBags:['なし','控えめ','自然','ややはっきり','ふっくら','笑うと少し出る'],
     nose:['自然な鼻筋','通った鼻筋','高めの鼻筋','すっきりした鼻筋','しっかりした鼻','控えめで自然な鼻'],
     mouth:['自然な笑顔','控えめな微笑み','落ち着いた表情','爽やかな笑顔','誠実な表情','余裕のある表情'],
-    skinDetails:['なし（クリアな肌）','頬にそばかす','鼻まわりに薄いそばかす','額に小さなニキビ','頬にニキビ跡（薄い凹凸）','口元のほくろ','目元の泣きぼくろ','首筋のほくろ','頬の小さなほくろ','うっすら青ひげ（剃り跡）','日焼けによる肌ムラ'],
+    skinDetails:['なし（クリアな肌）','頬にそばかす','鼻まわりに薄いそばかす','額に小さなニキビ','頬にニキビ跡（薄い凹凸）','口元のほくろ','目元の泣きぼくろ','首筋のほくろ','頬の小さなほくろ','うっすら青ひげ（剃り跡）','日焼けによる肌ムラ','えくぼ','左頬の薄い傷跡','眉尻の剃り込み跡','目の下のうっすらしたクマ','頬の自然な赤み','額の皮脂感（自然なテカリ）','頬の毛穴感（自然な質感）','腕まくり日焼けの跡','ゴーグル跡の日焼けムラ','眉間のしわ','目尻の笑いじわ','ほうれい線','頬の薄いシミ','首のしわ'],
     skin:['自然な肌質','健康的な肌質','透明感のある肌','少し日焼けした肌','マットで自然な肌','スポーツ経験者らしい肌'],
     facialHair:['なし','ごく薄い青ひげ','自然な青ひげ','短い無精ひげ','整えた短いひげ','口ひげ','あごひげ','口ひげ＋あごひげ','ワイルドめのひげ'],
-    hairStyles:['短髪','アップバング','センターパート','サイドパート','マッシュ','ソフトツーブロック','ビジネス短髪','韓国風センターパート','ニュアンスパーマ','ツイストパーマ','スパイラルパーマ','波巻きパーマ','ウルフミディアム','ロング寄りミディアム','マンバン'],
+    hairStyles:['短髪','アップバング','センターパート','サイドパート','マッシュ','ソフトツーブロック','ビジネス短髪','韓国風センターパート','ニュアンスパーマ','ツイストパーマ','スパイラルパーマ','波巻きパーマ','ウルフミディアム','ロング寄りミディアム','マンバン','スキンフェード','ローフェード','フェード×ツイストスパイラル','バーバースタイル（七三フェード）','クロップスタイル','マッシュウルフ','ソフトモヒカン','アシメショート'],
     hairColors:['黒','ブルーブラック','ネイビーブラック','黒に近いダークブラウン','ダークアッシュ','ダークチェリーブラウン','チョコレートブラウン','赤みブラウン','マロンブラウン','カーキブラウン','自然な茶髪','アッシュブラウン','オリーブアッシュ','グレージュ','ブルージュ','ラベンダーグレージュ','ミルクティーベージュ','ナチュラルブロンド','ダークブロンド','明るめブラウン','オレンジブラウン','ハイトーンアッシュ','シルバーアッシュ','ブリーチベージュ','金髪（ブリーチ）','メッシュ入りブラック','インナーカラー（アッシュ）','プリン気味の伸びた茶髪','白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'],
     outfitTypes:['職業制服','書生風スタイル（着物＋袴＋学帽）','着物と羽織','国民服風','開襟シャツスタイル','三つ揃いスーツ','紺スーツ','黒スーツ','グレースーツ','大学生カジュアル','社会人カジュアル','スポーツ練習着','学生服（学ラン）','学生服（ブレザー）','制服風コーデ','私服通学風','ジャケットスタイル','ストリート系'],
     outfitBrands:['UNIQLO','GU','無印良品','ZARA','H&M','BEAMS','UNITED ARROWS','SHIPS','GLOBAL WORK','nano・universe','URBAN RESEARCH','JOURNAL STANDARD','Calvin Klein','POLO RALPH LAUREN','TOMMY HILFIGER','LACOSTE','AOKI','ORIHICA','SUIT SELECT','THE SUIT COMPANY','P.S.FA','KANKO','TOMBOW','EAST BOY','OLIVE des OLIVE School','NIKE','adidas','MIZUNO','ASICS','PUMA','New Balance','UNDER ARMOUR','Champion','THE NORTH FACE','VAN','JUN','D\'URBAN','TAKEO KIKUCHI','MEN\'S BIGI','COMME des GARÇONS HOMME','A BATHING APE','UNDERCOVER','Stüssy','GAP','洋服の青山','はるやま','無地ノーブランド'],
@@ -426,6 +427,7 @@
     cardThemes:['モノトーン','ネイビー','ブラックゴールド','シルバー','ブルー','レッド','グリーン','パープル','ランダムカラー'],
     cardLayouts:['縦長カード','横長カード','情報重視型','ビジュアル重視型','ステータス重視型','リファレンス資料型'],
     catchphraseModes:['結果画面のみ表示','画像内にも表示する','表示しない'],
+    seasons:['ランダム','春','夏','秋','冬'],
     derivedModes:['参照画像前提（簡潔版）','単体で完結（フル記述）'],
     groupSizes:['1人（通常）','2人グループ','3人グループ'],
     groupPromptModes:['メンバーごとに別々の指示文','1つの指示文にまとめて生成'],
@@ -440,7 +442,7 @@
     ['name','名前','basic'],['age','年齢','basic'],['eraYear','時代設定','basic'],['nationality','国籍','basic'],['ethnicity','人種','basic'],['role','職業','basic'],['sportName','競技','basic'],['vibe','雰囲気系統','basic'],['mbti','MBTI','basic'],
     ['height','身長','body'],['weight','体重','body'],['bodyType','体型','body'],['footSize','足サイズ','body'],['footShape','足の形','body'],
     ['bodyHairOverall','体毛全体傾向','bodyhair'],['chestHair','胸毛','bodyhair'],['abdominalHair','腹毛','bodyhair'],['lowerAbdomenHair','へそ下','bodyhair'],['armHair','腕毛','bodyhair'],['shinHair','すね毛','bodyhair'],['thighHair','もも毛','bodyhair'],['armpitHair','脇毛','bodyhair'],['handFingerHair','手の甲・指毛','bodyhair'],['footToeHair','足の甲・指毛','bodyhair'],['backHair','背中','bodyhair'],
-    ['facePreset','顔立ち','face'],['ageAppearance','年齢感','face'],['faceLine','フェイスライン','face'],['eyes','目','face'],['tearBags','涙袋','face'],['nose','鼻','face'],['mouth','口','face'],['skin','肌','face'],['skinDetail','肌の特徴','face'],['facialHair','ひげ','face'],['glasses','眼鏡','face'],
+    ['facePreset','顔立ち','face'],['ageAppearance','年齢感','face'],['faceLine','フェイスライン','face'],['eyes','目','face'],['tearBags','涙袋','face'],['nose','鼻','face'],['mouth','口','face'],['skin','肌','face'],['skinDetail','肌の特徴⑴','face'],['skinDetail2','肌の特徴⑵','face'],['facialHair','ひげ','face'],['glasses','眼鏡','face'],
     ['hairStyle','髪型','hair'],['hairColor','髪色','hair'],
     ['outfitType','職業服装','outfit'],['holidayOutfitType','私服服装','outfit'],['outfitBrand','提案服装ブランド','outfit'],['jacket','上着','outfit'],['top','トップス','outfit'],['bottom','ボトムス','outfit'],['boxerBrand','下着ブランド','outfit'],
     ['shoes','靴','feet'],['sockBrand','靴下ブランド','feet'],['sockType','靴下種類','feet'],['sockShape','靴下形状','feet'],['sockMaterial','靴下素材','feet'],['sockColor','靴下色・柄','feet'],['sockUse','靴下使用感','feet']
@@ -479,7 +481,7 @@
       mode_full:'完全ランダム', mode_face:'顔だけ', mode_outfit:'服装だけ', mode_rare:'レア設定', currentMode:'現在：', mode_full_note:'完全ランダム', mode_face_note:'顔だけランダム', mode_outfit_note:'服装だけランダム', mode_rare_note:'レア設定モード',
       saveFirst:'先にスロットを回してください。', saved:'保存しました。', copyMainDone:'メイン指示文をコピーしました。', copyOutfitDone:'服装差分指示文をコピーしました。', copySceneDone:'場面指示文をコピーしました。', copyCardDone:'カード差分指示文をコピーしました。', confirmClear:'保存結果を削除しますか？',
       rows:{weekdayOutfit:'職業コーデ',holidayOutfit:'私服コーデ',holidaySock:'私服の靴下',glasses:'眼鏡',group:'グループ',basic:'基本プロフィール',faceSection:'顔立ち',bodySection:'体型・身体',bodyHairSection:'ひげ・体毛',mainSection:'メイン服装',outfitSection:'提案服装',outputSection:'出力設定',sceneSection:'偶然見かけた場面',name:'名前',age:'年齢',natEth:'国籍 / 人種',roleVibe:'職業 / 系統',mbti:'MBTI / 性格',era:'時代設定',hw:'身長 / 体重',body:'体型',foot:'足サイズ',footShape:'足の形',face:'顔立ち',faceLine:'フェイスライン',eyes:'目',nose:'鼻',mouth:'口元',skin:'肌',facialHair:'ひげ',hair:'髪型',bodyHair:'体毛',main:'メイン服装',outfit:'提案服装',sock:'提案靴下',background:'背景',output:'出力',promptTarget:'生成先',imageText:'画像内表記',cardSetting:'カード出力設定',scene:'偶然見かけた場面'},
-      fieldLabels:{initialNationality:'初期国籍',initialEthnicity:'初期人種',initialAgeMin:'年齢下限',initialAgeMax:'年齢上限',initialVibe:'雰囲気系統',initialEraYear:'時代設定',initialBackground:'背景',initialLighting:'光',initialQuality:'画質・質感',initialOutputType:'出力タイプ',initialMainWearMode:'メイン服装（下着）',initialGroupSize:'生成モード',initialOccupation:'職業',initialOccInfluence:'職業の影響',initialCatchphrase:'キャッチフレーズ',initialDerivedMode:'派生プロンプト形式',initialGroupPromptMode:'グループ出力形式',initialCount:'出力枚数',initialPromptLanguage:'指示文言語',initialPromptTarget:'生成先',initialCaptionMode:'画像内スペック表示',manualOutputType:'出力タイプ',manualCount:'出力枚数',manualQuality:'画風・質感',manualBackground:'背景',manualLighting:'光',manualPromptLanguage:'指示文言語',manualPromptTarget:'生成先',manualCaptionMode:'画像内スペック表示',initialCardStyle:'カードスタイル',initialCardRarity:'カードレアリティ表示',initialCardTheme:'カード配色テーマ',initialCardLayout:'カードレイアウト',initialCardWearMode:'カード衣装',initialCardEffect:'装飾効果（レアリティ連動）',manualCardStyle:'カードスタイル',manualCardRarity:'カードレアリティ表示',manualCardTheme:'カード配色テーマ',manualCardLayout:'カードレイアウト',manualCardWearMode:'カード衣装',manualCardEffect:'装飾効果（レアリティ連動）'},
+      fieldLabels:{initialNationality:'初期国籍',initialEthnicity:'初期人種',initialAgeMin:'年齢下限',initialAgeMax:'年齢上限',initialVibe:'雰囲気系統',initialEraYear:'時代設定',initialBackground:'背景',initialLighting:'光',initialQuality:'画質・質感',initialOutputType:'出力タイプ',initialMainWearMode:'メイン服装（下着）',initialGroupSize:'生成モード',initialOccupation:'職業',initialOccInfluence:'職業の影響',initialCatchphrase:'キャッチフレーズ',initialDerivedMode:'派生プロンプト形式',initialSeason:'季節',initialGroupPromptMode:'グループ出力形式',initialCount:'出力枚数',initialPromptLanguage:'指示文言語',initialPromptTarget:'生成先',initialCaptionMode:'画像内スペック表示',manualOutputType:'出力タイプ',manualCount:'出力枚数',manualQuality:'画風・質感',manualBackground:'背景',manualLighting:'光',manualPromptLanguage:'指示文言語',manualPromptTarget:'生成先',manualCaptionMode:'画像内スペック表示',initialCardStyle:'カードスタイル',initialCardRarity:'カードレアリティ表示',initialCardTheme:'カード配色テーマ',initialCardLayout:'カードレイアウト',initialCardWearMode:'カード衣装',initialCardEffect:'装飾効果（レアリティ連動）',manualCardStyle:'カードスタイル',manualCardRarity:'カードレアリティ表示',manualCardTheme:'カード配色テーマ',manualCardLayout:'カードレイアウト',manualCardWearMode:'カード衣装',manualCardEffect:'装飾効果（レアリティ連動）'},
       rarityNotes:{normal:'自然で使いやすい標準寄りの組み合わせです。',rare:'少し特徴的な組み合わせです。',super:'目立つ特徴が複数あります。',legend:'かなり個性的な偶然の組み合わせです。'}
     },
     en:{
@@ -499,7 +501,7 @@
       mode_full:'Full Random', mode_face:'Face Only', mode_outfit:'Outfit Only', mode_rare:'Rare Mode', currentMode:'Current: ', mode_full_note:'Full random', mode_face_note:'Face-only random', mode_outfit_note:'Outfit-only random', mode_rare_note:'Rare-mode random',
       saveFirst:'Please spin the slots first.', saved:'Saved.', copyMainDone:'Copied the main prompt.', copyOutfitDone:'Copied the outfit prompt.', copySceneDone:'Copied the scene prompt.', copyCardDone:'Copied the card variation prompt.', confirmClear:'Clear saved results?',
       rows:{weekdayOutfit:'Work Outfit',holidayOutfit:'Casual Outfit',holidaySock:'Casual Socks',glasses:'Glasses',group:'Group',basic:'Basic Profile',faceSection:'Face',bodySection:'Body',bodyHairSection:'Facial / Body Hair',mainSection:'Main Clothing',outfitSection:'Suggested Outfit',outputSection:'Output Settings',sceneSection:'Candid Scene',name:'Name',age:'Age',natEth:'Nationality / Ethnicity',roleVibe:'Role / Vibe',mbti:'MBTI / Personality',era:'Era',hw:'Height / Weight',body:'Body Type',foot:'Foot Size',footShape:'Foot Shape',face:'Face Type',faceLine:'Face Line',eyes:'Eyes',nose:'Nose',mouth:'Mouth',skin:'Skin',facialHair:'Facial Hair',hair:'Hair',bodyHair:'Body Hair',main:'Main Clothing',outfit:'Suggested Outfit',sock:'Suggested Socks',background:'Background',output:'Output',promptTarget:'Prompt Target',imageText:'Image Text',cardSetting:'Card Settings',scene:'Candid Scene'},
-      fieldLabels:{initialNationality:'Initial Nationality',initialEthnicity:'Initial Ethnicity',initialAgeMin:'Age Min',initialAgeMax:'Age Max',initialVibe:'Vibe',initialEraYear:'Era Year',initialBackground:'Background',initialLighting:'Lighting',initialQuality:'Quality / Texture',initialOutputType:'Output Type',initialMainWearMode:'Main Underwear Style',initialGroupSize:'Generation Mode',initialOccupation:'Occupation',initialOccInfluence:'Occupation Influence',initialCatchphrase:'Catchphrase',initialDerivedMode:'Derived Prompt Format',initialGroupPromptMode:'Group Output Format',initialCount:'Output Count',initialPromptLanguage:'Prompt Language',initialPromptTarget:'Prompt Target',initialCaptionMode:'Image Text',manualOutputType:'Output Type',manualCount:'Output Count',manualQuality:'Art / Texture',manualBackground:'Background',manualLighting:'Lighting',manualPromptLanguage:'Prompt Language',manualPromptTarget:'Prompt Target',manualCaptionMode:'Image Text',initialCardStyle:'Card Style',initialCardRarity:'Card Rarity Label',initialCardTheme:'Card Color Theme',initialCardLayout:'Card Layout',initialCardWearMode:'Card Outfit',initialCardEffect:'Effect Linked to Rarity',manualCardStyle:'Card Style',manualCardRarity:'Card Rarity Label',manualCardTheme:'Card Color Theme',manualCardLayout:'Card Layout',manualCardWearMode:'Card Outfit',manualCardEffect:'Effect Linked to Rarity'},
+      fieldLabels:{initialNationality:'Initial Nationality',initialEthnicity:'Initial Ethnicity',initialAgeMin:'Age Min',initialAgeMax:'Age Max',initialVibe:'Vibe',initialEraYear:'Era Year',initialBackground:'Background',initialLighting:'Lighting',initialQuality:'Quality / Texture',initialOutputType:'Output Type',initialMainWearMode:'Main Underwear Style',initialGroupSize:'Generation Mode',initialOccupation:'Occupation',initialOccInfluence:'Occupation Influence',initialCatchphrase:'Catchphrase',initialDerivedMode:'Derived Prompt Format',initialSeason:'Season',initialGroupPromptMode:'Group Output Format',initialCount:'Output Count',initialPromptLanguage:'Prompt Language',initialPromptTarget:'Prompt Target',initialCaptionMode:'Image Text',manualOutputType:'Output Type',manualCount:'Output Count',manualQuality:'Art / Texture',manualBackground:'Background',manualLighting:'Lighting',manualPromptLanguage:'Prompt Language',manualPromptTarget:'Prompt Target',manualCaptionMode:'Image Text',initialCardStyle:'Card Style',initialCardRarity:'Card Rarity Label',initialCardTheme:'Card Color Theme',initialCardLayout:'Card Layout',initialCardWearMode:'Card Outfit',initialCardEffect:'Effect Linked to Rarity',manualCardStyle:'Card Style',manualCardRarity:'Card Rarity Label',manualCardTheme:'Card Color Theme',manualCardLayout:'Card Layout',manualCardWearMode:'Card Outfit',manualCardEffect:'Effect Linked to Rarity'},
       rarityNotes:{normal:'A natural and versatile combination.',rare:'A slightly distinctive combination.',super:'Several standout features are present.',legend:'A highly distinctive chance-based combination.'}
     }
   };
@@ -562,18 +564,20 @@
     'グラフィックデザイナー':'Graphic designer','カメラマン':'Photographer','ミュージシャン':'Musician','編集者':'Editor','イラストレーター':'Illustrator','映像ディレクター':'Film director',
     '消防士':'Firefighter','警察官':'Police officer','自衛官':'JSDF member','ジムトレーナー':'Gym trainer','スポーツインストラクター':'Sports instructor','モデル':'Model','俳優':'Actor','プロスポーツ選手':'Professional athlete',
     '喫茶店マスター':'Coffee shop master','新聞記者':'Newspaper reporter','国鉄職員':'National railway worker',
-    'お笑い芸人':'Comedian','声優':'Voice actor','YouTuber':'YouTuber','プロゲーマー':'Pro gamer','書道家':'Calligrapher','パティシエ':'Pastry chef','寿司職人':'Sushi chef','ラーメン店店主':'Ramen shop owner','僧侶':'Buddhist monk (in casual clothes)','古着屋店主':'Vintage clothing shop owner','悠々自適（定年後）':'Comfortably retired',
+    'お笑い芸人':'Comedian','声優':'Voice actor','YouTuber':'YouTuber','プロゲーマー':'Pro gamer','書道家':'Calligrapher','パティシエ':'Pastry chef','寿司職人':'Sushi chef','ラーメン店店主':'Ramen shop owner','僧侶':'Buddhist monk (in casual clothes)','古着屋店主':'Vintage clothing shop owner','悠々自適（定年後）':'Comfortably retired','救急隊員':'Paramedic','防衛大学校学生':'National Defense Academy cadet',
     '野球':'Baseball','サッカー':'Soccer','バスケットボール':'Basketball','バレーボール':'Volleyball','ラグビー':'Rugby','柔道':'Judo','剣道':'Kendo','陸上短距離':'Sprinting','陸上長距離':'Long-distance running','水泳':'Swimming','テニス':'Tennis','卓球':'Table tennis','ボクシング':'Boxing','ゴルフ':'Golf','自転車ロード':'Road cycling','体操':'Gymnastics',
     'ネイビーブラック':'Navy black','ダークアッシュ':'Dark ash','ダークチェリーブラウン':'Dark cherry brown','チョコレートブラウン':'Chocolate brown','赤みブラウン':'Reddish brown','マロンブラウン':'Marron brown','カーキブラウン':'Khaki brown','オリーブアッシュ':'Olive ash','ブルージュ':'Blue-beige (bluege)','ラベンダーグレージュ':'Lavender greige','ミルクティーベージュ':'Milk tea beige','ナチュラルブロンド':'Natural blond','ダークブロンド':'Dark blond','既製の実用衣料':'Plain practical clothing','ロシア':'Russia','スウェーデン':'Sweden','ポーランド':'Poland','トルコ':'Turkey','アルゼンチン':'Argentina','モンゴル':'Mongolia','ナイジェリア':'Nigeria','スラブ系':'Slavic','北欧系':'Nordic','南欧系':'Southern European','オレンジブラウン':'Orange brown','ハイトーンアッシュ':'High-tone ash','シルバーアッシュ':'Silver ash','ブリーチベージュ':'Bleached beige','金髪（ブリーチ）':'Bleached blond','メッシュ入りブラック':'Black with highlights','インナーカラー（アッシュ）':'Ash inner color','プリン気味の伸びた茶髪':'Grown-out brown with dark roots','白髪まじり':'Salt-and-pepper (slight gray)','ロマンスグレー':'Distinguished gray','ごま塩頭':'Salt-and-pepper hair','ほぼ白髪':'Mostly white hair',
     '黒縁メガネ':'Black-rimmed glasses','細フレームメガネ':'Thin-frame glasses','メタルフレームメガネ':'Metal-frame glasses','丸メガネ':'Round glasses','ハーフリムメガネ':'Half-rim glasses','縁なしメガネ':'Rimless glasses','金縁メガネ':'Gold-rimmed glasses',
     '職業制服':'Work uniform','書生風スタイル（着物＋袴＋学帽）':'Meiji-student style (kimono, hakama, cap)','着物と羽織':'Kimono with haori coat','国民服風':'Wartime national uniform style','開襟シャツスタイル':'Open-collar shirt style','三つ揃いスーツ':'Three-piece suit','仕立て・既製品':'Tailored / ready-made','支給品・制服':'Issued uniform',
     '参照画像前提（簡潔版）':'Reference-image based (concise)','単体で完結（フル記述）':'Standalone (full description)','トレーディングカード':'Trading card',
+    'スキンフェード':'Skin fade','ローフェード':'Low fade','フェード×ツイストスパイラル':'Fade with twist-spiral perm','バーバースタイル（七三フェード）':'Barber style (side-part fade)','クロップスタイル':'Crop cut','マッシュウルフ':'Mash-wolf cut','ソフトモヒカン':'Soft mohawk','アシメショート':'Asymmetric short cut',
+    '春':'Spring','夏':'Summer','秋':'Autumn','冬':'Winter',
     '結果画面のみ表示':'Show on result screen only','画像内にも表示する':'Also render inside the image','表示しない':'Hide',
     '服装・場面・体型に反映':'Affects outfit, scene, and body','場面のみに反映':'Affects scene only','影響なし':'No influence',
     'ビール腹':'Beer belly','中肉中背':'Average build','細マッチョ':'Lean muscular','隠れ筋肉質':'Secretly muscular','逆三角形体型':'V-shaped torso','華奢な体型':'Delicate slender build','水泳選手体型':'Swimmer build (broad shoulders, V-shape)','バスケットボール選手体型':'Basketball player build (tall, lean-muscular)','ラグビー選手体型':'Rugby player build (thick and powerful)','柔道家体型':'Judoka build (heavy-set, strong)','陸上短距離選手体型':'Sprinter build (explosive muscles)','陸上長距離選手体型':'Distance runner build (lean and wiry)','クライマー体型':'Climber build (defined upper body)','骨太体型':'Big-boned build','肩幅広め体型':'Broad-shouldered build',
     '普通系':'Ordinary','地味系':'Plain / modest','オタク系':'Otaku','ヤンキー系':'Yankee (delinquent style)','ホスト系':'Host club style','おじさん系':'Middle-aged guy','メガネ知的系':'Intellectual with glasses','ブサイク系':'Homely-looking',
     '昭和顔（濃い顔立ち）':'Showa-era bold features','しょうゆ顔':'Light refined features (shoyu-gao)','ソース顔':'Deep bold features (sauce-gao)','彫りの深い縄文系':'Deep-set Jomon-type features','あっさり弥生系':'Soft Yayoi-type features','たれ目系':'Droopy-eyed type','つり目系':'Upturned-eyed type','平成アイドル風':'Heisei idol style',
-    'なし（クリアな肌）':'None (clear skin)','頬にそばかす':'Freckles on the cheeks','鼻まわりに薄いそばかす':'Light freckles around the nose','額に小さなニキビ':'A few small pimples on the forehead','頬にニキビ跡（薄い凹凸）':'Faint acne scars on the cheeks','口元のほくろ':'A mole near the mouth','目元の泣きぼくろ':'A teardrop mole under the eye','首筋のほくろ':'A mole on the neck','頬の小さなほくろ':'A small mole on the cheek','うっすら青ひげ（剃り跡）':'A faint shaved-beard shadow','日焼けによる肌ムラ':'Slight tan unevenness',
+    'なし（クリアな肌）':'None (clear skin)','頬にそばかす':'Freckles on the cheeks','鼻まわりに薄いそばかす':'Light freckles around the nose','額に小さなニキビ':'A few small pimples on the forehead','頬にニキビ跡（薄い凹凸）':'Faint acne scars on the cheeks','口元のほくろ':'A mole near the mouth','目元の泣きぼくろ':'A teardrop mole under the eye','首筋のほくろ':'A mole on the neck','頬の小さなほくろ':'A small mole on the cheek','うっすら青ひげ（剃り跡）':'A faint shaved-beard shadow','日焼けによる肌ムラ':'Slight tan unevenness','えくぼ':'Dimples','左頬の薄い傷跡':'A faint scar on the left cheek','眉尻の剃り込み跡':'A shaved slit at the eyebrow tail','目の下のうっすらしたクマ':'Faint under-eye circles','頬の自然な赤み':'A natural flush on the cheeks','額の皮脂感（自然なテカリ）':'A natural sheen on the forehead','頬の毛穴感（自然な質感）':'Natural visible pores on the cheeks','腕まくり日焼けの跡':'A rolled-sleeve tan line','ゴーグル跡の日焼けムラ':'A goggle-shaped tan line','眉間のしわ':'A crease between the brows','目尻の笑いじわ':'Smile lines at the eye corners','ほうれい線':'Nasolabial folds','頬の薄いシミ':'Faint sun spots on the cheeks','首のしわ':'Neck lines',
     '年相応の渋さがある':'Age-appropriate seasoned look','穏やかな年配の風格':'Calm elderly dignity',
     'やんちゃ系':'Mischievous type','勤務帰り':'After work','休日':'Day off',
     '1人（通常）':'Solo (normal)','2人グループ':'Group of 2','3人グループ':'Group of 3',
@@ -881,8 +885,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V1.9.21';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V1.9.21';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V1.9.22';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V1.9.22';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1061,6 +1065,9 @@
     renderSelectOptions(cpSel, 'catchphraseMode', pools.catchphraseModes, cpSel?.value || '結果画面のみ表示', false);
     if(cpSel) cpSel.onchange = () => { if(current){ current.catchphraseMode = cpSel.value; renderAll(); } };
     renderSelectOptions(dmSel, 'derivedMode', pools.derivedModes, dmSel?.value || '参照画像前提（簡潔版）', false);
+    const ssSel = document.getElementById('initialSeason');
+    renderSelectOptions(ssSel, 'season', pools.seasons, ssSel?.value || 'ランダム', false);
+    if(ssSel) ssSel.onchange = () => { if(current){ current.season = ssSel.value !== 'ランダム' ? ssSel.value : current.season; renderAll(); } };
     if(dmSel) dmSel.onchange = () => { if(current){ current.derivedMode = dmSel.value; renderAll(); } };
     if(groupPMSel) groupPMSel.onchange = () => { if(currentGroup){ currentGroup.promptMode = groupPMSel.value; renderAll(); } };
     renderSelectOptions(count, 'count', pools.counts, selected.count, false);
@@ -1105,6 +1112,7 @@
       occupation: document.getElementById('initialOccupation')?.value || 'ランダム',
       catchphraseMode: document.getElementById('initialCatchphrase')?.value || '結果画面のみ表示',
       derivedMode: document.getElementById('initialDerivedMode')?.value || '参照画像前提（簡潔版）',
+      season: document.getElementById('initialSeason')?.value || 'ランダム',
       count: document.getElementById('initialCount')?.value || pools.counts[0],
       promptLanguage: document.getElementById('initialPromptLanguage')?.value || pools.promptLanguages[0],
       promptTarget: document.getElementById('initialPromptTarget')?.value || pools.promptTargets[0],
@@ -1441,7 +1449,9 @@
       'ラーメン店店主':'仕込み中のラーメン店の前で、腕組みをして立つ姿を偶然見かけた場面',
       '僧侶':'寺の門前を私服で歩く、穏やかな姿を偶然見かけた場面',
       '古着屋店主':'古着屋の店先で商品を整えている姿を偶然見かけた場面',
-      '悠々自適（定年後）':'朝の公園をゆったり散歩している穏やかな姿を偶然見かけた場面'
+      '悠々自適（定年後）':'朝の公園をゆったり散歩している穏やかな姿を偶然見かけた場面',
+      '救急隊員':'非番に消防署の近くで同僚と談笑している姿を偶然見かけた場面',
+      '防衛大学校学生':'休日に学校近くの坂道を歩いている姿を偶然見かけた場面'
     };
     if(c.occInfluence !== '影響なし' && c.role){
       const occScene = occSpecialScenes[c.role] || occCatScenes[OCC_CAT[c.role]] || null;
@@ -1704,7 +1714,7 @@
     ['アパレル店員','service',0,0,18,55],['カフェ店員','service',0,0,18,65],['美容師','service',0,0,19,70],['バーテンダー','service',0,0,20,70],['ホテルスタッフ','service',0,0,19,68],['飲食店店長','service',0,0,28,70],['書店員','service',0,0,18,75],['コンビニ店長','service',1980,0,25,70],
     ['自動車整備士','trade',0,0,18,68],['電気工事士','trade',0,0,18,68],['大工','trade',0,0,18,72],['建築士','trade',0,0,24,75],['工場勤務','trade',0,0,18,65],['配送ドライバー','trade',0,0,20,68],['農家','trade',0,0,18,80],['漁師','trade',0,0,18,75],
     ['グラフィックデザイナー','creative',1975,0,20,70],['カメラマン','creative',0,0,20,75],['ミュージシャン','creative',0,0,18,75],['編集者','creative',0,0,22,70],['イラストレーター','creative',0,0,18,75],['映像ディレクター','creative',1985,0,24,72],
-    ['消防士','uniform',0,0,18,59],['警察官','uniform',0,0,18,59],['自衛官','uniform',0,0,18,54],['ジムトレーナー','uniform',1995,0,18,60],['スポーツインストラクター','uniform',1990,0,18,62],['モデル','uniform',0,0,18,55],['俳優','uniform',0,0,18,80],['プロスポーツ選手','uniform',0,0,18,42],
+    ['消防士','uniform',0,0,18,59],['警察官','uniform',0,0,18,59],['自衛官','uniform',0,0,18,54],['救急隊員','uniform',0,0,20,59],['防衛大学校学生','uniform',1953,0,18,24],['ジムトレーナー','uniform',1995,0,18,60],['スポーツインストラクター','uniform',1990,0,18,62],['モデル','uniform',0,0,18,55],['俳優','uniform',0,0,18,80],['プロスポーツ選手','uniform',0,0,18,42],
     ['喫茶店マスター','showa',0,0,30,80],['新聞記者','showa',0,0,22,65],['国鉄職員','showa',0,1987,18,60],
     ['お笑い芸人','enta',0,0,18,75],['声優','enta',1980,0,18,75],['YouTuber','enta',2008,0,18,60],['プロゲーマー','enta',2010,0,18,40],
     ['書道家','creative',0,0,20,80],['パティシエ','service',1990,0,18,70],['寿司職人','service',0,0,18,80],['ラーメン店店主','service',0,0,25,75],['僧侶','other',0,0,20,80],['古着屋店主','service',1985,0,24,70],
@@ -1761,6 +1771,46 @@
     '国鉄職員':['国鉄の駅員制服風','a national-railway station staff uniform style','制服上衣＋制帽','制服スラックス','黒の革靴'],
     'プロスポーツ選手':['チームのトレーニングウェア（実在チームのロゴなし）','team training wear (no real team logos)','トレーニングトップ','トレーニングパンツ','スポーツシューズ']
   };
+  const UNIFORM_VARIANTS = {
+    '消防士': [
+      ['消防署の活動服（紺の作業服スタイル）','a firefighter station duty uniform (navy work-wear style)','紺の活動服上衣','紺の活動服パンツ','編み上げの作業ブーツ',5,''],
+      ['救助服（オレンジのレスキュー隊服）','an orange rescue-squad duty uniform','オレンジの救助服上衣','オレンジの救助服パンツ','編み上げの救助ブーツ',2,''],
+      ['防火衣（訓練場面向けの耐火装備スタイル）','protective fire gear in a training-style setting','防火衣の上衣','防火衣のズボン','防火用ブーツ',1,'']
+    ],
+    '警察官': [
+      ['警察官の冬制服風（濃紺の長袖＋ネクタイ）','a winter police-style uniform (dark navy long sleeves with tie)','濃紺の長袖制服シャツ＋ネクタイ','濃紺の制服スラックス','黒の革靴',4,'winter'],
+      ['警察官の夏制服風（薄青の半袖シャツ）','a summer police-style uniform (light-blue short-sleeve shirt)','薄青の半袖制服シャツ','濃紺の制服スラックス','黒の革靴',3,'summer'],
+      ['警察官の活動服風（出動服スタイル）','a police field-duty uniform style','紺の活動服上衣','紺の活動服パンツ','編み上げブーツ',2,''],
+      ['交通機動隊風の乗車服（白ヘルメット携行）','a traffic-motorcycle-unit rider uniform (white helmet carried)','乗車服の上衣','乗車用パンツ','ライディングブーツ',1,''],
+      ['機動隊の出動服風（ヘルメット携行）','a riot-unit duty uniform style (helmet carried)','紺の出動服上衣','紺の出動服パンツ','半長靴',1,'']
+    ],
+    '自衛官': [
+      ['陸上自衛隊風の迷彩作業服','a JGSDF-style camouflage work uniform','迷彩の作業服上衣','迷彩の作業服パンツ','ミリタリーブーツ',5,''],
+      ['陸自の常装制服風（紫紺）','a JGSDF-style dress uniform (dark purplish navy)','常装制服の上衣','常装制服のスラックス','黒の革靴',2,''],
+      ['海自の夏制服風（白）','a JMSDF-style white summer uniform','白の制服上衣','白の制服スラックス','黒の革靴',1,'summer'],
+      ['空自の制服風（青）','a JASDF-style blue uniform','青の制服上衣','青の制服スラックス','黒の革靴',1,'']
+    ],
+    '救急隊員': [
+      ['救急隊の活動服（白シャツ＋紺パンツ）','an ambulance-crew duty uniform (white shirt with navy pants)','白の活動シャツ','紺の活動パンツ','白系の活動シューズ',1,'']
+    ],
+    '防衛大学校学生': [
+      ['防衛大学校の常装制服風（濃紺の詰襟スタイル）','an NDA-style dark navy stand-collar dress uniform','濃紺の詰襟制服上衣','濃紺の制服スラックス','黒の革靴',3,'winter'],
+      ['防衛大学校の第1種夏服風（白の上衣）','an NDA-style Type-1 white summer uniform','白の制服上衣','黒の制服スラックス','黒の革靴',2,'summer'],
+      ['防衛大学校の校内服装（作業服スタイル）','NDA-style on-campus work clothing','作業服の上衣','作業服のパンツ','短靴',2,''],
+      ['防衛大学校の第3種夏服風（半袖シャツ）','an NDA-style Type-3 short-sleeve shirt uniform','半袖の制服シャツ','制服スラックス','黒の革靴',2,'summer']
+    ]
+  };
+  function chooseUniformVariant(role, season){
+    const list = UNIFORM_VARIANTS[role];
+    if(!list) return null;
+    const entries = list.map(v=>{
+      let w = v[5] || 1;
+      if(v[6] === 'summer') w = season === '夏' ? w * 4 : (season === '冬' ? Math.max(0.2, w * 0.2) : w);
+      if(v[6] === 'winter') w = season === '冬' ? w * 3 : (season === '夏' ? Math.max(0.3, w * 0.3) : w);
+      return [v, w];
+    });
+    return weighted(entries);
+  }
   function occupationOutfitWeights(occ){
     const cat = OCC_CAT[occ];
     const special = {
@@ -1787,7 +1837,7 @@
     return byCat[cat] || [];
   }
   function occupationBodyWeights(occ){
-    const HARD_ATHLETIC = ['消防士','警察官','自衛官','プロスポーツ選手'];
+    const HARD_ATHLETIC = ['消防士','警察官','自衛官','救急隊員','防衛大学校学生','プロスポーツ選手'];
     if(occ==='プロスポーツ選手') return {weights:[['引き締まったスポーツ体型',3],['ラグビー選手体型',2],['バスケットボール選手体型',2],['水泳選手体型',2],['陸上短距離選手体型',2],['サッカー選手体型',2],['筋肉質',2]], exclude:['やせ型','ぽっちゃり','腹だけぽっちゃり']};
     if(HARD_ATHLETIC.includes(occ)) return {weights:[['がっしり体型',4],['引き締まったスポーツ体型',4],['筋肉質',2],['柔道家体型',1],['ラグビー選手体型',2]], exclude:['やせ型','華奢な体型','ぽっちゃり','腹だけぽっちゃり']};
     if(ATHLETIC_OCC.includes(occ)) return {weights:[['がっしり体型',3],['引き締まったスポーツ体型',4],['筋肉質',2],['細マッチョ',2],['水泳選手体型',1]], exclude:['ぽっちゃり','腹だけぽっちゃり']};
@@ -1835,7 +1885,7 @@
     return hasSport ? `${c.role}（${c.sportName}）` : (c.role || '');
   }
   const VIBE_OCC = {
-    'ギャル男系':{good:['アパレル店員','美容師','古着屋店主','YouTuber'], bad:['銀行員','公務員','僧侶','高校教師','自衛官','研修医','経理・事務職','警察官','消防士']},
+    'ギャル男系':{good:['アパレル店員','美容師','古着屋店主','YouTuber'], bad:['銀行員','公務員','僧侶','高校教師','自衛官','研修医','経理・事務職','警察官','消防士','救急隊員','防衛大学校学生']},
     'ヤンキー系':{good:['大工','自動車整備士','配送ドライバー','漁師','電気工事士'], bad:['銀行員','公務員','高校教師','塾講師','僧侶','薬剤師','研修医','看護師']},
     'ホスト系':{good:['バーテンダー','美容師','アパレル店員'], bad:['消防士','警察官','自衛官','僧侶','農家','漁師']},
     '清楚系':{good:['ホテルスタッフ','薬剤師','書店員','経理・事務職','看護師'], bad:['漁師','工場勤務','ラーメン店店主','大工']},
@@ -1903,7 +1953,7 @@
     '白人系':[['自然な茶髪',4],['アッシュブラウン',3],['グレージュ',2],['黒',1]],
     'ミックス系':[['黒',4],['黒に近いダークブラウン',2],['自然な茶髪',1]]
   };
-  const STRICT_HAIR_OCC = ['銀行員','公務員','警察官','消防士','自衛官','ホテルスタッフ','商社勤務','研修医','看護師','高校教師','僧侶','新聞記者','国鉄職員','経理・事務職'];
+  const STRICT_HAIR_OCC = ['銀行員','公務員','警察官','消防士','自衛官','救急隊員','防衛大学校学生','ホテルスタッフ','商社勤務','研修医','看護師','高校教師','僧侶','新聞記者','国鉄職員','経理・事務職'];
   const FREE_HAIR_OCC = ['美容師','アパレル店員','ミュージシャン','YouTuber','お笑い芸人','古着屋店主','モデル','俳優','バーテンダー','プロゲーマー','動画クリエイター'];
   function occupationHairWeights(occ){
     if(STRICT_HAIR_OCC.includes(occ)) return [['黒',4],['黒に近いダークブラウン',1]];
@@ -1935,29 +1985,37 @@
     return byCat[cat] || null;
   }
 
-  function chooseSkinDetail(age, vibe, role, gapMode){
-    let entries = [['なし（クリアな肌）',18],['頬にそばかす',2],['鼻まわりに薄いそばかす',2],['額に小さなニキビ',1],['頬にニキビ跡（薄い凹凸）',2],['口元のほくろ',2],['目元の泣きぼくろ',2],['首筋のほくろ',1],['頬の小さなほくろ',2],['うっすら青ひげ（剃り跡）',1],['日焼けによる肌ムラ',1]];
+  function chooseSkinDetail(age, vibe, role, gapMode, exclude, secondary){
+    let entries = [['なし（クリアな肌）', secondary ? 26 : 16],['頬にそばかす',2],['鼻まわりに薄いそばかす',2],['額に小さなニキビ',1],['頬にニキビ跡（薄い凹凸）',2],['口元のほくろ',2],['目元の泣きぼくろ',2],['首筋のほくろ',1],['頬の小さなほくろ',2],['うっすら青ひげ（剃り跡）',1],['日焼けによる肌ムラ',1],['えくぼ',1.5],['左頬の薄い傷跡',0.5],['眉尻の剃り込み跡',0.5],['目の下のうっすらしたクマ',1.2],['頬の自然な赤み',1],['額の皮脂感（自然なテカリ）',0.8],['頬の毛穴感（自然な質感）',0.8],['腕まくり日焼けの跡',0.3],['ゴーグル跡の日焼けムラ',0.2],['眉間のしわ',0],['目尻の笑いじわ',0],['ほうれい線',0],['頬の薄いシミ',0],['首のしわ',0]];
     const adj = (v,d) => { const f = entries.find(x=>x[0]===v); if(f) f[1] = Math.max(0.2, f[1]+d); };
     if(!gapMode){
-      if(age <= 24){ adj('額に小さなニキビ',2); adj('頬にそばかす',1); }
+      if(age <= 24){ adj('額に小さなニキビ',2); adj('頬にそばかす',1); adj('額の皮脂感（自然なテカリ）',0.7); }
       if(age >= 30){ adj('額に小さなニキビ',-0.8); }
-      if(age >= 40){ adj('うっすら青ひげ（剃り跡）',1); adj('日焼けによる肌ムラ',1); adj('頬にそばかす',-1); }
-      if(['清楚系','韓国風','ホスト系','きれいめ系','中性系'].includes(vibe)){ adj('なし（クリアな肌）',14); ['額に小さなニキビ','頬にニキビ跡（薄い凹凸）','うっすら青ひげ（剃り跡）','日焼けによる肌ムラ','頬にそばかす'].forEach(v=>{ const f = entries.find(x=>x[0]===v); if(f) f[1] = f[1]*0.3; }); }
+      if(age >= 40){ adj('うっすら青ひげ（剃り跡）',1); adj('日焼けによる肌ムラ',1); adj('頬にそばかす',-1); adj('眉間のしわ',1.5); adj('目尻の笑いじわ',2); }
+      if(age >= 45){ adj('ほうれい線',2); }
+      if(age >= 50){ adj('頬の薄いシミ',1.5); }
+      if(age >= 60){ adj('首のしわ',1.5); adj('眉間のしわ',1.5); adj('目尻の笑いじわ',1.5); adj('ほうれい線',1.5); adj('頬の薄いシミ',1); adj('なし（クリアな肌）', secondary ? -10 : -6); }
+      if(['清楚系','韓国風','ホスト系','きれいめ系','中性系'].includes(vibe)){ adj('なし（クリアな肌）', secondary ? 20 : 14); ['額に小さなニキビ','頬にニキビ跡（薄い凹凸）','うっすら青ひげ（剃り跡）','日焼けによる肌ムラ','頬にそばかす','額の皮脂感（自然なテカリ）','頬の毛穴感（自然な質感）'].forEach(v=>{ const f = entries.find(x=>x[0]===v); if(f) f[1] = f[1]*0.3; }); }
       if(['ブサイク系','おじさん系','ヤンキー系'].includes(vibe)){ adj('頬にニキビ跡（薄い凹凸）',2); adj('うっすら青ひげ（剃り跡）',2); adj('なし（クリアな肌）',-3); }
-      if(['アウトドア系','スポーツ系'].includes(vibe) || ['農家','漁師','大工','自動車整備士','電気工事士','工場勤務','配送ドライバー','体育教師','プロスポーツ選手','消防士','自衛官'].includes(role)) adj('日焼けによる肌ムラ',2);
+      if(vibe === 'ヤンキー系') adj('眉尻の剃り込み跡',2);
+      if(['ITエンジニア','アプリ開発者','ゲーム開発者','研修医','看護師','救急隊員'].includes(role)) adj('目の下のうっすらしたクマ',1.5);
+      if(['アウトドア系','スポーツ系'].includes(vibe) || ['農家','漁師','大工','自動車整備士','電気工事士','工場勤務','配送ドライバー','体育教師','プロスポーツ選手','消防士','自衛官','救急隊員','防衛大学校学生'].includes(role)){ adj('日焼けによる肌ムラ',2); adj('腕まくり日焼けの跡',1.5); }
+      if(['プロスポーツ選手','体育教師','ジムトレーナー','スポーツインストラクター'].includes(role) || vibe === 'スポーツ系') adj('ゴーグル跡の日焼けムラ',0.8);
     }
-    const first = weighted(entries);
-    if(first === 'なし（クリアな肌）') return first;
-    if(Math.random() < 0.3){
-      const rest = entries.filter(([v]) => v !== first && v !== 'なし（クリアな肌）');
-      if(rest.length) return `${first}＋${weighted(rest)}`;
-    }
-    return first;
+    if(exclude && exclude.length) entries = entries.filter(([v]) => v === 'なし（クリアな肌）' || !exclude.includes(v));
+    entries = entries.filter(([,w]) => w > 0);
+    return weighted(entries);
   }
+
   function skinDetailLine(c, english=false){
-    if(!c.skinDetail || c.skinDetail === 'なし（クリアな肌）') return '';
-    if(english) return ` Skin details: ${String(c.skinDetail).split('＋').map(v=>(typeof valueTranslations!=='undefined' && valueTranslations[v]) || v).join(' and ')} — render them subtly as natural skin texture, never exaggerated and never as grime that undermines his appeal.`;
-    return `肌には${String(c.skinDetail).replace('＋','と')}があり、過度に強調せず自然な質感として描く。キャラクター性を損なう汚れ表現にはしない。`;
+    const parts = [];
+    [c.skinDetail, c.skinDetail2].forEach(v=>{
+      if(!v || v === 'なし（クリアな肌）') return;
+      String(v).split('＋').forEach(p=>{ if(p && !parts.includes(p)) parts.push(p); });
+    });
+    if(!parts.length) return '';
+    if(english) return ` Skin details: ${parts.map(v=>(typeof valueTranslations!=='undefined' && valueTranslations[v]) || v).join(' and ')} — render them subtly as natural skin texture, never exaggerated and never as grime that undermines his appeal.`;
+    return `肌には${parts.join('と')}があり、過度に強調せず自然な質感として描く。キャラクター性を損なう汚れ表現にはしない。`;
   }
   function chooseFacialHair(age, vibe){
     let entries = [['なし',24],['ごく薄い青ひげ',4],['自然な青ひげ',3],['短い無精ひげ',3],['整えた短いひげ',2],['口ひげ',1],['あごひげ',1],['口ひげ＋あごひげ',1],['ワイルドめのひげ',1]];
@@ -2047,11 +2105,25 @@
     if(english) return `The setting is ${natEn}: match the streets, signage (in the local script), vehicles, and passers-by to that country in the same era. `;
     return `舞台は${nat}。街並み・看板の文字（${scriptOf(nat)}）・車両・行き交う人々の装いも${nat}の同年代に合わせる。`;
   }
+  function seasonLine(c, english=false){
+    const sn = c && c.season;
+    if(!sn) return '';
+    const M = {
+      '春':['季節は春。軽めの羽織りものや柔らかい光、桜や新緑など、春らしい装いと街の様子にする。','It is spring: light layers, soft light, and spring scenery such as cherry blossoms or fresh greenery. '],
+      '夏':['季節は夏。半袖や薄手の服、強い日差し、青々とした街路樹など、夏らしい装いと街の様子にする。','It is summer: short sleeves or light fabrics, strong sunlight, and lush summer streets. '],
+      '秋':['季節は秋。重ね着や暖色の光、紅葉など、秋らしい装いと街の様子にする。','It is autumn: layered outfits, warm-toned light, and autumn foliage. '],
+      '冬':['季節は冬。コートやニットの防寒、冷たく澄んだ空気、冬枯れや雪の気配など、冬らしい装いと街の様子にする。','It is winter: coats and knitwear, crisp cold air, and hints of bare trees or snow. ']
+    };
+    const m = M[sn];
+    if(!m) return '';
+    const adj = english ? 'The outfit may be naturally adapted to the season (sleeve length, adding or removing outerwear) while keeping the specified coordination as the base. ' : '（服装は指定コーデを基準に、袖丈やアウターの有無を季節に合わせて自然に調整してよい）';
+    return english ? `${m[1]}${adj}` : `${m[0]}${adj}`;
+  }
   function eraContextLine(c, english=false){
     const y = c.eraYear || '2026';
     const p = eraPhotoStyle(y);
-    if(english) return `Era setting: around ${y}. Match streets, signage, props, vehicles, and garment textures to this period, exclude anything that did not exist yet. ${countryLine(c, true)}Render the image as ${p[1]}.\n`;
-    return `時代設定：${eraLabel(y)}頃。街並み・看板・小物・車両・服の質感をこの年代に合わせ、その時代に存在しない物は描かない。${countryLine(c, false)}画の質感は${p[0]}にする。\n`;
+    if(english) return `Era setting: around ${y}. Match streets, signage, props, vehicles, and garment textures to this period, exclude anything that did not exist yet. ${countryLine(c, true)}${seasonLine(c, true)}Render the image as ${p[1]}.\n`;
+    return `時代設定：${eraLabel(y)}頃。街並み・看板・小物・車両・服の質感をこの年代に合わせ、その時代に存在しない物は描かない。${countryLine(c, false)}${seasonLine(c, false)}画の質感は${p[0]}にする。\n`;
   }
   function avgHeight(nationality, eraYear){
     const y = Number(eraYear) || 2026;
@@ -2279,6 +2351,8 @@
       '喫茶店マスター': ['昭和の面影が残る喫茶店の前','the front of a retro coffee shop'],
       '僧侶': ['寺の門前','the gate of a temple'],
       '悠々自適（定年後）': ['朝の公園','a park in the morning'],
+      '救急隊員': ['救急ステーションの近く','near an ambulance station'],
+      '防衛大学校学生': ['学校近くの坂道の街並み','a hillside street near the academy'],
       'お笑い芸人': ['劇場の前','the front of a comedy theater'],
       'YouTuber': ['撮影機材のある街角','a city corner with filming gear'],
       '寿司職人': ['のれんの掛かった寿司店の前','the front of a sushi restaurant with a noren curtain'],
@@ -2401,8 +2475,8 @@
       return `「偶然足元強調場面シート」として構成する。職業や1日の流れの中で靴を脱ぐ必然性が自然に生まれる場面を1つ選んで描く。和室・座敷・小上がり・玄関・休憩スペースなどはあくまで例であり、これらに限定せず人物の職業や生活から自由に発想してよい${c.sceneIdea ? `（参考にできる場面アイデア：「${c.sceneIdea}」）` : ''}。職業服装のまま靴だけを脱いだ状態で描く。${workOutfitSpec(c, false)}この職業服装を着たまま、提案靴下（${c.sockBrand}の${c.sockType}、${c.sockColor}、使用感は${c.sockUse}）を履いた足元を画面手前に大きく配置する。上半身または全身も自然に画面に収め、誰なのか分かるようにする。脱いだ靴（${c.shoes}）は、場面として自然な場合のみ画面の隅に収め、玄関に置いてきた場面など構図に入れる必然性がなければ画面に入れない。足元は写実的で正確な人体構造を維持する。避けること：足の変形、指の本数や関節の崩れ、本人の両足2本以外の足の生成、足裏の重複や複数人分の足裏、不自然な曲がり方、足裏・足指の過度な接写、性的な演出。自然でリラックスした健全な生活描写にとどめる。`;
     }
     if(kind==='magazine'){
-      if(english) return `Create a "character feature magazine page" — a fictional magazine spread featuring ${nameKana(c)} (${c.age}, ${displayValue('role', c.role)}), designed in ${magazineStyleByEra(c.eraYear, true)}. Layout: one main photo (casual outfit — ${casualOutfitSpec(c, true).replace('Casual outfit contents: ','')}), a smaller sub-cut (work outfit — ${workOutfitSpec(c, true).replace('Work outfit contents: ','')}), a big headline using the catchphrase "${catchphrase(c, true)}", a profile box (name, age, occupation, height ${c.height}), and a mini interview section: ${magazineQA(c, true)} All page text must be clean and readable. Use a FICTIONAL magazine identity${c.nationality && c.nationality !== '日本' ? ` published in ${(typeof valueTranslations!=='undefined' && valueTranslations[c.nationality]) || c.nationality}` : ''} — no real magazine names or logos.`;
-      return `「人物特集雑誌ページ」として構成する。${nameKana(c)}（${c.age}歳・${c.role}）を特集する${c.nationality && c.nationality !== '日本' ? `${c.nationality}で発行されている` : ''}架空の雑誌の誌面で、レイアウトは${eraLabel(c.eraYear)}頃の${magazineStyleByEra(c.eraYear, false)}にする。構成：メイン写真（私服コーデ。${casualOutfitSpec(c, false)}）、小さめのサブカット（職業服装。${workOutfitSpec(c, false)}）、キャッチフレーズ「${catchphrase(c, false)}」を使った大見出し、プロフィール欄（名前・年齢・職業・身長${c.height}）、ミニインタビュー欄：${magazineQA(c, false)}。誌面の日本語はすべて読みやすく、文字化けさせない。実在の雑誌名・ロゴは使わず、架空の雑誌としてデザインする。`;
+      if(english) return `Create a "character feature magazine page" — a fictional magazine spread featuring ${nameKana(c)} (${c.age}, ${displayValue('role', c.role)}), designed in ${magazineStyleByEra(c.eraYear, true)}. Layout: one main photo (casual outfit — ${casualOutfitSpec(c, true).replace('Casual outfit contents: ','')}), a smaller sub-cut (work outfit — ${workOutfitSpec(c, true).replace('Work outfit contents: ','')}), a big headline using the catchphrase "${catchphrase(c, true)}", a profile box (name, age, occupation, height ${c.height}), and a mini interview section: ${magazineQA(c, true)} ${c.season ? `Give the page a seasonal ${String(displayValue('season', c.season) || c.season).toLowerCase()} -issue feel. ` : ''}All page text must be clean and readable. Use a FICTIONAL magazine identity${c.nationality && c.nationality !== '日本' ? ` published in ${(typeof valueTranslations!=='undefined' && valueTranslations[c.nationality]) || c.nationality}` : ''} — no real magazine names or logos.`;
+      return `「人物特集雑誌ページ」として構成する。${nameKana(c)}（${c.age}歳・${c.role}）を特集する${c.nationality && c.nationality !== '日本' ? `${c.nationality}で発行されている` : ''}架空の雑誌の誌面で、レイアウトは${eraLabel(c.eraYear)}頃の${magazineStyleByEra(c.eraYear, false)}にする。構成：メイン写真（私服コーデ。${casualOutfitSpec(c, false)}）、小さめのサブカット（職業服装。${workOutfitSpec(c, false)}）、キャッチフレーズ「${catchphrase(c, false)}」を使った大見出し、プロフィール欄（名前・年齢・職業・身長${c.height}）、ミニインタビュー欄：${magazineQA(c, false)}。${c.season ? `${c.season}の特集号として、誌面全体に季節感も添える。` : ''}誌面の日本語はすべて読みやすく、文字化けさせない。実在の雑誌名・ロゴは使わず、架空の雑誌としてデザインする。`;
     }
     if(kind==='outfitref'){
       if(english) return `Create an outfit reference sheet with an occupation-themed backdrop. The hero content is his full WORK outfit (shoes included). Panels: (1) full-body FRONT view in the complete work outfit with shoes, (2) full-body SIDE view, (3) an upper-body close-up showing fabric and layering details, (4) a shoe detail (side view and sole), and (5) a foot detail with the BARE foot front view and sole view (shoes and socks removed), and (6) a SOCK detail panel showing the foot wearing the suggested socks from the FRONT and from the SOLE side, rendering the sock condition (${c.sockUse}) accurately. Background: ${occupationBackdrop(c.role, true)}, conveying the atmosphere of his occupation. ${outfitSummaryLine(c, true)} Label every panel, keep every panel clearly the same person, and keep the sheet non-sexual.`;
@@ -2494,21 +2568,29 @@
     const initial = getInitial();
     const rareMode = partialMode === 'rare';
     const base = current && partialMode !== 'full' && partialMode !== 'rare' ? {...current} : {};
-    const age = Number(fixed.age || base.age || (groupCtx ? Math.min(45, Math.max(18, Number(groupCtx.ageCenter) + rnd(-3,3,1))) : chooseAge(initial.ageMin || 20, initial.ageMax || 32)));
+    let age = Number(fixed.age || base.age || (groupCtx ? Math.min(45, Math.max(18, Number(groupCtx.ageCenter) + rnd(-3,3,1))) : chooseAge(initial.ageMin || 20, initial.ageMax || 32)));
     const nationality = fixed.nationality || initial.nationality || base.nationality || (groupCtx && Math.random()<0.8 ? groupCtx.nationality : pick(pools.nationalities));
     const ethnicity = fixed.ethnicity || initial.ethnicity || base.ethnicity || defaultEthnicityForNationality(nationality);
     const mbti = fixed.mbti || base.mbti || (groupCtx ? weighted(groupCtx.mbtiWeights) : pick(pools.mbtis));
     const vibe = fixed.vibe || (initial.vibe && initial.vibe !== 'ランダム' ? initial.vibe : (base.vibe || (groupCtx && Math.random()<0.6 ? groupCtx.vibe : chooseVibeByMbti(mbti, age))));
     const eraYear = initial.eraYear || '2026';
     const era = eraProfile(eraYear);
+    const season = fixed.season || base.season || ((initial.season && initial.season !== 'ランダム') ? initial.season : pick(['春','夏','秋','冬']));
     const profile = vibeProfile(vibe, age);
     const gapMode = Math.random() < 0.15;
     const role = base.role || (initial.occupation && initial.occupation !== 'ランダム' ? initial.occupation : chooseRoleByMbti(age, vibe, mbti, eraYear, gapMode));
     const holidayPersona = !!(VIBE_OCC[vibe] && VIBE_OCC[vibe].bad.includes(role));
+    const occRowForAge = OCCUPATIONS.find(o=>o[0]===role);
+    if(occRowForAge && !base.age){
+      const aLo = occRowForAge[4] || 18, aHi = occRowForAge[5] || 80;
+      if(age < aLo || age > aHi) age = rnd(aLo, aHi, 1);
+    }
     const sportName = fixed.sportName || base.sportName || chooseSport(role, eraYear);
     const heightAvgBase = avgHeight(nationality, eraYear);
     const occHeightShift = (role === 'モデル' ? 7 : 0) + (sportName === 'バスケットボール' ? 8 : sportName === 'バレーボール' ? 7 : 0);
     const height = Number(base.heightRaw || pickHeightAround(heightAvgBase + occHeightShift - (age >= 70 ? 1 : 0)));
+    const sd1 = fixed.skinDetail || (base.skinDetail ? String(base.skinDetail).split('＋')[0] : null) || chooseSkinDetail(age, vibe, role, gapMode);
+    const sd2 = fixed.skinDetail2 || base.skinDetail2 || (base.skinDetail && String(base.skinDetail).includes('＋') ? String(base.skinDetail).split('＋')[1] : null) || (sd1 === 'なし（クリアな肌）' ? 'なし（クリアな肌）' : chooseSkinDetail(age, vibe, role, gapMode, [sd1], true));
     const occInfluence = initial.occInfluence || '服装・場面・体型に反映';
     const occFull = occInfluence === '服装・場面・体型に反映';
     const occupationMode = holidayPersona ? '休日' : (occFull ? (Math.random() < 0.65 ? '勤務帰り' : '休日') : '');
@@ -2575,10 +2657,37 @@
       return weighted(entries);
     };
     let outfitType = fixed.outfitType || base.outfitType || pickOutfitType(true);
-    if(occFull && UNIFORM_WORKWEAR[role] && !fixed.outfitType && !base.outfitType) outfitType = '職業制服';
+    if(occFull && (UNIFORM_WORKWEAR[role] || UNIFORM_VARIANTS[role]) && !fixed.outfitType && !base.outfitType) outfitType = '職業制服';
     let holidayOutfitType = base.holidayOutfitType || pickOutfitType(false);
     if(holidayOutfitType === outfitType){ const retry = pickOutfitType(false); if(retry !== outfitType) holidayOutfitType = retry; }
-    const pickHair = () => weighted(eraAdjustEntries(profile ? profile.hairStyles.map(([v,w])=>[v,w]) : pools.hairStyles.map(v=>[v,1]), era, 'hairStyles', 'excludeHair'));
+    const STYLE_SINCE = {'スキンフェード':2016,'ローフェード':2016,'フェード×ツイストスパイラル':2019,'バーバースタイル（七三フェード）':2015,'クロップスタイル':2018,'マッシュウルフ':2020,'ソフトモヒカン':2003,'アシメショート':2008};
+    const OCC_HAIRSTYLE = (()=>{
+      const M = {};
+      const set = (list, boost, damp) => list.forEach(o=>{ M[o] = {boost, damp}; });
+      set(['美容師','アパレル店員','古着屋店主','モデル'], [['スキンフェード',4],['フェード×ツイストスパイラル',4],['センターパート',3],['韓国風センターパート',3],['マッシュウルフ',2]], null);
+      set(['銀行員','公務員','営業職','商社勤務','ホテルスタッフ','経理・事務職','コンサルタント','不動産営業'], [['ビジネス短髪',6],['ソフトツーブロック',4],['ローフェード',3],['短髪',3],['サイドパート',2]], ['波巻きパーマ','スパイラルパーマ','ツイストパーマ','マンバン','フェード×ツイストスパイラル','マッシュウルフ']);
+      set(['自衛官','防衛大学校学生'], [['坊主',5],['短髪',5]], null);
+      M['自衛官'].only = M['防衛大学校学生'].only = ['坊主','短髪','ビジネス短髪','ソフトツーブロック','アップバング'];
+      set(['消防士','警察官','救急隊員'], [['短髪',4],['ソフトモヒカン',2],['アップバング',1]], ['波巻きパーマ','スパイラルパーマ','マンバン','ロング寄りミディアム','マッシュウルフ','フェード×ツイストスパイラル']);
+      set(['大工','自動車整備士','電気工事士','工場勤務','漁師','農家','配送ドライバー'], [['ソフトモヒカン',2],['短髪',3],['アップバング',1]], null);
+      set(['ITエンジニア','Webデザイナー','ゲーム開発者','アプリ開発者','イラストレーター','編集者'], [['マッシュ',3],['センターパート',2]], null);
+      set(['バーテンダー','喫茶店マスター'], [['バーバースタイル（七三フェード）',2],['七三分け',2],['サイドパート',2]], null);
+      return M;
+    })();
+    const pickHair = () => {
+      let entries = eraAdjustEntries(profile ? profile.hairStyles.map(([v,w])=>[v,w]) : pools.hairStyles.map(v=>[v,1]), era, 'hairStyles', 'excludeHair');
+      const y = Number(eraYear) || 2026;
+      [['スキンフェード',2],['ローフェード',1.5],['バーバースタイル（七三フェード）',1],['クロップスタイル',1],['フェード×ツイストスパイラル',1.5],['マッシュウルフ',1.5],['ソフトモヒカン',1],['アシメショート',1]].forEach(([v,w])=>{
+        if(y >= (STYLE_SINCE[v] || 0)){ const f = entries.find(x=>x[0]===v); if(f) f[1]+=w; else entries.push([v,w]); }
+      });
+      const oh = (!gapMode && role) ? OCC_HAIRSTYLE[role] : null;
+      if(oh){
+        (oh.boost||[]).forEach(([v,w])=>{ if(STYLE_SINCE[v] && y < STYLE_SINCE[v]) return; const f = entries.find(x=>x[0]===v); if(f) f[1]+=w*2; else entries.push([v,w*2]); });
+        if(oh.damp) entries = entries.map(([v,w])=>oh.damp.includes(v) ? [v, Math.max(0.1, w*0.2)] : [v,w]);
+        if(oh.only){ const kept = entries.filter(([v])=>oh.only.includes(v)); if(kept.length) entries = kept; }
+      }
+      return weighted(entries);
+    };
     let hairStyle = base.hairStyle || pickHair();
     if(groupCtx?.avoidHair?.length && !base.hairStyle){
       for(let i=0;i<3 && groupCtx.avoidHair.includes(hairStyle);i++) hairStyle = pickHair();
@@ -2608,7 +2717,7 @@
     const bodyHair = generateBodyHair(age, ethnicity, vibe, mbti, eraYear);
     const coord = generateCoordinatedOutfit(outfitType, age, rareMode, nationality, vibe, eraYear);
     const hCoord = generateCoordinatedOutfit(holidayOutfitType, age, rareMode, nationality, vibe, eraYear);
-    const uniform = occFull ? UNIFORM_WORKWEAR[role] : null;
+    const uniform = occFull ? (chooseUniformVariant(role, season) || UNIFORM_WORKWEAR[role]) : null;
     if(uniform && !fixed.outfitType && !base.outfitType){
       coord.outfitBrand = '支給品・制服';
       coord.jacket = 'なし';
@@ -2645,7 +2754,7 @@
       facePreset,
       ageAppearance,
       faceLine: base.faceLine || (()=>{ let v = pick(pools.faceLines); if(groupCtx?.avoidFaceLines?.length){ for(let i=0;i<3 && groupCtx.avoidFaceLines.includes(v);i++) v = pick(pools.faceLines); } return v; })(),
-      eyes: base.eyes || (()=>{ let v = ethnicFace.eyes || pick(pools.eyes); if(groupCtx?.avoidEyes?.length){ for(let i=0;i<3 && groupCtx.avoidEyes.includes(v);i++) v = pick(pools.eyes); } return v; })(), tearBags: base.tearBags || pick(pools.tearBags), nose: base.nose || pick(pools.nose), mouth: base.mouth || pick(pools.mouth), skin: base.skin || ethnicFace.skin || pick(pools.skin), skinDetail: fixed.skinDetail || base.skinDetail || chooseSkinDetail(age, vibe, role, gapMode), facialHair: base.facialHair || chooseFacialHair(age, vibe),
+      eyes: base.eyes || (()=>{ let v = ethnicFace.eyes || pick(pools.eyes); if(groupCtx?.avoidEyes?.length){ for(let i=0;i<3 && groupCtx.avoidEyes.includes(v);i++) v = pick(pools.eyes); } return v; })(), tearBags: base.tearBags || pick(pools.tearBags), nose: base.nose || pick(pools.nose), mouth: base.mouth || pick(pools.mouth), skin: base.skin || ethnicFace.skin || pick(pools.skin), skinDetail: sd1, skinDetail2: sd2, facialHair: base.facialHair || chooseFacialHair(age, vibe),
       hairStyle, hairColor,
       bodyHairOverall: base.bodyHairOverall || bodyHair.bodyHairOverall,
       chestHair: base.chestHair || bodyHair.chestHair,
@@ -2662,7 +2771,7 @@
       boxerBrand: base.boxerBrand || pick(eraBrandList(pools.boxerBrands, eraYear, '指定しない')), boxerColor: base.boxerColor || pick(pools.boxerColors),
       glasses: base.glasses || chooseGlasses(eraYear, vibe, role, age),
       holidayOutfitType, holidayOutfitBrand: hCoord.outfitBrand, holidayJacket: hCoord.jacket, holidayTop: hCoord.top, holidayBottom: hCoord.bottom, holidayShoes: hCoord.shoes, holidaySockBrand: hCoord.sockBrand, holidaySockType: hCoord.sockType, holidaySockColor: hCoord.sockColor, holidaySockUse: hCoord.sockUse,
-      occupationMode, occInfluence, holidayPersona, sportName, avgHeightBase: heightAvgBase, workUniform: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[0] : '', workUniformEn: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[1] : '', derivedMode: initial.derivedMode || '参照画像前提（簡潔版）', catchphraseMode: initial.catchphraseMode || '結果画面のみ表示',
+      occupationMode, occInfluence, holidayPersona, sportName, season, avgHeightBase: heightAvgBase, workUniform: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[0] : '', workUniformEn: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[1] : '', derivedMode: initial.derivedMode || '参照画像前提（簡潔版）', catchphraseMode: initial.catchphraseMode || '結果画面のみ表示',
       mainWearMode: initial.mainWearMode || 'ボクサーパンツのみ', underwearType: base.underwearType || (eraUw ? eraUw.type : ''), underwearColor: base.underwearColor || (eraUw ? eraUw.color : ''),
       shoes: base.shoes || coord.shoes, sockBrand: base.sockBrand || coord.sockBrand, sockType: base.sockType || coord.sockType, sockShape: base.sockShape || coord.sockShape, sockMaterial: base.sockMaterial || coord.sockMaterial, sockColor: base.sockColor || coord.sockColor, sockUse: base.sockUse || coord.sockUse,
       personality: mbtiDescription(mbti, false),
@@ -2804,7 +2913,7 @@ Avoid: making anyone look underage, sexual expression, changing anyone into a di
 ${promptTargetGuide(lead, true)}`;
     }
     return `以下の${ms.length}人の成人男性を、1枚の集合写真風画像として生成してください。全員18歳以上の成人で、非性的で健全な、仲の良い友人同士の日常スナップとして描写する。
-グループ設定：${group.setting}。時代設定は${eraLabel(lead.eraYear)}頃。${countryLine(lead, false)}${eraStyleNote(lead, false)}
+グループ設定：${group.setting}。時代設定は${eraLabel(lead.eraYear)}頃。${countryLine(lead, false)}${seasonLine(lead, false)}${eraStyleNote(lead, false)}
 
 ${ms.map(memberBlock).join('\n')}
 
@@ -2842,7 +2951,7 @@ Avoid: making anyone look underage, sexual poses, emphasis on genitals, changing
 ${promptTargetGuide(lead, true)}`;
     }
     return `以下の${n}人の成人男性を、全員の全身が見えるように横並びで自然に配置した1枚の画像として生成してください。全員18歳以上の成人。非性的で、体型確認用の設定資料として健全に描写する。
-時代設定は${eraLabel(lead.eraYear)}頃。${countryLine(lead, false)}${eraStyleNote(lead, false)}
+時代設定は${eraLabel(lead.eraYear)}頃。${countryLine(lead, false)}${seasonLine(lead, false)}${eraStyleNote(lead, false)}
 
 ${ms.map((m,i)=>groupMemberIntro(m,i,false) + `メイン服装は${underwearDesc(m, false)}のみ。`).join('\n')}
 
@@ -2868,7 +2977,7 @@ ${buildGroupDistinctionBlock(ms, true)}
 Make each outfit internally coherent, and let the group look like real friends standing naturally together, expressing their height and build differences. Background: ${lead.background}. Lighting: ${lead.lighting}. Visual style: ${enQuality(lead.quality)}. Non-sexual fashion depiction.
 ${promptTargetGuide(lead, true)}`;
     }
-    return `同じ${n}人の成人男性が、それぞれの${mode==='holiday' ? '私服' : '職業'}の提案服装を着て一緒に立っている1枚の画像として生成してください。各メンバーの顔立ち・体型・身長感・髪型はメイン設定と同一人物として維持する。グループ設定：${group.setting}。時代設定は${eraLabel(lead.eraYear)}頃。${countryLine(lead, false)}${eraStyleNote(lead, false)}
+    return `同じ${n}人の成人男性が、それぞれの${mode==='holiday' ? '私服' : '職業'}の提案服装を着て一緒に立っている1枚の画像として生成してください。各メンバーの顔立ち・体型・身長感・髪型はメイン設定と同一人物として維持する。グループ設定：${group.setting}。時代設定は${eraLabel(lead.eraYear)}頃。${countryLine(lead, false)}${seasonLine(lead, false)}${eraStyleNote(lead, false)}
 
 ${ms.map(line).join('\n')}
 
@@ -2976,7 +3085,7 @@ ${promptTargetGuide(lead, false)}`;
       vibe: pools.vibes.filter(v=>v!=='ランダム'), bodyType: pools.bodyTypes, footShape: pools.footShapes,
       sportName: ['なし'].concat(SPORTS),
       facePreset: pools.facePresets, ageAppearance: pools.ageLooks, faceLine: pools.faceLines,
-      eyes: pools.eyes, tearBags: pools.tearBags, nose: pools.nose, mouth: pools.mouth, skin: pools.skin, skinDetail: pools.skinDetails,
+      eyes: pools.eyes, tearBags: pools.tearBags, nose: pools.nose, mouth: pools.mouth, skin: pools.skin, skinDetail: pools.skinDetails, skinDetail2: pools.skinDetails,
       facialHair: pools.facialHair, glasses: pools.glasses, hairStyle: pools.hairStyles, hairColor: pools.hairColors,
       outfitType: pools.outfitTypes, holidayOutfitType: pools.outfitTypes, outfitBrand: pools.outfitBrands,
       boxerBrand: pools.boxerBrands, sockBrand: pools.sockBrands, sockType: pools.sockTypes,
@@ -3141,14 +3250,14 @@ ${targetEn}`;
     }
     return `成人男性キャラクター「${c.name}」を、同一人物の服装差分として描写する。
 
-人物の特徴は維持する。時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${eraStyleNote(c, false)}${c.age}歳、${c.nationality}、${c.ethnicity}。雰囲気は${c.vibe}。性格・立ち居振る舞いの雰囲気は${mbtiDescription(c.mbti,false)}。${c.holidayPersona ? `平日は${c.role}として堅実に働いているが、休日は${c.vibe}の雰囲気に一変するタイプであり、この画像は休日の姿として描く。` : ''}顔立ちは${c.facePreset}、年齢感は${c.ageAppearance}。身長${c.height}、体重${c.weight}、体型は${bodyTypeDesc(c.bodyType, false)}。髪は${c.hairColor}の${c.hairStyle}。ひげは${c.facialHair}。${bodyJa}
+人物の特徴は維持する。時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${seasonLine(c, false)}${eraStyleNote(c, false)}${c.age}歳、${c.nationality}、${c.ethnicity}。雰囲気は${c.vibe}。性格・立ち居振る舞いの雰囲気は${mbtiDescription(c.mbti,false)}。${c.holidayPersona ? `平日は${c.role}として堅実に働いているが、休日は${c.vibe}の雰囲気に一変するタイプであり、この画像は休日の姿として描く。` : ''}顔立ちは${c.facePreset}、年齢感は${c.ageAppearance}。身長${c.height}、体重${c.weight}、体型は${bodyTypeDesc(c.bodyType, false)}。髪は${c.hairColor}の${c.hairStyle}。ひげは${c.facialHair}。${bodyJa}
 
 ${mode==='holiday'
   ? `【私服コーデ】仕事とは違う、本人の性格や雰囲気が表れる私服として描く。服装は${c.holidayOutfitBrand || c.outfitBrand}の${c.holidayOutfitType || c.outfitType}を基調にする。上着は${c.holidayJacket || 'なし'}、トップスは${c.holidayTop || c.top}、ボトムスは${c.holidayBottom || c.bottom}、靴は${c.holidayShoes || c.shoes}。靴下は${c.holidaySockBrand || c.sockBrand}の${c.holidaySockType || c.sockType}（${c.holidaySockColor || c.sockColor}）。`
   : c.workUniform ? `【職業コーデ（${c.role}の勤務服）】服装は${c.workUniform}。支給品らしい実用的な着こなしで描く。実在の特定組織・部隊・企業の記章やロゴを正確に再現せず、標準的な${c.role}の制服スタイルにとどめる。上着はなし、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}。靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。` : `【職業コーデ${c.role ? `（${c.role}の仕事着・仕事帰りの装い）` : ''}】服装は${c.outfitBrand}の${c.outfitType}を基調にする。上着は${c.jacket}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}。靴下は${c.sockBrand}の${c.sockType}で、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。`}
 
 ${styleJa}
-時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}服のシルエット・素材感・小物もこの年代に合わせる。\n${adultUniformJa}
+時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${seasonLine(c, false)}服のシルエット・素材感・小物もこの年代に合わせる。\n${adultUniformJa}
 トップス、ボトムス、靴、靴下の用途が一致した自然なコーディネートにする。フォーマル、学生服、スポーツ、カジュアルが不自然に混ざらないようにする。背景は${c.background}、光は${c.lighting}、質感は${c.quality}。非性的なファッション差分として、自然な立ち姿で描写する。元の顔立ち、体型、身長感、髪型を変えない。
 
 ${capJa}
@@ -3180,7 +3289,7 @@ ${targetEn}`;
     }
     return `成人男性キャラクター「${c.name}」を、日常の中で偶然見かけた自然な場面として描写する。
 
-場面は「${scene}」。時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${eraStyleNote(c, false)}${c.age}歳、${c.nationality}、${c.ethnicity}。職業は${roleWithSport(c, false)}、雰囲気は${c.vibe}、性格・立ち居振る舞いの雰囲気は${mbtiDescription(c.mbti,false)}。${c.holidayPersona ? `平日は${c.role}として堅実に働いているが、休日は${c.vibe}の雰囲気に一変するタイプであり、この画像は休日の姿として描く。` : ''}顔立ちは${c.facePreset}、年齢感は${c.ageAppearance}。身長${c.height}、体重${c.weight}、体型は${bodyTypeDesc(c.bodyType, false)}。髪は${c.hairColor}の${c.hairStyle}。ひげは${c.facialHair}。${bodyJa}
+場面は「${scene}」。時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${seasonLine(c, false)}${eraStyleNote(c, false)}${c.age}歳、${c.nationality}、${c.ethnicity}。職業は${roleWithSport(c, false)}、雰囲気は${c.vibe}、性格・立ち居振る舞いの雰囲気は${mbtiDescription(c.mbti,false)}。${c.holidayPersona ? `平日は${c.role}として堅実に働いているが、休日は${c.vibe}の雰囲気に一変するタイプであり、この画像は休日の姿として描く。` : ''}顔立ちは${c.facePreset}、年齢感は${c.ageAppearance}。身長${c.height}、体重${c.weight}、体型は${bodyTypeDesc(c.bodyType, false)}。髪は${c.hairColor}の${c.hairStyle}。ひげは${c.facialHair}。${bodyJa}
 
 服装は人物像と場面に合う自然な私服、または提案服装の方向性に合わせる。${styleJa} 背景は${c.background}を基調にし、光は${c.lighting}、質感は${c.quality}。カメラ目線にしすぎず、街中や施設内でふと見かけたような自然な距離感にする。
 
@@ -3217,7 +3326,7 @@ ${target}`;
     }
     return `成人男性キャラクター「${c.name}」のトレーディングカード風差分プロンプトを作成する。
 
-時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${eraStyleNote(c, false)}同一人物として、メインプロフィールの顔立ち・体型・身長感・髪型を維持する。${c.age}歳、${c.nationality}、${c.ethnicity}。職業は${roleWithSport(c, false)}、雰囲気は${c.vibe}。性格・立ち居振る舞いの雰囲気は${mbtiDescription(c.mbti,false)}。${c.holidayPersona ? `平日は${c.role}として堅実に働いているが、休日は${c.vibe}の雰囲気に一変するタイプであり、この画像は休日の姿として描く。` : ''}顔立ちは${c.facePreset}。体型は${bodyTypeDesc(c.bodyType, false)}。身長${c.height}、体重${c.weight}、足のサイズ${c.footSize}。ひげは${c.facialHair}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? '（白髪まじりのひげ）' : ''}。${c.glasses && c.glasses!=='なし' ? `眼鏡は${c.glasses}をかけている。` : ''}髪は${c.hairColor}の${c.hairStyle}。${body}
+時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${seasonLine(c, false)}${eraStyleNote(c, false)}同一人物として、メインプロフィールの顔立ち・体型・身長感・髪型を維持する。${c.age}歳、${c.nationality}、${c.ethnicity}。職業は${roleWithSport(c, false)}、雰囲気は${c.vibe}。性格・立ち居振る舞いの雰囲気は${mbtiDescription(c.mbti,false)}。${c.holidayPersona ? `平日は${c.role}として堅実に働いているが、休日は${c.vibe}の雰囲気に一変するタイプであり、この画像は休日の姿として描く。` : ''}顔立ちは${c.facePreset}。体型は${bodyTypeDesc(c.bodyType, false)}。身長${c.height}、体重${c.weight}、足のサイズ${c.footSize}。ひげは${c.facialHair}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? '（白髪まじりのひげ）' : ''}。${c.glasses && c.glasses!=='なし' ? `眼鏡は${c.glasses}をかけている。` : ''}髪は${c.hairColor}の${c.hairStyle}。${body}
 
 ${wear}
 ${pose}
@@ -3272,7 +3381,7 @@ Avoid: making him look underage, sexual poses, excessive body emphasis, emphasis
     }
     return `成人男性キャラクター「${c.name}」の非性的な全身画像を作成する。
 
-時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${eraStyleNote(c, false)}${c.age}歳、${c.nationality}、${c.ethnicity}。職業は${roleWithSport(c, false)}。雰囲気は${c.vibe}。性格・立ち居振る舞いの雰囲気は${mbtiDescription(c.mbti,false)}。${c.holidayPersona ? `平日は${c.role}として堅実に働いているが、休日は${c.vibe}の雰囲気に一変するタイプであり、この画像は休日の姿として描く。` : ''}顔立ちは${c.facePreset}で、年齢感は${c.ageAppearance}。フェイスラインは${c.faceLine}。目は${c.eyes}、涙袋は${c.tearBags}。鼻は${c.nose}。口元は${c.mouth}。肌は${c.skin}。${skinDetailLine(c, false)}ひげは${c.facialHair}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? '（白髪まじりのひげ）' : ''}。${c.glasses && c.glasses!=='なし' ? `眼鏡は${c.glasses}をかけている。` : ''}髪は${c.hairColor}の${c.hairStyle}。${bodyJa}
+時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${seasonLine(c, false)}${eraStyleNote(c, false)}${c.age}歳、${c.nationality}、${c.ethnicity}。職業は${roleWithSport(c, false)}。雰囲気は${c.vibe}。性格・立ち居振る舞いの雰囲気は${mbtiDescription(c.mbti,false)}。${c.holidayPersona ? `平日は${c.role}として堅実に働いているが、休日は${c.vibe}の雰囲気に一変するタイプであり、この画像は休日の姿として描く。` : ''}顔立ちは${c.facePreset}で、年齢感は${c.ageAppearance}。フェイスラインは${c.faceLine}。目は${c.eyes}、涙袋は${c.tearBags}。鼻は${c.nose}。口元は${c.mouth}。肌は${c.skin}。${skinDetailLine(c, false)}ひげは${c.facialHair}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? '（白髪まじりのひげ）' : ''}。${c.glasses && c.glasses!=='なし' ? `眼鏡は${c.glasses}をかけている。` : ''}髪は${c.hairColor}の${c.hairStyle}。${bodyJa}
 
 身長${c.height}、体重${c.weight}、体型は${bodyTypeDesc(c.bodyType, false)}。足のサイズは${c.footSize}、足の形は${c.footShape}。身長、体重、足サイズのバランスが自然に分かる直立姿勢にする。
 
@@ -3293,7 +3402,7 @@ ${targetJa}
     const L=T('rows');
     const mainWear = uiLang==='en' ? `${underwearDesc(current, true)} only` : `${underwearDesc(current, false)}のみ`;
     const sections = [
-      ['basic', L.basic, [[L.name,current.name],[L.age,displayValue('age',current.age)],[L.era, uiLang==='en' ? `${current.eraYear || '2026'} CE (${eraProfile(current.eraYear || '2026').labelEn})` : `${eraLabel(current.eraYear)}（${eraProfile(current.eraYear || '2026').labelJa}）`],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}${current.occupationMode ? `（${uiLang==='en' ? displayValue('occupationMode', current.occupationMode) || current.occupationMode : current.occupationMode}）` : ''}`]].concat(current.groupSetting ? [[L.group, `${displayValue('groupSetting',current.groupSetting) || current.groupSetting} / ${displayValue('groupPosition',current.groupPosition) || current.groupPosition}`]] : []).concat([[L.mbti,`<span class="mini-badge">${mbtiDisplay(current)}</span>`]])],
+      ['basic', L.basic, [[L.name,current.name],[L.age,displayValue('age',current.age)],[L.era, uiLang==='en' ? `${current.eraYear || '2026'} (${eraProfile(current.eraYear || '2026').labelEn})${current.season ? ` / ${displayValue('season', current.season) || current.season}` : ''}` : `${eraLabel(current.eraYear)}（${eraProfile(current.eraYear || '2026').labelJa}）${current.season ? `・${current.season}` : ''}`],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}${current.occupationMode ? `（${uiLang==='en' ? displayValue('occupationMode', current.occupationMode) || current.occupationMode : current.occupationMode}）` : ''}`]].concat(current.groupSetting ? [[L.group, `${displayValue('groupSetting',current.groupSetting) || current.groupSetting} / ${displayValue('groupPosition',current.groupPosition) || current.groupPosition}`]] : []).concat([[L.mbti,`<span class="mini-badge">${mbtiDisplay(current)}</span>`]])],
       ['face', L.faceSection, [[L.face,`${displayValue('facePreset',current.facePreset)} / ${displayValue('ageAppearance',current.ageAppearance)}`],[L.faceLine,displayValue('faceLine',current.faceLine)],[L.eyes,displayValue('eyes',current.eyes)],[L.nose,displayValue('nose',current.nose)],[L.mouth,displayValue('mouth',current.mouth)],[L.skin,displayValue('skin',current.skin)],[L.facialHair,displayValue('facialHair',current.facialHair)],[L.glasses, displayValue('glasses', current.glasses || 'なし')],[L.hair,`${displayValue('hairColor',current.hairColor)}・${displayValue('hairStyle',current.hairStyle)}`]]],
       ['body', L.bodySection, [[L.hw,`${current.height} / ${current.weight}`],[L.body,displayValue('bodyType',current.bodyType)],[L.foot,current.footSize],[L.footShape,displayValue('footShape',current.footShape)]]],
       ['bodyhair', L.bodyHairSection, [[L.bodyHair, buildBodyHairSummary(current, uiLang==='en')]]],
@@ -3349,7 +3458,7 @@ ${targetJa}
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V1.9.21'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V1.9.22'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
