@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V2.0.3</title>
+  <title>Guzen Ikemen Maker V2.1.1</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -81,6 +81,13 @@
     .profile-card h3 .pc-icon{font-size:16px;line-height:1;filter:drop-shadow(0 2px 6px #0008)}
     .profile-card h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,#ffffff22,transparent)}
     .profile-card .kv{grid-template-columns:110px 1fr;font-size:13px;padding:6px 0}
+    .kv.kv3{grid-template-columns:110px 1fr auto}
+    .pf-actions{display:inline-flex;gap:4px;align-self:start}
+    .pf-btn{background:#0d1a2c;border:1px solid #345;border-radius:6px;color:#cfe0ff;font-size:11px;padding:1px 6px;cursor:pointer;line-height:1.5}
+    .pf-btn:hover{border-color:var(--gold)}
+    .pf-editor{grid-column:1/-1;display:grid;gap:6px;background:#0a1626;border:1px solid var(--gold);border-radius:10px;padding:8px;margin-top:4px}
+    .pf-editor label{font-size:11px;color:#9fb0c7;font-weight:900}
+    .pf-editor select{width:100%;background:#07111f;color:#e8eef9;border:1px solid var(--line);border-radius:8px;padding:6px}
     .profile-card.span2{grid-column:1/-1}
     .profile-card.pc-face{--accent:var(--blue)}.profile-card.pc-body{--accent:var(--green)}.profile-card.pc-bodyhair{--accent:#c4b5fd}.profile-card.pc-main{--accent:var(--pink)}.profile-card.pc-outfit{--accent:#fdba74}.profile-card.pc-output{--accent:var(--blue)}.profile-card.pc-scene{--accent:var(--gold)}
     .catchphrase{font-size:21px;font-weight:950;letter-spacing:.02em;margin:0 0 10px;background:linear-gradient(135deg,var(--gold),#ffe9a3);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 8px #f7c94833)}
@@ -94,8 +101,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V2.0.3</span>
-        <h1 class="title">Guzen Ikemen Maker V2.0.3</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V2.1.1</span>
+        <h1 class="title">Guzen Ikemen Maker V2.1.1</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -124,7 +131,7 @@
       <button class="tab" data-tab="settings">条件固定</button>
     </nav>
 
-    <section class="panel" style="margin-bottom:14px">
+    <section class="panel" id="initialPanel" style="margin-bottom:14px">
       <div class="section-title"><h2>初期設定</h2><span class="pill">スロットを回す前に指定</span></div>
       <div class="settings-grid">
         <div class="subcard" data-ui-card="initialBasic"><h3>基本設定</h3><div class="form">
@@ -211,7 +218,7 @@
         <div class="slot-grid" id="slotGrid"></div>
       </section>
 
-      <aside class="grid">
+      <aside class="grid" id="slotAside">
         <section class="panel">
           <div class="section-title"><h2>Rarity</h2><span class="pill" id="rareScore">0 pt</span></div>
           <p class="rare rarity-NORMAL" id="rarity">NORMAL</p>
@@ -340,6 +347,11 @@
         <div id="derivedTypeGrid" class="dtype-grid"></div>
         <div class="toolbar" style="margin:6px 0 8px"><select id="derivedTypeSel" class="preset-input" style="max-width:360px"></select></div>
         <p id="derivedTypeLabel" class="dtype-label"></p>
+        <div class="subcard hidden" id="footSceneCfg" style="margin:0 0 8px">
+          <h3 id="footCfgTitle">足元強調シート 詳細設定 <button class="pf-btn" id="footCfgDiceBtn" style="margin-left:8px">🎲 おまかせ抽選</button> <button class="pf-btn" id="footCfgResetBtn">↺ すべてランダムに戻す</button></h3>
+          <div class="form" id="footCfgForm"></div>
+          <p class="notice" id="footCfgNote" style="margin-top:8px">「ランダム」の項目は生成AI側の自由発想に任せます。🎲で全項目を状況連動の重みで一括抽選できます（素足・脱ぎかけは低確率）。</p>
+        </div>
         <textarea class="textarea" id="derivedPromptBox" readonly style="min-height:230px"></textarea>
         <p class="notice charcount" id="cc-derivedPromptBox"></p>
         </div>
@@ -365,7 +377,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.0.3</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.1.1</p>
   </div>
 
 <script>
@@ -410,6 +422,11 @@
     tearBags:['なし','控えめ','自然','ややはっきり','ふっくら','笑うと少し出る'],
     nose:['自然な鼻筋','通った鼻筋','高めの鼻筋','すっきりした鼻筋','しっかりした鼻','控えめで自然な鼻'],
     mouth:['自然な笑顔','控えめな微笑み','落ち着いた表情','爽やかな笑顔','誠実な表情','余裕のある表情'],
+    lips:['薄い唇','やや薄い唇','標準的な厚さの唇','厚めの唇','上唇が薄く下唇が厚い唇','口角のきゅっと上がった唇','引き締まった一文字の唇','ふっくらした唇'],
+    mouthPos:['標準的な位置・大きさの口','やや大きめの口','小さめの口','鼻と口の距離が近い口','鼻と口の距離がやや長い口','口角の横幅が広い口'],
+    faceSpacings:['求心顔（目鼻口が中心に寄った配置）','やや求心寄りの配置','標準的な配置','やや遠心寄りの配置','遠心顔（パーツが外側に離れた配置）'],
+    faceRatios:['標準的なバランスの比率','目が大きめで存在感のある比率','目が小さめ・切れ長寄りの比率','鼻の存在感が強い比率','口が大きめではっきりした比率','口が小さめの比率','全体に小づくりな比率','全体に大ぶりでくっきりした比率'],
+    faceAsyms:['左右対称に近い整った顔','ほぼ対称（ごく自然な左右差）','わずかな左右差がある自然な顔','眉の高さに少し左右差がある顔','口角の上がり方に少し左右差がある顔','目の大きさにわずかな左右差がある顔'],
     skinDetails:['なし（クリアな肌）','頬にそばかす','鼻まわりに薄いそばかす','額に小さなニキビ','頬にニキビ跡（薄い凹凸）','口元のほくろ','目元の泣きぼくろ','首筋のほくろ','頬の小さなほくろ','うっすら青ひげ（剃り跡）','日焼けによる肌ムラ','えくぼ','左頬の薄い傷跡','眉尻の剃り込み跡','目の下のうっすらしたクマ','頬の自然な赤み','額の皮脂感（自然なテカリ）','頬の毛穴感（自然な質感）','腕まくり日焼けの跡','ゴーグル跡の日焼けムラ','眉間のしわ','目尻の笑いじわ','ほうれい線','頬の薄いシミ','首のしわ'],
     skin:['自然な肌質','健康的な肌質','透明感のある肌','少し日焼けした肌','マットで自然な肌','スポーツ経験者らしい肌'],
     facialHair:['なし','ごく薄い青ひげ','自然な青ひげ','短い無精ひげ','整えた短いひげ','口ひげ','あごひげ','口ひげ＋あごひげ','ワイルドめのひげ'],
@@ -458,7 +475,7 @@
     ['name','名前','basic'],['age','年齢','basic'],['eraYear','時代設定','basic'],['nationality','国籍','basic'],['ethnicity','人種','basic'],['role','職業','basic'],['sportName','競技','basic'],['vibe','雰囲気系統','basic'],['mbti','MBTI','basic'],
     ['height','身長','body'],['weight','体重','body'],['bodyType','体型','body'],['footSize','足サイズ','body'],['footShape','足の形','body'],
     ['bodyHairOverall','体毛全体傾向','bodyhair'],['chestHair','胸毛','bodyhair'],['abdominalHair','腹毛','bodyhair'],['lowerAbdomenHair','へそ下','bodyhair'],['armHair','腕毛','bodyhair'],['shinHair','すね毛','bodyhair'],['thighHair','もも毛','bodyhair'],['armpitHair','脇毛','bodyhair'],['handFingerHair','手の甲・指毛','bodyhair'],['footToeHair','足の甲・指毛','bodyhair'],['backHair','背中','bodyhair'],
-    ['facePreset','顔立ち','face'],['ageAppearance','年齢感','face'],['faceLine','フェイスライン','face'],['eyes','目','face'],['tearBags','涙袋','face'],['nose','鼻','face'],['mouth','口','face'],['skin','肌','face'],['skinDetail','肌の特徴⑴','face'],['skinDetail2','肌の特徴⑵','face'],['facialHair','ひげ','face'],['glasses','眼鏡','face'],
+    ['facePreset','顔立ち','face'],['ageAppearance','年齢感','face'],['faceLine','フェイスライン','face'],['eyes','目','face'],['tearBags','涙袋','face'],['nose','鼻','face'],['mouth','口','face'],['lips','唇の形状','face'],['mouthPos','口の位置','face'],['faceSpacing','パーツ配置','face'],['faceRatio','目鼻口比率','face'],['faceAsym','顔の左右差','face'],['skin','肌','face'],['skinDetail','肌の特徴⑴','face'],['skinDetail2','肌の特徴⑵','face'],['facialHair','ひげ','face'],['glasses','眼鏡','face'],
     ['hairStyle','髪型','hair'],['hairColor','髪色','hair'],
     ['outfitType','職業服装','outfit'],['holidayOutfitType','私服服装','outfit'],['outfitBrand','提案服装ブランド','outfit'],['jacket','上着','outfit'],['top','トップス','outfit'],['bottom','ボトムス','outfit'],['boxerBrand','下着ブランド','outfit'],
     ['shoes','靴','feet'],['sockBrand','靴下ブランド','feet'],['sockType','靴下種類','feet'],['sockShape','靴下形状','feet'],['sockMaterial','靴下素材','feet'],['sockColor','靴下色・柄','feet'],['sockUse','靴下使用感','feet']
@@ -473,7 +490,7 @@
   const slotLabelMap = {
     name:{ja:'名前',en:'Name'}, age:{ja:'年齢',en:'Age'}, eraYear:{ja:'時代設定',en:'Era Year'}, nationality:{ja:'国籍',en:'Nationality'}, ethnicity:{ja:'人種',en:'Ethnicity'}, role:{ja:'職業',en:'Occupation'},sportName:{ja:'競技',en:'Sport'}, vibe:{ja:'雰囲気系統',en:'Vibe'}, mbti:{ja:'MBTI',en:'MBTI'},
     height:{ja:'身長',en:'Height'}, weight:{ja:'体重',en:'Weight'}, bodyType:{ja:'体型',en:'Body Type'}, footSize:{ja:'足サイズ',en:'Foot Size'}, footShape:{ja:'足の形',en:'Foot Shape'}, bodyHairOverall:{ja:'体毛全体傾向',en:'Body Hair Overall'}, chestHair:{ja:'胸毛',en:'Chest Hair'}, abdominalHair:{ja:'腹毛',en:'Abdominal Hair'}, lowerAbdomenHair:{ja:'へそ下',en:'Lower Abdomen Hair'}, armHair:{ja:'腕毛',en:'Arm Hair'}, shinHair:{ja:'すね毛',en:'Shin Hair'}, thighHair:{ja:'もも毛',en:'Thigh Hair'}, armpitHair:{ja:'脇毛',en:'Armpit Hair'}, handFingerHair:{ja:'手の甲・指毛',en:'Hand / Finger Hair'}, footToeHair:{ja:'足の甲・指毛',en:'Foot / Toe Hair'}, backHair:{ja:'背中',en:'Back Hair'},
-    facePreset:{ja:'顔立ち',en:'Face Type'}, ageAppearance:{ja:'年齢感',en:'Age Appearance'}, faceLine:{ja:'フェイスライン',en:'Face Line'}, eyes:{ja:'目',en:'Eyes'}, tearBags:{ja:'涙袋',en:'Tear Bags'}, nose:{ja:'鼻',en:'Nose'}, mouth:{ja:'口',en:'Mouth'}, skin:{ja:'肌',en:'Skin'}, facialHair:{ja:'ひげ',en:'Facial Hair'}, glasses:{ja:'眼鏡',en:'Glasses'}, holidayOutfitType:{ja:'私服服装',en:'Casual Outfit'},
+    facePreset:{ja:'顔立ち',en:'Face Type'}, ageAppearance:{ja:'年齢感',en:'Age Appearance'}, faceLine:{ja:'フェイスライン',en:'Face Line'}, eyes:{ja:'目',en:'Eyes'}, tearBags:{ja:'涙袋',en:'Tear Bags'}, nose:{ja:'鼻',en:'Nose'}, mouth:{ja:'口',en:'Mouth'}, lips:{ja:'唇の形状',en:'Lip Shape'}, mouthPos:{ja:'口の位置',en:'Mouth Placement'}, faceSpacing:{ja:'パーツ配置',en:'Feature Spacing'}, faceRatio:{ja:'目鼻口比率',en:'Feature Ratio'}, faceAsym:{ja:'顔の左右差',en:'Facial Asymmetry'}, skin:{ja:'肌',en:'Skin'}, facialHair:{ja:'ひげ',en:'Facial Hair'}, glasses:{ja:'眼鏡',en:'Glasses'}, holidayOutfitType:{ja:'私服服装',en:'Casual Outfit'},
     hairStyle:{ja:'髪型',en:'Hairstyle'}, hairColor:{ja:'髪色',en:'Hair Color'}, outfitType:{ja:'職業服装',en:'Work Outfit'}, outfitBrand:{ja:'提案服装ブランド',en:'Outfit Brand'}, jacket:{ja:'上着',en:'Outerwear'}, top:{ja:'トップス',en:'Top'}, bottom:{ja:'ボトムス',en:'Bottom'}, boxerBrand:{ja:'下着ブランド',en:'Underwear Brand'}, shoes:{ja:'靴',en:'Shoes'}, sockBrand:{ja:'靴下ブランド',en:'Sock Brand'}, sockType:{ja:'靴下種類',en:'Sock Type'}, sockShape:{ja:'靴下形状',en:'Sock Shape'}, sockMaterial:{ja:'靴下素材',en:'Sock Material'}, sockColor:{ja:'靴下色・柄',en:'Sock Color / Pattern'}, sockUse:{ja:'靴下使用感',en:'Sock Condition'}
   };
   const fixedFieldLabelMap = {
@@ -490,7 +507,7 @@
       editTitle:'この項目を直接変更', instantSkip:'演出スキップ', presetPlaceholder:'プリセット名', presetSave:'設定を保存', presetLoad:'読み込み', presetDelete:'削除', importJson:'JSONを読み込む', charsSuffix:'文字', diceTitle:'この項目だけ再抽選', favOn:'★', favOff:'☆', importedMsg:'読み込みました', presetSavedMsg:'プリセットを保存しました', presetNameNeeded:'プリセット名を入力してください',
       tab_slot:'スロット', tab_result:'結果・画像指示文', tab_history:'保存結果', tab_settings:'条件固定',
       initialTitle:'初期設定', initialPill:'スロットを回す前に指定', initialNotice:'ここで国籍・人種・年齢範囲・雰囲気系統・背景・光・画質・出力タイプ・出力枚数・生成先・画像内表記・カード差分プロンプト設定を指定します。これらは抽選せず、ここで選んだ内容が画像指示文へ反映されます。雰囲気系統を選ぶと、髪型・顔立ち・提案服装の抽選傾向が連動します。',
-      resultTitle:'完成プロフィール', saveBtn:'結果を保存', jsonBtn:'JSONを書き出す', promptTitle:'基準リファレンスカード 指示文', derivedTitle:'派生出力 指示文', derivedWarn:'⚠ 基準カードの画像を添付してから使用', copyPromptBtn:'📋 コピー', outfitTitle:'職業服装 指示文', outfitHolidayTitle:'私服服装 指示文', copyOutfitBtn:'📋 コピー', sceneTitle:'偶然見かけた場面 指示文', copySceneBtn:'📋 コピー', cardTitle:'トレーディングカード差分 指示文', copyCardBtn:'📋 コピー', friendPairTitle:'友人ツーショット 指示文', friendPairWarn:'⚠ 2人分の基準カード画像を添付してから使用', friendPairWearLabel:'服装', friendPairCountLabel:'出力枚数',
+      resultTitle:'完成プロフィール', saveBtn:'結果を保存', jsonBtn:'JSONを書き出す', promptTitle:'基準リファレンスカード 指示文', derivedTitle:'派生出力 指示文', derivedWarn:'⚠ 基準カードの画像を添付してから使用', copyPromptBtn:'📋 コピー', outfitTitle:'職業服装 指示文', outfitHolidayTitle:'私服服装 指示文', copyOutfitBtn:'📋 コピー', sceneTitle:'偶然見かけた場面 指示文', copySceneBtn:'📋 コピー', cardTitle:'トレーディングカード差分 指示文', copyCardBtn:'📋 コピー', footCfgTitlePrefix:'足元強調シート 詳細設定', footCfgNote:'「ランダム」の項目は生成AI側の自由発想に任せます。🎲で全項目を状況連動の重みで一括抽選できます（素足・脱ぎかけは低確率）。', footDiceBtn:'🎲 おまかせ抽選', footResetBtn:'↺ すべてランダムに戻す', friendPairTitle:'友人ツーショット 指示文', friendPairWarn:'⚠ 2人分の基準カード画像を添付してから使用', friendPairWearLabel:'服装', friendPairCountLabel:'出力枚数',
       historyTitle:'保存結果', clearHistoryBtn:'履歴クリア', noHistory:'保存結果はまだありません。', loadBtn:'読み込む',
       settingsTitle:'条件固定ランダム', settingsPill:'空欄はランダム', settingsNotice:'固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。MBTIも固定可能です。背景・光・画質・出力タイプ・出力枚数・生成先・画像内表記は上部の初期設定または結果画面の選択欄で指定します。',
       friendBtn:'👥 友人を作成', friendPanelTitle:'友人を作成', friendRelationLabel:'関係', friendHierLabel:'上下関係', friendGoBtn:'この関係で友人を作成', friendNote:'元の人物は履歴に自動保存されます', friendDone:'友人が完成しました',
@@ -511,7 +528,7 @@
       editTitle:'Edit this value directly', instantSkip:'Skip animation', presetPlaceholder:'Preset name', presetSave:'Save preset', presetLoad:'Load', presetDelete:'Delete', importJson:'Import JSON', charsSuffix:' chars', diceTitle:'Re-roll this item only', favOn:'★', favOff:'☆', importedMsg:'Imported.', presetSavedMsg:'Preset saved.', presetNameNeeded:'Enter a preset name.',
       tab_slot:'Slots', tab_result:'Results & Prompts', tab_history:'Saved Results', tab_settings:'Fixed Conditions',
       initialTitle:'Initial Settings', initialPill:'Set before spinning', initialNotice:'Set nationality, ethnicity, age range, vibe, background, lighting, quality, output type, output count, prompt target, image text, and card output settings here. These settings are not randomized and will be reflected directly in the image prompts. Choosing a vibe also influences hairstyle, face type, and suggested outfit generation.',
-      resultTitle:'Final Profile', saveBtn:'Save Result', jsonBtn:'Export JSON', promptTitle:'Base Reference Card Prompt', derivedTitle:'Derived Output Prompt', derivedWarn:'⚠ Attach the base card image before use', copyPromptBtn:'📋 Copy', outfitTitle:'Work Outfit Prompt', outfitHolidayTitle:'Casual Outfit Prompt', copyOutfitBtn:'📋 Copy', sceneTitle:'Candid Encounter Prompt', copySceneBtn:'📋 Copy', cardTitle:'Trading Card Variation Prompt', copyCardBtn:'📋 Copy', friendPairTitle:'Friend Two-shot Prompt', friendPairWarn:'⚠ Attach both base card images before use', friendPairWearLabel:'Outfit', friendPairCountLabel:'Output count',
+      resultTitle:'Final Profile', saveBtn:'Save Result', jsonBtn:'Export JSON', promptTitle:'Base Reference Card Prompt', derivedTitle:'Derived Output Prompt', derivedWarn:'⚠ Attach the base card image before use', copyPromptBtn:'📋 Copy', outfitTitle:'Work Outfit Prompt', outfitHolidayTitle:'Casual Outfit Prompt', copyOutfitBtn:'📋 Copy', sceneTitle:'Candid Encounter Prompt', copySceneBtn:'📋 Copy', cardTitle:'Trading Card Variation Prompt', copyCardBtn:'📋 Copy', footCfgTitlePrefix:'Foot-focus Sheet Details', footCfgNote:'Items left on Random are decided freely by the image AI. 🎲 rolls every item with situation-aware weights (barefoot / mid-removal states stay low-probability).', footDiceBtn:'🎲 Auto-roll all', footResetBtn:'↺ Reset all to Random', friendPairTitle:'Friend Two-shot Prompt', friendPairWarn:'⚠ Attach both base card images before use', friendPairWearLabel:'Outfit', friendPairCountLabel:'Output count',
       historyTitle:'Saved Results', clearHistoryBtn:'Clear History', noHistory:'No saved results yet.', loadBtn:'Load',
       settingsTitle:'Random with Fixed Conditions', settingsPill:'Blank = random', settingsNotice:'If you press “SLOT START” after setting fixed conditions, the selected character and outfit items will be prioritized during random generation. MBTI can also be fixed. Background, lighting, quality, output type, output count, prompt target, and image text are set in the initial settings or in the result panel.',
       friendBtn:'👥 Create a Friend', friendPanelTitle:'Create a Friend', friendRelationLabel:'Relation', friendHierLabel:'Hierarchy', friendGoBtn:'Create friend with this relation', friendNote:'The original person is auto-saved to history', friendDone:'Friend created',
@@ -528,6 +545,11 @@
   function fixedLabel(key, fallback){ return (fixedFieldLabelMap[key]||{})[uiLang] || fallback; }
 
   const valueTranslations = {
+    '薄い唇':'Thin lips','やや薄い唇':'Slightly thin lips','標準的な厚さの唇':'Average-thickness lips','厚めの唇':'Fuller lips','上唇が薄く下唇が厚い唇':'Thin upper lip with a fuller lower lip','口角のきゅっと上がった唇':'Lips with neatly upturned corners','引き締まった一文字の唇':'A firm, straight-set mouth','ふっくらした唇':'Plump lips',
+    '標準的な位置・大きさの口':'Average mouth size and placement','やや大きめの口':'A slightly larger mouth','小さめの口':'A smaller mouth','鼻と口の距離が近い口':'A short nose-to-mouth distance','鼻と口の距離がやや長い口':'A slightly long nose-to-mouth distance','口角の横幅が広い口':'A wide-set mouth',
+    '求心顔（目鼻口が中心に寄った配置）':'Centripetal features (set close toward the center)','やや求心寄りの配置':'Slightly centripetal feature spacing','標準的な配置':'Evenly spaced features','やや遠心寄りの配置':'Slightly centrifugal feature spacing','遠心顔（パーツが外側に離れた配置）':'Centrifugal features (set wide toward the outside)',
+    '標準的なバランスの比率':'Balanced feature proportions','目が大きめで存在感のある比率':'Proportions with prominent, larger eyes','目が小さめ・切れ長寄りの比率':'Proportions with smaller, narrow eyes','鼻の存在感が強い比率':'Proportions with a prominent nose','口が大きめではっきりした比率':'Proportions with a larger, defined mouth','口が小さめの比率':'Proportions with a smaller mouth','全体に小づくりな比率':'Overall delicate, compact features','全体に大ぶりでくっきりした比率':'Overall bold, well-defined features',
+    '左右対称に近い整った顔':'A near-symmetrical, even face','ほぼ対称（ごく自然な左右差）':'Almost symmetrical with natural minor asymmetry','わずかな左右差がある自然な顔':'A natural face with slight asymmetry','眉の高さに少し左右差がある顔':'Slightly uneven eyebrow heights','口角の上がり方に少し左右差がある顔':'Slightly uneven mouth-corner lift','目の大きさにわずかな左右差がある顔':'Slightly uneven eye sizes',
     '防衛大学校の常装冬服風（花紺色の詰襟型短ジャケット）':'NDA winter dress (very dark navy stand-collar jacket)',
     '防衛大学校の第1種夏服風（白の詰襟上下）':'NDA Type-1 summer uniform (white stand-collar, white trousers)',
     '防衛大学校の第3種夏服風（白の半袖開襟シャツ）':'NDA Type-3 summer uniform (white short-sleeve shirt)',
@@ -921,8 +943,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.0.3';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.0.3';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.1.1';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.1.1';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -958,6 +980,10 @@
     const pt5=document.getElementById('paneTitle-friendPair'); if(pt5) pt5.textContent=T('friendPairTitle');
     const cp5=document.getElementById('copyFriendPairBtn'); if(cp5) cp5.textContent=T('copyPromptBtn');
     const fpw=document.getElementById('friendPairWarn'); if(fpw) fpw.textContent=T('friendPairWarn');
+    const fct=document.getElementById('footCfgTitle'); if(fct){ fct.childNodes[0].textContent = T('footCfgTitlePrefix') + ' '; }
+    const fcd=document.getElementById('footCfgDiceBtn'); if(fcd) fcd.textContent=T('footDiceBtn');
+    const fcr=document.getElementById('footCfgResetBtn'); if(fcr) fcr.textContent=T('footResetBtn');
+    const fcn=document.getElementById('footCfgNote'); if(fcn) fcn.textContent=T('footCfgNote');
     const fpwl=document.getElementById('friendPairWearLabel'); if(fpwl) fpwl.textContent=T('friendPairWearLabel');
     const fpcl=document.getElementById('friendPairCountLabel'); if(fpcl) fpcl.textContent=T('friendPairCountLabel');
     renderFriendPairControls();
@@ -1528,8 +1554,19 @@
     else if(eraYr < 2020) eraScene = 'カフェの前でスマートフォンを見ながら待ち合わせている姿を偶然見かけた場面';
     else eraScene = 'カフェや商業施設の前で、スマートフォンを片手に自然体でたたずむ姿を偶然見かけた場面';
     if(eraScene){ scenes.push(eraScene); scenes.push(eraScene); }
-    if(!scenes.length) scenes.push('日常の街中で、自然体の姿を偶然見かけた場面');
-    return pick(scenes);
+    const genericScenes = ['信号待ちの交差点で、ふと隣に立っていたところを偶然見かけた場面','自動販売機の前で飲み物を選んでいる姿を偶然見かけた場面','書店の店先で立ち読みをしている姿を偶然見かけた場面','コインランドリーの前で洗濯物を待つ姿を偶然見かけた場面','バス停のベンチでバスを待つ姿を偶然見かけた場面','神社の石段をゆっくり上る姿を偶然見かけた場面','河川敷の遊歩道を歩いている姿を偶然見かけた場面','コンビニの前で買い物袋を提げて立つ姿を偶然見かけた場面','横断歩道を渡りきったところを偶然見かけた場面','公園のベンチでひと息ついている姿を偶然見かけた場面','パン屋の店先で香りに足を止めた姿を偶然見かけた場面','花屋の前で花をながめている姿を偶然見かけた場面','ATMの列に並んでいる姿を偶然見かけた場面','ガード下の道を通り抜ける姿を偶然見かけた場面','歩道橋の上から街を見下ろす姿を偶然見かけた場面','ポストに封筒を投函する姿を偶然見かけた場面','クリーニング店から仕上がりを受け取って出てきた姿を偶然見かけた場面','傘立てから傘を取り出している姿を偶然見かけた場面','立ち食いそば屋ののれんをくぐろうとする姿を偶然見かけた場面','駐輪場で自転車の鍵を外している姿を偶然見かけた場面'];
+    scenes.push(pick(genericScenes)); scenes.push(pick(genericScenes));
+    const seasonScenes = {
+      '春':['桜並木の下を歩く姿を偶然見かけた場面','花見帰りらしい和やかな表情の姿を偶然見かけた場面','春風に髪を押さえながら歩く姿を偶然見かけた場面'],
+      '夏':['夕立あがりの濡れた路面を歩く姿を偶然見かけた場面','日陰を選んで歩く夏らしい姿を偶然見かけた場面','夏祭りの帰りらしい雰囲気の姿を偶然見かけた場面'],
+      '秋':['紅葉した並木道を歩く姿を偶然見かけた場面','落ち葉を踏みながら歩く姿を偶然見かけた場面','金木犀の香る住宅街を歩く姿を偶然見かけた場面'],
+      '冬':['白い息を吐きながら足早に歩く姿を偶然見かけた場面','ポケットに手を入れて歩く冬らしい姿を偶然見かけた場面','イルミネーションの灯る通りを歩く姿を偶然見かけた場面']
+    };
+    if(c.season && seasonScenes[c.season]) scenes.push(pick(seasonScenes[c.season]), pick(seasonScenes[c.season]));
+    let sc = pick(scenes);
+    const sceneMods = ['夕暮れどき、','朝の澄んだ空気の中、','昼下がり、','日が落ちたばかりの時間帯に、','小雨上がりに、','よく晴れた日に、','曇り空の下、'];
+    if(Math.random() < 0.45 && !/^(朝|夜|夕|早朝|昼|休日|非番|開店前|閉店後|白い息|夕立)/.test(sc)) sc = pick(sceneMods) + sc;
+    return sc;
   }
 
   function generateCoordinatedOutfit(outfitType, age, rareMode, nationality='', vibe='ランダム', eraYear='2026'){
@@ -2035,6 +2072,11 @@
     return byCat[cat] || null;
   }
 
+  function chooseFaceSpacing(vibe){
+    const inward = ['クール系','ミステリアス系'].includes(vibe) ? 1.3 : 1;
+    const outward = ['犬系男子','清楚系','癒し系'].includes(vibe) ? 1.3 : 1;
+    return weighted([[pools.faceSpacings[0], 2*inward],[pools.faceSpacings[1], 4*inward],[pools.faceSpacings[2], 6],[pools.faceSpacings[3], 4*outward],[pools.faceSpacings[4], 2*outward]]);
+  }
   function chooseSkinDetail(age, vibe, role, gapMode, exclude, secondary){
     let entries = [['なし（クリアな肌）', secondary ? 26 : 16],['頬にそばかす',2],['鼻まわりに薄いそばかす',2],['額に小さなニキビ',1],['頬にニキビ跡（薄い凹凸）',2],['口元のほくろ',2],['目元の泣きぼくろ',2],['首筋のほくろ',1],['頬の小さなほくろ',2],['うっすら青ひげ（剃り跡）',1],['日焼けによる肌ムラ',1],['えくぼ',1.5],['左頬の薄い傷跡',0.5],['眉尻の剃り込み跡',0.5],['目の下のうっすらしたクマ',1.2],['頬の自然な赤み',1],['額の皮脂感（自然なテカリ）',0.8],['頬の毛穴感（自然な質感）',0.8],['腕まくり日焼けの跡',0.3],['ゴーグル跡の日焼けムラ',0.2],['眉間のしわ',0],['目尻の笑いじわ',0],['ほうれい線',0],['頬の薄いシミ',0],['首のしわ',0]];
     const adj = (v,d) => { const f = entries.find(x=>x[0]===v); if(f) f[1] = Math.max(0.2, f[1]+d); };
@@ -2194,9 +2236,10 @@
   function footFromHeight(height, ethnicity){
     const bonus = ['白人系','黒人系','スラブ系','北欧系','南欧系'].includes(ethnicity) ? 0.5 : 0;
     const fl = Number(weighted([[0,5],[0.5,4],[-0.5,4],[1,2],[-1,2],[1.5,1],[-1.5,1]]));
-    let f = (Number(height) || 171) * 0.149 + bonus + fl;
+    const sizeUp = Number(weighted([[0.5,6],[1.0,4]]));
+    let f = (Number(height) || 171) * 0.149 + bonus + fl + sizeUp;
     f = Math.round(f * 2) / 2;
-    f = Math.max(25.5, Math.min(30.5, f));
+    f = Math.max(25.5, Math.min(31.0, f));
     return `${f.toFixed(1).replace('.0','')}cm`;
   }
   function eraProfile(year){
@@ -2343,6 +2386,53 @@
       ? 'beer belly — only a firm, forward-protruding belly; his face, arms, legs, and chest stay average. Do NOT make the whole body fat'
       : 'ビール腹（張りのあるお腹だけが前に出ている。顔・腕・脚・胸まわりは標準的なままで、全身は太らせない）';
     return v;
+  }
+  const FOOT_CFG_AXES = [['scene','場面','Scene'],['posture','座り方','Posture'],['shoeState','靴の状態','Shoes'],['wear','服装','Outfit'],['fabric','靴下の生地状態','Sock Fabric'],['sockState','靴下の着脱','Sock State'],['angle','カメラアングル','Camera Angle'],['prop','足元まわりの小物','Props']];
+  const FOOT_SCENES = [
+    ['玄関で靴を脱ぐ場面','stand','玄関のたたき'],['座敷・和室でくつろぐ','floor','畳'],['自室でくつろぐ','floor','フローリング'],['リビングのソファー周り','chair','カーペット'],['オフィスの椅子まわり（休憩中）','chair','オフィスの床'],['更衣室・ロッカールーム','chair','更衣室の床'],['スリッパに履き替える場面','stand','フローリング'],['ベッドの上でくつろぐ','bed',''],['縁側で休む','floor','縁側の木板'],['小上がりの飲食店','floor','畳'],['畳の休憩室（職場の仮眠室）','floor','畳'],['こたつのある部屋','floor','カーペットとこたつ布団'],['足湯上がりに靴下を履き直した後','chair','ベンチのある床'],['新幹線の座席（靴を脱いでくつろぐ）','chair','車内の床']
+  ];
+  const FOOT_COZY = ['座敷・和室でくつろぐ','自室でくつろぐ','ベッドの上でくつろぐ','縁側で休む','こたつのある部屋','リビングのソファー周り','畳の休憩室（職場の仮眠室）'];
+  const FOOT_POSTURES = [
+    ['床・座敷にあぐらをかく',['floor']],['椅子の上であぐらをかく',['chair']],['足を伸ばして座る',['floor','bed','chair']],['椅子・ソファーで足を組む',['chair']],['普通に椅子・ソファーに座る',['chair']],['足首を交差させて座る',['chair']],['軽くストレッチをしている',['floor','bed']],['正座で座る',['floor']],['横座り（足を崩した正座）',['floor']],['体育座りをする',['floor','bed']],['片膝を立てて座る',['floor']],['立ったまま片足ずつ履き替え中',['stand']],['ソファーに浅く腰掛けて足を投げ出す',['chair']]
+  ];
+  const FOOT_SHOE_STATES = ['脱いだ靴をそばにそろえて置いてある','靴は画面に表示しない','靴を完全に履いている','靴を脱いでいるところ','かかとを踏んでサンダル履きのようにしている','つま先だけ靴に入れてかかとを出している','脱いだ靴の上に足をのせている'];
+  const FOOT_FABRICS = [
+    ['軽い使用感',[1,3],'数回の洗濯を経た柔らかな風合いで、ごくわずかな毛玉がある'],
+    ['日常使いの使用感',[3,4],'生地が少しくたびれ、かかととつま先の色がうっすら薄れている'],
+    ['しっかり履き込んだ状態',[2,2],'毛玉と生地の伸びがあり、かかと部分の生地が薄くなり始めている'],
+    ['履き古した状態',[0.7,0.7],'かかとと親指部分の生地が薄く透け気味で、履き口のゴムがゆるみ、全体に色あせている'],
+    ['長時間履いた後の状態',[4,1.5],'一日履いた後の自然なしわが寄り、足裏にうっすらした踏み跡とくすみがある']
+  ];
+  const FOOT_SOCK_STATES = [
+    ['靴下を履いたまま',12],['片足だけ靴下を脱いでいる途中',0.8],['両足とも靴下を脱いでいる途中',0.4],['靴下を脱いだ直後（素足）',0.4]
+  ];
+  const FOOT_ANGLES = ['自然な目線の高さ','やや低めのアングル','床・座面レベルの低アングル'];
+  const FOOT_PROPS = { generic:['湯のみとお茶','読みかけの本','スマートフォン','クッション','脱いだ上着','そばで丸まる猫'], '新幹線の座席（靴を脱いでくつろぐ）':['駅弁とお茶','車窓を流れる景色','膝の上のバッグ'], 'こたつのある部屋':['みかんと湯のみ','こたつ布団'] };
+  function footCfg(c){ const base={scene:'ランダム',posture:'ランダム',shoeState:'ランダム',wear:'ランダム',fabric:'ランダム',sockState:'ランダム',angle:'ランダム',prop:'ランダム'}; return Object.assign(base, (c && c.footScene) || {}); }
+  function footAxisOptions(axis){
+    if(axis==='scene') return FOOT_SCENES.map(x=>x[0]);
+    if(axis==='posture') return FOOT_POSTURES.map(x=>x[0]);
+    if(axis==='shoeState') return FOOT_SHOE_STATES;
+    if(axis==='wear') return ['職業服装のまま','私服'];
+    if(axis==='fabric') return FOOT_FABRICS.map(x=>x[0]);
+    if(axis==='sockState') return FOOT_SOCK_STATES.map(x=>x[0]);
+    if(axis==='angle') return FOOT_ANGLES;
+    if(axis==='prop') return ['なし'].concat(FOOT_PROPS.generic).concat(FOOT_PROPS['新幹線の座席（靴を脱いでくつろぐ）']).concat(FOOT_PROPS['こたつのある部屋']);
+    return [];
+  }
+  function resolveFootCfg(c){
+    const out = footCfg(c);
+    if(out.scene==='ランダム') out.scene = pick(FOOT_SCENES)[0];
+    const srow = FOOT_SCENES.find(x=>x[0]===out.scene) || FOOT_SCENES[0];
+    if(out.posture==='ランダム'){ const cands = FOOT_POSTURES.filter(p=>p[1].includes(srow[1])); out.posture = pick((cands.length?cands:FOOT_POSTURES))[0]; }
+    if(out.shoeState==='ランダム'){ let cands = FOOT_SHOE_STATES.slice(); if(srow[1]==='bed' || out.scene.includes('スリッパ')) cands = cands.filter(v=>v!=='靴を完全に履いている'); out.shoeState = pick(cands); }
+    const cozy = FOOT_COZY.includes(out.scene);
+    if(out.wear==='ランダム') out.wear = Math.random() < (cozy ? 0.6 : 0.25) ? '私服' : '職業服装のまま';
+    if(out.fabric==='ランダム') out.fabric = weighted(FOOT_FABRICS.map(f=>[f[0], f[1][cozy?1:0]]));
+    if(out.sockState==='ランダム') out.sockState = cozy ? weighted(FOOT_SOCK_STATES) : '靴下を履いたまま';
+    if(out.angle==='ランダム') out.angle = weighted([[FOOT_ANGLES[0],5],[FOOT_ANGLES[1],3],[FOOT_ANGLES[2],2]]);
+    if(out.prop==='ランダム'){ const pp = FOOT_PROPS[out.scene] || FOOT_PROPS.generic; out.prop = Math.random()<0.7 ? pick(pp) : 'なし'; }
+    return out;
   }
   function refSheetKind(outputType){
     if(!outputType) return null;
@@ -2529,8 +2619,46 @@
       return `「街で見かけたイケメンシート：オフ編」として構成する。私服姿でオフの時間を過ごす自然な瞬間を、スナップ写真風に3〜4コマ並べた1枚シートにする。場面は本人の雰囲気に合うもの（カフェ・散歩・買い物・公園など）。少なくとも1コマは全身が写るカットにする。力の抜けたリラックスした表情で、盗撮的ないやらしさは一切ない健全な街角スナップのトーンにする。${offJa}各コマにさりげないラベルを付け、全コマ同一人物として非性的に描く。`;
     }
     if(kind==='feet'){
-      if(english) return `Create a "chance foot-focus scene sheet". Choose ONE scene in which removing his shoes arises NATURALLY from his occupation or the flow of his day — tatami rooms, raised seating, entryways, or break spaces are only examples; feel free to invent any fitting situation${c.sceneIdea ? ` (usable scene idea for reference: "${c.sceneIdea}")` : ''}. He keeps his work outfit on with only his shoes removed. ${workOutfitSpec(c, true).replace(/shoes: [^,]+, /, '')}His sock-clad feet (${c.sockBrand} ${c.sockType}, ${c.sockColor}, condition: ${c.sockUse}) are placed large in the foreground, while his upper body or full figure stays naturally in frame so he is clearly identifiable. His removed shoes (${c.shoes}) appear tucked at the edge of the frame ONLY if that is natural for the scene — if there is no compositional reason for them (e.g. shoes left at an entryway), leave them out of frame entirely. Render the feet with accurate, realistic human anatomy. Avoid: deformed feet, wrong toe counts or broken joints, more than his own two feet, duplicated soles or extra pairs of feet, unnatural bending angles, exaggerated close-ups of soles or toes, and any sexual staging. Keep it a relaxed, wholesome slice of everyday life.`;
-      return `「偶然足元強調場面シート」として構成する。職業や1日の流れの中で靴を脱ぐ必然性が自然に生まれる場面を1つ選んで描く。和室・座敷・小上がり・玄関・休憩スペースなどはあくまで例であり、これらに限定せず人物の職業や生活から自由に発想してよい${c.sceneIdea ? `（参考にできる場面アイデア：「${c.sceneIdea}」）` : ''}。職業服装のまま靴だけを脱いだ状態で描く。${workOutfitSpec(c, false)}この職業服装を着たまま、提案靴下（${c.sockBrand}の${c.sockType}、${c.sockColor}、使用感は${c.sockUse}）を履いた足元を画面手前に大きく配置する。上半身または全身も自然に画面に収め、誰なのか分かるようにする。脱いだ靴（${c.shoes}）は、場面として自然な場合のみ画面の隅に収め、玄関に置いてきた場面など構図に入れる必然性がなければ画面に入れない。足元は写実的で正確な人体構造を維持する。避けること：足の変形、指の本数や関節の崩れ、本人の両足2本以外の足の生成、足裏の重複や複数人分の足裏、不自然な曲がり方、足裏・足指の過度な接写、性的な演出。自然でリラックスした健全な生活描写にとどめる。`;
+      const fc = footCfg(c);
+      const fsrow = FOOT_SCENES.find(x=>x[0]===fc.scene);
+      const frow = FOOT_FABRICS.find(x=>x[0]===fc.fabric);
+      const barefootish = fc.sockState !== 'ランダム' && fc.sockState !== '靴下を履いたまま';
+      if(english){
+        const sceneEn = fc.scene==='ランダム'
+          ? `Choose ONE scene in which removing his shoes arises NATURALLY from his occupation or the flow of his day — tatami rooms, raised seating, entryways, break spaces, or a Shinkansen seat are only examples; feel free to invent any fitting situation${c.sceneIdea ? ` (usable scene idea for reference: "${c.sceneIdea}")` : ''}.`
+          : `Scene: ${fc.scene}${fsrow && fsrow[2] ? ` (floor: ${fsrow[2]})` : ''}.`;
+        const postureEn = fc.posture==='ランダム' ? '' : ` Posture: ${fc.posture}.`;
+        const shoeEn = fc.shoeState==='ランダム'
+          ? ` His removed shoes (${c.shoes}) appear tucked at the edge of the frame ONLY if that is natural for the scene — otherwise leave them out of frame.`
+          : ` Shoe state: ${fc.shoeState}（靴：${c.shoes}）.`;
+        const wearEn = fc.wear==='私服' ? casualOutfitSpec(c, true) : workOutfitSpec(c, true).replace(/shoes: [^,]+, /, '');
+        const fabricEn = fc.fabric==='ランダム'
+          ? ' The sock fabric must NOT look brand-new: depict a natural state somewhere between everyday wear and well worn-in, fitting the situation.'
+          : ` Sock fabric condition: ${frow ? frow[2] : fc.fabric}.`;
+        const sockEn = fc.sockState==='ランダム' || fc.sockState==='靴下を履いたまま'
+          ? ` The composition should naturally draw the eye to his sock-clad feet (${c.sockBrand} ${c.sockType}, ${c.sockColor})`
+          : ` Sock state: ${fc.sockState} (socks: ${c.sockBrand} ${c.sockType}, ${c.sockColor}); the composition should naturally draw the eye to his feet`;
+        const angleEn = fc.angle==='ランダム' ? '' : ` Camera: ${fc.angle} — even from a low angle, do NOT turn this into an exaggerated close-up; keep enough distance that he is identifiable.`;
+        const propEn = fc.prop==='ランダム' ? ' One or two small props fitting the scene may be added near his feet.' : (fc.prop==='なし' ? '' : ` Place near his feet: ${fc.prop}.`);
+        return `Create a "chance foot-focus scene sheet". ${sceneEn}${postureEn} ${wearEn}${fabricEn}${sockEn} — e.g. just after slipping off his shoes, sitting casually, or resting — without unnatural enlargement and without pointedly turning his soles toward the viewer; keep his feet naturally noticeable within the scene. His upper body or full figure stays naturally in frame so he is clearly identifiable.${shoeEn}${angleEn}${propEn} Keep any dirt or wear within a natural range (faint sole marks and dulling only; no excessive soiling or unsanitary depiction). Render the feet with accurate, realistic human anatomy${barefootish ? ', including bare feet with correct toe counts and joints' : ''}. Avoid: deformed feet, wrong toe counts or broken joints, more than his own two feet, duplicated soles or extra pairs of feet, unnatural bending angles, exaggerated close-ups of soles or toes, and any sexual staging. Keep it a relaxed, wholesome slice of everyday life.`;
+      }
+      const sceneJa = fc.scene==='ランダム'
+        ? `職業や1日の流れの中で靴を脱ぐ必然性が自然に生まれる場面を1つ選んで描く。和室・座敷・小上がり・玄関・休憩スペース・新幹線の座席などはあくまで例であり、これらに限定せず人物の職業や生活から自由に発想してよい${c.sceneIdea ? `（参考にできる場面アイデア：「${c.sceneIdea}」）` : ''}。`
+        : `場面は「${fc.scene}」${fsrow && fsrow[2] ? `（床は${fsrow[2]}）` : ''}。`;
+      const postureJa = fc.posture==='ランダム' ? '' : `座り方・姿勢は「${fc.posture}」。`;
+      const shoeJa = fc.shoeState==='ランダム'
+        ? `脱いだ靴（${c.shoes}）は、場面として自然な場合のみ画面の隅に収め、構図に入れる必然性がなければ画面に入れない。`
+        : `靴の状態は「${fc.shoeState}」（靴：${c.shoes}）。`;
+      const wearJa = fc.wear==='私服' ? `私服でくつろいだ状態で描く。${casualOutfitSpec(c, false)}` : `職業服装のまま靴だけを脱いだ状態を基本とする。${workOutfitSpec(c, false)}`;
+      const fabricJa = fc.fabric==='ランダム'
+        ? `靴下の生地は新品には見せず、日常の使用感〜履き込んだ状態の間で場面に合った自然な状態を精細に描く。`
+        : `靴下の生地の状態：${frow ? frow[2] : fc.fabric}。`;
+      const sockJa = fc.sockState==='ランダム' || fc.sockState==='靴下を履いたまま'
+        ? `提案靴下（${c.sockBrand}の${c.sockType}、${c.sockColor}）を履いた足元へ、構図の中で自然に視線が導かれるようにする`
+        : `靴下の着脱状態は「${fc.sockState}」（靴下：${c.sockBrand}の${c.sockType}、${c.sockColor}）。足元へ構図の中で自然に視線が導かれるようにする`;
+      const angleJa = fc.angle==='ランダム' ? '' : `カメラは「${fc.angle}」から。低アングルでも過度な接写にはせず、誰なのか分かる距離感を保つ。`;
+      const propJa = fc.prop==='ランダム' ? `場面に合う小物を1〜2点、足元の近くに添えてもよい。` : (fc.prop==='なし' ? '' : `足元の近くに「${fc.prop}」を添える。`);
+      return `「偶然足元強調場面シート」として構成する。${sceneJa}${postureJa}${wearJa}${fabricJa}${sockJa}（玄関で靴を脱いだ直後・座敷で足を崩した瞬間・縁側でくつろぐ姿など）。足元を不自然に拡大したり、足裏をことさらこちらへ向けたりせず、画面内で自然に目立つ程度にとどめる。上半身または全身も自然に画面に収め、誰なのか分かるようにする。${shoeJa}${angleJa}${propJa}汚れは踏み跡やうっすらしたくすみ程度の自然な範囲にとどめ、過度な汚損や不衛生な表現はしない。足元は写実的で正確な人体構造を維持する${barefootish ? '（素足の場合も指の本数・関節を正確に描く）' : ''}。避けること：足の変形、指の本数や関節の崩れ、本人の両足2本以外の足の生成、足裏の重複や複数人分の足裏、不自然な曲がり方、足裏・足指の過度な接写、性的な演出。自然でリラックスした健全な生活描写にとどめる。`;
     }
     if(kind==='magazine'){
       if(english) return `Create a "character feature magazine page" — a fictional magazine spread featuring ${nameKana(c)} (${c.age}, ${displayValue('role', c.role)}), designed in ${magazineStyleByEra(c.eraYear, true)}. Layout: one main photo (casual outfit — ${casualOutfitSpec(c, true).replace('Casual outfit contents: ','')}), a smaller sub-cut (work outfit — ${workOutfitSpec(c, true).replace('Work outfit contents: ','')}), a big headline using the catchphrase "${catchphrase(c, true)}", a profile box (name, age, occupation, height ${c.height}), and a mini interview section: ${magazineQA(c, true)} ${c.season ? `Give the page a seasonal ${String(displayValue('season', c.season) || c.season).toLowerCase()} -issue feel. ` : ''}All page text must be clean and readable. Use a FICTIONAL magazine identity${c.nationality && c.nationality !== '日本' ? ` published in ${(typeof valueTranslations!=='undefined' && valueTranslations[c.nationality]) || c.nationality}` : ''} — no real magazine names or logos.`;
@@ -2815,7 +2943,7 @@
       facePreset,
       ageAppearance,
       faceLine: base.faceLine || (()=>{ let v = pick(pools.faceLines); if(groupCtx?.avoidFaceLines?.length){ for(let i=0;i<3 && groupCtx.avoidFaceLines.includes(v);i++) v = pick(pools.faceLines); } return v; })(),
-      eyes: base.eyes || (()=>{ let v = ethnicFace.eyes || pick(pools.eyes); if(groupCtx?.avoidEyes?.length){ for(let i=0;i<3 && groupCtx.avoidEyes.includes(v);i++) v = pick(pools.eyes); } return v; })(), tearBags: base.tearBags || pick(pools.tearBags), nose: base.nose || pick(pools.nose), mouth: base.mouth || pick(pools.mouth), skin: base.skin || ethnicFace.skin || pick(pools.skin), skinDetail: sd1, skinDetail2: sd2, facialHair: base.facialHair || chooseFacialHair(age, vibe),
+      eyes: base.eyes || (()=>{ let v = ethnicFace.eyes || pick(pools.eyes); if(groupCtx?.avoidEyes?.length){ for(let i=0;i<3 && groupCtx.avoidEyes.includes(v);i++) v = pick(pools.eyes); } return v; })(), tearBags: base.tearBags || pick(pools.tearBags), nose: base.nose || pick(pools.nose), mouth: base.mouth || pick(pools.mouth), lips: base.lips || fixed.lips || weighted([[pools.lips[0],2],[pools.lips[1],3],[pools.lips[2],6],[pools.lips[3],3],[pools.lips[4],2],[pools.lips[5],2.5],[pools.lips[6],2],[pools.lips[7],2]]), mouthPos: base.mouthPos || fixed.mouthPos || weighted([[pools.mouthPos[0],6],[pools.mouthPos[1],2.5],[pools.mouthPos[2],2.5],[pools.mouthPos[3],2],[pools.mouthPos[4],2],[pools.mouthPos[5],1.5]]), faceSpacing: base.faceSpacing || fixed.faceSpacing || chooseFaceSpacing(vibe), faceRatio: base.faceRatio || fixed.faceRatio || weighted([[pools.faceRatios[0],6],[pools.faceRatios[1],3],[pools.faceRatios[2],2.5],[pools.faceRatios[3],2],[pools.faceRatios[4],2],[pools.faceRatios[5],2],[pools.faceRatios[6],1.5],[pools.faceRatios[7],1.5]]), faceAsym: base.faceAsym || fixed.faceAsym || weighted([[pools.faceAsyms[0],3],[pools.faceAsyms[1],6],[pools.faceAsyms[2],5],[pools.faceAsyms[3],2],[pools.faceAsyms[4],2],[pools.faceAsyms[5],2]]), skin: base.skin || ethnicFace.skin || pick(pools.skin), skinDetail: sd1, skinDetail2: sd2, facialHair: base.facialHair || chooseFacialHair(age, vibe),
       hairStyle, hairColor,
       bodyHairOverall: base.bodyHairOverall || bodyHair.bodyHairOverall,
       chestHair: base.chestHair || bodyHair.chestHair,
@@ -2839,11 +2967,11 @@
       background: initial.background, lighting: initial.lighting, quality: initial.quality, outputType: initial.outputType, count: initial.count,
       promptLanguage: initial.promptLanguage || '日本語', promptTarget: initial.promptTarget || 'ChatGPT', captionMode: initial.captionMode || '表記する', captionFields: initial.captionFields || {name:true,era:true,height:true,weight:true,footSize:true,mbti:true},
       cardStyle: initial.cardStyle || 'スタンダード', cardRarity: initial.cardRarity || 'おすすめ自動', cardTheme: initial.cardTheme || 'ネイビー', cardLayout: initial.cardLayout || '縦長カード', cardWearMode: initial.cardWearMode || 'ボクサーパンツのみ', cardEffect: initial.cardEffect || 'なし', cardFields: initial.cardFields || {name:true,age:true,era:true,height:true,weight:true,footSize:true,role:true,mbti:true,rarity:true},
-      sceneIdea: buildEncounterScene({role, outfitType, vibe, nationality, ethnicity, mbti, eraYear}),
+      sceneIdea: buildEncounterScene({role, outfitType, vibe, nationality, ethnicity, mbti, eraYear, season, occInfluence, occupationMode}),
       createdAt: new Date().toISOString()
     };
-    if(partialMode==='face' && current){ Object.assign(c, current, {id:uniqId(), nationality:c.nationality, ethnicity:c.ethnicity, vibe:c.vibe, name:nameByNationality(c.nationality, c.eraYear, c.age), role:c.role, mbti:c.mbti, personality:mbtiDescription(c.mbti,false), facePreset:c.facePreset, ageAppearance:c.ageAppearance, faceLine:c.faceLine, eyes:c.eyes, tearBags:c.tearBags, nose:c.nose, mouth:c.mouth, skin:c.skin, facialHair:c.facialHair, hairStyle:c.hairStyle, hairColor:c.hairColor, sceneIdea:buildEncounterScene({role:c.role, outfitType:current.outfitType, vibe:c.vibe, nationality:c.nationality, ethnicity:c.ethnicity, mbti:c.mbti, eraYear:c.eraYear}), createdAt:new Date().toISOString()}); }
-    if(partialMode==='outfit' && current){ Object.assign(c, current, {id:uniqId(), nationality:c.nationality, ethnicity:c.ethnicity, vibe:c.vibe, name:nameByNationality(c.nationality, c.eraYear, c.age), role:c.role, mbti:c.mbti, personality:mbtiDescription(c.mbti,false), outfitType:c.outfitType,outfitBrand:c.outfitBrand,jacket:c.jacket,top:c.top,bottom:c.bottom,holidayOutfitType:c.holidayOutfitType,holidayOutfitBrand:c.holidayOutfitBrand,holidayJacket:c.holidayJacket,holidayTop:c.holidayTop,holidayBottom:c.holidayBottom,holidayShoes:c.holidayShoes,holidaySockBrand:c.holidaySockBrand,holidaySockType:c.holidaySockType,holidaySockColor:c.holidaySockColor,holidaySockUse:c.holidaySockUse,boxerBrand:c.boxerBrand,boxerColor:c.boxerColor,mainWearMode:c.mainWearMode,underwearType:c.underwearType,underwearColor:c.underwearColor,shoes:c.shoes,sockBrand:c.sockBrand,sockType:c.sockType,sockShape:c.sockShape,sockMaterial:c.sockMaterial,sockColor:c.sockColor,sockUse:c.sockUse,sceneIdea:buildEncounterScene({role:c.role, outfitType:c.outfitType, vibe:c.vibe, nationality:c.nationality, ethnicity:c.ethnicity, mbti:c.mbti, eraYear:c.eraYear}), createdAt:new Date().toISOString()}); }
+    if(partialMode==='face' && current){ Object.assign(c, current, {id:uniqId(), nationality:c.nationality, ethnicity:c.ethnicity, vibe:c.vibe, name:nameByNationality(c.nationality, c.eraYear, c.age), role:c.role, mbti:c.mbti, personality:mbtiDescription(c.mbti,false), facePreset:c.facePreset, ageAppearance:c.ageAppearance, faceLine:c.faceLine, eyes:c.eyes, tearBags:c.tearBags, nose:c.nose, mouth:c.mouth, lips:c.lips, mouthPos:c.mouthPos, faceSpacing:c.faceSpacing, faceRatio:c.faceRatio, faceAsym:c.faceAsym, skin:c.skin, facialHair:c.facialHair, hairStyle:c.hairStyle, hairColor:c.hairColor, sceneIdea:buildEncounterScene({role:c.role, outfitType:current.outfitType, vibe:c.vibe, nationality:c.nationality, ethnicity:c.ethnicity, mbti:c.mbti, eraYear:c.eraYear, season:c.season, occInfluence:c.occInfluence, occupationMode:c.occupationMode}), createdAt:new Date().toISOString()}); }
+    if(partialMode==='outfit' && current){ Object.assign(c, current, {id:uniqId(), nationality:c.nationality, ethnicity:c.ethnicity, vibe:c.vibe, name:nameByNationality(c.nationality, c.eraYear, c.age), role:c.role, mbti:c.mbti, personality:mbtiDescription(c.mbti,false), outfitType:c.outfitType,outfitBrand:c.outfitBrand,jacket:c.jacket,top:c.top,bottom:c.bottom,holidayOutfitType:c.holidayOutfitType,holidayOutfitBrand:c.holidayOutfitBrand,holidayJacket:c.holidayJacket,holidayTop:c.holidayTop,holidayBottom:c.holidayBottom,holidayShoes:c.holidayShoes,holidaySockBrand:c.holidaySockBrand,holidaySockType:c.holidaySockType,holidaySockColor:c.holidaySockColor,holidaySockUse:c.holidaySockUse,boxerBrand:c.boxerBrand,boxerColor:c.boxerColor,mainWearMode:c.mainWearMode,underwearType:c.underwearType,underwearColor:c.underwearColor,shoes:c.shoes,sockBrand:c.sockBrand,sockType:c.sockType,sockShape:c.sockShape,sockMaterial:c.sockMaterial,sockColor:c.sockColor,sockUse:c.sockUse,sceneIdea:buildEncounterScene({role:c.role, outfitType:c.outfitType, vibe:c.vibe, nationality:c.nationality, ethnicity:c.ethnicity, mbti:c.mbti, eraYear:c.eraYear, season:c.season, occInfluence:c.occInfluence, occupationMode:c.occupationMode}), createdAt:new Date().toISOString()}); }
     if(!groupCtx) Object.keys(locks).forEach(k=>{ if(locks[k] && current && current[k]!==undefined) c[k]=current[k]; });
     c.personality = mbtiDescription(c.mbti, false);
     if(!c.cardRarity || c.cardRarity==='おすすめ自動' || c.cardRarity==='なし') c.cardRarity = suggestCardRarity(c);
@@ -3135,7 +3263,7 @@ ${promptTargetGuide(lead, false)}`;
     if(key==='name') return nameCandidates();
     if(key==='height') return rangeOpts(155, 196, 1, 'cm');
     if(key==='weight') return rangeOpts(45, 110, 1, 'kg');
-    if(key==='footSize') return rangeOpts(25.5, 30.5, 0.5, 'cm');
+    if(key==='footSize') return rangeOpts(25.5, 31.0, 0.5, 'cm');
     if(key==='jacket') return pools.jackets;
     if(key==='top') return pools.tops;
     if(key==='bottom') return pools.bottoms;
@@ -3146,7 +3274,7 @@ ${promptTargetGuide(lead, false)}`;
       vibe: pools.vibes.filter(v=>v!=='ランダム'), bodyType: pools.bodyTypes, footShape: pools.footShapes,
       sportName: ['なし'].concat(SPORTS),
       facePreset: pools.facePresets, ageAppearance: pools.ageLooks, faceLine: pools.faceLines,
-      eyes: pools.eyes, tearBags: pools.tearBags, nose: pools.nose, mouth: pools.mouth, skin: pools.skin, skinDetail: pools.skinDetails, skinDetail2: pools.skinDetails,
+      eyes: pools.eyes, tearBags: pools.tearBags, nose: pools.nose, mouth: pools.mouth, lips: pools.lips, mouthPos: pools.mouthPos, faceSpacing: pools.faceSpacings, faceRatio: pools.faceRatios, faceAsym: pools.faceAsyms, skin: pools.skin, skinDetail: pools.skinDetails, skinDetail2: pools.skinDetails,
       facialHair: pools.facialHair, glasses: pools.glasses, hairStyle: pools.hairStyles, hairColor: pools.hairColors,
       outfitType: pools.outfitTypes, holidayOutfitType: pools.outfitTypes, outfitBrand: pools.outfitBrands,
       boxerBrand: pools.boxerBrands, sockBrand: pools.sockBrands, sockType: pools.sockTypes,
@@ -3251,7 +3379,7 @@ ${promptTargetGuide(lead, false)}`;
     FRIEND_CTX = null;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.0.3'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.1.1'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -3329,12 +3457,84 @@ ${promptTargetGuide(lead, false)}`;
     const map = {'実写風':'photorealistic','高精細':'high-detail','スマホスナップ風':'smartphone snapshot style','イラスト風':'illustration style','アニメ風イラスト':'anime-style illustration','キャラクター設定画風':'character reference sheet style'};
     return map[v] || v;
   }
+  const RARE_RULES = [
+    ['高身長183cm+', 20, c=>c.heightRaw>=183],
+    ['大足29cm+', 20, c=>parseFloat(c.footSize)>=29],
+    ['特大足30cm+', 25, c=>parseFloat(c.footSize)>=30],
+    ['規格外の足31cm+', 30, c=>parseFloat(c.footSize)>=31],
+    ['個性体型', 15, c=>String(c.bodyType).includes('高身長')||String(c.bodyType).includes('腹だけ')||String(c.bodyType).includes('ぽっちゃり')],
+    ['レア靴下', 12, c=>String(c.sockType).includes('柄')||String(c.sockType).includes('インビジブル')],
+    ['学生服スタイル', 10, c=>String(c.outfitType).includes('学生服')],
+    ['普通顔×180cm+', 12, c=>c.facePreset==='普通顔' && c.heightRaw>=180],
+    ['10枚出力', 10, c=>String(c.count).includes('10')],
+    ['戦前の時代設定', 15, c=>Number(c.eraYear)<1946],
+    ['外国籍', 8, c=>c.nationality && c.nationality!=='日本'],
+    ['ギャップ枠', 12, c=>!!c.gapMode],
+    ['休日ペルソナ', 10, c=>!!c.holidayPersona],
+    ['レアな肌の特徴', 8, c=>['左頬の薄い傷跡','眉尻の剃り込み跡','ゴーグル跡の日焼けムラ','腕まくり日焼けの跡'].some(v=>v===c.skinDetail||v===c.skinDetail2)],
+    ['明色髪', 8, c=>['金髪','シルバー','アッシュグレー','プラチナ'].some(v=>String(c.hairColor).includes(v))]
+  ];
+  function rarityBreakdown(c){
+    if(!c) return [];
+    const out = [];
+    for(const [label, pt, test] of RARE_RULES){ try{ if(test(c)) out.push([label, pt]); }catch(e){} }
+    return out;
+  }
   function scoreRarity(c){
     if(!c) return [0,'NORMAL','idle'];
-    let s=0; const foot=parseFloat(c.footSize), h=c.heightRaw;
-    if(h>=183) s+=20; if(foot>=29) s+=20; if(foot>=30) s+=25; if(c.bodyType.includes('高身長')||c.bodyType.includes('腹だけ')||c.bodyType.includes('ぽっちゃり')) s+=15;
-    if(c.sockType.includes('柄')||c.sockType.includes('インビジブル')) s+=12; if(c.outfitType.includes('学生服')) s+=10; if(c.facePreset==='普通顔' && h>=180) s+=12; if(c.count.includes('10')) s+=10;
+    const s = rarityBreakdown(c).reduce((a,[,p])=>a+p,0);
     if(s>=75) return [s,'LEGEND','legend']; if(s>=50) return [s,'SUPER RARE','super']; if(s>=25) return [s,'RARE','rare']; return [s,'NORMAL','normal'];
+  }
+  const BODYHAIR_KEYS = ['bodyHairOverall','chestHair','abdominalHair','lowerAbdomenHair','armHair','shinHair','thighHair','armpitHair','handFingerHair','footToeHair','backHair'];
+  function rerollProfile(key){
+    if(!current || spinning) return;
+    if(key==='skinDetail' || key==='skinDetail2'){
+      current.skinDetail = chooseSkinDetail(current.age, current.vibe, current.role, current.gapMode);
+      current.skinDetail2 = (current.skinDetail && current.skinDetail !== 'なし（クリアな肌）') ? chooseSkinDetail(current.age, current.vibe, current.role, current.gapMode, current.skinDetail, true) : 'なし（クリアな肌）';
+      renderAll(); return;
+    }
+    if(key==='sceneIdea'){ current.sceneIdea = buildEncounterScene(current); renderAll(); return; }
+    if(key==='faceSpacing'){ current.faceSpacing = chooseFaceSpacing(current.vibe); renderAll(); return; }
+    if(['lips','mouthPos','faceRatio','faceAsym'].includes(key)){ const pool = slotEditPool(key); if(pool) current[key] = pick(pool); renderAll(); return; }
+    if(key==='bodyHairAll'){
+      const fresh = generateCharacter('full');
+      BODYHAIR_KEYS.forEach(k=>{ if(fresh[k]!==undefined) current[k]=fresh[k]; });
+      renderAll(); return;
+    }
+    if(key==='role'){
+      const fresh = generateCharacter('full');
+      ['role','sportName','occupationMode','holidayPersona','workUniform','workUniformEn','headwear','headwearOn','outfitType','outfitBrand','jacket','top','bottom','shoes','sockBrand','sockType','sockShape','sockMaterial','sockColor','sockUse'].forEach(k=>{ if(fresh[k]!==undefined) current[k]=fresh[k]; });
+      renderAll(); return;
+    }
+    rerollOne(key);
+  }
+  function openProfileEdit(btn){
+    if(!current) return;
+    const kv = btn.closest('.kv');
+    if(!kv || kv.querySelector('.pf-editor')) return;
+    const keys = btn.dataset.pEdit.split(',');
+    const ed = document.createElement('div');
+    ed.className = 'pf-editor';
+    const sels = [];
+    keys.forEach(k=>{
+      const pool = slotEditPool(k);
+      if(!pool || !pool.length) return;
+      const cur = current[k] !== undefined && current[k] !== null ? String(current[k]) : '';
+      const opts = pool.map(String);
+      if(cur && !opts.includes(cur)) opts.unshift(cur);
+      const lab = document.createElement('label'); lab.textContent = slotLabel(k, k);
+      const sel = document.createElement('select');
+      sel.innerHTML = opts.map(v=>`<option value="${String(v).replace(/"/g,'&quot;')}"${String(v)===cur?' selected':''}>${displayOptionLabel(k, v)}</option>`).join('');
+      ed.appendChild(lab); ed.appendChild(sel); sels.push([k, sel]);
+    });
+    if(!sels.length) return;
+    const bar = document.createElement('div'); bar.style.cssText='display:flex;gap:6px';
+    const okB = document.createElement('button'); okB.className='pf-btn'; okB.textContent='OK';
+    const ngB = document.createElement('button'); ngB.className='pf-btn'; ngB.textContent='✕';
+    okB.onclick = () => { const vals = sels.map(([k,sel])=>[k, sel.value]); vals.forEach(([k,v])=>{ if(String(current[k]) !== v) applySlotEdit(k, v); }); renderAll(); };
+    ngB.onclick = () => renderAll();
+    bar.appendChild(okB); bar.appendChild(ngB); ed.appendChild(bar);
+    kv.appendChild(ed);
   }
   function buildOutfitPrompt(c, mode='weekday'){
     if(!c) return '';
@@ -3482,7 +3682,7 @@ ${target}`;
     if(isEnglish(c)){
       return `Create a non-sexual full-body image of the adult male character "${c.name}".
 
-Era setting: ${c.eraYear || '2026'} CE. ${eraStyleNote(c, true)} He is ${c.age} years old, ${c.nationality}, ${c.ethnicity}. His occupation is ${c.role}. His overall vibe is ${c.vibe}. His personality and demeanor feel ${mbtiDescription(c.mbti,true)}. ${c.holidayPersona ? `On weekdays he works earnestly as a ${displayValue('role', c.role)}, but on days off his whole vibe transforms into a ${displayValue('vibe', c.vibe)} style — depict him here in his day-off persona.` : ''} His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. His face line is ${c.faceLine}. Eyes: ${c.eyes}. Tear bags: ${c.tearBags}. Nose: ${c.nose}. Mouth: ${c.mouth}. Skin: ${c.skin}.${skinDetailLine(c, true)} Facial hair: ${c.facialHair}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? ' (with graying facial hair)' : ''}. ${c.glasses && c.glasses!=='なし' ? `He wears ${displayValue('glasses', c.glasses)}. ` : ''}Hair: ${c.hairColor} ${c.hairStyle}. ${bodyEn}
+Era setting: ${c.eraYear || '2026'} CE. ${eraStyleNote(c, true)} He is ${c.age} years old, ${c.nationality}, ${c.ethnicity}. His occupation is ${c.role}. His overall vibe is ${c.vibe}. His personality and demeanor feel ${mbtiDescription(c.mbti,true)}. ${c.holidayPersona ? `On weekdays he works earnestly as a ${displayValue('role', c.role)}, but on days off his whole vibe transforms into a ${displayValue('vibe', c.vibe)} style — depict him here in his day-off persona.` : ''} His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. His face line is ${c.faceLine}. Eyes: ${c.eyes}. Tear bags: ${c.tearBags}. Nose: ${c.nose}. Mouth: ${c.mouth}. Lips: ${displayValue('lips', c.lips || '標準的な厚さの唇')}. Mouth placement: ${displayValue('mouthPos', c.mouthPos || '標準的な位置・大きさの口')}. Feature spacing: ${displayValue('faceSpacing', c.faceSpacing || '標準的な配置')}. Feature proportions: ${displayValue('faceRatio', c.faceRatio || '標準的なバランスの比率')}. Facial symmetry: ${displayValue('faceAsym', c.faceAsym || 'ほぼ対称（ごく自然な左右差）')}. Skin: ${c.skin}.${skinDetailLine(c, true)} Facial hair: ${c.facialHair}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? ' (with graying facial hair)' : ''}. ${c.glasses && c.glasses!=='なし' ? `He wears ${displayValue('glasses', c.glasses)}. ` : ''}Hair: ${c.hairColor} ${c.hairStyle}. ${bodyEn}
 
 Height ${c.height}, weight ${c.weight}, body type ${bodyTypeDesc(c.bodyType, true)}. Foot size ${c.footSize}, foot shape ${c.footShape}. Use a natural standing pose that makes the balance of height, weight, and foot size easy to understand.
 
@@ -3498,7 +3698,7 @@ Avoid: making him look underage, sexual poses, excessive body emphasis, emphasis
     }
     return `成人男性キャラクター「${c.name}」の非性的な全身画像を作成する。
 
-時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${seasonLine(c, false)}${eraStyleNote(c, false)}${c.age}歳、${c.nationality}、${c.ethnicity}。職業は${roleWithSport(c, false)}。雰囲気は${c.vibe}。性格・立ち居振る舞いの雰囲気は${mbtiDescription(c.mbti,false)}。${c.holidayPersona ? `平日は${c.role}として堅実に働いているが、休日は${c.vibe}の雰囲気に一変するタイプであり、この画像は休日の姿として描く。` : ''}顔立ちは${c.facePreset}で、年齢感は${c.ageAppearance}。フェイスラインは${c.faceLine}。目は${c.eyes}、涙袋は${c.tearBags}。鼻は${c.nose}。口元は${c.mouth}。肌は${c.skin}。${skinDetailLine(c, false)}ひげは${c.facialHair}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? '（白髪まじりのひげ）' : ''}。${c.glasses && c.glasses!=='なし' ? `眼鏡は${c.glasses}をかけている。` : ''}髪は${c.hairColor}の${c.hairStyle}。${bodyJa}
+時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${seasonLine(c, false)}${eraStyleNote(c, false)}${c.age}歳、${c.nationality}、${c.ethnicity}。職業は${roleWithSport(c, false)}。雰囲気は${c.vibe}。性格・立ち居振る舞いの雰囲気は${mbtiDescription(c.mbti,false)}。${c.holidayPersona ? `平日は${c.role}として堅実に働いているが、休日は${c.vibe}の雰囲気に一変するタイプであり、この画像は休日の姿として描く。` : ''}顔立ちは${c.facePreset}で、年齢感は${c.ageAppearance}。フェイスラインは${c.faceLine}。目は${c.eyes}、涙袋は${c.tearBags}。鼻は${c.nose}。口元は${c.mouth}。唇は${c.lips || '標準的な厚さの唇'}で、口は${c.mouthPos || '標準的な位置・大きさの口'}。顔のパーツ配置は${c.faceSpacing || '標準的な配置'}で、目鼻口の比率は${c.faceRatio || '標準的なバランスの比率'}。左右差は${c.faceAsym || 'ほぼ対称（ごく自然な左右差）'}。肌は${c.skin}。${skinDetailLine(c, false)}ひげは${c.facialHair}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? '（白髪まじりのひげ）' : ''}。${c.glasses && c.glasses!=='なし' ? `眼鏡は${c.glasses}をかけている。` : ''}髪は${c.hairColor}の${c.hairStyle}。${bodyJa}
 
 身長${c.height}、体重${c.weight}、体型は${bodyTypeDesc(c.bodyType, false)}。足のサイズは${c.footSize}、足の形は${c.footShape}。身長、体重、足サイズのバランスが自然に分かる直立姿勢にする。
 
@@ -3629,6 +3829,23 @@ ${promptTargetGuide(b, true)}`;
 避けること：未成年に見える表現、性的表現、別人化、極端な身体強調、文字崩れ。
 ${promptTargetGuide(b, false)}`;
   }
+  function renderFootCfgPanel(){
+    const box = document.getElementById('footSceneCfg');
+    if(!box) return;
+    const isFeet = !!(current && refSheetKind(currentDerivedType()) === 'feet');
+    box.classList.toggle('hidden', !isFeet);
+    if(!isFeet) return;
+    const cfg = footCfg(current);
+    const form = document.getElementById('footCfgForm');
+    const randomLabel = uiLang==='en' ? 'Random (auto)' : 'ランダム（おまかせ）';
+    form.innerHTML = FOOT_CFG_AXES.map(([axis, ja, en])=>{
+      const opts = ['ランダム'].concat(footAxisOptions(axis));
+      return `<label class="field"><span>${uiLang==='en' ? en : ja}</span><select data-foot-axis="${axis}">${opts.map(v=>`<option value="${v}"${cfg[axis]===v?' selected':''}>${v==='ランダム' ? randomLabel : v}</option>`).join('')}</select></label>`;
+    }).join('');
+    form.querySelectorAll('[data-foot-axis]').forEach(sel=>{
+      sel.onchange = () => { const cfg2 = footCfg(current); cfg2[sel.dataset.footAxis] = sel.value; current.footScene = cfg2; renderAll(); };
+    });
+  }
   function renderFriendPairControls(){
     const wearSel = document.getElementById('friendPairWearSel');
     const cntSel = document.getElementById('friendPairCountSel');
@@ -3643,17 +3860,22 @@ ${promptTargetGuide(b, false)}`;
     if(!current){ els.profileView.innerHTML=`<p class="notice">${uiLang==='ja'?'まだ結果がありません。':'No result yet.'}</p>`; els.promptBox.value=''; document.getElementById('outfitPromptBox').value=''; document.getElementById('scenePromptBox').value=''; const cardBox=document.getElementById('cardPromptBox'); if(cardBox) cardBox.value=''; return; }
     if(!current.personality && current.mbti) current.personality = mbtiDescription(current.mbti, false);
     migrateUniformFields(current);
+    if(!current.lips) current.lips = '標準的な厚さの唇';
+    if(!current.mouthPos) current.mouthPos = '標準的な位置・大きさの口';
+    if(!current.faceSpacing) current.faceSpacing = '標準的な配置';
+    if(!current.faceRatio) current.faceRatio = '標準的なバランスの比率';
+    if(!current.faceAsym) current.faceAsym = 'ほぼ対称（ごく自然な左右差）';
     const L=T('rows');
     const mainWear = uiLang==='en' ? `${underwearDesc(current, true)} only` : `${underwearDesc(current, false)}のみ`;
     const sections = [
-      ['basic', L.basic, [[L.name,current.name],[L.age,displayValue('age',current.age)],[L.era, uiLang==='en' ? `${current.eraYear || '2026'} (${eraProfile(current.eraYear || '2026').labelEn})${current.season ? ` / ${displayValue('season', current.season) || current.season}` : ''}` : `${eraLabel(current.eraYear)}（${eraProfile(current.eraYear || '2026').labelJa}）${current.season ? `・${current.season}` : ''}`],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}${current.occupationMode ? `（${uiLang==='en' ? displayValue('occupationMode', current.occupationMode) || current.occupationMode : current.occupationMode}）` : ''}`]].concat(current.groupSetting ? [[L.group, `${displayValue('groupSetting',current.groupSetting) || current.groupSetting} / ${displayValue('groupPosition',current.groupPosition) || current.groupPosition}`]] : []).concat(current.friendOf ? [[L.friendRow, friendRelationText(current, uiLang==='en')]] : []).concat([[L.mbti,`<span class="mini-badge">${mbtiDisplay(current)}</span>`]])],
-      ['face', L.faceSection, [[L.face,`${displayValue('facePreset',current.facePreset)} / ${displayValue('ageAppearance',current.ageAppearance)}`],[L.faceLine,displayValue('faceLine',current.faceLine)],[L.eyes,displayValue('eyes',current.eyes)],[L.nose,displayValue('nose',current.nose)],[L.mouth,displayValue('mouth',current.mouth)],[L.skin,displayValue('skin',current.skin)],[L.facialHair,displayValue('facialHair',current.facialHair)],[L.glasses, displayValue('glasses', current.glasses || 'なし')],[L.hair,`${displayValue('hairColor',current.hairColor)}・${displayValue('hairStyle',current.hairStyle)}`]]],
-      ['body', L.bodySection, [[L.hw,`${current.height} / ${current.weight}`],[L.body,displayValue('bodyType',current.bodyType)],[L.foot,current.footSize],[L.footShape,displayValue('footShape',current.footShape)]]],
-      ['bodyhair', L.bodyHairSection, [[L.bodyHair, buildBodyHairSummary(current, uiLang==='en')]]],
+      ['basic', L.basic, [[L.name,current.name,'name'],[L.age,displayValue('age',current.age),'age'],[L.era, uiLang==='en' ? `${current.eraYear || '2026'} (${eraProfile(current.eraYear || '2026').labelEn})${current.season ? ` / ${displayValue('season', current.season) || current.season}` : ''}` : `${eraLabel(current.eraYear)}（${eraProfile(current.eraYear || '2026').labelJa}）${current.season ? `・${current.season}` : ''}`,'eraYear'],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`,'nationality,ethnicity'],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}${current.occupationMode ? `（${uiLang==='en' ? displayValue('occupationMode', current.occupationMode) || current.occupationMode : current.occupationMode}）` : ''}`,'role,vibe']].concat(current.groupSetting ? [[L.group, `${displayValue('groupSetting',current.groupSetting) || current.groupSetting} / ${displayValue('groupPosition',current.groupPosition) || current.groupPosition}`]] : []).concat(current.friendOf ? [[L.friendRow, friendRelationText(current, uiLang==='en')]] : []).concat([[L.mbti,`<span class="mini-badge">${mbtiDisplay(current)}</span>`,'mbti']])],
+      ['face', L.faceSection, [[L.face,`${displayValue('facePreset',current.facePreset)} / ${displayValue('ageAppearance',current.ageAppearance)}`,'facePreset,ageAppearance'],[L.faceLine,displayValue('faceLine',current.faceLine),'faceLine'],[L.eyes,displayValue('eyes',current.eyes),'eyes'],[L.nose,displayValue('nose',current.nose),'nose'],[L.mouth,displayValue('mouth',current.mouth),'mouth'],[slotLabel('lips','唇の形状'),displayValue('lips',current.lips || '標準的な厚さの唇'),'lips'],[slotLabel('mouthPos','口の位置'),displayValue('mouthPos',current.mouthPos || '標準的な位置・大きさの口'),'mouthPos'],[slotLabel('faceSpacing','パーツ配置'),displayValue('faceSpacing',current.faceSpacing || '標準的な配置'),'faceSpacing'],[slotLabel('faceRatio','目鼻口比率'),displayValue('faceRatio',current.faceRatio || '標準的なバランスの比率'),'faceRatio'],[slotLabel('faceAsym','顔の左右差'),displayValue('faceAsym',current.faceAsym || 'ほぼ対称（ごく自然な左右差）'),'faceAsym'],[L.skin,displayValue('skin',current.skin),'skin'],[uiLang==='en' ? 'Skin Details' : '肌の特徴',`${displayValue('skinDetail',current.skinDetail || 'なし（クリアな肌）')}${current.skinDetail2 && current.skinDetail2 !== 'なし（クリアな肌）' ? `／${displayValue('skinDetail',current.skinDetail2)}` : ''}`,'skinDetail,skinDetail2'],[L.facialHair,displayValue('facialHair',current.facialHair),'facialHair'],[L.glasses, displayValue('glasses', current.glasses || 'なし'),'glasses'],[L.hair,`${displayValue('hairColor',current.hairColor)}・${displayValue('hairStyle',current.hairStyle)}`,'hairColor,hairStyle']]],
+      ['body', L.bodySection, [[L.hw,`${current.height} / ${current.weight}`,'height,weight'],[L.body,displayValue('bodyType',current.bodyType),'bodyType'],[L.foot,current.footSize,'footSize'],[L.footShape,displayValue('footShape',current.footShape),'footShape']]],
+      ['bodyhair', L.bodyHairSection, [[L.bodyHair, buildBodyHairSummary(current, uiLang==='en'),'bodyHairAll']]],
       ['main', L.mainSection, [[L.main, mainWear]]],
-      ['outfit', L.outfitSection, [[L.weekdayOutfit,`${displayValue('outfitBrand',current.outfitBrand)}・${displayValue('outfitType',current.outfitType)}`]].concat(buildUniformEditRows(current, L)).concat([[L.sock,`${displayValue('sockBrand',current.sockBrand)}・${displayValue('sockType',current.sockType)}・${displayValue('sockColor',current.sockColor)}`]]).concat(current.holidayOutfitType ? [[L.holidayOutfit,`${displayValue('outfitBrand',current.holidayOutfitBrand)}・${displayValue('outfitType',current.holidayOutfitType)}`],[L.holidaySock,`${displayValue('sockBrand',current.holidaySockBrand)}・${displayValue('sockType',current.holidaySockType)}・${displayValue('sockColor',current.holidaySockColor)}`]] : [])],
-      ['output', L.outputSection, [[L.background,displayValue('background',current.background)],[L.output,`${displayValue('outputType',current.outputType)} / ${displayValue('count',current.count)}`],[L.promptTarget,`<span class="mini-badge">${current.promptTarget || 'ChatGPT'}</span>`],[L.imageText, current.captionMode==='表記しない' ? captionModeDisplay(current.captionMode) : `${captionModeDisplay(current.captionMode)} / ${getCaptionFieldLabelsArray(current, uiLang==='en').join(', ')}`],[L.cardSetting, `${displayValue('cardStyle',current.cardStyle)} / ${current.cardRarity} / ${displayValue('cardTheme',current.cardTheme)} / ${displayValue('cardLayout',current.cardLayout)} / ${displayValue('cardWearMode',current.cardWearMode || 'ボクサーパンツのみ')} / ${displayValue('cardEffect',cardEffectByRarity(current.cardRarity))}`]]],
-      ['scene', L.sceneSection, [[L.scene,displayValue('sceneIdea',current.sceneIdea)]]]
+      ['outfit', L.outfitSection, [[L.weekdayOutfit,`${displayValue('outfitBrand',current.outfitBrand)}・${displayValue('outfitType',current.outfitType)}`,'outfitType']].concat(buildUniformEditRows(current, L)).concat([[L.sock,`${displayValue('sockBrand',current.sockBrand)}・${displayValue('sockType',current.sockType)}・${displayValue('sockColor',current.sockColor)}`,'sockType']]).concat(current.holidayOutfitType ? [[L.holidayOutfit,`${displayValue('outfitBrand',current.holidayOutfitBrand)}・${displayValue('outfitType',current.holidayOutfitType)}`,'holidayOutfitType'],[L.holidaySock,`${displayValue('sockBrand',current.holidaySockBrand)}・${displayValue('sockType',current.holidaySockType)}・${displayValue('sockColor',current.holidaySockColor)}`]] : [])],
+      ['output', L.outputSection, [[L.background,displayValue('background',current.background),'background'],[L.output,`${displayValue('outputType',current.outputType)} / ${displayValue('count',current.count)}`],[L.promptTarget,`<span class="mini-badge">${current.promptTarget || 'ChatGPT'}</span>`],[L.imageText, current.captionMode==='表記しない' ? captionModeDisplay(current.captionMode) : `${captionModeDisplay(current.captionMode)} / ${getCaptionFieldLabelsArray(current, uiLang==='en').join(', ')}`],[L.cardSetting, `${displayValue('cardStyle',current.cardStyle)} / ${current.cardRarity} / ${displayValue('cardTheme',current.cardTheme)} / ${displayValue('cardLayout',current.cardLayout)} / ${displayValue('cardWearMode',current.cardWearMode || 'ボクサーパンツのみ')} / ${displayValue('cardEffect',cardEffectByRarity(current.cardRarity))}`]]],
+      ['scene', L.sceneSection, [[L.scene,displayValue('sceneIdea',current.sceneIdea),'sceneIdea']]]
     ];
     const pcIcons = {basic:'👤', face:'🙂', body:'📐', bodyhair:'🧔', main:'🩳', outfit:'👕', output:'🖨️', scene:'🎬'};
     const pcSpan2 = {output:true, scene:true};
@@ -3664,7 +3886,13 @@ ${promptTargetGuide(b, false)}`;
       <span class="badge-target">⚡ Prompt Target: ${current.promptTarget || 'ChatGPT'}</span>
       <span class="badge-cardinfo">🃏 ${displayValue('cardStyle',current.cardStyle)} / ${current.cardRarity || 'R'}</span>
     </div>`;
-    els.profileView.innerHTML = badges + `<div class="profile-cards">` + sections.map(([key,title,rows])=>`<div class="profile-card pc-${key}${pcSpan2[key]?' span2':''}"><h3><span class="pc-icon">${pcIcons[key]||''}</span>${title}${key==='scene' ? ` <button class="dice" style="position:static;margin-left:auto" data-scene-edit title="${T('editTitle')}">✎</button>` : ''}</h3>${rows.map(([k,v])=>`<div class="kv"><b>${k}</b><span>${v}</span></div>`).join('')}</div>`).join('') + `</div>`;
+    const bd = rarityBreakdown(current);
+    const rr = scoreRarity(current);
+    const bdHtml = `<div class="subcard" style="margin:0 0 12px"><h3>${uiLang==='en' ? 'Rarity Breakdown' : 'レア内訳'} <span class="pill" style="margin-left:8px">${rr[0]} pt / ${rr[1]}</span></h3><div style="display:flex;flex-wrap:wrap;gap:4px">${bd.length ? bd.map(([l,p])=>`<span class="pill">${l} +${p}</span>`).join('') : `<span class="notice">${uiLang==='en' ? 'No rare points this time.' : '今回はレア該当なし。'}</span>`}</div></div>`;
+    const pfBtns = (pk)=>{ const hasPool = pk.split(',').some(k=>{ const p = slotEditPool(k); return p && p.length; }); return `<span class="pf-actions">${hasPool ? `<button class="pf-btn" data-p-edit="${pk}" title="${T('editTitle')}">✎</button>` : ''}<button class="pf-btn" data-p-dice="${pk}" title="🎲">🎲</button></span>`; };
+    els.profileView.innerHTML = badges + bdHtml + `<div class="profile-cards">` + sections.map(([key,title,rows])=>`<div class="profile-card pc-${key}${pcSpan2[key]?' span2':''}"><h3><span class="pc-icon">${pcIcons[key]||''}</span>${title}${key==='scene' ? ` <button class="dice" style="position:static;margin-left:auto" data-scene-edit title="${T('editTitle')}">✎</button>` : ''}</h3>${rows.map(([k,v,pk])=>pk ? `<div class="kv kv3"><b>${k}</b><span>${v}</span>${pfBtns(pk)}</div>` : `<div class="kv"><b>${k}</b><span>${v}</span></div>`).join('')}</div>`).join('') + `</div>`;
+    els.profileView.querySelectorAll('[data-p-dice]').forEach(b=>{ b.onclick = () => rerollProfile(b.dataset.pDice.split(',')[0]); });
+    els.profileView.querySelectorAll('[data-p-edit]').forEach(b=>{ b.onclick = () => openProfileEdit(b); });
     const ue = els.profileView.querySelector('[data-uniform-edit]');
     if(ue) ue.onchange = () => applyUniformVariant(ue.value);
     const he = els.profileView.querySelector('[data-headwear-edit]');
@@ -3697,6 +3925,7 @@ ${promptTargetGuide(b, false)}`;
       const dv=document.getElementById('derivedPromptBox'); if(dv) dv.value = buildDerivedPrompt(current, isEnglish(current));
       const fpb=document.getElementById('friendPairPromptBox'); if(fpb) fpb.value = current.friendBase ? buildFriendPairPrompt(current, isEnglish(current)) : '';
       renderFriendPairControls();
+      renderFootCfgPanel();
     }
     const mo=document.getElementById('manualOutputType'), mc=document.getElementById('manualCount'), mq=document.getElementById('manualQuality'), mb=document.getElementById('manualBackground'), ml=document.getElementById('manualLighting'), mpl=document.getElementById('manualPromptLanguage'), mpt=document.getElementById('manualPromptTarget'), mcm=document.getElementById('manualCaptionMode'), mcs=document.getElementById('manualCardStyle'), mcr=document.getElementById('manualCardRarity'), mct=document.getElementById('manualCardTheme'), mcl=document.getElementById('manualCardLayout'), mcw=document.getElementById('manualCardWearMode'), mce=document.getElementById('manualCardEffect');
     if(mo) mo.value=current.outputType; if(mc) mc.value=current.count; if(mq) mq.value=current.quality; if(mb) mb.value=current.background; if(ml) ml.value=current.lighting; if(mpl) mpl.value=current.promptLanguage || '日本語'; if(mpt) mpt.value=current.promptTarget || 'ChatGPT'; if(mcm) mcm.value=current.captionMode || '表記する';
@@ -3708,7 +3937,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.0.3'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.1.1'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
@@ -3718,7 +3947,7 @@ ${promptTargetGuide(b, false)}`;
     document.querySelectorAll('[data-fav]').forEach(b=>b.onclick=()=>{ const i=Number(b.dataset.fav); h[i].fav=!h[i].fav; localStorage.setItem(STORAGE_KEY, JSON.stringify(h)); renderHistory(); });
   }
   function downloadJson(){ const data = current || {}; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})); a.download='guzen-ikemen-result.json'; a.click(); URL.revokeObjectURL(a.href); }
-  function switchTab(name){ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name)); ['slot','result','history','settings'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('hidden',t!==name)); }
+  function switchTab(name){ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name)); ['slot','result','history','settings'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('hidden',t!==name)); const ip=document.getElementById('initialPanel'); if(ip) ip.classList.toggle('hidden', !(name==='slot' || name==='settings')); const sa=document.getElementById('slotAside'); if(sa) sa.classList.toggle('hidden', name!=='slot'); }
 
   // ===== V1.9.1 A案 UI logic =====
   let promptTab = 'main';
@@ -3909,6 +4138,8 @@ ${promptTargetGuide(b, false)}`;
   document.getElementById('friendGoBtn').onclick=()=>createFriend();
   document.getElementById('friendPairWearSel').onchange=(e)=>{ if(current){ current.friendPairWear=e.target.value; renderAll(); } };
   document.getElementById('friendPairCountSel').onchange=(e)=>{ if(current){ current.friendPairCount=e.target.value; renderAll(); } };
+  document.getElementById('footCfgDiceBtn').onclick=()=>{ if(current){ current.footScene = resolveFootCfg(current); renderAll(); } };
+  document.getElementById('footCfgResetBtn').onclick=()=>{ if(current){ current.footScene = null; renderAll(); } };
   document.getElementById('copySceneBtn').onclick=async(e)=>{ await navigator.clipboard.writeText(document.getElementById('scenePromptBox').value); flashCopied(e.target); };
   const copyDerivedBtn=document.getElementById('copyDerivedBtn'); if(copyDerivedBtn) copyDerivedBtn.onclick=async(e)=>{ await navigator.clipboard.writeText(document.getElementById('derivedPromptBox').value); flashCopied(e.target); };
   document.getElementById('clearHistoryBtn').onclick=()=>{ if(confirm(T('confirmClear'))){localStorage.removeItem(STORAGE_KEY); renderHistory();} };
