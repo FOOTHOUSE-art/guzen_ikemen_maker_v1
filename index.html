@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V2.1.1</title>
+  <title>Guzen Ikemen Maker V2.1.3</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -101,8 +101,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V2.1.1</span>
-        <h1 class="title">Guzen Ikemen Maker V2.1.1</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V2.1.3</span>
+        <h1 class="title">Guzen Ikemen Maker V2.1.3</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -377,7 +377,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.1.1</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.1.3</p>
   </div>
 
 <script>
@@ -943,8 +943,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.1.1';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.1.1';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.1.3';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.1.3';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1505,9 +1505,9 @@
       showa:'昔ながらの職場の近くで、仕事を終えた姿を偶然見かけた場面'
     };
     const occSpecialScenes = {
-      '自衛官':'非番の日、駐屯地近くの街で私服姿を偶然見かけた場面',
-      '消防士':'非番の日、消防署の近くで私服姿を偶然見かけた場面',
-      '警察官':'非番の日、交番の前を私服で通り過ぎる姿を偶然見かけた場面',
+      '自衛官':pick(['非番の日、駐屯地近くの街で私服姿を偶然見かけた場面','外出日に、駐屯地の門から私服で出てくる姿を偶然見かけた場面','駐屯地近くのコインランドリーで、洗濯物を抱えて歩く姿を偶然見かけた場面','駐屯地前のバス停で、外出のバスを待つ私服姿を偶然見かけた場面']),
+      '消防士':pick(['非番の日、消防署の近くで私服姿を偶然見かけた場面','当直明けの朝、少し眠そうに消防署から出てくる姿を偶然見かけた場面','消防署の前で車両点検を終えて一息つく姿を偶然見かけた場面']),
+      '警察官':pick(['非番の日、交番の前を私服で通り過ぎる姿を偶然見かけた場面','当直明けの朝、警察署から私服で出てくる姿を偶然見かけた場面','独身寮の近くのコンビニで買い物をする私服姿を偶然見かけた場面']),
       '農家':'直売所の近くで、軽トラックのそばに立つ姿を偶然見かけた場面',
       '漁師':'朝の漁を終えた港の近くで、日に焼けた姿を偶然見かけた場面',
       '美容師':'閉店後のサロンの前で、店の明かりを落とす姿を偶然見かけた場面',
@@ -1525,8 +1525,8 @@
       '僧侶':'寺の門前を私服で歩く、穏やかな姿を偶然見かけた場面',
       '古着屋店主':'古着屋の店先で商品を整えている姿を偶然見かけた場面',
       '悠々自適（定年後）':'朝の公園をゆったり散歩している穏やかな姿を偶然見かけた場面',
-      '救急隊員':'非番に消防署の近くで同僚と談笑している姿を偶然見かけた場面',
-      '防衛大学校学生':'休日に学校近くの坂道を歩いている姿を偶然見かけた場面'
+      '救急隊員':pick(['非番に消防署の近くで同僚と談笑している姿を偶然見かけた場面','当直明けの朝、コンビニのコーヒーを手に歩く姿を偶然見かけた場面']),
+      '防衛大学校学生':pick(['休日に学校近くの坂道を歩いている姿を偶然見かけた場面','外出許可の土曜に、私服で横須賀の街を歩く姿を偶然見かけた場面','学校近くの売店の袋を提げて坂を上る姿を偶然見かけた場面','外出日に駅前で同期と待ち合わせている私服姿を偶然見かけた場面'])
     };
     if(c.occInfluence !== '影響なし' && c.role){
       const occScene = occSpecialScenes[c.role] || occCatScenes[OCC_CAT[c.role]] || null;
@@ -2407,31 +2407,75 @@
     ['靴下を履いたまま',12],['片足だけ靴下を脱いでいる途中',0.8],['両足とも靴下を脱いでいる途中',0.4],['靴下を脱いだ直後（素足）',0.4]
   ];
   const FOOT_ANGLES = ['自然な目線の高さ','やや低めのアングル','床・座面レベルの低アングル'];
+  const FOOT_OCC_SCENES = {
+    '自衛官':[
+      ['駐屯地の営内居室（白いパイプの2段ベッドが整然と並ぶ明るい大部屋）','chair','明るいリノリウムの床',['きっちり角を揃えて畳んだ布団と毛布','水色のプラスチック収納ボックス','窓際の共用机と椅子','ベッド下につま先を揃えて並べた半長靴','磨き途中の半長靴と靴磨きセット'],true],
+      ['営内の2段ベッドの下段に腰掛けて休む','bed','',['ベッド下の貴重品引き出し','きっちり畳んだ毛布','ロッカーに掛けた迷彩服'],true],
+      ['隊舎の乾燥室・靴磨きスペース','floor','リノリウムの床',['並んだ半長靴と靴墨','手入れ用の布'],false]
+    ],
+    '防衛大学校学生':[
+      ['防衛大学校の学生舎居室（クリーム色の金属パイプ2段ベッドと縞柄マットレス、きっちり畳まれた寝具が並ぶ8人部屋）','bed','木目調のタイルカーペット',['角を揃えて畳んだ毛布と布団','ベッド下のプラスチック収納ボックス','ベッドに隣接したクリーム色のロッカー','2段ベッドの白いはしご','大きな窓から差し込む光'],true],
+      ['学生舎の自習室（壁沿いに机と吊り棚が並び、白いパーティションで区切られた部屋）','chair','ベージュのタイルカーペット',['本棚に並んだ教科書と専門書','緑のデスクマットと卓上スタンド','青い事務椅子','壁掛け時計'],false],
+      ['学生舎の長い廊下で短靴を磨く（白い壁に窓が続く、グレーの石目調の床の直線廊下）','floor','グレーの石目調の床',['靴磨きセット','新聞紙の上に並べた短靴','壁のフックと掲示物','廊下のデジタル時計'],false]
+    ],
+    '警察官':[
+      ['警察の独身寮の自室','floor','フローリング',['ハンガーに掛けた制服','小さなテレビ','湯のみとお茶'],true],
+      ['交番の休憩スペース','chair','事務室の床',['書類とボールペン','支給のお茶'],false]
+    ],
+    '消防士':[
+      ['消防署の仮眠室（青いパーティションで仕切られた個別のベッド区画）','bed','',['天井レールから吊られた薄緑のカーテン','白いシーツのパイプベッド','壁掛け時計','壁に掛けた活動服'],true],
+      ['消防署の食堂・休憩室','chair','リノリウムの床',['大きなやかんと湯のみ','当番表'],false]
+    ],
+    '救急隊員':[
+      ['消防署の仮眠室（青いパーティションで仕切られた個別のベッド区画）','bed','',['天井レールから吊られた薄緑のカーテン','白いシーツのパイプベッド','壁掛け時計','壁に掛けた活動服'],true]
+    ]
+  };
+  const FOOT_SCENE_MIGRATION = {
+    '駐屯地の営内居室（ベッドとスチールロッカーが整然と並ぶ部屋）':'駐屯地の営内居室（白いパイプの2段ベッドが整然と並ぶ明るい大部屋）',
+    '営内のベッドに腰掛けて休む':'営内の2段ベッドの下段に腰掛けて休む',
+    '防衛大学校の学生舎居室（ベッドとロッカーが並ぶ8人部屋）':'防衛大学校の学生舎居室（クリーム色の金属パイプ2段ベッドと縞柄マットレス、きっちり畳まれた寝具が並ぶ8人部屋）',
+    '学生舎の自習室（壁沿いに机と本棚が並ぶパーティション区切りの部屋）':'学生舎の自習室（壁沿いに机と吊り棚が並び、白いパーティションで区切られた部屋）',
+    '学生舎の廊下で短靴を磨く':'学生舎の長い廊下で短靴を磨く（白い壁に窓が続く、グレーの石目調の床の直線廊下）',
+    '消防署の仮眠室':'消防署の仮眠室（青いパーティションで仕切られた個別のベッド区画）'
+  };
+  const FOOT_OCC_CAT_SCENES = {
+    office:[['オフィスのリフレッシュスペース','chair','カーペット',['コーヒーカップ','観葉植物'],false]],
+    it:[['オフィスの仮眠スペース','bed','',['ノートPC','ワイヤレスイヤホン'],true]],
+    student:[['大学のサークル部室','floor','古いカーペット',['マンガ雑誌','部室のポット'],true]]
+  };
+  function footOccScenes(role){
+    if(!role) return [];
+    let rows = (FOOT_OCC_SCENES[role] || []).slice();
+    if(!rows.length && typeof OCC_CAT !== 'undefined' && FOOT_OCC_CAT_SCENES[OCC_CAT[role]]) rows = FOOT_OCC_CAT_SCENES[OCC_CAT[role]].slice();
+    return rows;
+  }
   const FOOT_PROPS = { generic:['湯のみとお茶','読みかけの本','スマートフォン','クッション','脱いだ上着','そばで丸まる猫'], '新幹線の座席（靴を脱いでくつろぐ）':['駅弁とお茶','車窓を流れる景色','膝の上のバッグ'], 'こたつのある部屋':['みかんと湯のみ','こたつ布団'] };
-  function footCfg(c){ const base={scene:'ランダム',posture:'ランダム',shoeState:'ランダム',wear:'ランダム',fabric:'ランダム',sockState:'ランダム',angle:'ランダム',prop:'ランダム'}; return Object.assign(base, (c && c.footScene) || {}); }
+  function footCfg(c){ const base={scene:'ランダム',posture:'ランダム',shoeState:'ランダム',wear:'ランダム',fabric:'ランダム',sockState:'ランダム',angle:'ランダム',prop:'ランダム'}; const out = Object.assign(base, (c && c.footScene) || {}); if(FOOT_SCENE_MIGRATION[out.scene]) out.scene = FOOT_SCENE_MIGRATION[out.scene]; return out; }
   function footAxisOptions(axis){
-    if(axis==='scene') return FOOT_SCENES.map(x=>x[0]);
+    if(axis==='scene') return FOOT_SCENES.map(x=>x[0]).concat(footOccScenes(current && current.role).map(x=>x[0]));
     if(axis==='posture') return FOOT_POSTURES.map(x=>x[0]);
     if(axis==='shoeState') return FOOT_SHOE_STATES;
     if(axis==='wear') return ['職業服装のまま','私服'];
     if(axis==='fabric') return FOOT_FABRICS.map(x=>x[0]);
     if(axis==='sockState') return FOOT_SOCK_STATES.map(x=>x[0]);
     if(axis==='angle') return FOOT_ANGLES;
-    if(axis==='prop') return ['なし'].concat(FOOT_PROPS.generic).concat(FOOT_PROPS['新幹線の座席（靴を脱いでくつろぐ）']).concat(FOOT_PROPS['こたつのある部屋']);
+    if(axis==='prop'){ let opts = ['なし'].concat(FOOT_PROPS.generic).concat(FOOT_PROPS['新幹線の座席（靴を脱いでくつろぐ）']).concat(FOOT_PROPS['こたつのある部屋']); footOccScenes(current && current.role).forEach(r=>{ opts = opts.concat(r[3]||[]); }); return Array.from(new Set(opts)); }
     return [];
   }
   function resolveFootCfg(c){
     const out = footCfg(c);
-    if(out.scene==='ランダム') out.scene = pick(FOOT_SCENES)[0];
-    const srow = FOOT_SCENES.find(x=>x[0]===out.scene) || FOOT_SCENES[0];
+    const occRows = footOccScenes(c && c.role);
+    if(out.scene==='ランダム'){ const all = FOOT_SCENES.concat(occRows).concat(occRows); out.scene = pick(all)[0]; }
+    const srow = FOOT_SCENES.find(x=>x[0]===out.scene) || occRows.find(x=>x[0]===out.scene) || FOOT_SCENES[0];
     if(out.posture==='ランダム'){ const cands = FOOT_POSTURES.filter(p=>p[1].includes(srow[1])); out.posture = pick((cands.length?cands:FOOT_POSTURES))[0]; }
     if(out.shoeState==='ランダム'){ let cands = FOOT_SHOE_STATES.slice(); if(srow[1]==='bed' || out.scene.includes('スリッパ')) cands = cands.filter(v=>v!=='靴を完全に履いている'); out.shoeState = pick(cands); }
-    const cozy = FOOT_COZY.includes(out.scene);
+    const occRow = occRows.find(x=>x[0]===out.scene);
+    const cozy = FOOT_COZY.includes(out.scene) || !!(occRow && occRow[4]);
     if(out.wear==='ランダム') out.wear = Math.random() < (cozy ? 0.6 : 0.25) ? '私服' : '職業服装のまま';
     if(out.fabric==='ランダム') out.fabric = weighted(FOOT_FABRICS.map(f=>[f[0], f[1][cozy?1:0]]));
     if(out.sockState==='ランダム') out.sockState = cozy ? weighted(FOOT_SOCK_STATES) : '靴下を履いたまま';
     if(out.angle==='ランダム') out.angle = weighted([[FOOT_ANGLES[0],5],[FOOT_ANGLES[1],3],[FOOT_ANGLES[2],2]]);
-    if(out.prop==='ランダム'){ const pp = FOOT_PROPS[out.scene] || FOOT_PROPS.generic; out.prop = Math.random()<0.7 ? pick(pp) : 'なし'; }
+    if(out.prop==='ランダム'){ const pp = (occRow && occRow[3] && occRow[3].length) ? occRow[3] : (FOOT_PROPS[out.scene] || FOOT_PROPS.generic); out.prop = Math.random()<0.75 ? pick(pp) : 'なし'; }
     return out;
   }
   function refSheetKind(outputType){
@@ -2620,7 +2664,7 @@
     }
     if(kind==='feet'){
       const fc = footCfg(c);
-      const fsrow = FOOT_SCENES.find(x=>x[0]===fc.scene);
+      const fsrow = FOOT_SCENES.find(x=>x[0]===fc.scene) || footOccScenes(c && c.role).find(x=>x[0]===fc.scene);
       const frow = FOOT_FABRICS.find(x=>x[0]===fc.fabric);
       const barefootish = fc.sockState !== 'ランダム' && fc.sockState !== '靴下を履いたまま';
       if(english){
@@ -3379,7 +3423,7 @@ ${promptTargetGuide(lead, false)}`;
     FRIEND_CTX = null;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.1.1'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.1.3'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -3937,7 +3981,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.1.1'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.1.3'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
