@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V2.4.2</title>
+  <title>Guzen Ikemen Maker V2.5.0</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -101,8 +101,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V2.4.2</span>
-        <h1 class="title">Guzen Ikemen Maker V2.4.2</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V2.5.0</span>
+        <h1 class="title">Guzen Ikemen Maker V2.5.0</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -148,6 +148,8 @@
           <label class="field"><span>季節</span><select id="initialSeason"></select></label>
           <label class="field"><span>イケメン指数</span><select id="initialIkemenIndex"><option value="表示しない">表示しない</option><option value="表示する">表示する</option></select></label>
           <label class="field"><span>体毛表現</span><select id="initialBodyHairMode"><option value="詳細指定">詳細指定（従来）</option><option value="自然な表現（簡潔）">自然な表現（簡潔）</option></select></label>
+          <label class="field"><span>筋トレ習慣</span><select id="initialTraining"><option value="ランダム">ランダム</option></select></label>
+          <label class="field"><span>経験競技の体型影響</span><select id="initialSportsInfluence"><option value="標準">標準</option><option value="控えめ">控えめ（×0.5）</option><option value="強め">強め（×1.5）</option><option value="影響なし">影響なし</option></select></label>
           <label class="field"><span>身長ベース</span><select id="initialHeightBase"><option value="平均身長ベース">平均身長ベース</option><option value="高めベース（+6cm）">高めベース（+6cm）</option><option value="長身多めベース（+10cm）">長身多めベース（+10cm）</option></select></label>
           <label class="field"><span>グループ出力形式</span><select id="initialGroupPromptMode"></select></label>
           <label class="field"><span>時代設定</span><select id="initialEraYear"></select></label>
@@ -385,7 +387,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.4.2</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.5.0</p>
   </div>
 
 <script>
@@ -510,7 +512,7 @@
   };
 
   const slotDefs = [
-    ['name','名前','basic'],['age','年齢','basic'],['eraYear','時代設定','basic'],['nationality','国籍','basic'],['ethnicity','人種','basic'],['role','職業','basic'],['sportName','競技','basic'],['vibe','雰囲気系統','basic'],['mbti','MBTI','basic'],
+    ['name','名前','basic'],['age','年齢','basic'],['eraYear','時代設定','basic'],['nationality','国籍','basic'],['ethnicity','人種','basic'],['role','職業','basic'],['sportsHistory','経験競技','basic'],['sportName','競技','basic'],['vibe','雰囲気系統','basic'],['mbti','MBTI','basic'],
     ['height','身長','body'],['weight','体重','body'],['bodyType','体型','body'],['footSize','足サイズ','body'],['footShape','足の形','body'],
     ['bodyHairOverall','体毛全体傾向','bodyhair'],['chestHair','胸毛','bodyhair'],['abdominalHair','腹毛','bodyhair'],['lowerAbdomenHair','へそ下','bodyhair'],['armHair','腕毛','bodyhair'],['shinHair','すね毛','bodyhair'],['thighHair','もも毛','bodyhair'],['armpitHair','脇毛','bodyhair'],['handFingerHair','手の甲・指毛','bodyhair'],['footToeHair','足の甲・指毛','bodyhair'],['backHair','背中','bodyhair'],
     ['facePreset','顔立ち','face'],['ageAppearance','年齢感','face'],['faceLine','フェイスライン','face'],['eyebrow','眉','face'],['eyelid','まぶた','face'],['eyeShape','目の形','face'],['eyes','目の印象','face'],['eyelash','まつ毛','face'],['tearBags','涙袋','face'],['nose','鼻','face'],['mouth','基本表情','face'],['lips','唇の形状','face'],['mouthPos','口の位置','face'],['faceSpacing','パーツ配置','face'],['faceRatio','目鼻口比率','face'],['faceAsym','顔の左右差','face'],['skin','肌','face'],['skinDetail','肌の特徴⑴','face'],['skinDetail2','肌の特徴⑵','face'],['facialHair','ひげ','face'],['glasses','眼鏡','face'],
@@ -526,6 +528,7 @@
   let uiLang = 'ja';
 
   const slotLabelMap = {
+    sportsHistory:{ja:'経験競技',en:'Sports History'}, trainingLevel:{ja:'筋トレ習慣',en:'Training Habit'},
     name:{ja:'名前',en:'Name'}, age:{ja:'年齢',en:'Age'}, eraYear:{ja:'時代設定',en:'Era Year'}, nationality:{ja:'国籍',en:'Nationality'}, ethnicity:{ja:'人種',en:'Ethnicity'}, role:{ja:'職業',en:'Occupation'},sportName:{ja:'競技',en:'Sport'}, vibe:{ja:'雰囲気系統',en:'Vibe'}, mbti:{ja:'MBTI',en:'MBTI'},
     height:{ja:'身長',en:'Height'}, weight:{ja:'体重',en:'Weight'}, bodyType:{ja:'体型',en:'Body Type'}, footSize:{ja:'足サイズ',en:'Foot Size'}, footShape:{ja:'足の形',en:'Foot Shape'}, bodyHairOverall:{ja:'体毛全体傾向',en:'Body Hair Overall'}, chestHair:{ja:'胸毛',en:'Chest Hair'}, abdominalHair:{ja:'腹毛',en:'Abdominal Hair'}, lowerAbdomenHair:{ja:'へそ下',en:'Lower Abdomen Hair'}, armHair:{ja:'腕毛',en:'Arm Hair'}, shinHair:{ja:'すね毛',en:'Shin Hair'}, thighHair:{ja:'もも毛',en:'Thigh Hair'}, armpitHair:{ja:'脇毛',en:'Armpit Hair'}, handFingerHair:{ja:'手の甲・指毛',en:'Hand / Finger Hair'}, footToeHair:{ja:'足の甲・指毛',en:'Foot / Toe Hair'}, backHair:{ja:'背中',en:'Back Hair'},
     facePreset:{ja:'顔立ち',en:'Face Type'}, ageAppearance:{ja:'年齢感',en:'Age Appearance'}, faceLine:{ja:'フェイスライン',en:'Face Line'}, eyebrow:{ja:'眉',en:'Eyebrows'}, eyelid:{ja:'まぶた',en:'Eyelid'}, eyeShape:{ja:'目の形',en:'Eye Shape'}, eyes:{ja:'目の印象',en:'Eye Impression'}, eyelash:{ja:'まつ毛',en:'Eyelashes'}, tearBags:{ja:'涙袋',en:'Tear Bags'}, nose:{ja:'鼻',en:'Nose'}, mouth:{ja:'基本表情',en:'Expression'}, lips:{ja:'唇の形状',en:'Lip Shape'}, mouthPos:{ja:'口の位置',en:'Mouth Placement'}, faceSpacing:{ja:'パーツ配置',en:'Feature Spacing'}, faceRatio:{ja:'目鼻口比率',en:'Feature Ratio'}, faceAsym:{ja:'顔の左右差',en:'Facial Asymmetry'}, skin:{ja:'肌',en:'Skin'}, facialHair:{ja:'ひげ',en:'Facial Hair'}, glasses:{ja:'眼鏡',en:'Glasses'}, holidayOutfitType:{ja:'私服服装',en:'Casual Outfit'},
@@ -1014,8 +1017,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.4.2';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.4.2';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.5.0';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.5.0';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1214,6 +1217,8 @@
     renderSelectOptions(cpSel, 'catchphraseMode', pools.catchphraseModes, cpSel?.value || '結果画面のみ表示', false);
     if(cpSel) cpSel.onchange = () => { if(current){ current.catchphraseMode = cpSel.value; renderAll(); } };
     renderSelectOptions(dmSel, 'derivedMode', pools.derivedModes, dmSel?.value || '参照画像前提（簡潔版）', false);
+    const trSel = document.getElementById('initialTraining');
+    renderSelectOptions(trSel, 'trainingLevel', ['ランダム'].concat(TRAINING_LEVELS.map(x=>x[0])), trSel?.value || 'ランダム', false);
     const ssSel = document.getElementById('initialSeason');
     renderSelectOptions(ssSel, 'season', pools.seasons, ssSel?.value || 'ランダム', false);
     if(ssSel) ssSel.onchange = () => { if(current){ current.season = ssSel.value !== 'ランダム' ? ssSel.value : current.season; renderAll(); } };
@@ -1265,6 +1270,8 @@
       heightBase: document.getElementById('initialHeightBase')?.value || '平均身長ベース',
       ikemenIndexMode: document.getElementById('initialIkemenIndex')?.value || '表示しない',
       bodyHairMode: document.getElementById('initialBodyHairMode')?.value || '詳細指定',
+      trainingMode: document.getElementById('initialTraining')?.value || 'ランダム',
+      sportsBodyInfluence: document.getElementById('initialSportsInfluence')?.value || '標準',
       count: document.getElementById('initialCount')?.value || pools.counts[0],
       promptLanguage: document.getElementById('initialPromptLanguage')?.value || pools.promptLanguages[0],
       promptTarget: document.getElementById('initialPromptTarget')?.value || pools.promptTargets[0],
@@ -2043,8 +2050,20 @@
     'バスケットボール':[['バスケットボール選手体型',6],['高身長モデル体型',2]], 'サッカー':[['サッカー選手体型',6]],
     '陸上短距離':[['陸上短距離選手体型',6]], '陸上長距離':[['陸上長距離選手体型',6],['細身',3]],
     '体操':[['細マッチョ',5],['痩せマッチョ',2]], 'ボクシング':[['細マッチョ',4],['引き締まったスポーツ体型',3]],
-    '野球':[['がっしり体型',3],['引き締まったスポーツ体型',3]], 'バレーボール':[['高身長モデル体型',4],['引き締まったスポーツ体型',3]]
+    '野球':[['がっしり体型',3],['引き締まったスポーツ体型',3]], 'バレーボール':[['高身長モデル体型',4],['引き締まったスポーツ体型',3]],
+    '卓球':[['引き締まったスポーツ体型',4],['細身',3]], 'テニス':[['引き締まったスポーツ体型',4],['細マッチョ',2]],
+    'ソフトテニス':[['引き締まったスポーツ体型',3],['細身',3]], 'バドミントン':[['引き締まったスポーツ体型',4],['細身',2]],
+    '剣道':[['引き締まったスポーツ体型',3],['細マッチョ',3]], '空手':[['細マッチョ',4],['引き締まったスポーツ体型',3]],
+    '相撲':[['がっしり体型',4],['柔道家体型',4],['ぽっちゃり',2]], 'ハンドボール':[['引き締まったスポーツ体型',4],['がっしり体型',2]],
+    'レスリング':[['柔道家体型',4],['細マッチョ',3],['がっしり体型',2]], 'スキー':[['引き締まったスポーツ体型',3],['がっしり体型',2]],
+    'スケート':[['引き締まったスポーツ体型',3],['細マッチョ',2]], '自転車競技':[['細マッチョ',3],['引き締まったスポーツ体型',3]],
+    'ボート':[['がっしり体型',4],['逆三角形体型',3]], 'アメリカンフットボール':[['ラグビー選手体型',5],['がっしり体型',3]],
+    'ダンス':[['細マッチョ',4],['痩せマッチョ',3]], 'クライミング':[['クライマー体型',5],['細マッチョ',3]],
+    'ゴルフ':[['標準体型',3],['引き締まったスポーツ体型',2]]
   };
+  SPORT_BODY['陸上（短距離）'] = SPORT_BODY['陸上短距離'];
+  SPORT_BODY['陸上（長距離）'] = SPORT_BODY['陸上長距離'];
+  SPORT_BODY['自転車ロード'] = SPORT_BODY['自転車競技'];
   function chooseSport(role, eraYear){
     const y = Number(eraYear) || 2026;
     if(role === 'プロスポーツ選手'){
@@ -2167,15 +2186,17 @@
   const SPORT_EXP_POOL = ['野球','サッカー','バスケットボール','バレーボール','卓球','テニス','ソフトテニス','バドミントン','陸上（短距離）','陸上（長距離）','水泳','柔道','剣道','空手','相撲','ラグビー','ハンドボール','体操','ボクシング','レスリング','スキー','スケート','自転車競技','ボート','アメリカンフットボール','ダンス','クライミング'];
   const SPORT_STAGES = ['幼稚園','小学校','中学校','高校','大学','社会人'];
   function maxStageForAge(age){ if(age>=23) return 5; if(age>=19) return 4; if(age>=16) return 3; if(age>=13) return 2; if(age>=7) return 1; return 0; }
-  function generateSportsHistory(age, role, sportName){
+  function generateSportsHistory(age, role, sportName, influenceMode){
     const maxSt = maxStageForAge(Number(age)||25);
+    const infl = influenceMode === '影響なし' ? 0 : influenceMode === '控えめ' ? 0.5 : influenceMode === '強め' ? 1.5 : 1;
     const mkStrength = (from,to)=>{
       const stages = to - from + 1;
       const gap = maxSt - to;
       const decay = gap<=0 ? 1 : gap===1 ? 0.7 : gap===2 ? 0.5 : 0.35;
       const personal = 0.5 + Math.random()*0.7;
+      if(infl === 0) return 0;
       if(Math.random() < 0.15) return 0;
-      return Math.round(stages * decay * personal * 100)/100;
+      return Math.round(stages * decay * personal * infl * 100)/100;
     };
     const hist = [];
     if(role === 'プロスポーツ選手' && sportName && sportName !== 'なし'){
@@ -2251,6 +2272,13 @@
     'ボート':['肋郭が深く背中の広い骨格','a deep ribcage and broad-backed frame'],
     '自転車競技':['骨盤と大腿骨のしっかりした下半身骨格','a solid pelvis-and-femur lower structure']
   };
+  (function(){
+    const alias = (map, pairs)=>pairs.forEach(([a,b])=>{ if(map[b] && !map[a]) map[a] = map[b]; });
+    alias(SPORT_MUSCLE, [['陸上短距離','陸上（短距離）'],['陸上長距離','陸上（長距離）'],['自転車ロード','自転車競技']]);
+    alias(SPORT_SKELETON, [['陸上短距離','陸上（短距離）'],['自転車ロード','自転車競技']]);
+    SPORT_MUSCLE['ゴルフ'] = ['体幹の回旋筋と前腕、スイングを支える下半身','rotational core, forearms, and a swing-anchoring lower body','体幹まわり'];
+    SPORT_SKELETON['サッカー'] = ['骨盤まわりと大腿骨の安定した下半身骨格','a stable pelvis-and-femur lower structure'];
+  })();
   function muscleLine(c, english=false, brief=false){
     const hist = (c.sportsHistory || []).filter(x=>x.strength > 0 && SPORT_MUSCLE[x.name]);
     if(!hist.length) return '';
@@ -2265,7 +2293,8 @@
       if(tier < 2 || chubby) return '';
       return english ? ` Even through his clothes, the build of his ${mm[3] || mm[1]} reads clearly.` : `服の上からも${mm[2]}の厚みが分かる。`;
     }
-    const guardJa = '筋肉の発達は設定した体型・体重の範囲内のメリハリとして描き、体型そのものは変えない。ボディビル的な誇張や血管の強調はしない。';
+    const tl = String(c.trainingLevel || '');
+    const guardJa = /ボディビル級|パワー系|フィジーク級/.test(tl) ? '筋肉の発達は設定した体型・体重の範囲内で描き、体型そのものは変えない。' : '筋肉の発達は設定した体型・体重の範囲内のメリハリとして描き、体型そのものは変えない。ボディビル的な誇張や血管の強調はしない。';
     const guardEn = ' Depict this development only as definition within his set body type and weight — never altering the body type itself, and never bodybuilder-style exaggeration or vein emphasis.';
     let core, coreEn;
     if(chubby){
@@ -2296,10 +2325,81 @@
     if(english) return ` Muscle development: ${coreEn}.${subEn}${guardEn}`;
     return `発達部位：${core}。${subJa}${guardJa}`;
   }
+  const TRAINING_LEVELS = [
+    ['なし', 38], ['昔は鍛えていた（今は中断）', 6], ['自宅で軽く（自重・腕立て腹筋）', 12],
+    ['週1〜2のジム習慣（健康維持）', 14], ['しっかり鍛えている（中級）', 10], ['細マッチョ仕上げ（絞り重視）', 8],
+    ['機能系（クロスフィット・自重上級）', 4], ['フィジーク級（大会レベルの絞りと逆三角形）', 3],
+    ['パワー系（厚み重視の剛力体型）', 3], ['ボディビル級（過剰な筋肥大）', 2]
+  ];
+  const TRAINING_DESC = {
+    '昔は鍛えていた（今は中断）':['かつて鍛えた名残の厚みが胸と肩に残っている','traces of past training remain as thickness in his chest and shoulders'],
+    '自宅で軽く（自重・腕立て腹筋）':['腹まわりが締まっている程度の、軽い運動習慣がうかがえる体','a lightly kept body — a trim waist that hints at simple home workouts'],
+    '週1〜2のジム習慣（健康維持）':['全体に引き締まり、胸と腕にジム習慣らしい軽い張りがある','an overall toned body with light gym-built firmness in the chest and arms'],
+    'しっかり鍛えている（中級）':['胸・肩・腕の筋肉が明確に発達し、日常着の上からも体つきが分かる','clearly developed chest, shoulders and arms, readable even through everyday clothes'],
+    '細マッチョ仕上げ（絞り重視）':['体脂肪が少なく腹筋のラインが見える、厚みより輪郭の美しさを重視した絞れた体','a lean, defined physique with visible ab lines — sculpted outline over sheer mass'],
+    '機能系（クロスフィット・自重上級）':['肩・背中・体幹が満遍なく発達した、見せ筋ではなく動ける体の質感','functionally developed shoulders, back and core — a body built to move, not to pose'],
+    'フィジーク級（大会レベルの絞りと逆三角形）':['肩から広がる逆三角形と腹筋のセパレーションが見える、大会レベルに仕上がった体。ただし日常の生活場面として描き、ステージポーズ・オイル肌・タンニング・過剰なパンプ表現はしない','a competition-level physique — a V-taper from the shoulders with visible ab separation. Depict him in everyday life: no stage posing, oiled skin, tanning, or exaggerated pump'],
+    'パワー系（厚み重視の剛力体型）':['胸板・僧帽筋・大腿が分厚く、腹は絞れていない、持ち上げるための剛力の体','a powerlifter build — thick chest, traps and thighs with an unshredded midsection: a body made for lifting'],
+    'ボディビル級（過剰な筋肥大）':['全身の筋肉が服のシルエットを変えるほど肥大し、腕は袖を張らせ、首から肩が盛り上がっている。血管の浮きや筋腹の丸みも自然な範囲で描いてよい','bodybuilder-level hypertrophy — muscles that reshape his clothing silhouette, sleeves stretched by his arms, neck-to-shoulder mass. Natural vascularity and full muscle bellies are welcome']
+  };
+  function chooseTrainingLevel(c){
+    const y = Number(c.eraYear) || 2026;
+    const age = Number(c.age) || 30;
+    const role = String(c.role || '');
+    const list = TRAINING_LEVELS.map(([n,w])=>{
+      let weight = w;
+      if(n === 'ボディビル級（過剰な筋肥大）' && y < 1990) weight = 0;
+      if(n === 'フィジーク級（大会レベルの絞りと逆三角形）' && y < 2010) weight = 0;
+      if(n === '機能系（クロスフィット・自重上級）' && y < 2005) weight = 0;
+      if(/ジム習慣|細マッチョ仕上げ/.test(n) && y < 1985) weight *= 0.2;
+      if(age >= 65 && /フィジーク級|ボディビル級|パワー系/.test(n)) weight *= 0.2;
+      if(['ジムトレーナー','スポーツインストラクター','プロスポーツ選手','消防士','自衛官','警察官','救急隊員'].includes(role) && /しっかり|細マッチョ仕上げ|機能系|フィジーク級/.test(n)) weight *= 2.5;
+      if(role === 'モデル' && /ボディビル級|パワー系/.test(n)) weight = 0;
+      if(sportsInfluence(c, /ラグビー|アメリカンフットボール|相撲/) >= 1 && n === 'パワー系（厚み重視の剛力体型）') weight *= 2;
+      if(sportsInfluence(c, /体操|クライミング/) >= 1 && n === '機能系（クロスフィット・自重上級）') weight *= 2;
+      if(sportsInfluence(c, /水泳/) >= 1 && n === 'フィジーク級（大会レベルの絞りと逆三角形）') weight *= 1.5;
+      return [n, weight];
+    }).filter(([,w])=>w > 0);
+    return weighted(list);
+  }
+  const TRAINING_BODY = {
+    'しっかり鍛えている（中級）':[['筋肉質',3],['引き締まったスポーツ体型',3]],
+    '細マッチョ仕上げ（絞り重視）':[['細マッチョ',5],['痩せマッチョ',3]],
+    '機能系（クロスフィット・自重上級）':[['細マッチョ',3],['引き締まったスポーツ体型',3],['逆三角形体型',2]],
+    'フィジーク級（大会レベルの絞りと逆三角形）':[['逆三角形体型',5],['細マッチョ',3]],
+    'パワー系（厚み重視の剛力体型）':[['がっしり体型',5],['骨太体型',2],['柔道家体型',2]],
+    'ボディビル級（過剰な筋肥大）':[['筋肉質',5],['逆三角形体型',3],['がっしり体型',2]]
+  };
+  const TRAINING_EXCL = {
+    'フィジーク級（大会レベルの絞りと逆三角形）':['やせ型','華奢な体型','ぽっちゃり','腹だけぽっちゃり','ビール腹'],
+    'ボディビル級（過剰な筋肥大）':['やせ型','華奢な体型','細身','ぽっちゃり','腹だけぽっちゃり','ビール腹'],
+    'パワー系（厚み重視の剛力体型）':['やせ型','華奢な体型','細身'],
+    'しっかり鍛えている（中級）':['ぽっちゃり','腹だけぽっちゃり'],
+    '細マッチョ仕上げ（絞り重視）':['ぽっちゃり','腹だけぽっちゃり','ビール腹']
+  };
+  function trainingWeightAdj(level){
+    if(level === 'ボディビル級（過剰な筋肥大）') return 4.5;
+    if(level === 'パワー系（厚み重視の剛力体型）') return 5.5;
+    if(level === 'フィジーク級（大会レベルの絞りと逆三角形）') return 1.5;
+    if(level === 'しっかり鍛えている（中級）') return 1;
+    return 0;
+  }
+  function trainingLine(c, english=false){
+    const lv = c.trainingLevel || 'なし';
+    const d = TRAINING_DESC[lv];
+    if(!d) return '';
+    const guard = lv === 'ボディビル級（過剰な筋肥大）'
+      ? (english ? ' Keep the hypertrophy within what real professional bodybuilders achieve — no balloon-like AI distortion, no broken joints, and keep his head-to-body ratio intact.' : '筋肥大は実在のプロビルダーの範囲にとどめ、AI的な風船状の変形・関節の破綻をさせず、頭身比は維持する。')
+      : (/フィジーク級|パワー系/.test(lv)
+        ? (english ? ' No competition-stage staging.' : '大会ステージ的な演出はしない。')
+        : '');
+    return english ? ` Training habit (${lv}): ${d[1]}.${guard}` : `筋トレ習慣「${lv}」：${d[0]}。${guard}`;
+  }
   function sportsHistoryLine(c, english=false){
     const h = (c && c.sportsHistory) || [];
     if(!h.length) return english ? ' Sports background: none (non-athletic school years).' : '経験競技：なし（文化系・帰宅部）。'
-    const txt = h.map(x=>`${x.name}（${SPORT_STAGES[x.from]}${x.from===x.to?'':'〜'+SPORT_STAGES[x.to]}${x.strength===0?'・体格影響なし':''}）`).join('／');
+    const mark = st => st===0 ? '・体格影響なし' : st>=2 ? '・影響しっかり' : st>=0.8 ? '・影響ほどよく' : '・影響名残';
+    const txt = h.map(x=>`${x.name}（${SPORT_STAGES[x.from]}${x.from===x.to?'':'〜'+SPORT_STAGES[x.to]}${mark(x.strength)}）`).join('／');
     return english ? ` Sports background: ${txt}.` : `経験競技：${txt}。`;
   }
   function sportsInfluence(c, regex){
@@ -2325,6 +2425,167 @@
       return english ? `A ${age}-year-old ${role}; his ${hist[0].name} days left little mark on his build.` : `${hist[0].name}の経験はあるが体つきには出ていない、${role}の${age}歳。`;
     }
     return english ? `A ${age}-year-old ${role} who spent his school years outside the sports clubs.` : `運動部とは縁のない学生時代を過ごした、${role}の${age}歳。`;
+  }
+  const SPORT_MEM = {
+    '野球':{sc:['夏の球場の匂い','朝5時のグラウンドの白線'],ro:['エースで4番','ブルペンで一番声を出す係','スコアブック係の補欠','背番号のない最後の夏']},
+    'サッカー':{sc:['雨の土のグラウンド','ナイター練習の帰り道'],ro:['背番号10','ゴールを守り続けたキーパー','ベンチから誰より声を出す係']},
+    'バスケットボール':{sc:['体育館のシューズの音','朝練のシュート1000本'],ro:['スタメンの司令塔','ベンチ外から声を枯らした控え','リバウンドだけは負けなかった男']},
+    'バレーボール':{sc:['体育館のワックスの匂い','夏合宿のレシーブ練習'],ro:['エーススパイカー','守備専門のリベロ','声出しとモップがけの一年']},
+    '卓球':{sc:['卓球場の蛍光灯','ラバーを貼り替える夜'],ro:['カットマン','前陣速攻のエース','ダブルス専門']},
+    'テニス':{sc:['オムニコートの砂','炎天下の球拾い'],ro:['シングルスのエース','ダブルス巧者','壁打ちから始めた初心者上がり']},
+    'ソフトテニス':{sc:['放課後のコートの西日','ガットを張り替える部室'],ro:['前衛のポーチ職人','後衛の粘り屋']},
+    'バドミントン':{sc:['シャトルの羽音','風のない体育館'],ro:['スマッシュ自慢のエース','ダブルスの堅守担当']},
+    '陸上（短距離）':{sc:['スターティングブロックの感触','タータンの照り返し'],ro:['リレーのアンカー','0.1秒を削り続けた男']},
+    '陸上（長距離）':{sc:['夜明けのロード','冬の駅伝コース'],ro:['駅伝の山登り区間','ペースメーカー役の縁の下']},
+    '水泳':{sc:['朝6時のプールの塩素の匂い','ゴーグルの跡がとれない夏'],ro:['自由形のエース','リレーのアンカー','息継ぎから教わった初心者上がり']},
+    '柔道':{sc:['冬の道場の畳の冷たさ','擦り切れた道着の襟'],ro:['団体戦の大将','受け身だけ褒められた白帯時代','先鋒で流れを作る役']},
+    '剣道':{sc:['面の中の自分の呼吸音','早朝の素振り'],ro:['大将','小手が得意な先鋒','声だけは道場一']},
+    '空手':{sc:['裸足の道場の床','帯の色が変わった日'],ro:['組手のエース','型を極めた求道者']},
+    '相撲':{sc:['土俵の砂の感触','朝稽古のぶつかり合い'],ro:['大将格','食べるのも稽古だと教わった日々']},
+    'ラグビー':{sc:['泥まみれのジャージ','スクラムの土の匂い'],ro:['フォワードの最前列','俊足のウイング','声でチームを動かすスクラムハーフ']},
+    'ハンドボール':{sc:['松やにの匂い','狭い体育館の攻防'],ro:['エースの左腕','キーパーで顔面も止めた男']},
+    '体操':{sc:['炭酸マグネシウムの白い手','鉄棒のマメ'],ro:['床のエース','補助から始めた努力型']},
+    'ボクシング':{sc:['ミットの乾いた音','減量最終日の水の味'],ro:['アウトボクサー','打たれ強さだけは天下一品']},
+    'レスリング':{sc:['マットの消毒の匂い','耳が擦れる組み合い'],ro:['タックルの鬼','粘りのグラウンド職人']},
+    'スキー':{sc:['朝一番の圧雪の音','ナイターの照明'],ro:['アルペンの直滑降屋','基礎から積み上げた技術屋']},
+    'スケート':{sc:['リンクの冷気','エッジを研ぐ夜'],ro:['スピード勝負の短距離屋','転んだ数なら誰にも負けない']},
+    '自転車競技':{sc:['夜明けの峠道','ロードのタイヤの音'],ro:['ヒルクライム職人','平地の牽引役']},
+    'ボート':{sc:['夜明けの川面','オールのマメ'],ro:['エイトの漕手','コックスとして声で漕いだ男']},
+    'アメリカンフットボール':{sc:['防具を締める音','芝のグラウンドの熱'],ro:['ラインの最前線','俊足のランナー']},
+    'ダンス':{sc:['スタジオの鏡と汗','文化祭のステージ照明'],ro:['センターを張った男','振り付け係の裏方']},
+    'クライミング':{sc:['チョークの白い粉','指先の皮がむける週末'],ro:['スラブの職人','パワー系の豪腕']},
+    'ゴルフ':{sc:['朝露の打ちっぱなし','グリーンの読み合い'],ro:['ドライバー自慢','小技で稼ぐ職人']}
+  };
+  const CULT_MEM = {
+    '吹奏楽':['コンクール前日の音楽室の残響','リードを削り続けた放課後','金賞の瞬間の静寂'],
+    '軽音':['文化祭の3分間のために半年かけた','部室のアンプの匂い','初ライブの手の震え'],
+    '美術':['絵の具で汚れた制服の袖','締切前の美術室の夜'],
+    '図書室':['昼休みの図書室の指定席','貸出カードの常連'],
+    'ゲーム':['閉店までいたゲームセンター','対戦台の向こうの知らない強敵'],
+    'バイト':['放課後のレジ打ちの達人','週5でシフトに入った高校時代'],
+    '生徒会':['文化祭を仕切った生徒会の裏方','朝の挨拶運動の常連'],
+    '帰宅部':['チャイムと同時に校門を出た帰宅部のエース','寄り道だけは誰より詳しい'],
+    '鉄道':['時刻表を読み物にしていた','始発で行く撮影地'],
+    '釣り':['夜明けの堤防','クーラーボックスと自転車の日々'],
+    '将棋':['詰将棋を解きながら登校した','大会の対局時計の音'],
+    'パソコン':['部室のパソコンを組み直した','深夜のキーボードの音']
+  };
+  const MBTI_INTRO = {
+    INTJ:['5年後の話を一番真顔でする','計画表がないと旅行できない'], INTP:['気づくと辞書を読んでいる','「なぜ」が口癖の'],
+    ENTJ:['飲み会の幹事を気づけば任されている','決断が早すぎて驚かれる'], ENTP:['会議で一番「逆に」と言う','思いつきで動いて成功させる'],
+    INFJ:['相談されがちな','人の変化に一番先に気づく'], INFP:['雨の日が嫌いじゃない','ノートの端に詩を書いていた'],
+    ENFJ:['後輩の誕生日を全部覚えている','送別会で一番泣く'], ENFP:['初対面の店員と友達になって帰ってくる','思い立ったら夜行バスに乗る'],
+    ISTJ:['頼んだことを忘れられたことがない','同じ定食を10年頼み続ける'], ISFJ:['差し入れのセンスに定評がある','席替えでも荷物が一番きれい'],
+    ESTJ:['集合時間の10分前にいる','段取りで生きている'], ESFJ:['ご近所さんに一番挨拶される','困っている人を放っておけない'],
+    ISTP:['説明書を読まずに直せる','無口だが手が動く'], ISFP:['気に入った服を色違いで買う','写真フォルダが空ばかり'],
+    ESTP:['とりあえずやってみる側の','じゃんけんが強い'], ESFP:['カラオケの一曲目を任される','その場を明るくして帰る']
+  };
+  const OCC_HOOK = {
+    '消防士':['仮眠中でも靴下だけは履いている','非番の日も駅の階段を2段で上る'],
+    '救急隊員':['当直明けのコンビニコーヒーがいちばんうまいと言う','サイレンの音で目が覚める体になった'],
+    '警察官':['非番でも交差点で周囲を見てしまう','落とし物を届けた回数なら負けない'],
+    '自衛官':['アイロンのかけ方だけは誰にも負けない','5分で食事を終える癖が抜けない'],
+    '防衛大学校学生':['朝6時の坂道ダッシュで一日が始まる','ベッドの角は毎朝直角'],
+    '寿司職人':['休日も指先だけは乾かさない','シャリの温度を手が覚えている'],
+    'ラーメン店店主':['寸胴の湯気で夜が明ける','スープの味見だけで腹が膨れる'],
+    'パティシエ':['オーブンの前が一番落ち着くと言う','砂糖の計量は目分量でも外さない'],
+    '美容師':['他人の襟足が気になって仕方ない','ハサミだけは誰にも触らせない'],
+    'バーテンダー':['氷を丸く削る夜','終電後の街をいちばん知っている'],
+    '喫茶店マスター':['サイフォンの音で時間が分かる','常連の「いつもの」を50通り覚えている'],
+    '農家':['天気予報を3つ見比べて寝る','朝露の匂いで目が覚める'],
+    '漁師':['海を見れば明日の風が分かる','日焼けの境目が年輪になっている'],
+    '大工':['ミリ単位のズレが気になって眠れない','手の豆が名刺代わり'],
+    'ITエンジニア':['キーボードは持ち込み派','障害対応の夜に強い'],
+    '看護師':['夜勤明けの朝日をいちばん浴びている','歩くのが速いと言われ続けている'],
+    'モデル':['姿勢だけで職業を当てられる','撮影前日は塩分と戦う'],
+    'YouTuber':['日常の全部がネタに見える','サムネイルの表情だけ3割増し']
+  };
+  const OCC_CAT_HOOK = {
+    office:['月曜の朝礼で一番声が出る','エクセルのショートカットで生きている'],
+    it:['納期前だけ早起きになる','椅子にはこだわる派'],
+    medical:['白衣のポケットが四次元','人の顔色を見るのが仕事'],
+    edu:['チョークの持ち方に年季がある','生徒の名前を1週間で覚える'],
+    service:['閉店後の店がいちばん好き','いらっしゃいませの声で目が覚める'],
+    trade:['道具箱の中だけは几帳面','軍手の消費量が半端ではない'],
+    creative:['締切の3日前から本気を出す','メモ帳がアイデアで埋まっている'],
+    uniform:['制服より私服が難しいと言う','姿勢の良さで職業がバレる'],
+    showa:['固定電話の番号を諳んじられる','新聞は紙で読む派'],
+    student:['単位の計算だけは得意','学食の裏メニューに詳しい'],
+    retired:['朝の公園のラジオ体操の常連','孫の話になると止まらない']
+  };
+  const ERA_HOOK = {
+    1946:['配給の列に並んだ記憶を持つ','ラジオが家の真ん中にあった'],
+    1970:['長嶋の引退をラジオで聴いた','歌謡曲を口ずさむ'],
+    1980:['レコードをすり切れるまで聴いた','喫茶店のナポリタンで育った'],
+    1990:['ポケベルの返事を待った夜がある','レンタルビデオの延滞王'],
+    2000:['ガラケーの着メロを自作した','CDをMDに録音した世代'],
+    2010:['ガラケーからスマホへの移行を覚えている','動画は倍速で見ない派'],
+    2020:['配信で試合を追う','サブスクの解約を忘れがち'],
+    2030:['AIとの付き合い方を心得ている','紙の本をあえて選ぶ']
+  };
+  const BRIDGE_HOOK = {
+    '柔道uniform':'受け身は現場でこそ役に立つと知った','水泳uniform':'息の長さには自信がある',
+    'ラグビーuniform':'当たり負けしない体は職場でも頼られる','野球trade':'肩の強さは現場で重宝されている',
+    '柔道medical':'畳で覚えた体の使い方が患者を支える','ダンスservice':'立ち姿の美しさは踊りで身につけた',
+    '陸上（長距離）office':'営業の外回りは駅伝で鍛えた脚で','ボクシングservice':'減量で覚えた自制心で生きている',
+    '剣道edu':'道場の礼法をそのまま教室に持ち込んだ','水泳student':'朝練で身につけた早起きだけが残った'
+  };
+  const TRAIN_HOOK = {
+    '細マッチョ仕上げ（絞り重視）':['鏡の前の腹筋チェックが日課','揚げ物は週1と決めている'],
+    '機能系（クロスフィット・自重上級）':['公園の鉄棒が遊具に見えない','エレベーターを使わない主義'],
+    'フィジーク級（大会レベルの絞りと逆三角形）':['大会前だけ米を測って食べる','肩幅でドアを測る癖がある'],
+    'パワー系（厚み重視の剛力体型）':['引っ越しのたびに友人から連絡が来る','握手で驚かれるのが日常'],
+    'ボディビル級（過剰な筋肥大）':['袖のあるTシャツ選びに時間がかかる','鶏むね肉の調理法なら本が書ける'],
+    'しっかり鍛えている（中級）':['ジムの常連に名前を覚えられている','プロテインの味にうるさい'],
+    '昔は鍛えていた（今は中断）':['ジムの会員証だけは財布にある','ベンチのマックス値だけは覚えている']
+  };
+  function sportYears(x){ const Y=[2,6,3,3,4,5]; let t=0; for(let i=x.from;i<=x.to;i++) t+=Y[i]||3; return t; }
+  function buildBioHook(c){
+    const age = c.age;
+    const roleJa = c.role || '';
+    const active = ((c.sportsHistory)||[]).filter(x=>x.strength>0);
+    const zero = ((c.sportsHistory)||[]).filter(x=>x.strength===0);
+    const cands = [];
+    const add = (txt, sc)=>{ if(txt) cands.push([txt, sc]); };
+    const y = Number(c.eraYear)||2026;
+    // ギャップ・影響ゼロ
+    if(zero.length && SPORT_MEM[zero[0].name]) add(`言わなければ絶対に伝わらないが、${zero[0].name}経験者である。${roleJa}、${age}歳。`, 9);
+    if(c.holidayPersona) add(`平日は${roleJa}、休日は${c.vibe}。切り替えの早さが取り柄の${age}歳。`, 8);
+    // 橋渡し
+    const cat = (typeof OCC_CAT!=='undefined') ? OCC_CAT[roleJa] : '';
+    if(active.length){
+      const br = BRIDGE_HOOK[active[0].name + cat];
+      if(br) add(`${br}。${active[0].name}あがりの${roleJa}、${age}歳。`, 7);
+    }
+    // 競技: 役どころ・情景・数字
+    if(active.length && SPORT_MEM[active[0].name]){
+      const m = SPORT_MEM[active[0].name]; const sp = active[0];
+      add(`${pick(m.ro)}。それが${SPORT_STAGES[sp.to]}までの青春だった。いまは${roleJa}。`, 6);
+      add(`いまも${pick(m.sc)}を思い出す、${roleJa}の${age}歳。`, 5);
+      add(`${sp.name}歴${sportYears(sp)}年。いまは${roleJa}として生きる${age}歳。`, 5);
+      if(sp.strength >= 2) add(`体つきを見れば、聞かなくても${sp.name}をやっていたと分かる。`, 6);
+    }
+    // 筋トレ
+    const th = TRAIN_HOOK[c.trainingLevel];
+    if(th) add(`${pick(th)}、${roleJa}の${age}歳。`, /フィジーク|ボディビル|パワー系/.test(c.trainingLevel||'') ? 7 : 5);
+    // 職業
+    const oh = OCC_HOOK[roleJa];
+    if(oh) add(`${pick(oh)}、${age}歳の${roleJa}。`, 5);
+    else if(OCC_CAT_HOOK[cat]) add(`${pick(OCC_CAT_HOOK[cat])}、${age}歳の${roleJa}。`, 4);
+    // 文化系（履歴なしのみ）
+    if(!((c.sportsHistory)||[]).length){
+      const ck = pick(Object.keys(CULT_MEM));
+      add(`${pick(CULT_MEM[ck])}。そんな学生時代を過ごした${roleJa}、${age}歳。`, 5);
+    }
+    // MBTI他己紹介
+    if(MBTI_INTRO[c.mbti]) add(`${pick(MBTI_INTRO[c.mbti])}${age}歳。職業は${roleJa}。`, 4);
+    // 時代
+    const eraKeys = Object.keys(ERA_HOOK).map(Number).sort((a,b)=>a-b);
+    let ek = eraKeys[0]; for(const k of eraKeys){ if(y >= k) ek = k; }
+    add(`${pick(ERA_HOOK[ek])}${age}歳の${roleJa}。`, 3);
+    // 正統派フォールバック
+    add(bioLine(c, false), 3.5);
+    return weighted(cands.map(([t,sc])=>[t, Math.pow(sc, 1.5)]));
   }
   function muscleSummary(c, english=false){
     const hist = ((c && c.sportsHistory) || []).filter(x=>x.strength > 0 && SPORT_MUSCLE[x.name]);
@@ -3516,7 +3777,8 @@
       if(age < aLo || age > aHi) age = FRIEND_CTX ? Math.min(aHi, Math.max(aLo, age)) : rnd(aLo, aHi, 1);
     }
     const sportName = fixed.sportName || base.sportName || chooseSport(role, eraYear);
-    const sportsHistoryArr = base.sportsHistory || generateSportsHistory(age, role, sportName);
+    const sportsHistoryArr = base.sportsHistory || generateSportsHistory(age, role, sportName, initial.sportsBodyInfluence);
+    const trainingLevel = fixed.trainingLevel || base.trainingLevel || ((initial.trainingMode && initial.trainingMode !== 'ランダム') ? initial.trainingMode : chooseTrainingLevel({eraYear, age, role, sportsHistory: sportsHistoryArr}));
     const heightAvgBase = avgHeight(nationality, eraYear);
     const occHeightShift = (role === 'モデル' ? 7 : 0) + (sportName === 'バスケットボール' ? 8 : sportName === 'バレーボール' ? 7 : 0);
     const sportsHeightShift = role === 'プロスポーツ選手' ? 0 : (h => { let sh=0; for(const x of h){ if(!x.strength) continue; if(/バスケットボール|バレーボール/.test(x.name)) sh += Math.min(3, x.strength); if(/体操/.test(x.name)) sh -= Math.min(2, x.strength); } return Math.round(sh); })(sportsHistoryArr);
@@ -3552,14 +3814,26 @@
           if(m) m.forEach(([v,w])=>{ const add = w * Math.min(1, x.strength/3); const f = entries.find(e=>e[0]===v); if(f) f[1]+=add; else entries.push([v, add]); });
         });
       }
+      if(TRAINING_BODY[trainingLevel]){
+        TRAINING_BODY[trainingLevel].forEach(([v,w])=>{ const f = entries.find(e=>e[0]===v); if(f) f[1]+=w; else entries.push([v,w]); });
+      }
+      if(TRAINING_EXCL[trainingLevel]){
+        const kept = entries.filter(([v])=>!TRAINING_EXCL[trainingLevel].includes(v));
+        if(kept.length) entries = kept;
+      }
       if(age >= 65){
         const MUSCLE = ['筋肉質','がっしり体型','引き締まったスポーツ体型','ラグビー選手体型','細マッチョ','痩せマッチョ'];
         if(!occBodyW) entries = entries.map(([v,w])=>MUSCLE.includes(v) ? [v, Math.max(0.5, w*0.5)] : [v,w]);
         [['標準体型',2],['やせ型',1],['腹だけぽっちゃり',2],['ビール腹',1]].forEach(([v,w])=>{ const f = entries.find(x=>x[0]===v); if(f) f[1]+=w; else entries.push([v,w]); });
       }
-      return weighted(eraAdjustEntries(entries, era, 'bodyTypes', null, eraBodyMult));
+      let finalEntries = eraAdjustEntries(entries, era, 'bodyTypes', null, eraBodyMult);
+      if(TRAINING_EXCL[trainingLevel]){
+        const kept = finalEntries.filter(([v])=>!TRAINING_EXCL[trainingLevel].includes(v));
+        if(kept.length) finalEntries = kept;
+      }
+      return weighted(finalEntries);
     })();
-    const weight = calcWeight(height, bodyType);
+    const weight = calcWeight(height, bodyType) + Math.round(trainingWeightAdj(trainingLevel) * Math.pow(height/100, 2));
     const ageAppearance = base.ageAppearance || ageAppearanceByAge(age);
     const ethnicFace = faceByEthnicity(ethnicity);
     const pickFace = () => {
@@ -3712,12 +3986,12 @@
       boxerBrand: base.boxerBrand || pick(eraBrandList(pools.boxerBrands, eraYear, '指定しない')), boxerColor: base.boxerColor || pick(pools.boxerColors), baseWearType: base.baseWearType || fixed.baseWearType || weighted([['ボクサーパンツ',6],['ショートショーツ',2],['スポーツスパッツ',2]]),
       glasses: base.glasses || chooseGlasses(eraYear, vibe, role, age),
       holidayOutfitType, holidayOutfitBrand: hCoord.outfitBrand, holidayJacket: hCoord.jacket, holidayTop: hCoord.top, holidayBottom: hCoord.bottom, holidayShoes: hCoord.shoes, holidaySockBrand: hCoord.sockBrand, holidaySockType: hCoord.sockType, holidaySockColor: hCoord.sockColor, holidaySockUse: hCoord.sockUse,
-      occupationMode, occInfluence, holidayPersona, sportName, sportsHistory: sportsHistoryArr, season, avgHeightBase: heightAvgBase, workUniform: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[0] : '', workUniformEn: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[1] : '', headwear: (uniform && !fixed.outfitType && !base.outfitType) ? (uniform[7] || '') : '', headwearOn: base.headwearOn !== undefined ? base.headwearOn : true, derivedMode: initial.derivedMode || '参照画像前提（簡潔版）', ikemenIndexMode: initial.ikemenIndexMode || '表示しない', bodyHairMode: initial.bodyHairMode || '詳細指定', catchphraseMode: initial.catchphraseMode || '結果画面のみ表示',
+      occupationMode, occInfluence, holidayPersona, sportName, sportsHistory: sportsHistoryArr, trainingLevel, season, avgHeightBase: heightAvgBase, workUniform: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[0] : '', workUniformEn: (uniform && !fixed.outfitType && !base.outfitType) ? uniform[1] : '', headwear: (uniform && !fixed.outfitType && !base.outfitType) ? (uniform[7] || '') : '', headwearOn: base.headwearOn !== undefined ? base.headwearOn : true, derivedMode: initial.derivedMode || '参照画像前提（簡潔版）', ikemenIndexMode: initial.ikemenIndexMode || '表示しない', bodyHairMode: initial.bodyHairMode || '詳細指定', catchphraseMode: initial.catchphraseMode || '結果画面のみ表示',
       mainWearMode: initial.mainWearMode || 'ボクサーパンツのみ', underwearType: base.underwearType || (eraUw ? eraUw.type : ''), underwearColor: base.underwearColor || (eraUw ? eraUw.color : ''),
       shoes: base.shoes || coord.shoes, sockBrand: base.sockBrand || coord.sockBrand, sockType: base.sockType || coord.sockType, sockShape: base.sockShape || coord.sockShape, sockMaterial: base.sockMaterial || coord.sockMaterial, sockColor: base.sockColor || coord.sockColor, sockUse: base.sockUse || coord.sockUse,
       personality: mbtiDescription(mbti, false),
       background: initial.background, lighting: initial.lighting, quality: initial.quality, outputType: initial.outputType, count: initial.count,
-      promptLanguage: initial.promptLanguage || '日本語', promptTarget: initial.promptTarget || 'ChatGPT', captionMode: initial.captionMode || '表記する', bioCaptionMode: initial.bioCaptionMode || '入れない', captionFields: initial.captionFields || {name:true,era:true,height:true,weight:true,footSize:true,mbti:true},
+      promptLanguage: initial.promptLanguage || '日本語', promptTarget: initial.promptTarget || 'ChatGPT', captionMode: initial.captionMode || '表記する', bioCaptionMode: base.bioCaptionMode || initial.bioCaptionMode || '入れない', captionFields: initial.captionFields || {name:true,era:true,height:true,weight:true,footSize:true,mbti:true},
       cardStyle: initial.cardStyle || 'スタンダード', cardRarity: initial.cardRarity || 'おすすめ自動', cardTheme: initial.cardTheme || 'ネイビー', cardLayout: initial.cardLayout || '縦長カード', cardWearMode: initial.cardWearMode || 'ボクサーパンツのみ', cardEffect: initial.cardEffect || 'なし', cardFields: initial.cardFields || {name:true,age:true,era:true,height:true,weight:true,footSize:true,role:true,mbti:true,rarity:true},
       sceneIdea: buildEncounterScene({role, outfitType, vibe, nationality, ethnicity, mbti, eraYear, season, occInfluence, occupationMode}),
       createdAt: new Date().toISOString()
@@ -3726,6 +4000,7 @@
     if(partialMode==='outfit' && current){ Object.assign(c, current, {id:uniqId(), nationality:c.nationality, ethnicity:c.ethnicity, vibe:c.vibe, name:nameByNationality(c.nationality, c.eraYear, c.age), role:c.role, mbti:c.mbti, personality:mbtiDescription(c.mbti,false), outfitType:c.outfitType,outfitBrand:c.outfitBrand,jacket:c.jacket,top:c.top,bottom:c.bottom,holidayOutfitType:c.holidayOutfitType,holidayOutfitBrand:c.holidayOutfitBrand,holidayJacket:c.holidayJacket,holidayTop:c.holidayTop,holidayBottom:c.holidayBottom,holidayShoes:c.holidayShoes,holidaySockBrand:c.holidaySockBrand,holidaySockType:c.holidaySockType,holidaySockColor:c.holidaySockColor,holidaySockUse:c.holidaySockUse,boxerBrand:c.boxerBrand,boxerColor:c.boxerColor,mainWearMode:c.mainWearMode,underwearType:c.underwearType,underwearColor:c.underwearColor,shoes:c.shoes,sockBrand:c.sockBrand,sockType:c.sockType,sockShape:c.sockShape,sockMaterial:c.sockMaterial,sockColor:c.sockColor,sockUse:c.sockUse,sceneIdea:buildEncounterScene({role:c.role, outfitType:c.outfitType, vibe:c.vibe, nationality:c.nationality, ethnicity:c.ethnicity, mbti:c.mbti, eraYear:c.eraYear, season:c.season, occInfluence:c.occInfluence, occupationMode:c.occupationMode}), createdAt:new Date().toISOString()}); }
     if(!groupCtx) Object.keys(locks).forEach(k=>{ if(locks[k] && current && current[k]!==undefined) c[k]=current[k]; });
     c.personality = mbtiDescription(c.mbti, false);
+    c.bioText = base.bioText || buildBioHook(c);
     if(!c.cardRarity || c.cardRarity==='おすすめ自動' || c.cardRarity==='なし') c.cardRarity = suggestCardRarity(c);
     c.cardEffect = cardEffectByRarity(c.cardRarity);
     return c;
@@ -3734,6 +4009,7 @@
   function slotValue(c,key){
     if(!c) return '？？？';
     if(key==='mbti') return mbtiDisplay(c);
+    if(key==='sportsHistory') return sportsHistoryText(c, uiLang==='en');
     return String(displayValue(key, c[key]) ?? '？？？');
   }
   function renderSlots(c, revealAll=true){
@@ -3975,7 +4251,7 @@ ${promptTargetGuide(lead, false)}`;
       return `[OUTPUT FORMAT] Create one 16:9 "handoff reference sheet". Panels: full body front / full body side / face front / face side / face front with teeth visible (an "eee" expression, mouth stretched wide sideways to show the upper and lower rows of teeth, dental-reference style — in every other panel teeth appear only as naturally visible when smiling) / bare feet front view / soles (shown by the person himself sitting and presenting his own feet toward the viewer — never as detached, disembodied soles) / an enlarged full-sole view (the same feet as the person panels, detailed enough that the skin ridges of the soles, creases, and arch contours are readable, always oriented toes-up, as a matter-of-fact non-sexual reference enlargement). Every panel must show exactly the same person.${soleDetailLine(c, true)}
 [INFO PANEL] (clean readable typography; list ONLY these items) Name "${nameKana(c)}" / Photo year: ${c.eraYear || '2026'} / Born: ${(Number(c.eraYear)||2026)-(Number(c.age)||25)} (age ${c.age}) / Height ${c.height}, Weight ${c.weight} / Body type "${displayValue('bodyType', c.bodyType)}" / Physique guide "about ${headCount(c)} heads tall" / Foot size ${c.footSize} / Foot width "${fw}". Keep all text crisp and unbroken.
 [PERSON] Photo year: ${c.eraYear || '2026'} CE. ${eraStyleNote(c, true)} ${c.age} years old, ${c.nationality}, ${c.ethnicity}. Face type: ${c.facePreset}. ${eyeAreaLine(c, true)} Nose: ${c.nose}. Base expression: ${c.mouth}.${faceExtraLine(c, true)} Facial symmetry: ${displayValue('faceAsym', c.faceAsym || 'ほぼ対称（ごく自然な左右差）')}.${realismSpec(c, true)} ${teethLine(c, true)} Hair: ${c.hairColor} ${c.hairStyle}. Facial hair: ${c.facialHair}.
-[PHYSIQUE] ${physiqueSpec(c, true, true)} Hip shape: ${displayValue('hipShape', c.hipShape || '標準的な丸みの臀部')} (a neutral body-reference note; never emphasized or staged).${muscleLine(c, true)}
+[PHYSIQUE] ${physiqueSpec(c, true, true)} Hip shape: ${displayValue('hipShape', c.hipShape || '標準的な丸みの臀部')} (a neutral body-reference note; never emphasized or staged).${muscleLine(c, true)}${trainingLine(c, true)}
 [FEET] Foot shape: ${c.footShape}; ${footWidthDesc(c, true)}.${footFeatureLine(c, true, true)} In the barefoot panels, render toes with correct counts and joints; show exactly one pair of soles belonging to him only.
 [OUTFIT IN SHEET] Underwear (${underwearDesc(c, true)}) only, as a neutral body-reference presentation in the flat, matter-of-fact tone of clothing-catalog product photos — no sexual staging, emphasis, or posing. No outerwear, tops, bottoms, shoes, or socks.
 [PURPOSE] This sheet is used to hand the character over to another chat or session as a reference image.
@@ -3983,9 +4259,9 @@ ${promptTargetGuide(lead, false)}`;
 ${promptTargetGuide(c, true)}`;
     }
     return `【出力形式】16:9の「参考画像作成シート（引継ぎ用）」を1枚作成する。パネル構成：全身前面／全身側面／顔正面／顔側面／顔正面（歯が見える：「イー」と口を横に広げて上下の歯列を見せる、歯科の資料撮影風の即物的な表情。このパネル以外では歯は笑ったときに自然に見える範囲のみ）／裸足の正面／足裏（人物が座って自分の足裏をこちらへ見せる姿として描き、足裏だけが切り離されて描写された状態にしない）／足裏の全体拡大（人物パネルと同一の足。足裏の指紋＝皮膚の隆線やしわ、土踏まずの起伏が分かる精細さ。常につま先が上・かかとが下の向き。資料用の即物的で非性的な拡大）。全パネルを完全に同一人物として一致させる。${soleDetailLine(c, false)}
-【情報欄】（読みやすい文字組で、次の項目のみ記載）氏名「${nameKana(c)}」／撮影年代：${eraLabel(c.eraYear)}／生年：${eraLabel((Number(c.eraYear)||2026)-(Number(c.age)||25))}（${c.age}歳）／身長${c.height}・体重${c.weight}／体型「${c.bodyType}」／体格の目安「約${headCount(c)}頭身」／足サイズ${c.footSize}／ワイズ「${fw}」${c.bioCaptionMode==='情報欄に入れる' ? `／ひとこと：「${bioLine(c, false)}」` : ''}。文字は崩さない。
+【情報欄】（読みやすい文字組で、次の項目のみ記載）氏名「${nameKana(c)}」／撮影年代：${eraLabel(c.eraYear)}／生年：${eraLabel((Number(c.eraYear)||2026)-(Number(c.age)||25))}（${c.age}歳）／身長${c.height}・体重${c.weight}／体型「${c.bodyType}」／体格の目安「約${headCount(c)}頭身」／足サイズ${c.footSize}／ワイズ「${fw}」${c.bioCaptionMode==='情報欄に入れる' ? `／ひとこと：「${c.bioText || bioLine(c, false)}」` : ''}。文字は崩さない。
 【人物】撮影年代：${eraLabel(c.eraYear)}。${countryLine(c, false)}${eraStyleNote(c, false)}${c.age}歳、${c.nationality}、${c.ethnicity}。${sportsHistoryLine(c, false)}顔立ちは${c.facePreset}。${eyeAreaLine(c, false)}鼻は${c.nose}、基本表情は${c.mouth}。${faceExtraLine(c, false)}左右差は${c.faceAsym || 'ほぼ対称（ごく自然な左右差）'}。${realismSpec(c, false)}${teethLine(c, false)}髪は${c.hairColor}の${c.hairStyle}。ひげは${c.facialHair}。
-【体格】${physiqueSpec(c, false, true)}臀部は${c.hipShape || '標準的な丸みの臀部'}（体型確認のための中立的な記載であり、強調や演出はしない）。${muscleLine(c, false)}
+【体格】${physiqueSpec(c, false, true)}臀部は${c.hipShape || '標準的な丸みの臀部'}（体型確認のための中立的な記載であり、強調や演出はしない）。${muscleLine(c, false)}${trainingLine(c, false)}
 【足】足の形は${c.footShape}。${footWidthDesc(c, false)}。${footFeatureLine(c, false, true)}裸足パネルでは指の本数・関節を正確に描き、足裏は本人の1人分のみとする。
 【服装】基準服装は${underwearDesc(c, false)}のみ。体型確認のための中立的な資料表現であり、衣料品カタログの商品写真と同じ即物的なトーンで描く。性的な演出・強調・ポーズは一切しない。上着・トップス・ボトムス・靴・靴下は描写しない。
 【用途】このシートは、別チャット・別セッションへ人物を引き継ぐための参照画像として使う。
@@ -4053,7 +4329,7 @@ ${promptTargetGuide(c, false)}`;
       eyes: pools.eyes, tearBags: pools.tearBags, nose: pools.nose, mouth: pools.mouth, lips: pools.lips, mouthPos: pools.mouthPos, faceSpacing: pools.faceSpacings, faceRatio: pools.faceRatios, faceAsym: pools.faceAsyms, footWidth: FOOT_WIDTHS.map(x=>x[0]), footFeature: FOOT_FEATURES.map(x=>x[0]), eyebrow: pools.eyebrows, eyebrowDensity: pools.eyebrowDensities, eyelid: pools.eyelids, eyeShape: pools.eyeShapes, eyelash: pools.eyelashes, jawChin: pools.jawChins, jawAngle: pools.jawAngles, ear: pools.ears, forehead: pools.foreheads, hairline: pools.hairlines, cheek: pools.cheeks, dimple: pools.dimples, mole: pools.moles, hairTexture: pools.hairTextures, eyeBags: pools.eyeBagsPool, adamsApple: pools.adamsApples, lipTone: pools.lipTones, browRidge: pools.browRidges, facialHairGroom: pools.facialHairGrooms, soleType: SOLE_TYPES.map(x=>x[0]), toeLine: TOE_LINES.map(x=>x[0]), soleWrinkle: SOLE_WRINKLES.map(x=>x[0]), toeCurl: TOE_CURLS.map(x=>x[0]), shoulderWidth: pools.shoulderWidths, waistPos: pools.waistPositions, legLength: pools.legLengths, armLength: pools.armLengths, frame: pools.frames, neckLength: pools.neckLengths, limbSize: pools.limbSizes, hipShape: pools.hipShapes, teethAlign: pools.teethAligns, teethColor: pools.teethColors, skin: pools.skin, skinDetail: pools.skinDetails, skinDetail2: pools.skinDetails,
       facialHair: pools.facialHair, glasses: pools.glasses, hairStyle: pools.hairStyles, hairColor: pools.hairColors,
       outfitType: pools.outfitTypes, holidayOutfitType: pools.outfitTypes, outfitBrand: pools.outfitBrands,
-      baseWearType: pools.baseWearTypes, boxerColor: pools.boxerColors, boxerBrand: pools.boxerBrands, sockBrand: pools.sockBrands, sockType: pools.sockTypes,
+      trainingLevel: TRAINING_LEVELS.map(x=>x[0]), baseWearType: pools.baseWearTypes, boxerColor: pools.boxerColors, boxerBrand: pools.boxerBrands, sockBrand: pools.sockBrands, sockType: pools.sockTypes,
       sockShape: pools.sockShapes, sockMaterial: pools.sockMaterials, sockColor: pools.sockColors, sockUse: pools.sockUse,
       bodyHairOverall: pools.bodyHairOverall
     };
@@ -4077,10 +4353,56 @@ ${promptTargetGuide(c, false)}`;
     }
     renderAll();
   }
+  function buildSportsHistoryEditor(container, onSave){
+    const STR_PRESETS = [['自動（期間から計算）','auto'],['影響なし','0'],['名残程度','0.5'],['ほどよく','1.2'],['しっかり','2.2']];
+    const maxSt = maxStageForAge(Number(current.age)||25);
+    const stages = SPORT_STAGES.slice(0, maxSt+1);
+    const h = current.sportsHistory || [];
+    const mk = (opts, val)=>{ const sel=document.createElement('select'); sel.innerHTML=opts.map(o=>{const [lab,v]=Array.isArray(o)?o:[o,o];return `<option value="${v}"${String(v)===String(val)?' selected':''}>${lab}</option>`;}).join(''); return sel; };
+    const rows = [];
+    for(let i=0;i<2;i++){
+      const e = h[i] || null;
+      const sp = mk(['なし'].concat(SPORT_EXP_POOL), e ? e.name : 'なし');
+      const fr = mk(stages, e ? SPORT_STAGES[e.from] : '小学校');
+      const to = mk(stages, e ? SPORT_STAGES[e.to] : '高校');
+      const st = mk(STR_PRESETS, e ? (e.strength===0?'0': e.strength>=2?'2.2': e.strength>=0.8?'1.2':'0.5') : 'auto');
+      const lab = document.createElement('label'); lab.textContent = (uiLang==='en'?'Sport ':'競技')+(i+1);
+      const row = document.createElement('div'); row.style.cssText='display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px';
+      row.append(sp,fr,to,st); container.append(lab,row);
+      rows.push({sp,fr,to,st});
+    }
+    const note = document.createElement('p'); note.className='notice'; note.style.margin='4px 0 0';
+    note.textContent = uiLang==='en' ? 'Order: sport / start / end / body influence. Height & body type stay as-is.' : '競技／開始／終了／体格への影響。確定済みの身長・体型は変わりません（記述側に反映）。';
+    container.append(note);
+    return ()=>{
+      const stIdx = v=>SPORT_STAGES.indexOf(v);
+      const out = [];
+      for(const r of rows){
+        if(r.sp.value==='なし') continue;
+        let from = stIdx(r.fr.value), to = stIdx(r.to.value);
+        if(from > to){ const t=from; from=to; to=t; }
+        to = Math.min(to, maxSt); from = Math.min(from, to);
+        let strength;
+        if(r.st.value==='auto'){ const gap=maxSt-to; const decay=gap<=0?1:gap===1?0.7:gap===2?0.5:0.35; strength=Math.round((to-from+1)*decay*0.85*100)/100; }
+        else strength = Number(r.st.value);
+        out.push({name:r.sp.value, from, to, strength});
+      }
+      if(out.length===2 && out[0].name===out[1].name) out.pop();
+      current.sportsHistory = out;
+      onSave();
+    };
+  }
   function openSlotEditor(key){
     if(!current || spinning) return;
     const slotEl = document.getElementById('slot-'+key); if(!slotEl) return;
     const valEl = slotEl.querySelector('.value'); if(!valEl || slotEl.querySelector('.slot-editor')) return;
+    if(key==='sportsHistory'){
+      const wrap = document.createElement('div'); wrap.className='slot-editor';
+      const save = buildSportsHistoryEditor(wrap, ()=>{ wrap.remove(); renderAll(); });
+      const ok = document.createElement('button'); ok.className='pf-btn'; ok.textContent = uiLang==='en'?'Save':'決定'; ok.onclick=save;
+      const ng = document.createElement('button'); ng.className='pf-btn'; ng.textContent = uiLang==='en'?'Cancel':'キャンセル'; ng.onclick=()=>wrap.remove();
+      wrap.append(ok, ng); slotEl.append(wrap); return;
+    }
     const cur = current[key] !== undefined && current[key] !== null ? String(current[key]) : '';
     const pool = slotEditPool(key);
     const wrap = document.createElement('div');
@@ -4155,7 +4477,7 @@ ${promptTargetGuide(c, false)}`;
     FRIEND_CTX = null;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.4.2'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.5.0'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -4165,6 +4487,7 @@ ${promptTargetGuide(c, false)}`;
   }
   function rerollOne(key){
     if(!current || spinning) return;
+    if(key==='sportsHistory'){ current.sportsHistory = generateSportsHistory(current.age, current.role, current.sportName, getInitial().sportsBodyInfluence); renderAll(); return; }
     const fresh = generateCharacter('full');
     const keys = DICE_GROUPS[key] || [key];
     keys.forEach(k=>{ if(fresh[k]!==undefined) current[k]=fresh[k]; });
@@ -4322,6 +4645,9 @@ ${promptTargetGuide(c, false)}`;
     if(['lips','mouthPos','faceRatio','faceAsym','footWidth'].includes(key)){ const pool = slotEditPool(key); if(pool) current[key] = pick(pool); renderAll(); return; }
     if(key==='footFeature'){ current.footFeature = chooseFootFeature(current); renderAll(); return; }
     if(['eyebrowDensity','jawChin','jawAngle','ear','forehead','hairline','cheek','dimple','mole','hairTexture','eyeBags','adamsApple','lipTone','browRidge','facialHairGroom'].includes(key)){ const fx = chooseFaceExtras(current); current[key] = fx[key]; renderAll(); return; }
+    if(key==='trainingLevel'){ current.trainingLevel = chooseTrainingLevel(current); current.bioText = buildBioHook(current); renderAll(); return; }
+    if(key==='sportsHistory'){ current.sportsHistory = generateSportsHistory(current.age, current.role, current.sportName, getInitial().sportsBodyInfluence); current.bioText = buildBioHook(current); renderAll(); return; }
+    if(key==='bioText'){ current.bioText = buildBioHook(current); renderAll(); return; }
     if(key==='baseWearType'){ current.baseWearType = weighted([['ボクサーパンツ',6],['ショートショーツ',2],['スポーツスパッツ',2]]); renderAll(); return; }
     if(key==='boxerColor'){ current.boxerColor = pick(pools.boxerColors); renderAll(); return; }
     if(key==='soleType'){ current.soleType = chooseSoleType(current); current.soleWrinkle = chooseSoleWrinkle(current); renderAll(); return; }
@@ -4362,6 +4688,13 @@ ${promptTargetGuide(c, false)}`;
     if(!current) return;
     const kv = btn.closest('.kv');
     if(!kv || kv.querySelector('.pf-editor')) return;
+    if(btn.dataset.pEdit === 'sportsHistory'){
+      const ed = document.createElement('div'); ed.className='pf-editor';
+      const save = buildSportsHistoryEditor(ed, ()=>{ ed.remove(); renderAll(); });
+      const ok = document.createElement('button'); ok.className='pf-btn'; ok.textContent = uiLang==='en'?'Save':'決定'; ok.onclick=save;
+      const ng = document.createElement('button'); ng.className='pf-btn'; ng.textContent = uiLang==='en'?'Cancel':'キャンセル'; ng.onclick=()=>ed.remove();
+      ed.append(ok, ng); kv.append(ed); return;
+    }
     const keys = btn.dataset.pEdit.split(',');
     const ed = document.createElement('div');
     ed.className = 'pf-editor';
@@ -4536,7 +4869,7 @@ ${target}`;
 [FACE] His face type is ${c.facePreset}, and his age appearance is ${c.ageAppearance}. His face line is ${c.faceLine}. ${eyeAreaLine(c, true)} Tear bags: ${c.tearBags}. Nose: ${c.nose}. Base expression: ${c.mouth}. Lips: ${displayValue('lips', c.lips || '標準的な厚さの唇')}. Mouth placement: ${displayValue('mouthPos', c.mouthPos || '標準的な位置・大きさの口')}. Feature spacing: ${displayValue('faceSpacing', c.faceSpacing || '標準的な配置')}. Feature proportions: ${displayValue('faceRatio', c.faceRatio || '標準的なバランスの比率')}. Facial symmetry: ${displayValue('faceAsym', c.faceAsym || 'ほぼ対称（ごく自然な左右差）')}.${realismSpec(c, true)} ${teethLine(c, true)}${faceExtraLine(c, true)} Skin: ${c.skin}.${skinDetailLine(c, true)} Facial hair: ${c.facialHair}${c.facialHair!=='なし' ? ` (${displayValue('facialHairGroom', c.facialHairGroom || '自然に整えている')})` : ''}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? ' (with graying facial hair)' : ''}. ${c.glasses && c.glasses!=='なし' ? `He wears ${displayValue('glasses', c.glasses)}. ` : ''}Hair: ${c.hairColor} ${c.hairStyle}, ${displayValue('hairTexture', c.hairTexture || '直毛')}.
 [BODY HAIR] ${bodyEn}
 
-[PHYSIQUE & FEET] Height ${c.height}, weight ${c.weight}, body type ${bodyTypeDesc(c.bodyType, true)}. ${physiqueSpec(c, true, true)} Hip shape: ${displayValue('hipShape', c.hipShape || '標準的な丸みの臀部')} (a neutral body-reference note; never emphasized or staged).${muscleLine(c, true)} Foot size ${c.footSize}, foot shape ${c.footShape}; ${footWidthDesc(c, true)}.${footFeatureLine(c, true, true)}${soleDetailLine(c, true)} Use a natural standing pose that makes the balance of height, weight, and foot size easy to understand.
+[PHYSIQUE & FEET] Height ${c.height}, weight ${c.weight}, body type ${bodyTypeDesc(c.bodyType, true)}. ${physiqueSpec(c, true, true)} Hip shape: ${displayValue('hipShape', c.hipShape || '標準的な丸みの臀部')} (a neutral body-reference note; never emphasized or staged).${muscleLine(c, true)}${trainingLine(c, true)} Foot size ${c.footSize}, foot shape ${c.footShape}; ${footWidthDesc(c, true)}.${footFeatureLine(c, true, true)}${soleDetailLine(c, true)} Use a natural standing pose that makes the balance of height, weight, and foot size easy to understand.
 
 [OUTFIT IN CARD] ${fullOutfitSheet ? sheetWearEn : `The main clothing is only ${underwearDesc(c, true)}. ${underwearShapeGuide(c, true)} Underwear panels are neutral reference material for body proportions — depict them in the same matter-of-fact tone as clothing product photos, with zero sexualized staging, emphasis, or posing.`} ${fullOutfitSheet ? '' : allowsOutfitPanels ? 'In the underwear-only panels, do not depict outerwear, tops, bottoms, shoes, or socks. In the outfit panels, dress him accurately in the specified suggested outfit, but never add shoes outside the panels where they are explicitly allowed.' : `Do not depict outerwear, tops, bottoms, regular outfits, school uniforms, jackets, shirts, trousers, coats, shoes, socks, sandals, or slippers. Do not include footwear settings or sock settings in this main image.`} Keep the underwear depiction non-sexual and suitable for neutral body reference purposes.
 
@@ -4555,12 +4888,12 @@ ${targetEn}
 【顔】顔立ちは${c.facePreset}で、年齢感は${c.ageAppearance}。フェイスラインは${c.faceLine}。${eyeAreaLine(c, false)}涙袋は${c.tearBags}。鼻は${c.nose}。基本表情は${c.mouth}。唇は${c.lips || '標準的な厚さの唇'}で、口は${c.mouthPos || '標準的な位置・大きさの口'}。顔のパーツ配置は${c.faceSpacing || '標準的な配置'}で、目鼻口の比率は${c.faceRatio || '標準的なバランスの比率'}。左右差は${c.faceAsym || 'ほぼ対称（ごく自然な左右差）'}。${realismSpec(c, false)}${teethLine(c, false)}${faceExtraLine(c, false)}肌は${c.skin}。${skinDetailLine(c, false)}ひげは${c.facialHair}${c.facialHair!=='なし' ? `（${c.facialHairGroom || '自然に整えている'}）` : ''}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? '（白髪まじりのひげ）' : ''}。${c.glasses && c.glasses!=='なし' ? `眼鏡は${c.glasses}をかけている。` : ''}髪は${c.hairColor}の${c.hairStyle}で、毛質は${c.hairTexture || '直毛'}。
 【体毛】${bodyJa}
 
-【体格・足】身長${c.height}、体重${c.weight}、体型は${bodyTypeDesc(c.bodyType, false)}。${physiqueSpec(c, false, true)}臀部は${c.hipShape || '標準的な丸みの臀部'}（体型確認のための中立的な記載であり、強調や演出はしない）。${muscleLine(c, false)}足のサイズは${c.footSize}、足の形は${c.footShape}。${footWidthDesc(c, false)}。${footFeatureLine(c, false, true)}${soleDetailLine(c, false)}身長、体重、足サイズのバランスが自然に分かる直立姿勢にする。
+【体格・足】身長${c.height}、体重${c.weight}、体型は${bodyTypeDesc(c.bodyType, false)}。${physiqueSpec(c, false, true)}臀部は${c.hipShape || '標準的な丸みの臀部'}（体型確認のための中立的な記載であり、強調や演出はしない）。${muscleLine(c, false)}${trainingLine(c, false)}足のサイズは${c.footSize}、足の形は${c.footShape}。${footWidthDesc(c, false)}。${footFeatureLine(c, false, true)}${soleDetailLine(c, false)}身長、体重、足サイズのバランスが自然に分かる直立姿勢にする。
 
 【服装（カード内）】${fullOutfitSheet ? sheetWearJa : `基準服装は${underwearDesc(c, false)}のみ。${underwearShapeGuide(c, false)}下着姿のパネルは体型確認のための中立的な資料表現であり、衣料品の商品写真・体型資料と同じ即物的なトーンで描く。性的な演出・強調・ポーズは一切しない。`}${fullOutfitSheet ? '' : allowsOutfitPanels ? '下着のみのパネルでは上着・トップス・ボトムス・靴・靴下を描かない。提案服装のパネルでは指定された提案服装を正確に着用させるが、靴は指示で許可されたパネル以外では履かせない。' : `上着、トップス、ボトムス、通常服装、学生服、制服、ジャケット、シャツ、ズボン、コート、靴、靴下、サンダル、スリッパは描写しない。足元設定や靴下設定はこの画像には入れない。`}下着表現は非性的で、体型確認用の自然な見せ方にする。
 
 【出力形式】${outputJa}
-【情報欄】カード内に読みやすい文字組で次のみ記載する：氏名「${nameKana(c)}」／撮影年代：${eraLabel(c.eraYear)}／生年：${eraLabel((Number(c.eraYear)||2026)-(Number(c.age)||25))}（${c.age}歳）／身長${c.height}・体重${c.weight}／足サイズ${c.footSize}／ワイズ「${c.footWidth || calcFootWidth(c)}」${c.bioCaptionMode==='情報欄に入れる' ? `／ひとこと：「${bioLine(c, false)}」` : ''}。文字は崩さない。
+【情報欄】カード内に読みやすい文字組で次のみ記載する：氏名「${nameKana(c)}」／撮影年代：${eraLabel(c.eraYear)}／生年：${eraLabel((Number(c.eraYear)||2026)-(Number(c.age)||25))}（${c.age}歳）／身長${c.height}・体重${c.weight}／足サイズ${c.footSize}／ワイズ「${c.footWidth || calcFootWidth(c)}」${c.bioCaptionMode==='情報欄に入れる' ? `／ひとこと：「${c.bioText || bioLine(c, false)}」` : ''}。文字は崩さない。
 ${c.catchphraseMode==='画像内にも表示する' ? `画像内の下部または隅に、キャッチフレーズ「${catchphrase(c, false)}」をタイトルロゴ風の読みやすい日本語文字で入れる。文字は崩さない。\n` : ''}【画質・出力】${c.count}を作成する。背景は${c.background}。光は${c.lighting}。画質・質感は${c.quality}。
 
 ${capJa}
@@ -4729,6 +5062,9 @@ ${promptTargetGuide(b, false)}`;
     if(mF) out.footSize = mF[1] + 'cm';
     const mMbti = t.match(/\b([IE][NS][TF][JP])\b/); if(mMbti) out.mbti = mMbti[1];
     const mTb = t.match(/涙袋は([^。、]+)/); if(mTb && (pools.tearBags || []).includes(mTb[1])) out.tearBags = mTb[1];
+    const mBio = t.match(/ひとこと：「([^」]+)」/); if(mBio){ out.bioText = mBio[1]; out.bioCaptionMode = '情報欄に入れる'; }
+    const mTr = t.match(/筋トレ習慣「([^」]+)」/); if(mTr && TRAINING_LEVELS.some(x=>x[0]===mTr[1])) out.trainingLevel = mTr[1];
+    if(out.trainingLevel === undefined && !/筋トレ習慣「/.test(t)) out.trainingLevel = 'なし';
     const mBw = t.match(/基準服装は(?:(.+?)の)?([^の。\n]+)の(ボクサーパンツ|ショートショーツ|スポーツスパッツ)のみ/);
     if(mBw){
       out.baseWearType = mBw[3];
@@ -4776,10 +5112,11 @@ ${promptTargetGuide(b, false)}`;
       else {
         const hist = [];
         const stIdx = (st)=>SPORT_STAGES.indexOf(st);
-        for(const m of histLine.matchAll(/([^\s、。（／：]+)（(幼稚園|小学校|中学校|高校|大学|社会人)(?:〜(幼稚園|小学校|中学校|高校|大学|社会人))?(・体格影響なし)?）/g)){
+        for(const m of histLine.matchAll(/([^\s、。（／：]+)（(幼稚園|小学校|中学校|高校|大学|社会人)(?:〜(幼稚園|小学校|中学校|高校|大学|社会人))?(・体格影響なし|・影響しっかり|・影響ほどよく|・影響名残)?）/g)){
           if(SPORT_EXP_POOL.includes(m[1]) || m[1] === out.sportName){
             const from = stIdx(m[2]); const to = m[3] ? stIdx(m[3]) : from;
-            hist.push({name: m[1], from, to, strength: m[4] ? 0 : Math.round((to - from + 1) * 0.7 * 100) / 100});
+            const st = m[4]==='・体格影響なし' ? 0 : m[4]==='・影響しっかり' ? 2.2 : m[4]==='・影響ほどよく' ? 1.2 : m[4]==='・影響名残' ? 0.5 : Math.round((to - from + 1) * 0.7 * 100) / 100;
+            hist.push({name: m[1], from, to, strength: st});
           }
         }
         if(hist.length) out.sportsHistory = hist.slice(0, 2);
@@ -4847,6 +5184,8 @@ ${promptTargetGuide(b, false)}`;
     if(!current.eyelash) current.eyelash = chooseEyelash();
     if(!current.jawChin){ const fx = chooseFaceExtras(current); for(const k in fx){ if(current[k] === undefined) current[k] = fx[k]; } }
     if(!current.baseWearType) current.baseWearType = 'ボクサーパンツ';
+    if(!current.trainingLevel) current.trainingLevel = 'なし';
+    if(!current.bioText) current.bioText = buildBioHook(current);
     if(!current.soleType) current.soleType = chooseSoleType(current);
     if(!current.soleWrinkle) current.soleWrinkle = chooseSoleWrinkle(current);
     if(!current.toeLine) current.toeLine = chooseToeLine(current);
@@ -4859,19 +5198,19 @@ ${promptTargetGuide(b, false)}`;
     const L=T('rows');
     const mainWear = uiLang==='en' ? `${underwearDesc(current, true)} only` : `${underwearDesc(current, false)}のみ`;
     const sections = [
-      ['basic', L.basic, [[uiLang==='en' ? 'Background' : 'ひとこと背景', bioLine(current, uiLang==='en')],[L.name,current.name,'name'],[L.age,displayValue('age',current.age),'age'],[L.era, uiLang==='en' ? `${current.eraYear || '2026'} (${eraProfile(current.eraYear || '2026').labelEn})${current.season ? ` / ${displayValue('season', current.season) || current.season}` : ''}` : `${eraLabel(current.eraYear)}（${eraProfile(current.eraYear || '2026').labelJa}）${current.season ? `・${current.season}` : ''}`,'eraYear'],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`,'nationality,ethnicity'],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}${current.occupationMode ? `（${uiLang==='en' ? displayValue('occupationMode', current.occupationMode) || current.occupationMode : current.occupationMode}）` : ''}`,'role,vibe'],[uiLang==='en' ? 'Sports Background' : '経験競技スポーツ', sportsHistoryText(current, uiLang==='en'), 'sportsHistory']].concat(current.groupSetting ? [[L.group, `${displayValue('groupSetting',current.groupSetting) || current.groupSetting} / ${displayValue('groupPosition',current.groupPosition) || current.groupPosition}`]] : []).concat(current.friendOf ? [[L.friendRow, friendRelationText(current, uiLang==='en')]] : []).concat([[L.mbti,`<span class="mini-badge">${mbtiDisplay(current)}</span>`,'mbti']])],
+      ['basic', L.basic, [[L.name,current.name,'name'],[L.age,displayValue('age',current.age),'age'],[L.era, uiLang==='en' ? `${current.eraYear || '2026'} (${eraProfile(current.eraYear || '2026').labelEn})${current.season ? ` / ${displayValue('season', current.season) || current.season}` : ''}` : `${eraLabel(current.eraYear)}（${eraProfile(current.eraYear || '2026').labelJa}）${current.season ? `・${current.season}` : ''}`,'eraYear'],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`,'nationality,ethnicity'],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}${current.occupationMode ? `（${uiLang==='en' ? displayValue('occupationMode', current.occupationMode) || current.occupationMode : current.occupationMode}）` : ''}`,'role,vibe'],[uiLang==='en' ? 'Sports Background' : '経験競技スポーツ', sportsHistoryText(current, uiLang==='en'), 'sportsHistory']].concat(current.groupSetting ? [[L.group, `${displayValue('groupSetting',current.groupSetting) || current.groupSetting} / ${displayValue('groupPosition',current.groupPosition) || current.groupPosition}`]] : []).concat(current.friendOf ? [[L.friendRow, friendRelationText(current, uiLang==='en')]] : []).concat([[L.mbti,`<span class="mini-badge">${mbtiDisplay(current)}</span>`,'mbti']])],
       ['face', L.faceSection, [[L.face,`${displayValue('facePreset',current.facePreset)} / ${displayValue('ageAppearance',current.ageAppearance)}`,'facePreset,ageAppearance'],[L.faceLine,displayValue('faceLine',current.faceLine),'faceLine'],[slotLabel('eyebrow','眉'),`${displayValue('eyebrow',current.eyebrow||'標準的なゆるいアーチ眉')}／${displayValue('eyebrowDensity',current.eyebrowDensity||'標準的な濃さの眉')}`,'eyebrow,eyebrowDensity'],[uiLang==='en' ? 'Eyelid / Shape / Impression' : 'まぶた / 目の形 / 印象',`${displayValue('eyelid',current.eyelid||'末広二重')}／${displayValue('eyeShape',current.eyeShape||'標準的な目の形')}／${displayValue('eyes',current.eyes)}`,'eyelid,eyeShape,eyes'],[uiLang==='en' ? 'Eyelashes / Tear Bags' : 'まつ毛 / 涙袋',`${displayValue('eyelash',current.eyelash||'標準的な長さのまつ毛')}／${displayValue('tearBags',current.tearBags)}`,'eyelash,tearBags'],[L.nose,displayValue('nose',current.nose),'nose'],[slotLabel('mouth','基本表情'),displayValue('mouth',current.mouth),'mouth'],[uiLang==='en' ? 'Teeth Align / Color' : '歯並び / 歯の色', `${current.teethAlign||'ほぼ整った歯列'} / ${current.teethColor||'自然な白さの歯'}`, 'teethAlign,teethColor'],[slotLabel('lips','唇の形状'),displayValue('lips',current.lips || '標準的な厚さの唇'),'lips'],[slotLabel('mouthPos','口の位置'),displayValue('mouthPos',current.mouthPos || '標準的な位置・大きさの口'),'mouthPos'],[slotLabel('faceSpacing','パーツ配置'),displayValue('faceSpacing',current.faceSpacing || '標準的な配置'),'faceSpacing'],[slotLabel('faceRatio','目鼻口比率'),displayValue('faceRatio',current.faceRatio || '標準的なバランスの比率'),'faceRatio'],[slotLabel('faceAsym','顔の左右差'),displayValue('faceAsym',current.faceAsym || 'ほぼ対称（ごく自然な左右差）'),'faceAsym'],[uiLang==='en' ? 'Chin / Jaw' : '顎先 / エラ',`${displayValue('jawChin',current.jawChin||'標準的な顎先')}／${displayValue('jawAngle',current.jawAngle||'ほどよく張ったエラ')}`,'jawChin,jawAngle'],[uiLang==='en' ? 'Ears / Brow' : '耳 / 彫り',`${displayValue('ear',current.ear||'標準的な耳')}／${displayValue('browRidge',current.browRidge||'彫りは標準的')}`,'ear,browRidge'],[uiLang==='en' ? 'Forehead / Hairline' : '額 / 生え際',`${displayValue('forehead',current.forehead||'標準的な広さの額')}／${displayValue('hairline',current.hairline||'直線的な生え際')}`,'forehead,hairline'],[uiLang==='en' ? 'Cheeks / Dimples' : '頬 / えくぼ',`${displayValue('cheek',current.cheek||'標準的な頬')}／${displayValue('dimple',current.dimple||'えくぼなし')}`,'cheek,dimple'],[uiLang==='en' ? 'Mole / Under-eye' : 'ほくろ / クマ',`${displayValue('mole',current.mole||'ほくろなし')}／${displayValue('eyeBags',current.eyeBags||'クマなし')}`,'mole,eyeBags'],[uiLang==='en' ? 'Throat / Lip Tone' : 'のどぼとけ / 唇の血色',`${displayValue('adamsApple',current.adamsApple||'標準的なのどぼとけ')}／${displayValue('lipTone',current.lipTone||'標準的な血色の唇')}`,'adamsApple,lipTone'],[L.skin,displayValue('skin',current.skin),'skin'],[uiLang==='en' ? 'Skin Details' : '肌の特徴',`${displayValue('skinDetail',current.skinDetail || 'なし（クリアな肌）')}${current.skinDetail2 && current.skinDetail2 !== 'なし（クリアな肌）' ? `／${displayValue('skinDetail',current.skinDetail2)}` : ''}`,'skinDetail,skinDetail2'],[L.facialHair,`${displayValue('facialHair',current.facialHair)}${current.facialHair!=='なし' ? `（${displayValue('facialHairGroom',current.facialHairGroom||'自然に整えている')}）` : ''}`,'facialHair,facialHairGroom'],[L.glasses, displayValue('glasses', current.glasses || 'なし'),'glasses'],[L.hair,`${displayValue('hairColor',current.hairColor)}・${displayValue('hairStyle',current.hairStyle)}（${displayValue('hairTexture',current.hairTexture||'直毛')}）`,'hairColor,hairStyle,hairTexture']]],
-      ['body', L.bodySection, [[L.hw,`${current.height} / ${current.weight}`,'height,weight'],[L.body,displayValue('bodyType',current.bodyType),'bodyType'],[uiLang==='en' ? 'Physique Guide' : '体格の目安', `${uiLang==='en' ? `about ${headCount(current)} heads tall` : `約${headCount(current)}頭身`}`],[uiLang==='en' ? 'Shoulders' : '肩幅', current.shoulderWidth || '普通', 'shoulderWidth'],[uiLang==='en' ? 'Waist Pos / Legs / Arms' : '腰位置 / 脚長 / 腕長', `${current.waistPos||'標準'} / ${current.legLength||'標準'} / ${current.armLength||'標準'}`, 'waistPos,legLength,armLength'],[uiLang==='en' ? 'Frame / Neck / Limbs' : '骨格 / 首 / 手足サイズ感', `${current.frame||'標準'} / ${current.neckLength||'標準'} / ${current.limbSize||'標準'}`, 'frame,neckLength,limbSize'],[uiLang==='en' ? 'Hip Shape' : '臀部の形状', current.hipShape || '標準的な丸みの臀部', 'hipShape'],[uiLang==='en' ? 'Muscle Development' : '発達部位', muscleSummary(current, uiLang==='en')],[uiLang==='en' ? 'Muscle Development' : '発達部位', (muscleLine(current, false) || 'なし（競技経験の影響なし）').replace(/^発達部位：/,'').split('。')[0], 'muscleTone'],[L.foot,current.footSize,'footSize'],[uiLang==='en' ? 'Foot Width' : 'ワイズ（足幅）', current.footWidth || calcFootWidth(current), 'footWidth'],[L.footShape,displayValue('footShape',current.footShape),'footShape'],[uiLang==='en' ? 'Foot Traits' : '足の特徴', current.footFeature || '特徴なし・整った足', 'footFeature'],[uiLang==='en' ? 'Sole Type' : '足裏タイプ', current.soleType || '均整なめらか型', 'soleType'],[uiLang==='en' ? 'Toe Alignment' : '指の並び・向き', current.toeLine || 'まっすぐ前を向いたそろった並び', 'toeLine'],[uiLang==='en' ? 'Creases / Curl' : 'しわ・反り', `${current.soleWrinkle || '標準的なしわ'}／${current.toeCurl || '指がフラットに伸びた状態'}`, 'soleWrinkle,toeCurl']]],
+      ['body', L.bodySection, [[L.hw,`${current.height} / ${current.weight}`,'height,weight'],[L.body,displayValue('bodyType',current.bodyType),'bodyType'],[uiLang==='en' ? 'Physique Guide' : '体格の目安', `${uiLang==='en' ? `about ${headCount(current)} heads tall` : `約${headCount(current)}頭身`}`],[uiLang==='en' ? 'Shoulders' : '肩幅', current.shoulderWidth || '普通', 'shoulderWidth'],[uiLang==='en' ? 'Waist Pos / Legs / Arms' : '腰位置 / 脚長 / 腕長', `${current.waistPos||'標準'} / ${current.legLength||'標準'} / ${current.armLength||'標準'}`, 'waistPos,legLength,armLength'],[uiLang==='en' ? 'Frame / Neck / Limbs' : '骨格 / 首 / 手足サイズ感', `${current.frame||'標準'} / ${current.neckLength||'標準'} / ${current.limbSize||'標準'}`, 'frame,neckLength,limbSize'],[uiLang==='en' ? 'Hip Shape' : '臀部の形状', current.hipShape || '標準的な丸みの臀部', 'hipShape'],[uiLang==='en' ? 'Muscle Development' : '発達部位', muscleSummary(current, uiLang==='en')],[uiLang==='en' ? 'Training Habit' : '筋トレ習慣', current.trainingLevel || 'なし', 'trainingLevel'],[uiLang==='en' ? 'Muscle Development' : '発達部位', (muscleLine(current, false) || 'なし（競技経験の影響なし）').replace(/^発達部位：/,'').split('。')[0], 'muscleTone'],[L.foot,current.footSize,'footSize'],[uiLang==='en' ? 'Foot Width' : 'ワイズ（足幅）', current.footWidth || calcFootWidth(current), 'footWidth'],[L.footShape,displayValue('footShape',current.footShape),'footShape'],[uiLang==='en' ? 'Foot Traits' : '足の特徴', current.footFeature || '特徴なし・整った足', 'footFeature'],[uiLang==='en' ? 'Sole Type' : '足裏タイプ', current.soleType || '均整なめらか型', 'soleType'],[uiLang==='en' ? 'Toe Alignment' : '指の並び・向き', current.toeLine || 'まっすぐ前を向いたそろった並び', 'toeLine'],[uiLang==='en' ? 'Creases / Curl' : 'しわ・反り', `${current.soleWrinkle || '標準的なしわ'}／${current.toeCurl || '指がフラットに伸びた状態'}`, 'soleWrinkle,toeCurl']]],
       ['bodyhair', L.bodyHairSection, [[L.bodyHair, buildBodyHairSummary(current, uiLang==='en'),'bodyHairAll']]],
-      ['main', L.mainSection, [[L.main, mainWear]]],
-      ['outfit', L.outfitSection, [[uiLang==='en' ? 'Base Wear' : '基準服装',`${displayValue('baseWearType',current.baseWearType||'ボクサーパンツ')}／${displayValue('boxerColor',current.boxerColor)}／${displayValue('boxerBrand',current.boxerBrand)}`,'baseWearType,boxerColor,boxerBrand'],[L.weekdayOutfit,`${displayValue('outfitBrand',current.outfitBrand)}・${displayValue('outfitType',current.outfitType)}`,'outfitType']].concat(buildUniformEditRows(current, L)).concat([[L.sock,`${displayValue('sockBrand',current.sockBrand)}・${displayValue('sockType',current.sockType)}・${displayValue('sockColor',current.sockColor)}`,'sockType']]).concat(current.holidayOutfitType ? [[L.holidayOutfit,`${displayValue('outfitBrand',current.holidayOutfitBrand)}・${displayValue('outfitType',current.holidayOutfitType)}`,'holidayOutfitType'],[L.holidaySock,`${displayValue('sockBrand',current.holidaySockBrand)}・${displayValue('sockType',current.holidaySockType)}・${displayValue('sockColor',current.holidaySockColor)}`]] : [])],
+      ['main', L.mainSection, [[L.main, mainWear, (current.mainWearMode||'ボクサーパンツのみ')!=='時代に合った下着の種類' ? 'baseWearType,boxerColor,boxerBrand' : 'underwearType,underwearColor,boxerBrand']]],
+      ['outfit', L.outfitSection, [[L.weekdayOutfit,`${displayValue('outfitBrand',current.outfitBrand)}・${displayValue('outfitType',current.outfitType)}`,'outfitType']].concat(buildUniformEditRows(current, L)).concat([[L.sock,`${displayValue('sockBrand',current.sockBrand)}・${displayValue('sockType',current.sockType)}・${displayValue('sockColor',current.sockColor)}`,'sockType']]).concat(current.holidayOutfitType ? [[L.holidayOutfit,`${displayValue('outfitBrand',current.holidayOutfitBrand)}・${displayValue('outfitType',current.holidayOutfitType)}`,'holidayOutfitType'],[L.holidaySock,`${displayValue('sockBrand',current.holidaySockBrand)}・${displayValue('sockType',current.holidaySockType)}・${displayValue('sockColor',current.holidaySockColor)}`]] : [])],
       ['output', L.outputSection, [[L.background,displayValue('background',current.background),'background'],[L.output,`${displayValue('outputType',current.outputType)} / ${displayValue('count',current.count)}`],[L.promptTarget,`<span class="mini-badge">${current.promptTarget || 'ChatGPT'}</span>`],[L.imageText, current.captionMode==='表記しない' ? captionModeDisplay(current.captionMode) : `${captionModeDisplay(current.captionMode)} / ${getCaptionFieldLabelsArray(current, uiLang==='en').join(', ')}`],[L.cardSetting, `${displayValue('cardStyle',current.cardStyle)} / ${current.cardRarity} / ${displayValue('cardTheme',current.cardTheme)} / ${displayValue('cardLayout',current.cardLayout)} / ${displayValue('cardWearMode',current.cardWearMode || 'ボクサーパンツのみ')} / ${displayValue('cardEffect',cardEffectByRarity(current.cardRarity))}`]]],
       ['scene', L.sceneSection, [[L.scene,displayValue('sceneIdea',current.sceneIdea),'sceneIdea']]]
     ];
     const pcIcons = {basic:'👤', face:'🙂', body:'📐', bodyhair:'🧔', main:'🩳', outfit:'👕', output:'🖨️', scene:'🎬'};
     const pcSpan2 = {output:true, scene:true};
     const cpMode = current.catchphraseMode || '結果画面のみ表示';
-    const cpHtml = cpMode !== '表示しない' ? `<div class="catchphrase">――${catchphrase(current, uiLang==='en')}</div>` : '';
+    const cpHtml = (cpMode !== '表示しない' ? `<div class="catchphrase">――${catchphrase(current, uiLang==='en')}</div>` : '') + `<div class="bio-hook" style="margin:0 0 12px;font-size:14px;color:#cfe0f5;line-height:1.6;border-left:3px solid var(--blue);padding-left:10px">${uiLang==='en' ? bioLine(current, true) : (current.bioText || bioLine(current, false))} <button class="pf-btn" data-p-dice="bioText" title="🎲">🎲</button></div>`;
     const badges = cpHtml + `<div class="badge-row">
       <span class="badge-mbti">★ ${mbtiDisplay(current)}</span>
       <span class="badge-target">⚡ Prompt Target: ${current.promptTarget || 'ChatGPT'}</span>
@@ -4881,7 +5220,7 @@ ${promptTargetGuide(b, false)}`;
     const rr = scoreRarity(current);
     const ikm = current.ikemenIndexMode === '表示する' ? (()=>{ const sc = ikemenScore(current); return `<div class="subcard" style="margin:0 0 12px"><h3>${uiLang==='en' ? 'Handsome Index' : 'イケメン指数'} <span class="pill" style="margin-left:8px">${sc} / 100 — ${ikemenRank(sc, uiLang==='en')}</span></h3><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${ikemenBreakdown(current).map(([l,d])=>`<span class="pill">${l} ${d>0?'+':''}${d}</span>`).join('') || `<span class="notice">${uiLang==='en' ? 'All standard features.' : 'すべて標準的な造形。'}</span>`}</div><p class="notice" style="margin:6px 0 0">${uiLang==='en' ? 'Standard features score exactly 50. Computed from 19 facial axes; never written into prompts.' : '標準的な造形がちょうど50ptになる設計です（顔の19軸から算出。プロンプトには含めません）。'}</p></div>` })() : '';
     const bdHtml = ikm + `<div class="subcard" style="margin:0 0 12px"><h3>${uiLang==='en' ? 'Rarity Breakdown' : 'レア内訳'} <span class="pill" style="margin-left:8px">${rr[0]} pt / ${rr[1]}</span></h3><div style="display:flex;flex-wrap:wrap;gap:4px">${bd.length ? bd.map(([l,p])=>`<span class="pill">${l} +${p}</span>`).join('') : `<span class="notice">${uiLang==='en' ? 'No rare points this time.' : '今回はレア該当なし。'}</span>`}</div></div>`;
-    const pfBtns = (pk)=>{ const hasPool = pk.split(',').some(k=>{ const p = slotEditPool(k); return p && p.length; }); return `<span class="pf-actions">${hasPool ? `<button class="pf-btn" data-p-edit="${pk}" title="${T('editTitle')}">✎</button>` : ''}<button class="pf-btn" data-p-dice="${pk}" title="🎲">🎲</button></span>`; };
+    const pfBtns = (pk)=>{ const hasPool = pk === 'sportsHistory' || pk.split(',').some(k=>{ const p = slotEditPool(k); return p && p.length; }); return `<span class="pf-actions">${hasPool ? `<button class="pf-btn" data-p-edit="${pk}" title="${T('editTitle')}">✎</button>` : ''}<button class="pf-btn" data-p-dice="${pk}" title="🎲">🎲</button></span>`; };
     els.profileView.innerHTML = badges + bdHtml + `<div class="profile-cards">` + sections.map(([key,title,rows])=>`<div class="profile-card pc-${key}${pcSpan2[key]?' span2':''}"><h3><span class="pc-icon">${pcIcons[key]||''}</span>${title}${key==='scene' ? ` <button class="dice" style="position:static;margin-left:auto" data-scene-edit title="${T('editTitle')}">✎</button>` : ''}</h3>${rows.map(([k,v,pk])=>pk ? `<div class="kv kv3"><b>${k}</b><span>${v}</span>${pfBtns(pk)}</div>` : `<div class="kv"><b>${k}</b><span>${v}</span></div>`).join('')}</div>`).join('') + `</div>`;
     els.profileView.querySelectorAll('[data-p-dice]').forEach(b=>{ b.onclick = () => rerollProfile(b.dataset.pDice.split(',')[0]); });
     els.profileView.querySelectorAll('[data-p-edit]').forEach(b=>{ b.onclick = () => openProfileEdit(b); });
@@ -4929,7 +5268,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.4.2'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.5.0'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
