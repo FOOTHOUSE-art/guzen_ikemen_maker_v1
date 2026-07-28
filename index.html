@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V2.5.0</title>
+  <title>Guzen Ikemen Maker V2.5.2</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -91,6 +91,10 @@
     .profile-card.span2{grid-column:1/-1}
     .profile-card.pc-face{--accent:var(--blue)}.profile-card.pc-body{--accent:var(--green)}.profile-card.pc-bodyhair{--accent:#c4b5fd}.profile-card.pc-main{--accent:var(--pink)}.profile-card.pc-outfit{--accent:#fdba74}.profile-card.pc-output{--accent:var(--blue)}.profile-card.pc-scene{--accent:var(--gold)}
     .catchphrase{font-size:21px;font-weight:950;letter-spacing:.02em;margin:0 0 10px;background:linear-gradient(135deg,var(--gold),#ffe9a3);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 8px #f7c94833)}
+    .ab-measure{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 14px;border:1px solid #f7c94844;background:#f7c94810;border-radius:12px;padding:8px 12px;color:#ffe9a3;font-size:14px;font-weight:950;letter-spacing:.02em;box-shadow:inset 0 1px 0 #ffffff0c}
+    .ab-measure b{color:var(--gold)}
+    .ab-reroll{margin-left:4px;background:#182842;border:1px solid #f7c94866;border-radius:8px;color:#ffe9a3;padding:4px 9px;font-size:12px;font-weight:900;cursor:pointer;transition:.15s background,.15s transform}
+    .ab-reroll:hover{background:#f7c94822;transform:translateY(-1px)}
     .badge-row{margin:0 0 14px}
     .badge-mbti{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--gold),#ffe9a3);color:#231a00;border:1px solid #ffdf80;border-radius:999px;padding:8px 15px;font-weight:950;font-size:13px;letter-spacing:.02em;box-shadow:0 8px 22px #f7c94840,inset 0 1px 0 #ffffffaa}
     .badge-target{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#0e2a44,#123a5e);color:#aee9ff;border:1px solid #67e8f966;border-radius:999px;padding:8px 15px;font-weight:950;font-size:13px;letter-spacing:.02em;box-shadow:0 8px 22px #67e8f922,inset 0 1px 0 #ffffff14}
@@ -101,8 +105,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V2.5.0</span>
-        <h1 class="title">Guzen Ikemen Maker V2.5.0</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V2.5.2</span>
+        <h1 class="title">Guzen Ikemen Maker V2.5.2</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -387,7 +391,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.5.0</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.5.2</p>
   </div>
 
 <script>
@@ -395,6 +399,88 @@
   const STORAGE_KEY = 'guzen-ikemen-maker-v1.results';
   const sleep = ms => new Promise(r=>setTimeout(r,ms));
   const rnd = (min,max,step=1)=> Math.round((min + Math.random()*(max-min))/step)*step;
+  const randomNormal = (mean=0, sd=1) => {
+    let u=0, v=0;
+    while(u===0) u=Math.random();
+    while(v===0) v=Math.random();
+    return mean + sd * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  };
+  const shuffleInPlace = arr => {
+    for(let i=arr.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+  };
+  // A/Bは100個の周期デッキで管理する。各デッキは平均値を厳密に固定し、
+  // 指定範囲内・0.1cm刻み・指定標準偏差帯を基準とした正規分布風のばらつきにする。
+  // 周期が100なので、どの位置から連続100回抽選しても平均値は同じになる。
+  const makeBalancedMeasurementDeck = (min,max,targetMean,sdMin,sdMax) => {
+    const pairCount=50;
+    const maxDistance=Math.min(targetMean-min,max-targetMean);
+    const targetSd=sdMin + 0.05 + Math.random()*Math.max(0.01,(sdMax-sdMin)-0.10);
+    const raw=Array.from({length:pairCount},()=>Math.max(0.02,Math.abs(randomNormal())));
+    const rmsForScale = scale => Math.sqrt(raw.reduce((sum,z)=>{
+      const d=Math.min(maxDistance,z*scale);
+      return sum+d*d;
+    },0)/pairCount);
+    let lo=0, hi=maxDistance*20;
+    for(let i=0;i<80;i++){
+      const mid=(lo+hi)/2;
+      if(rmsForScale(mid)<targetSd) lo=mid; else hi=mid;
+    }
+    let distances=raw.map(z=>Math.round(Math.min(maxDistance,z*((lo+hi)/2))*10)/10);
+    // 0.1cm丸め後も目標標準偏差へできるだけ近づける。
+    const targetSq=pairCount*targetSd*targetSd;
+    for(let step=0;step<5000;step++){
+      const currentSq=distances.reduce((sum,d)=>sum+d*d,0);
+      let bestIndex=-1, bestValue=0, bestError=Math.abs(currentSq-targetSq);
+      for(let i=0;i<distances.length;i++){
+        for(const delta of [-0.1,0.1]){
+          const nv=Math.round((distances[i]+delta)*10)/10;
+          if(nv<0 || nv>maxDistance) continue;
+          const nextSq=currentSq-distances[i]*distances[i]+nv*nv;
+          const err=Math.abs(nextSq-targetSq);
+          if(err+1e-9<bestError){ bestError=err; bestIndex=i; bestValue=nv; }
+        }
+      }
+      if(bestIndex<0) break;
+      distances[bestIndex]=bestValue;
+    }
+    const deck=[];
+    distances.forEach(d=>{
+      deck.push(Number((targetMean-d).toFixed(1)));
+      deck.push(Number((targetMean+d).toFixed(1)));
+    });
+    return shuffleInPlace(deck);
+  };
+  const abDeckState = {
+    A: makeBalancedMeasurementDeck(5.0,10.5,8.0,1.5,2.0),
+    B: makeBalancedMeasurementDeck(9.0,19.0,13.5,1.5,3.5),
+    indexA:0,
+    indexB:0
+  };
+  const drawBalancedMeasurement = key => {
+    const deck=abDeckState[key];
+    const indexKey=key==='A'?'indexA':'indexB';
+    const value=deck[abDeckState[indexKey] % deck.length];
+    abDeckState[indexKey]=(abDeckState[indexKey]+1)%deck.length;
+    return value;
+  };
+  const createABMeasurements = () => ({
+    measurementA: drawBalancedMeasurement('A'),
+    measurementB: drawBalancedMeasurement('B')
+  });
+  const ensureABMeasurements = c => {
+    if(!c) return;
+    const invalidA=!Number.isFinite(Number(c.measurementA)) || Number(c.measurementA)<5 || Number(c.measurementA)>10.5;
+    const invalidB=!Number.isFinite(Number(c.measurementB)) || Number(c.measurementB)<9 || Number(c.measurementB)>19;
+    if(invalidA || invalidB){
+      const next=createABMeasurements();
+      if(invalidA) c.measurementA=next.measurementA;
+      if(invalidB) c.measurementB=next.measurementB;
+    }
+  };
   const pick = arr => arr[Math.floor(Math.random()*arr.length)];
   const weighted = entries => { const total = entries.reduce((a,b)=>a+b[1],0); let n=Math.random()*total; for(const [v,w] of entries){n-=w; if(n<=0) return v;} return entries[entries.length-1][0]; };
   const uniqId = () => Math.random().toString(36).slice(2)+Date.now().toString(36);
@@ -1017,8 +1103,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.5.0';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.5.0';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.5.2';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.5.2';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -3958,8 +4044,11 @@
       if(!PREWAR_COORD[holidayOutfitType]) hCoord.outfitBrand = '仕立て・既製品';
     }
     const eraUw = (initial.mainWearMode === '時代に合った下着の種類') ? generateEraUnderwear(eraYear) : null;
+    const abMeasurements = createABMeasurements();
     const c = {
       id: uniqId(),
+      measurementA: base.measurementA ?? abMeasurements.measurementA,
+      measurementB: base.measurementB ?? abMeasurements.measurementB,
       name: base.name || nameByNationality(nationality, eraYear, age),
       age, eraYear, nationality, ethnicity, vibe, mbti, role,
       heightRaw: height,
@@ -4648,6 +4737,12 @@ ${promptTargetGuide(c, false)}`;
     if(key==='trainingLevel'){ current.trainingLevel = chooseTrainingLevel(current); current.bioText = buildBioHook(current); renderAll(); return; }
     if(key==='sportsHistory'){ current.sportsHistory = generateSportsHistory(current.age, current.role, current.sportName, getInitial().sportsBodyInfluence); current.bioText = buildBioHook(current); renderAll(); return; }
     if(key==='bioText'){ current.bioText = buildBioHook(current); renderAll(); return; }
+    if(key==='abMeasurements'){
+      const next=createABMeasurements();
+      current.measurementA=next.measurementA;
+      current.measurementB=next.measurementB;
+      renderAll(); return;
+    }
     if(key==='baseWearType'){ current.baseWearType = weighted([['ボクサーパンツ',6],['ショートショーツ',2],['スポーツスパッツ',2]]); renderAll(); return; }
     if(key==='boxerColor'){ current.boxerColor = pick(pools.boxerColors); renderAll(); return; }
     if(key==='soleType'){ current.soleType = chooseSoleType(current); current.soleWrinkle = chooseSoleWrinkle(current); renderAll(); return; }
@@ -5186,6 +5281,7 @@ ${promptTargetGuide(b, false)}`;
     if(!current.baseWearType) current.baseWearType = 'ボクサーパンツ';
     if(!current.trainingLevel) current.trainingLevel = 'なし';
     if(!current.bioText) current.bioText = buildBioHook(current);
+    ensureABMeasurements(current);
     if(!current.soleType) current.soleType = chooseSoleType(current);
     if(!current.soleWrinkle) current.soleWrinkle = chooseSoleWrinkle(current);
     if(!current.toeLine) current.toeLine = chooseToeLine(current);
@@ -5210,7 +5306,7 @@ ${promptTargetGuide(b, false)}`;
     const pcIcons = {basic:'👤', face:'🙂', body:'📐', bodyhair:'🧔', main:'🩳', outfit:'👕', output:'🖨️', scene:'🎬'};
     const pcSpan2 = {output:true, scene:true};
     const cpMode = current.catchphraseMode || '結果画面のみ表示';
-    const cpHtml = (cpMode !== '表示しない' ? `<div class="catchphrase">――${catchphrase(current, uiLang==='en')}</div>` : '') + `<div class="bio-hook" style="margin:0 0 12px;font-size:14px;color:#cfe0f5;line-height:1.6;border-left:3px solid var(--blue);padding-left:10px">${uiLang==='en' ? bioLine(current, true) : (current.bioText || bioLine(current, false))} <button class="pf-btn" data-p-dice="bioText" title="🎲">🎲</button></div>`;
+    const cpHtml = (cpMode !== '表示しない' ? `<div class="catchphrase">――${catchphrase(current, uiLang==='en')}</div>` : '') + `<div class="bio-hook" style="margin:0 0 12px;font-size:14px;color:#cfe0f5;line-height:1.6;border-left:3px solid var(--blue);padding-left:10px">${uiLang==='en' ? bioLine(current, true) : (current.bioText || bioLine(current, false))} <button class="pf-btn" data-p-dice="bioText" title="🎲">🎲</button></div>` + `<div class="ab-measure"><b>A/B</b><span>A ${Number(current.measurementA).toFixed(1)}cm / B ${Number(current.measurementB).toFixed(1)}cm</span><button class="ab-reroll" data-p-dice="abMeasurements" title="${uiLang==='en'?'Reroll A/B':'A/Bを再抽選'}">🎲 ${uiLang==='en'?'Reroll':'再抽選'}</button></div>`;
     const badges = cpHtml + `<div class="badge-row">
       <span class="badge-mbti">★ ${mbtiDisplay(current)}</span>
       <span class="badge-target">⚡ Prompt Target: ${current.promptTarget || 'ChatGPT'}</span>
