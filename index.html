@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V2.6.1</title>
+  <title>Guzen Ikemen Maker V2.6.2</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -101,8 +101,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V2.6.1</span>
-        <h1 class="title">Guzen Ikemen Maker V2.6.1</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V2.6.2</span>
+        <h1 class="title">Guzen Ikemen Maker V2.6.2</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -388,7 +388,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.6.1</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.6.2</p>
   </div>
 
 <script>
@@ -1021,8 +1021,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.6.1';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.6.1';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.6.2';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.6.2';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -4529,7 +4529,7 @@ ${promptTargetGuide(c, false)}`;
     FRIEND_CTX = null;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.6.1'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.6.2'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -5114,6 +5114,9 @@ ${promptTargetGuide(b, false)}`;
     if(mF) out.footSize = mF[1] + 'cm';
     const mMbti = t.match(/\b([IE][NS][TF][JP])\b/); if(mMbti) out.mbti = mMbti[1];
     const mTb = t.match(/涙袋は([^。、]+)/); if(mTb && (pools.tearBags || []).includes(mTb[1])) out.tearBags = mTb[1];
+    if(out.bangs === undefined) out.bangs = '指定なし';
+    if(out.hairFinish === undefined) out.hairFinish = '指定なし';
+    if(out.hairVolume === undefined) out.hairVolume = '標準的な毛量';
     const mBio = t.match(/ひとこと：「([^」]+)」/); if(mBio){ out.bioText = mBio[1]; out.bioCaptionMode = '情報欄に入れる'; }
     const mTr = t.match(/筋トレ習慣「([^」]+)」/); if(mTr && TRAINING_LEVELS.some(x=>x[0]===mTr[1])) out.trainingLevel = mTr[1];
     if(out.trainingLevel === undefined && !/筋トレ習慣「/.test(t)) out.trainingLevel = 'なし';
@@ -5254,7 +5257,7 @@ ${promptTargetGuide(b, false)}`;
     const mainWear = uiLang==='en' ? `${underwearDesc(current, true)} only` : `${underwearDesc(current, false)}のみ`;
     const sections = [
       ['basic', L.basic, [[L.name,current.name,'name'],[L.age,displayValue('age',current.age),'age'],[L.era, uiLang==='en' ? `${current.eraYear || '2026'} (${eraProfile(current.eraYear || '2026').labelEn})${current.season ? ` / ${displayValue('season', current.season) || current.season}` : ''}` : `${eraLabel(current.eraYear)}（${eraProfile(current.eraYear || '2026').labelJa}）${current.season ? `・${current.season}` : ''}`,'eraYear'],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`,'nationality,ethnicity'],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}${current.occupationMode ? `（${uiLang==='en' ? displayValue('occupationMode', current.occupationMode) || current.occupationMode : current.occupationMode}）` : ''}`,'role,vibe'],[uiLang==='en' ? 'Sports Background' : '経験競技スポーツ', sportsHistoryText(current, uiLang==='en'), 'sportsHistory']].concat(current.groupSetting ? [[L.group, `${displayValue('groupSetting',current.groupSetting) || current.groupSetting} / ${displayValue('groupPosition',current.groupPosition) || current.groupPosition}`]] : []).concat(current.friendOf ? [[L.friendRow, friendRelationText(current, uiLang==='en')]] : []).concat([[L.mbti,`<span class="mini-badge">${mbtiDisplay(current)}</span>`,'mbti']])],
-      ['face', L.faceSection, [[L.face,`${displayValue('facePreset',current.facePreset)} / ${displayValue('ageAppearance',current.ageAppearance)}`,'facePreset,ageAppearance'],[L.faceLine,displayValue('faceLine',current.faceLine),'faceLine'],[slotLabel('eyebrow','眉'),`${displayValue('eyebrow',current.eyebrow||'標準的なゆるいアーチ眉')}／${displayValue('eyebrowDensity',current.eyebrowDensity||'標準的な濃さの眉')}`,'eyebrow,eyebrowDensity'],[uiLang==='en' ? 'Eyelid / Shape / Impression' : 'まぶた / 目の形 / 印象',`${displayValue('eyelid',current.eyelid||'末広二重')}／${displayValue('eyeShape',current.eyeShape||'標準的な目の形')}／${displayValue('eyes',current.eyes)}`,'eyelid,eyeShape,eyes'],[uiLang==='en' ? 'Eyelashes / Tear Bags' : 'まつ毛 / 涙袋',`${displayValue('eyelash',current.eyelash||'標準的な長さのまつ毛')}／${displayValue('tearBags',current.tearBags)}`,'eyelash,tearBags'],[L.nose,displayValue('nose',current.nose),'nose'],[slotLabel('mouth','基本表情'),displayValue('mouth',current.mouth),'mouth'],[uiLang==='en' ? 'Teeth Align / Color' : '歯並び / 歯の色', `${current.teethAlign||'ほぼ整った歯列'} / ${current.teethColor||'自然な白さの歯'}`, 'teethAlign,teethColor'],[slotLabel('lips','唇の形状'),displayValue('lips',current.lips || '標準的な厚さの唇'),'lips'],[slotLabel('mouthPos','口の位置'),displayValue('mouthPos',current.mouthPos || '標準的な位置・大きさの口'),'mouthPos'],[slotLabel('faceSpacing','パーツ配置'),displayValue('faceSpacing',current.faceSpacing || '標準的な配置'),'faceSpacing'],[slotLabel('faceRatio','目鼻口比率'),displayValue('faceRatio',current.faceRatio || '標準的なバランスの比率'),'faceRatio'],[slotLabel('faceAsym','顔の左右差'),displayValue('faceAsym',current.faceAsym || 'ほぼ対称（ごく自然な左右差）'),'faceAsym'],[uiLang==='en' ? 'Chin / Jaw' : '顎先 / エラ',`${displayValue('jawChin',current.jawChin||'標準的な顎先')}／${displayValue('jawAngle',current.jawAngle||'ほどよく張ったエラ')}`,'jawChin,jawAngle'],[uiLang==='en' ? 'Ears / Brow' : '耳 / 彫り',`${displayValue('ear',current.ear||'標準的な耳')}／${displayValue('browRidge',current.browRidge||'彫りは標準的')}`,'ear,browRidge'],[uiLang==='en' ? 'Forehead / Hairline' : '額 / 生え際',`${displayValue('forehead',current.forehead||'標準的な広さの額')}／${displayValue('hairline',current.hairline||'直線的な生え際')}`,'forehead,hairline'],[uiLang==='en' ? 'Cheeks / Dimples' : '頬 / えくぼ',`${displayValue('cheek',current.cheek||'標準的な頬')}／${displayValue('dimple',current.dimple||'えくぼなし')}`,'cheek,dimple'],[uiLang==='en' ? 'Mole / Under-eye' : 'ほくろ / クマ',`${displayValue('mole',current.mole||'ほくろなし')}／${displayValue('eyeBags',current.eyeBags||'クマなし')}`,'mole,eyeBags'],[uiLang==='en' ? 'Throat / Lip Tone' : 'のどぼとけ / 唇の血色',`${displayValue('adamsApple',current.adamsApple||'標準的なのどぼとけ')}／${displayValue('lipTone',current.lipTone||'標準的な血色の唇')}`,'adamsApple,lipTone'],[L.skin,displayValue('skin',current.skin),'skin'],[uiLang==='en' ? 'Skin Details' : '肌の特徴',`${displayValue('skinDetail',current.skinDetail || 'なし（クリアな肌）')}${current.skinDetail2 && current.skinDetail2 !== 'なし（クリアな肌）' ? `／${displayValue('skinDetail',current.skinDetail2)}` : ''}`,'skinDetail,skinDetail2'],[L.facialHair,`${displayValue('facialHair',current.facialHair)}${current.facialHair!=='なし' ? `（${displayValue('facialHairGroom',current.facialHairGroom||'自然に整えている')}）` : ''}`,'facialHair,facialHairGroom'],[L.glasses, displayValue('glasses', current.glasses || 'なし'),'glasses'],[L.hair,`${displayValue('hairColor',current.hairColor)}・${displayValue('hairStyle',current.hairStyle)}（${displayValue('hairTexture',current.hairTexture||'直毛')}）`,'hairColor,hairStyle,hairTexture']]],
+      ['face', L.faceSection, [[L.face,`${displayValue('facePreset',current.facePreset)} / ${displayValue('ageAppearance',current.ageAppearance)}`,'facePreset,ageAppearance'],[L.faceLine,displayValue('faceLine',current.faceLine),'faceLine'],[slotLabel('eyebrow','眉'),`${displayValue('eyebrow',current.eyebrow||'標準的なゆるいアーチ眉')}／${displayValue('eyebrowDensity',current.eyebrowDensity||'標準的な濃さの眉')}`,'eyebrow,eyebrowDensity'],[uiLang==='en' ? 'Eyelid / Shape / Impression' : 'まぶた / 目の形 / 印象',`${displayValue('eyelid',current.eyelid||'末広二重')}／${displayValue('eyeShape',current.eyeShape||'標準的な目の形')}／${displayValue('eyes',current.eyes)}`,'eyelid,eyeShape,eyes'],[uiLang==='en' ? 'Eyelashes / Tear Bags' : 'まつ毛 / 涙袋',`${displayValue('eyelash',current.eyelash||'標準的な長さのまつ毛')}／${displayValue('tearBags',current.tearBags)}`,'eyelash,tearBags'],[L.nose,displayValue('nose',current.nose),'nose'],[slotLabel('mouth','基本表情'),displayValue('mouth',current.mouth),'mouth'],[uiLang==='en' ? 'Teeth Align / Color' : '歯並び / 歯の色', `${current.teethAlign||'ほぼ整った歯列'} / ${current.teethColor||'自然な白さの歯'}`, 'teethAlign,teethColor'],[slotLabel('lips','唇の形状'),displayValue('lips',current.lips || '標準的な厚さの唇'),'lips'],[slotLabel('mouthPos','口の位置'),displayValue('mouthPos',current.mouthPos || '標準的な位置・大きさの口'),'mouthPos'],[slotLabel('faceSpacing','パーツ配置'),displayValue('faceSpacing',current.faceSpacing || '標準的な配置'),'faceSpacing'],[slotLabel('faceRatio','目鼻口比率'),displayValue('faceRatio',current.faceRatio || '標準的なバランスの比率'),'faceRatio'],[slotLabel('faceAsym','顔の左右差'),displayValue('faceAsym',current.faceAsym || 'ほぼ対称（ごく自然な左右差）'),'faceAsym'],[uiLang==='en' ? 'Chin / Jaw' : '顎先 / エラ',`${displayValue('jawChin',current.jawChin||'標準的な顎先')}／${displayValue('jawAngle',current.jawAngle||'ほどよく張ったエラ')}`,'jawChin,jawAngle'],[uiLang==='en' ? 'Ears / Brow' : '耳 / 彫り',`${displayValue('ear',current.ear||'標準的な耳')}／${displayValue('browRidge',current.browRidge||'彫りは標準的')}`,'ear,browRidge'],[uiLang==='en' ? 'Forehead / Hairline' : '額 / 生え際',`${displayValue('forehead',current.forehead||'標準的な広さの額')}／${displayValue('hairline',current.hairline||'直線的な生え際')}`,'forehead,hairline'],[uiLang==='en' ? 'Cheeks / Dimples' : '頬 / えくぼ',`${displayValue('cheek',current.cheek||'標準的な頬')}／${displayValue('dimple',current.dimple||'えくぼなし')}`,'cheek,dimple'],[uiLang==='en' ? 'Mole / Under-eye' : 'ほくろ / クマ',`${displayValue('mole',current.mole||'ほくろなし')}／${displayValue('eyeBags',current.eyeBags||'クマなし')}`,'mole,eyeBags'],[uiLang==='en' ? 'Throat / Lip Tone' : 'のどぼとけ / 唇の血色',`${displayValue('adamsApple',current.adamsApple||'標準的なのどぼとけ')}／${displayValue('lipTone',current.lipTone||'標準的な血色の唇')}`,'adamsApple,lipTone'],[L.skin,displayValue('skin',current.skin),'skin'],[uiLang==='en' ? 'Skin Details' : '肌の特徴',`${displayValue('skinDetail',current.skinDetail || 'なし（クリアな肌）')}${current.skinDetail2 && current.skinDetail2 !== 'なし（クリアな肌）' ? `／${displayValue('skinDetail',current.skinDetail2)}` : ''}`,'skinDetail,skinDetail2'],[L.facialHair,`${displayValue('facialHair',current.facialHair)}${current.facialHair!=='なし' ? `（${displayValue('facialHairGroom',current.facialHairGroom||'自然に整えている')}）` : ''}`,'facialHair,facialHairGroom'],[L.glasses, displayValue('glasses', current.glasses || 'なし'),'glasses'],[L.hair,`${displayValue('hairColor',current.hairColor)}・${displayValue('hairStyle',current.hairStyle)}（${displayValue('hairTexture',current.hairTexture||'直毛')}）`,'hairColor,hairStyle,hairTexture'],[uiLang==='en' ? 'Bangs / Styling / Volume' : '前髪・整髪・毛量',`${displayValue('bangs',current.bangs||'指定なし')}／${displayValue('hairFinish',current.hairFinish||'指定なし')}／${displayValue('hairVolume',current.hairVolume||'標準的な毛量')}`,'bangs,hairFinish,hairVolume']]],
       ['body', L.bodySection, [[L.hw,`${current.height} / ${current.weight}`,'height,weight'],[L.body,displayValue('bodyType',current.bodyType),'bodyType'],[uiLang==='en' ? 'Physique Guide' : '体格の目安', `${uiLang==='en' ? `about ${headCount(current)} heads tall` : `約${headCount(current)}頭身`}`],[uiLang==='en' ? 'Shoulders' : '肩幅', current.shoulderWidth || '普通', 'shoulderWidth'],[uiLang==='en' ? 'Waist Pos / Legs / Arms' : '腰位置 / 脚長 / 腕長', `${current.waistPos||'標準'} / ${current.legLength||'標準'} / ${current.armLength||'標準'}`, 'waistPos,legLength,armLength'],[uiLang==='en' ? 'Frame / Neck / Limbs' : '骨格 / 首 / 手足サイズ感', `${current.frame||'標準'} / ${current.neckLength||'標準'} / ${current.limbSize||'標準'}`, 'frame,neckLength,limbSize'],[uiLang==='en' ? 'Hip Shape' : '臀部の形状', current.hipShape || '標準的な丸みの臀部', 'hipShape'],[uiLang==='en' ? 'Muscle Development' : '発達部位', muscleSummary(current, uiLang==='en')],[uiLang==='en' ? 'Training Habit' : '筋トレ習慣', current.trainingLevel || 'なし', 'trainingLevel'],[uiLang==='en' ? 'Muscle Development' : '発達部位', (muscleLine(current, false) || 'なし（競技経験の影響なし）').replace(/^発達部位：/,'').split('。')[0], 'muscleTone'],[L.foot,current.footSize,'footSize'],[uiLang==='en' ? 'Foot Width' : 'ワイズ（足幅）', current.footWidth || calcFootWidth(current), 'footWidth'],[L.footShape,displayValue('footShape',current.footShape),'footShape'],[uiLang==='en' ? 'Foot Traits' : '足の特徴', current.footFeature || '特徴なし・整った足', 'footFeature'],[uiLang==='en' ? 'Sole Type' : '足裏タイプ', current.soleType || '均整なめらか型', 'soleType'],[uiLang==='en' ? 'Toe Alignment' : '指の並び・向き', current.toeLine || 'まっすぐ前を向いたそろった並び', 'toeLine'],[uiLang==='en' ? 'Creases / Curl' : 'しわ・反り', `${current.soleWrinkle || '標準的なしわ'}／${current.toeCurl || '指がフラットに伸びた状態'}`, 'soleWrinkle,toeCurl']]],
       ['bodyhair', L.bodyHairSection, [[L.bodyHair, buildBodyHairSummary(current, uiLang==='en'),'bodyHairAll']]],
       ['main', L.mainSection, [[L.main, mainWear, (current.mainWearMode||'ボクサーパンツのみ')!=='時代に合った下着の種類' ? 'baseWearType,boxerColor,boxerBrand' : 'underwearType,underwearColor,boxerBrand']]],
@@ -5323,7 +5326,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.6.1'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.6.2'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
