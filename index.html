@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V2.7.2</title>
+  <title>Guzen Ikemen Maker V3.0.0</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -11,7 +11,7 @@
     }
     *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at top left,#143256 0,#07111f 42%,#030712 100%);color:var(--text);min-height:100vh}
     button,input,select,textarea{font:inherit} button{cursor:pointer}
-    .wrap{max-width:1280px;margin:0 auto;padding:24px}.hero{display:grid;gap:16px;grid-template-columns:1fr;align-items:start;margin-bottom:18px}.title{font-size:clamp(28px,5vw,54px);line-height:1;margin:0;font-weight:900;letter-spacing:-.04em}.subtitle{color:var(--muted);font-weight:650;margin:8px 0 0}.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#ffffff0d;border-radius:999px;padding:8px 12px;color:#cfe6ff;font-size:13px;font-weight:800}.panel{background:linear-gradient(180deg,#ffffff10,#ffffff07);border:1px solid var(--line);border-radius:22px;box-shadow:0 24px 70px #0008;padding:18px}.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:900;color:#06111f;background:#e8eef9;box-shadow:0 10px 24px #0005}.btn.primary{background:linear-gradient(135deg,var(--gold),#ffed99);color:#1f1600}.btn.blue{background:linear-gradient(135deg,var(--blue),#d9feff)}.btn.dark{background:#182842;color:#e8eef9;border:1px solid var(--line)}.btn.red{background:#fb7185;color:white}.btn:disabled{opacity:.55;cursor:not-allowed}.grid{display:grid;gap:14px}.cols{grid-template-columns:1fr}@media(min-width:980px){.hero{grid-template-columns:1fr 390px}.cols{grid-template-columns:minmax(0,1.25fr) minmax(360px,.75fr)}}
+    .wrap{max-width:1440px;margin:0 auto;padding:24px}.hero{display:grid;gap:16px;grid-template-columns:1fr;align-items:start;margin-bottom:18px}.title{font-size:clamp(28px,5vw,54px);line-height:1;margin:0;font-weight:900;letter-spacing:-.04em}.subtitle{color:var(--muted);font-weight:650;margin:8px 0 0}.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#ffffff0d;border-radius:999px;padding:8px 12px;color:#cfe6ff;font-size:13px;font-weight:800}.panel{background:linear-gradient(180deg,#ffffff10,#ffffff07);border:1px solid var(--line);border-radius:22px;box-shadow:0 24px 70px #0008;padding:18px}.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:900;color:#06111f;background:#e8eef9;box-shadow:0 10px 24px #0005}.btn.primary{background:linear-gradient(135deg,var(--gold),#ffed99);color:#1f1600}.btn.blue{background:linear-gradient(135deg,var(--blue),#d9feff)}.btn.dark{background:#182842;color:#e8eef9;border:1px solid var(--line)}.btn.red{background:#fb7185;color:white}.btn:disabled{opacity:.55;cursor:not-allowed}.grid{display:grid;gap:14px}.cols{grid-template-columns:1fr}@media(min-width:980px){.hero{grid-template-columns:1fr 390px}.cols{grid-template-columns:minmax(0,1.25fr) minmax(360px,.75fr)}#tab-result.cols{grid-template-columns:minmax(0,1.02fr) minmax(420px,.98fr)}#tab-result>.panel:nth-of-type(2){position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto;align-self:start;scrollbar-width:thin}}
     .slot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.slot{position:relative;overflow:hidden;border:1px solid #31567f;background:linear-gradient(180deg,#122846,#0a1728);border-radius:18px;padding:14px;min-height:118px;transition:.25s transform,.25s box-shadow,.25s border-color}.slot.done{border-color:#f7c948;box-shadow:0 0 0 1px #f7c94844,0 0 26px #f7c94833}.slot.spin{animation:pulse .35s infinite alternate}.slot.locked{border-color:#67e8f9;box-shadow:0 0 0 1px #67e8f944}.slot small{display:block;color:#8fb0d6;font-weight:900;letter-spacing:.04em;text-transform:uppercase}.slot .value{font-size:20px;font-weight:950;margin-top:10px;line-height:1.2;word-break:break-word}.slot .meta{font-size:12px;color:#9fb0c7;margin-top:10px}.lock{position:absolute;top:10px;right:10px;background:#ffffff14;border:1px solid #ffffff22;color:#dbeafe;border-radius:999px;padding:5px 8px;font-size:12px}.edit{position:absolute;bottom:10px;right:44px;background:#ffffff14;border:1px solid #ffffff22;color:#dbeafe;border-radius:999px;padding:4px 8px;font-size:12px;cursor:pointer;transition:.15s background}.edit:hover{background:#67e8f933}.slot-editor select,.slot-editor input{width:100%;background:#0d1a2c;border:1px solid var(--gold);border-radius:8px;color:#eaf2ff;padding:6px 8px;font-size:13px;font-weight:800}.dice{position:absolute;bottom:10px;right:10px;background:#ffffff14;border:1px solid #ffffff22;color:#dbeafe;border-radius:999px;padding:4px 7px;font-size:13px;cursor:pointer;transition:.15s background,.15s transform}.dice:hover{background:#f7c94833;transform:rotate(-15deg)}.fav-btn{background:#ffffff14;border:1px solid #ffffff22;color:#f7c948;border-radius:999px;padding:5px 9px;font-size:14px;cursor:pointer;margin-right:6px}.charcount{text-align:right;font-size:11px;margin-top:4px}.preset-input{background:#0d1a2c;border:1px solid #ffffff22;border-radius:10px;color:#eaf2ff;padding:8px 10px;font-size:13px}
     /* ===== V1.9.1 A案 UI ===== */
     #commandBar{position:sticky;top:0;z-index:60;background:#0a1526ee;backdrop-filter:blur(8px);border:1px solid #ffffff1c;border-radius:14px;padding:10px 12px;margin:0 0 12px;box-shadow:0 10px 30px #0007}
@@ -49,7 +49,7 @@
     .btn.copied{background:linear-gradient(135deg,#22c55e,#86efac)!important;color:#052e12!important;border-color:#86efac!important}
     #promptAreaTarget{font-size:11px}
     .prompt-pane.hidden{display:none}.rare{font-size:42px;font-weight:1000;letter-spacing:-.04em;margin:0}.rarity-NORMAL{color:#dbeafe}.rarity-RARE{color:#67e8f9}.rarity-SUPER{color:#f472b6}.rarity-LEGEND{color:#f7c948;text-shadow:0 0 22px #f7c94866}@keyframes pulse{from{transform:translateY(0);filter:brightness(1)}to{transform:translateY(-2px);filter:brightness(1.25)}}
-    .section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}.section-title h2{font-size:19px;margin:0;font-weight:950}.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.field{display:block}.field span{display:block;color:#9fb0c7;font-size:12px;font-weight:900;margin-bottom:5px}.field select,.field input,.field textarea{width:100%;background:#07111f;color:#e8eef9;border:1px solid var(--line);border-radius:12px;padding:10px}.field textarea{min-height:96px;resize:vertical}.result-card{display:grid;gap:10px}.pill{display:inline-flex;align-items:center;border:1px solid #ffffff22;background:#ffffff0c;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:850;color:#dbeafe}.kv{display:grid;grid-template-columns:115px 1fr;gap:8px;border-bottom:1px dashed #ffffff18;padding:7px 0}.kv b{color:#9fb0c7}.textarea{width:100%;min-height:320px;background:#050b14;color:#e8eef9;border:1px solid var(--line);border-radius:16px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.65;resize:vertical}.history{display:grid;gap:10px;max-height:360px;overflow:auto}.history-item{border:1px solid var(--line);border-radius:14px;background:#ffffff08;padding:10px}.history-item b{display:block}.footer{color:#7d91ad;font-size:12px;text-align:center;margin-top:24px}.notice{color:#bfd0e8;font-size:13px;line-height:1.7}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tab{border:1px solid var(--line);background:#ffffff0a;color:#dbeafe;border-radius:999px;padding:8px 12px;font-weight:850}.tab.active{background:#f7c948;color:#160f00}.hidden{display:none!important}.subcard{border:1px solid #ffffff18;background:#ffffff07;border-radius:18px;padding:14px;grid-column:1/-1}.subcard h3{margin:0 0 10px;font-size:15px;color:#e8eef9}.profile-section{border:1px solid #ffffff18;background:#ffffff08;border-radius:16px;padding:12px;margin:0 0 12px}.profile-section h3{margin:0 0 10px;font-size:15px;color:#f7c948}.badge-row{display:flex;gap:8px;flex-wrap:wrap}.mini-badge{display:inline-flex;border:1px solid #ffffff22;background:#ffffff10;border-radius:999px;padding:5px 9px;font-weight:850;font-size:12px;color:#dbeafe}
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}.section-title h2{font-size:19px;margin:0;font-weight:950}.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.field{display:block}.field span{display:block;color:#9fb0c7;font-size:12px;font-weight:900;margin-bottom:5px}.field select,.field input,.field textarea{width:100%;background:#07111f;color:#e8eef9;border:1px solid var(--line);border-radius:12px;padding:10px}.field textarea{min-height:96px;resize:vertical}.result-card{display:grid;gap:10px}.pill{display:inline-flex;align-items:center;border:1px solid #ffffff22;background:#ffffff0c;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:850;color:#dbeafe}.kv{display:grid;grid-template-columns:115px 1fr;gap:8px;border-bottom:1px dashed #ffffff18;padding:7px 0}.kv b{color:#9fb0c7}.textarea{width:100%;min-height:320px;background:#050b14;color:#e8eef9;border:1px solid var(--line);border-radius:16px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.65;resize:vertical}.history{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));align-items:stretch;max-height:560px;overflow:auto;padding-right:4px}.history-item{position:relative;border:1px solid var(--line);border-radius:14px;background:#ffffff08;padding:12px;display:flex;flex-direction:column;gap:8px}.history-item b{display:block;padding-right:40px;line-height:1.45}.history-item .notice{margin:0;flex:1}.history-item .fav-btn{position:absolute;top:8px;right:8px;margin:0}.history-item .btn{margin-top:auto;align-self:stretch;text-align:center}.footer{color:#7d91ad;font-size:12px;text-align:center;margin-top:24px}.notice{color:#bfd0e8;font-size:13px;line-height:1.7}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tab{border:1px solid var(--line);background:#ffffff0a;color:#dbeafe;border-radius:999px;padding:8px 12px;font-weight:850}.tab.active{background:#f7c948;color:#160f00}.hidden{display:none!important}.subcard{border:1px solid #ffffff18;background:#ffffff07;border-radius:18px;padding:14px;grid-column:1/-1}.subcard h3{margin:0 0 10px;font-size:15px;color:#e8eef9}.profile-section{border:1px solid #ffffff18;background:#ffffff08;border-radius:16px;padding:12px;margin:0 0 12px}.profile-section h3{margin:0 0 10px;font-size:15px;color:#f7c948}.badge-row{display:flex;gap:8px;flex-wrap:wrap}.mini-badge{display:inline-flex;border:1px solid #ffffff22;background:#ffffff10;border-radius:999px;padding:5px 9px;font-weight:850;font-size:12px;color:#dbeafe}.inner-badge{display:inline-block;border-radius:999px;padding:2px 8px;font-weight:900;font-size:10.5px;vertical-align:middle;margin-left:2px}.ib-rare{border:1px solid #f7c948aa;background:#f7c94822;color:#ffe9a3}.ib-gap{border:1px solid #67e8f9aa;background:#67e8f91e;color:#a7f3ff}
     /* ===== V1.6.1 graphical UI ===== */
     .settings-grid{display:grid;gap:14px;grid-template-columns:1fr}
     @media(min-width:980px){.settings-grid{grid-template-columns:1fr 1fr}}
@@ -73,6 +73,28 @@
     #initialCaptionFields label:has(input:checked),#manualCaptionFields label:has(input:checked),#initialCardFields label:has(input:checked),#manualCardFields label:has(input:checked){border-color:var(--gold);background:#f7c94820;color:#ffe9a3;box-shadow:0 0 0 1px #f7c94833}
     #initialCaptionFields input,#manualCaptionFields input,#initialCardFields input,#manualCardFields input{accent-color:var(--gold)}
     .profile-cards{display:grid;gap:12px;grid-template-columns:1fr}
+    .profile-card{container-type:inline-size}
+    @container (min-width:560px){.pc-face .pc-rows,.pc-body .pc-rows{columns:2;column-gap:18px}.pc-face .pc-rows .kv,.pc-body .pc-rows .kv{break-inside:avoid}}
+    .profile-top2{display:grid;gap:12px;grid-template-columns:1fr;margin:0 0 12px}
+    @media(min-width:980px){.profile-top2{grid-template-columns:1fr 1fr;align-items:start}}
+    .profile-cols{display:grid;gap:12px;grid-template-columns:1fr}
+    @media(min-width:980px){.profile-cols{grid-template-columns:1.02fr .98fr;align-items:start}}
+    .pcol{display:grid;gap:12px;align-content:start;min-width:0}
+    .inner-cat{margin:12px -6px 6px;padding:7px 12px;border-radius:10px;font-size:12.5px;font-weight:900;letter-spacing:.06em;border:1px solid transparent}
+    .pc-inner .inner-cat:first-of-type{margin-top:2px}
+    .icat-basic{background:#3b82f61c;border-color:#3b82f655;color:#bcd7ff}
+    .icat-life{background:#22c55e17;border-color:#22c55e4d;color:#b7f0c8}
+    .icat-daily{background:#f59e0b17;border-color:#f59e0b4d;color:#ffe0a8}
+    .icat-mind{background:#a855f719;border-color:#a855f74d;color:#e3c8ff}
+    .icat-past{background:#06b6d417;border-color:#06b6d44d;color:#aeeaf5}
+    .icat-adult{background:#ef444417;border-color:#ef44444d;color:#ffc2c2}
+    .inner-ctrl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:2px 0 8px}
+    .icat-chip{border-radius:999px;padding:6px 11px;font-size:12px;font-weight:900;letter-spacing:.03em;border:1px solid #ffffff26;background:#ffffff08;color:#8fa3bd;opacity:.6;cursor:pointer}
+    .icat-chip.on{opacity:1;box-shadow:0 0 0 1.5px currentColor inset}
+    .inner-allbtn{font-weight:900}
+    #innerAboveTabs .profile-card{margin:0 0 12px}
+    .kv.icv-basic{background:#3b82f60a}.kv.icv-life{background:#22c55e08}.kv.icv-daily{background:#f59e0b09}.kv.icv-mind{background:#a855f70a}.kv.icv-past{background:#06b6d409}.kv.icv-adult{background:#ef44440b}
+    .pc-inner .kv{border-radius:8px;padding:7px 8px;margin:1px -2px;border-bottom:1px dashed #ffffff12}
     @media(min-width:760px){.profile-cards{grid-template-columns:1fr 1fr}}
     .profile-card{position:relative;--accent:var(--gold);border:1px solid #ffffff1c;background:linear-gradient(180deg,#152742,#0b1626);border-radius:16px;padding:14px;overflow:hidden;transition:.2s transform,.2s box-shadow,.2s border-color}
     .profile-card:hover{transform:translateY(-2px);border-color:#ffffff33;box-shadow:0 14px 34px #0007}
@@ -103,14 +125,15 @@
     .badge-mbti{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--gold),#ffe9a3);color:#231a00;border:1px solid #ffdf80;border-radius:999px;padding:8px 15px;font-weight:950;font-size:13px;letter-spacing:.02em;box-shadow:0 8px 22px #f7c94840,inset 0 1px 0 #ffffffaa}
     .badge-target{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#0e2a44,#123a5e);color:#aee9ff;border:1px solid #67e8f966;border-radius:999px;padding:8px 15px;font-weight:950;font-size:13px;letter-spacing:.02em;box-shadow:0 8px 22px #67e8f922,inset 0 1px 0 #ffffff14}
     .badge-cardinfo{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#12331f,#1a4a2d);color:#c6f6d5;border:1px solid #86efac55;border-radius:999px;padding:8px 15px;font-weight:950;font-size:13px;letter-spacing:.02em;box-shadow:inset 0 1px 0 #ffffff14}
+      /* ===== V2.8 線画プレビュー ===== */
   </style>
 </head>
 <body>
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V2.7.2</span>
-        <h1 class="title">Guzen Ikemen Maker V2.7.2</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V3.0.0</span>
+        <h1 class="title">Guzen Ikemen Maker V3.0.0</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -191,7 +214,7 @@
             </div>
           </div>
         </div></div>
-        <div class="subcard" data-ui-card="initialCard"><h3>カード差分プロンプト設定</h3><div class="form">
+        <div class="subcard hidden" data-ui-card="initialCard"><h3>カード差分プロンプト設定</h3><div class="form">
           <label class="field"><span>カードスタイル</span><select id="initialCardStyle"></select></label>
           <label class="field"><span>カードレアリティ表示</span><select id="initialCardRarity"></select></label>
           <label class="field"><span>カード配色テーマ</span><select id="initialCardTheme"></select></label>
@@ -264,6 +287,7 @@
         <div class="result-card" id="profileView"></div>
       </div>
       <div class="panel">
+        <div id="innerAboveTabs"></div>
         <div class="section-title"><h2 id="promptAreaTitle">画像生成用 指示文</h2><span class="pill" id="promptAreaTarget"></span></div>
         <div class="form" style="margin-bottom:12px">
           <div class="subcard" data-ui-card="manualOutput"><h3>出力設定</h3><div class="form">
@@ -362,6 +386,8 @@
         <div id="derivedTypeGrid" class="dtype-grid"></div>
         <div class="toolbar" style="margin:6px 0 8px"><select id="derivedTypeSel" class="preset-input" style="max-width:360px"></select></div>
         <p id="derivedTypeLabel" class="dtype-label"></p>
+        <div id="derivedCardSettingsSlot"></div>
+        <div id="profileSheetCfg" class="toolbar hidden" style="margin:6px 0 8px;align-items:center"><label class="field" style="margin:0"><span>プロフィールシートの服装</span><select id="profileSheetWearSel" class="preset-input" style="max-width:200px"><option value="職業服装">職業服装</option><option value="私服">私服</option></select></label></div>
         <div class="subcard hidden" id="footSceneCfg" style="margin:0 0 8px">
           <h3 id="footCfgTitle">足元強調シート 詳細設定 <button class="pf-btn" id="footCfgDiceBtn" style="margin-left:8px">🎲 おまかせ抽選</button> <button class="pf-btn" id="footCfgResetBtn">↺ すべてランダムに戻す</button></h3>
           <div class="form" id="footCfgForm"></div>
@@ -396,7 +422,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V2.7.2</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.0.0</p>
   </div>
 
 <script>
@@ -543,7 +569,7 @@
     eraYears:Array.from({length:2043-1900+1},(_,i)=>1900+i),
     nationalities:['日本','韓国','中国','台湾','ロシア','アメリカ','カナダ','イギリス','フランス','ドイツ','イタリア','スペイン','スウェーデン','ポーランド','トルコ','ブラジル','メキシコ','アルゼンチン','タイ','ベトナム','フィリピン','インドネシア','マレーシア','インド','モンゴル','ナイジェリア','オーストラリア'],
     ethnicities:['日本人','韓国系','東アジア系','中国系','東南アジア系','南アジア系','白人系','スラブ系','北欧系','南欧系','黒人系','中東系','ラテン系','中央アジア系','ミックス'],
-    roles:['救急隊員','防衛大学校学生','悠々自適（定年後）','お笑い芸人','声優','YouTuber','プロゲーマー','書道家','パティシエ','寿司職人','ラーメン店店主','僧侶','古着屋店主','大学生','大学1年生','高校卒業直後（進路準備中）','浪人生（予備校生）','大学院生','専門学校生','就活中の大学生','営業職','経理・事務職','企画職','公務員','銀行員','商社勤務','コンサルタント','不動産営業','ITエンジニア','Webデザイナー','ゲーム開発者','動画クリエイター','アプリ開発者','看護師','理学療法士','薬剤師','研修医','介護士','高校教師','塾講師','保育士','大学研究員','体育教師','アパレル店員','カフェ店員','美容師','バーテンダー','ホテルスタッフ','飲食店店長','書店員','コンビニ店長','自動車整備士','電気工事士','大工','建築士','工場勤務','配送ドライバー','農家','漁師','グラフィックデザイナー','カメラマン','ミュージシャン','編集者','イラストレーター','映像ディレクター','消防士','警察官','自衛官','ジムトレーナー','スポーツインストラクター','モデル','俳優','プロスポーツ選手','喫茶店マスター','新聞記者','国鉄職員'],
+    roles:['救急隊員','防衛大学校学生','悠々自適（定年後）','お笑い芸人','声優','YouTuber','プロゲーマー','書道家','パティシエ','寿司職人','ラーメン店店主','僧侶','古着屋店主','大学生','大学1年生','高校卒業直後（進路準備中）','浪人生（予備校生）','大学院生','専門学校生','就活中の大学生','営業職','経理・事務職','企画職','公務員','銀行員','商社勤務','コンサルタント','不動産営業','ITエンジニア','Webデザイナー','ゲーム開発者','動画クリエイター','アプリ開発者','看護師','理学療法士','薬剤師','研修医','介護士','高校教師','塾講師','保育士','大学研究員','体育教師','アパレル店員','カフェ店員','美容師','バーテンダー','ホテルスタッフ','飲食店店長','書店員','コンビニ店長','自動車整備士','電気工事士','大工','建築士','工場勤務','配送ドライバー','農家','漁師','グラフィックデザイナー','カメラマン','ミュージシャン','編集者','イラストレーター','映像ディレクター','消防士','警察官','自衛官','ジムトレーナー','スポーツインストラクター','モデル','俳優','プロスポーツ選手','喫茶店マスター','新聞記者','国鉄職員','アナウンサー','小学校教員','中学校教員','ライフガード','プール監視員（バイト）','医師','歯科医師','弁護士','公認会計士','警備員','タクシー運転手','バス運転手','電車運転士','パイロット','郵便配達員','引越しスタッフ','スーパー店員','家電量販店店員','花屋店員','図書館司書','シェフ（洋食）','理容師','自動車教習所教官','銭湯・サウナ店スタッフ'],
     glasses:['なし','黒縁メガネ','細フレームメガネ','メタルフレームメガネ','丸メガネ','ハーフリムメガネ','縁なしメガネ','金縁メガネ'],
     occInfluences:['服装・場面・体型に反映','場面のみに反映','影響なし'],
     vibes:['ランダム','清潔感のある社会人系','爽やか系','真面目系','ワイルド系','スポーツ系','きれいめ系','カジュアル系','韓国風','中性系','大人っぽい系','やりらふぃー系','ストリート系','塩顔系','犬系男子','クール系','ミステリアス系','サブカル系','古着系','清楚系','陽キャ大学生系','レトロ系','モード系','アウトドア系','バンドマン系','紳士系','ギャル男系','普通系','ブサイク系','地味系','オタク系','ヤンキー系','ホスト系','おじさん系','メガネ知的系'],
@@ -1143,8 +1169,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V2.7.2';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V2.7.2';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.0.0';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.0.0';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1339,7 +1365,7 @@
     renderSelectOptions(groupSizeSel, 'groupSize', pools.groupSizes, groupSizeSel?.value || '1人（通常）', false);
     renderSelectOptions(groupPMSel, 'groupPromptMode', pools.groupPromptModes, groupPMSel?.value || 'メンバーごとに別々の指示文', false);
     renderSelectOptions(occInfSel, 'occInfluence', pools.occInfluences, occInfSel?.value || '服装・場面・体型に反映', false);
-    renderSelectOptions(occSel, 'occupation', ['ランダム'].concat(pools.roles), occSel?.value || 'ランダム', false);
+    if(occSel){ const cur = occSel.value || 'ランダム'; occSel.innerHTML = occupationOptionsHTML(cur, true); occSel.value = cur; if(!occSel.value) occSel.value='ランダム'; }
     renderSelectOptions(cpSel, 'catchphraseMode', pools.catchphraseModes, cpSel?.value || '結果画面のみ表示', false);
     if(cpSel) cpSel.onchange = () => { if(current){ current.catchphraseMode = cpSel.value; renderAll(); } };
     renderSelectOptions(dmSel, 'derivedMode', pools.derivedModes, dmSel?.value || '参照画像前提（簡潔版）', false);
@@ -1692,10 +1718,127 @@
     if(ageAppearance==='やや若く見える') return weighted([[facePreset,4],['親しみやすい大学生系',4],['普通顔',3],['日本の若手俳優風',2],['韓国アイドル風',2]]);
     return weighted([[facePreset,7],['普通顔',2],['真面目系',1],['清潔感のある若手俳優風',1]]);
   }
+  /* ===== V2.8 職業別「偶然見かけた場面」大幅拡充 ===== */
+  const OCC_SCENES = {
+    '大学生':['講義棟から出てきてキャンパスの並木道を歩く姿を偶然見かけた場面','学食の窓際の席でトレーを持って席を探す姿を偶然見かけた場面','図書館の返却ポストに本を入れている姿を偶然見かけた場面','サークル棟の前で仲間と笑い合う姿を偶然見かけた場面','履修相談の掲示板の前で腕を組んで考え込む姿を偶然見かけた場面','大学近くの安い定食屋ののれんをくぐる姿を偶然見かけた場面','試験期間の夜、コンビニコーヒー片手に自習室へ向かう姿を偶然見かけた場面'],
+    '大学1年生':['入学したてで慣れないキャンパスの案内図を見上げる姿を偶然見かけた場面','真新しい学生証を首から下げて教科書販売の列に並ぶ姿を偶然見かけた場面','サークルの新歓ビラを何枚も抱えて歩く姿を偶然見かけた場面','初めての履修登録に苦戦してスマホと掲示板を見比べる姿を偶然見かけた場面','高校の制服が抜けきらない雰囲気で通学電車を降りる姿を偶然見かけた場面'],
+    '高校卒業直後（進路準備中）':['卒業したばかりの解放感で昼の街をぶらぶら歩く姿を偶然見かけた場面','本屋の資格コーナーで進路の本を立ち読みする姿を偶然見かけた場面','運転免許の教習所から出てくる姿を偶然見かけた場面','バイトの面接帰りらしい少し緊張の残る姿を偶然見かけた場面','同級生と最後の制服姿で写真を撮り合う姿を偶然見かけた場面'],
+    '浪人生（予備校生）':['予備校の自習室から夜遅くに出てくる姿を偶然見かけた場面','単語帳を片手に電車を待つ姿を偶然見かけた場面','模試の結果の封筒を持って複雑な表情で歩く姿を偶然見かけた場面','昼休みに予備校近くの公園で気分転換に伸びをする姿を偶然見かけた場面','リュックに参考書を詰め込んで朝の駅へ急ぐ姿を偶然見かけた場面'],
+    '大学院生':['実験帰りの深夜、研究棟から自転車で出てくる姿を偶然見かけた場面','学会発表のポスター筒を抱えて新幹線ホームに立つ姿を偶然見かけた場面','ゼミ資料の束を抱えてコピー室から出てくる姿を偶然見かけた場面','研究室の窓から夕日を眺めて一息つく姿を偶然見かけた場面','指導教員との面談を終えて廊下で深呼吸する姿を偶然見かけた場面'],
+    '専門学校生':['実習用の道具ケースを提げて登校する姿を偶然見かけた場面','課題の作品を大事そうに抱えて電車に乗る姿を偶然見かけた場面','放課後に同級生と実技の練習を続ける姿を偶然見かけた場面','資格試験の願書を郵便局で出す姿を偶然見かけた場面'],
+    '就活中の大学生':['リクルートスーツで会社説明会の会場ビルを見上げる姿を偶然見かけた場面','面接を終えてネクタイを少し緩めながら駅へ歩く姿を偶然見かけた場面','カフェで履歴書を丁寧に書いている姿を偶然見かけた場面','証明写真機のカーテンから出てきて仕上がりを確認する姿を偶然見かけた場面','最終面接の結果待ちでスマホを何度も確認する姿を偶然見かけた場面','内定式帰りらしい晴れやかな表情の姿を偶然見かけた場面'],
+    '営業職':['外回りの合間に公園のベンチで午後の準備をする姿を偶然見かけた場面','客先ビルの前で身だしなみを整えてから入っていく姿を偶然見かけた場面','夕方の駅で営業鞄を提げて帰社の電車を待つ姿を偶然見かけた場面','喫茶店で見積書を広げて電話する姿を偶然見かけた場面','大きな契約が決まったのか晴れやかな顔で社に戻る姿を偶然見かけた場面','朝礼前にコンビニで栄養ドリンクを買う姿を偶然見かけた場面'],
+    '経理・事務職':['月末の残業帰り、オフィスの明かりを背に駅へ向かう姿を偶然見かけた場面','昼休みにオフィス街の弁当屋の列に並ぶ姿を偶然見かけた場面','銀行の窓口で会社の手続きをする姿を偶然見かけた場面','文房具店で付箋と電卓を選んでいる姿を偶然見かけた場面','定時で上がれた日の少し軽い足取りを偶然見かけた場面'],
+    '企画職':['ホワイトボードマーカーの束を持って会議室へ急ぐ姿を偶然見かけた場面','サンプル品の入った紙袋を提げて社に戻る姿を偶然見かけた場面','カフェの窓際で企画書にペンを走らせる姿を偶然見かけた場面','市場調査らしく店頭の商品を熱心に観察する姿を偶然見かけた場面','プレゼン直前にビルの外で深呼吸する姿を偶然見かけた場面'],
+    '公務員':['庁舎の通用口から昼休みに出てくる姿を偶然見かけた場面','窓口業務を終えた夕方、疲れた肩を回しながら歩く姿を偶然見かけた場面','地域の掲示板にお知らせを貼っている姿を偶然見かけた場面','防災訓練の会場設営を手伝う姿を偶然見かけた場面','異動の内示が出たのか同僚と立ち話をする姿を偶然見かけた場面'],
+    '銀行員':['支店のシャッターが閉まった後も中で働く姿を偶然見かけた場面','取引先へ向かう途中、書類鞄を大事そうに抱えて歩く姿を偶然見かけた場面','昼休みに支店近くの蕎麦屋へ小走りで向かう姿を偶然見かけた場面','ATMコーナーの点検に立ち会う姿を偶然見かけた場面','決算期の夜、最後に支店の明かりを消して出てくる姿を偶然見かけた場面'],
+    '商社勤務':['オフィス街の交差点で書類鞄を持って颯爽と歩く姿を偶然見かけた場面','空港の出発ロビーでスーツケースを引いて歩く出張姿を偶然見かけた場面','会食帰りの夜、タクシーを拾う姿を偶然見かけた場面','海外との電話らしく英語で話しながらビルの外を歩く姿を偶然見かけた場面','朝一番の新幹線ホームでコーヒーを飲む姿を偶然見かけた場面'],
+    'コンサルタント':['ノートPCを開いたままタクシーに乗り込む姿を偶然見かけた場面','ホテルのラウンジで資料を挟んで打ち合わせる姿を偶然見かけた場面','終電間際のオフィス街を足早に歩く姿を偶然見かけた場面','クライアント先のビルから晴れやかな顔で出てくる姿を偶然見かけた場面'],
+    '不動産営業':['物件の鍵の束を持ってマンションの前に立つ姿を偶然見かけた場面','のぼり旗を店先に立てている姿を偶然見かけた場面','内見のお客を案内して部屋の明かりを点ける姿を偶然見かけた場面','契約が決まったのか店の前でガッツポーズをする姿を偶然見かけた場面','週末のモデルルームの前で呼び込みをする姿を偶然見かけた場面'],
+    'ITエンジニア':['ノートPCの入ったリュックでコワーキングスペースから出てくる姿を偶然見かけた場面','深夜のリリース作業を終えて朝焼けの街を歩く姿を偶然見かけた場面','カフェの隅でイヤホンをしてコードを書く姿を偶然見かけた場面','勉強会の会場ビルへノベルティの袋を提げて入る姿を偶然見かけた場面','在宅勤務の昼休みに近所へ散歩に出た姿を偶然見かけた場面'],
+    'Webデザイナー':['液晶タブレットの箱を抱えて家電量販店から出てくる姿を偶然見かけた場面','カフェで配色見本を並べて悩む姿を偶然見かけた場面','街の看板やポスターを立ち止まって観察する姿を偶然見かけた場面','納品直前の深夜、コンビニへ夜食を買いに出た姿を偶然見かけた場面'],
+    'ゲーム開発者':['ゲームショウの会場から社員パスを下げて出てくる姿を偶然見かけた場面','深夜のデバッグ明けに眠そうに始発を待つ姿を偶然見かけた場面','ゲームセンターで他社タイトルを研究するように遊ぶ姿を偶然見かけた場面','発売日の朝、自社タイトルが並ぶ店頭をそっと見に来た姿を偶然見かけた場面'],
+    '動画クリエイター':['ジンバル付きカメラで街の風景を撮り歩く姿を偶然見かけた場面','機材ケースを両手に抱えてロケ現場へ向かう姿を偶然見かけた場面','カフェで編集画面とにらめっこする姿を偶然見かけた場面','夕焼けのタイミングを待ってカメラを構え続ける姿を偶然見かけた場面'],
+    'アプリ開発者':['リリース審査の通知を見てガッツポーズする姿を偶然見かけた場面','モバイル端末を何台も並べてカフェで動作確認する姿を偶然見かけた場面','ハッカソン帰りに疲れ切った顔で夜の駅に立つ姿を偶然見かけた場面'],
+    '看護師':['夜勤明けの朝、病院の通用口からマスクを外しながら出てくる姿を偶然見かけた場面','日勤前にコンビニでゼリー飲料を買い込む姿を偶然見かけた場面','病院前のバス停で患者の家族に道を教えている親切な姿を偶然見かけた場面','休憩時間に非常階段で夜景を眺めて一息つく姿を偶然見かけた場面','ナースシューズのまま売店へ急ぐ姿を偶然見かけた場面'],
+    '理学療法士':['リハビリ室の窓越しに患者を励ます姿を偶然見かけた場面','病院の中庭で歩行訓練に付き添う姿を偶然見かけた場面','勤務後にジムで自分のトレーニングをする姿を偶然見かけた場面','学会資料の入ったバッグを提げて帰る姿を偶然見かけた場面'],
+    '薬剤師':['調剤薬局の白衣のまま外の花に水をやる姿を偶然見かけた場面','閉店後の薬局で在庫棚を整理する姿を偶然見かけた場面','ドラッグストアの棚で高齢の客に丁寧に説明する姿を偶然見かけた場面','薬局前の自販機でコーヒーを買って一息つく姿を偶然見かけた場面'],
+    '研修医':['当直明けの朝、病院前でストレッチをする姿を偶然見かけた場面','白衣のポケットに手帳を差して院内を早足で歩く姿を偶然見かけた場面','医局の窓際で医学書を積み上げて勉強する姿を偶然見かけた場面','コンビニで栄養ドリンクとおにぎりをまとめ買いする姿を偶然見かけた場面'],
+    '介護士':['送迎車から利用者の車椅子を丁寧に降ろす姿を偶然見かけた場面','夜勤明けにコインランドリーで制服を洗う姿を偶然見かけた場面','施設の庭で利用者と一緒に体操する姿を偶然見かけた場面','散歩の付き添いで公園をゆっくり歩く姿を偶然見かけた場面'],
+    '高校教師':['部活の朝練を見守るためにグラウンドへ向かう姿を偶然見かけた場面','放課後の職員室の窓際で採点の山と向き合う姿を偶然見かけた場面','文化祭の準備で生徒と一緒に看板を運ぶ姿を偶然見かけた場面','進路面談を終えて廊下で生徒の肩を叩く姿を偶然見かけた場面','日曜の模試監督帰りに参考書を抱えて歩く姿を偶然見かけた場面'],
+    '塾講師':['授業前に教室の白板を丁寧に消して準備する姿を偶然見かけた場面','夜10時過ぎ、生徒を見送ってから教室の鍵を閉める姿を偶然見かけた場面','ファミレスで赤ペンを持って答案を採点する姿を偶然見かけた場面','合格発表の日に生徒と一緒に掲示板を見上げる姿を偶然見かけた場面'],
+    '保育士':['お散歩カートを押して園児の列を引率する姿を偶然見かけた場面','園庭の遊具を閉園後に消毒して回る姿を偶然見かけた場面','壁面飾りの画用紙を大量に抱えて100円ショップから出てくる姿を偶然見かけた場面','運動会の予行練習で誰より大きな声で応援する姿を偶然見かけた場面'],
+    '大学研究員':['資料の詰まったキャリーを引いて研究棟へ向かう姿を偶然見かけた場面','学会のネームホルダーを付けたまま昼食に出てきた姿を偶然見かけた場面','図書館の書庫から古い文献を抱えて出てくる姿を偶然見かけた場面','深夜の研究室でひとりホワイトボードに数式を書く姿を偶然見かけた場面'],
+    '体育教師':['ジャージ姿で朝のグラウンドにライン引きをする姿を偶然見かけた場面','ホイッスルを首に下げて持久走の生徒を並走して励ます姿を偶然見かけた場面','体育倉庫からマットを軽々と運び出す姿を偶然見かけた場面','球技大会の審判を汗だくでこなす姿を偶然見かけた場面'],
+    'アパレル店員':['開店前の店でトルソーの服を整える姿を偶然見かけた場面','ショップ袋を両手に提げて倉庫と店を往復する姿を偶然見かけた場面','休憩中も服のシワを気にして鏡を見る姿を偶然見かけた場面','セール初日の朝、気合いを入れてシャッターを開ける姿を偶然見かけた場面'],
+    'カフェ店員':['開店前の店先で黒板メニューを書く姿を偶然見かけた場面','テラス席を拭き上げて椅子を並べる姿を偶然見かけた場面','焙煎豆の袋を抱えて搬入する姿を偶然見かけた場面','閉店後にエスプレッソマシンを丁寧に磨く姿を偶然見かけた場面','ラテアートの練習をカウンターの隅で続ける姿を偶然見かけた場面'],
+    '美容師':['閉店後のサロンの前で店の明かりを落とす姿を偶然見かけた場面','朝一番にサロンの鏡を磨き上げる姿を偶然見かけた場面','ウィッグで新しいカットの練習をする姿を窓越しに偶然見かけた場面','講習会帰りにシザーケースを提げて歩く姿を偶然見かけた場面','カラー剤の箱を抱えて美容材料店から出てくる姿を偶然見かけた場面'],
+    'バーテンダー':['開店前のバーの前で、仕込みの合間に外に出た姿を偶然見かけた場面','氷屋から大きな氷塊を受け取る姿を偶然見かけた場面','閉店後の明け方、ネクタイを緩めて夜明けの街を歩く姿を偶然見かけた場面','市場で今夜のフルーツを吟味する姿を偶然見かけた場面'],
+    'ホテルスタッフ':['車寄せでゲストの荷物をスマートに受け取る姿を偶然見かけた場面','ロビーの花を活け替える姿を偶然見かけた場面','夜勤明けにホテルの裏口から私服で出てくる姿を偶然見かけた場面','宴会場の設営でテーブルクロスを一気に広げる姿を偶然見かけた場面'],
+    '飲食店店長':['開店前に店の前を隅々まで掃き清める姿を偶然見かけた場面','市場帰りの軽バンから食材の箱を降ろす姿を偶然見かけた場面','ランチのピークを終えて店先で腰を伸ばす姿を偶然見かけた場面','新メニューの試作を従業員に振る舞う姿を偶然見かけた場面'],
+    '書店員':['新刊の段ボールを台車で運ぶ姿を偶然見かけた場面','手書きPOPを真剣な顔で書いている姿を偶然見かけた場面','閉店後に平積みの本を綺麗に揃え直す姿を偶然見かけた場面','返品する本の束を丁寧に紐で縛る姿を偶然見かけた場面'],
+    'コンビニ店長':['早朝のコンビニの前で納品を受け取る姿を偶然見かけた場面','廃棄チェックをしながら発注端末を睨む姿を偶然見かけた場面','店の前の駐車場を深夜にひとり掃除する姿を偶然見かけた場面','新人バイトにレジ操作を丁寧に教える姿を偶然見かけた場面'],
+    '自動車整備士':['リフトアップした車の下から顔を出す姿を偶然見かけた場面','工場の前で洗い立ての代車を拭き上げる姿を偶然見かけた場面','油で汚れたつなぎのまま自販機でコーヒーを買う姿を偶然見かけた場面','客の車を大事そうにゆっくり車庫入れする姿を偶然見かけた場面'],
+    '電気工事士':['電柱の高所作業車から地上に降りてヘルメットを脱ぐ姿を偶然見かけた場面','工具ベルトを腰に巻いて現場ビルへ入っていく姿を偶然見かけた場面','昼休みにワゴン車の荷台に腰掛けて弁当を食べる姿を偶然見かけた場面','夕方、ケーブルドラムを片付けて現場を後にする姿を偶然見かけた場面'],
+    '大工':['朝の現場で木材を担いで足場を上がる姿を偶然見かけた場面','昼休みに材木の上に座って弁当を広げる姿を偶然見かけた場面','鉋くずまみれのまま夕方の現場を掃き清める姿を偶然見かけた場面','棟上げを終えて仲間と屋根の上で一息つく姿を偶然見かけた場面'],
+    '建築士':['図面ケースを肩に掛けて現場事務所へ入る姿を偶然見かけた場面','ヘルメット姿で建設中のビルを見上げて確認する姿を偶然見かけた場面','カフェで方眼紙にスケッチを描き続ける姿を偶然見かけた場面','完成した建物を少し離れた歩道からじっと眺める姿を偶然見かけた場面'],
+    '工場勤務':['交替勤務明けの朝、工場の門から自転車で出てくる姿を偶然見かけた場面','作業服のまま工場前の食堂へ向かう姿を偶然見かけた場面','安全帽を小脇に抱えて朝礼の輪に加わる姿を偶然見かけた場面','夜勤前に駐車場で仮眠から起きて伸びをする姿を偶然見かけた場面'],
+    '配送ドライバー':['台車に荷物を山積みにしてマンションへ小走りする姿を偶然見かけた場面','トラックの荷台で汗を拭いながら伝票を確認する姿を偶然見かけた場面','昼下がりにトラックの運転席で束の間の休憩をとる姿を偶然見かけた場面','再配達の階段を駆け上がる姿を偶然見かけた場面'],
+    '農家':['直売所の近くで、軽トラックのそばに立つ姿を偶然見かけた場面','朝もやの畑でトマトを収穫する姿を偶然見かけた場面','出荷用の段ボールを軽トラに積み上げる姿を偶然見かけた場面','夕立の前に慌ててビニールハウスを閉めて回る姿を偶然見かけた場面','農協の帰りに長靴のまま自販機で一服する姿を偶然見かけた場面'],
+    '漁師':['朝の漁を終えた港の近くで、日に焼けた姿を偶然見かけた場面','水揚げした魚を市場の競り場へ運ぶ姿を偶然見かけた場面','防波堤で網の修繕を黙々と続ける姿を偶然見かけた場面','出港前の暗い港で船のエンジンを確かめる姿を偶然見かけた場面','時化で休漁の日、港の食堂でゆっくり定食を食べる姿を偶然見かけた場面'],
+    'グラフィックデザイナー':['刷り上がったポスターの色味を屋外の光で確認する姿を偶然見かけた場面','画材店で紙見本を何枚も見比べる姿を偶然見かけた場面','納品データを送り終えて深夜のオフィスで伸びをする姿を偶然見かけた場面','街の看板の書体を写真に撮って回る姿を偶然見かけた場面'],
+    'カメラマン':['大きな機材バッグと三脚を担いでロケへ向かう姿を偶然見かけた場面','夕暮れの一瞬の光を逃すまいと連写する姿を偶然見かけた場面','撮影スタジオの搬入口で機材を積み降ろす姿を偶然見かけた場面','現像所から仕上がりを受け取って中身を確かめる姿を偶然見かけた場面'],
+    'ミュージシャン':['ギターケースを背負ってライブハウスの搬入口に立つ姿を偶然見かけた場面','スタジオ練習の帰りに機材を担いで終電に乗る姿を偶然見かけた場面','昼の公園でアコギの弾き語りを試す姿を偶然見かけた場面','レコーディング明けの朝、達成感のある顔で外へ出てきた姿を偶然見かけた場面'],
+    '編集者':['ゲラの束を抱えて印刷所へ駆け込む姿を偶然見かけた場面','著者との打ち合わせでカフェの隅に陣取る姿を偶然見かけた場面','校了明けの朝、燃え尽きた顔で会社から出てくる姿を偶然見かけた場面','書店で自分の担当書の並びをそっと直す姿を偶然見かけた場面'],
+    'イラストレーター':['画材店の新色マーカーの棚で長考する姿を偶然見かけた場面','原画の入った大きな平箱を慎重に運ぶ姿を偶然見かけた場面','喫茶店の窓際でスケッチブックに街ゆく人を描く姿を偶然見かけた場面','個展の搬入で額装した絵を壁に掛ける姿を偶然見かけた場面'],
+    '映像ディレクター':['ロケハンで街角を何度もフレームに見立てて確認する姿を偶然見かけた場面','香盤表を丸めて手に持ち現場を仕切る姿を偶然見かけた場面','編集室に差し入れの袋を提げて入っていく姿を偶然見かけた場面','完成披露試写の会場前で深呼吸する姿を偶然見かけた場面'],
+    '消防士':['非番の日、消防署の近くで私服姿を偶然見かけた場面','当直明けの朝、少し眠そうに消防署から出てくる姿を偶然見かけた場面','消防署の前で車両点検を終えて一息つく姿を偶然見かけた場面','署の前でホースを干して整備する姿を偶然見かけた場面','ロープ訓練の合間にヘルメットを脱いで汗を拭う姿を偶然見かけた場面','小学生の署見学で子どもたちに囲まれて照れる姿を偶然見かけた場面','出動から戻った車両を丁寧に洗車する姿を偶然見かけた場面'],
+    '警察官':['非番の日、交番の前を私服で通り過ぎる姿を偶然見かけた場面','当直明けの朝、警察署から私服で出てくる姿を偶然見かけた場面','独身寮の近くのコンビニで買い物をする私服姿を偶然見かけた場面','交番の前で道を尋ねる観光客に地図を広げて説明する姿を偶然見かけた場面','朝の通学路で子どもたちに挨拶しながら立哨する姿を偶然見かけた場面','自転車で坂道を上りながら巡回する姿を偶然見かけた場面','落とし物の子ども用の靴を大事そうに交番へ持ち帰る姿を偶然見かけた場面'],
+    '自衛官':['非番の日、駐屯地近くの街で私服姿を偶然見かけた場面','外出日に、駐屯地の門から私服で出てくる姿を偶然見かけた場面','駐屯地近くのコインランドリーで、洗濯物を抱えて歩く姿を偶然見かけた場面','駐屯地前のバス停で、外出のバスを待つ私服姿を偶然見かけた場面','朝の駆け足訓練で隊列を組んで走る姿を偶然見かけた場面','災害派遣帰りらしい泥のついた作業服で装備を降ろす姿を偶然見かけた場面','駐屯地祭の準備で装備品を丁寧に並べる姿を偶然見かけた場面'],
+    '救急隊員':['非番に消防署の近くで同僚と談笑している姿を偶然見かけた場面','当直明けの朝、コンビニのコーヒーを手に歩く姿を偶然見かけた場面','救急車の資器材を点検して積み直す姿を偶然見かけた場面','出動明けに署の前でストレッチする姿を偶然見かけた場面','応急手当講習会で市民に胸骨圧迫を教える姿を偶然見かけた場面'],
+    '防衛大学校学生':['休日に学校近くの坂道を歩いている姿を偶然見かけた場面','外出許可の土曜に、私服で横須賀の街を歩く姿を偶然見かけた場面','学校近くの売店の袋を提げて坂を上る姿を偶然見かけた場面','外出日に駅前で同期と待ち合わせている私服姿を偶然見かけた場面','朝の点呼前に廊下を早足で歩く制服姿を偶然見かけた場面','棒倒しの練習で泥だらけになって笑う姿を偶然見かけた場面'],
+    'ジムトレーナー':['開店前のジムでマシンを1台ずつ拭き上げる姿を偶然見かけた場面','会員に丁寧にフォームを指導する姿をガラス越しに偶然見かけた場面','閉店後にひとりで黙々と自分のトレーニングをする姿を偶然見かけた場面','プロテインの箱を両手に抱えて搬入する姿を偶然見かけた場面'],
+    'スポーツインストラクター':['スタジオレッスン前に音響とマイクを確認する姿を偶然見かけた場面','キッズクラスの子どもたちとハイタッチする姿を偶然見かけた場面','プールサイドでレッスンの準備体操を先導する姿を偶然見かけた場面','レッスン後に汗だくでタオルを首にかけて出てくる姿を偶然見かけた場面'],
+    'モデル':['街中で撮影や移動の合間に、ふと立ち止まった瞬間を偶然見かけた場面','撮影スタジオの前で衣装のガーメントバッグを持って立つ姿を偶然見かけた場面','オーディション会場の前でコンポジを確認する姿を偶然見かけた場面','ショーの帰りにメイクを落とした素の表情で歩く姿を偶然見かけた場面'],
+    '俳優':['稽古場の入り口で台本を読み込みながら立つ姿を偶然見かけた場面','ロケバスから降りて現場へ向かう姿を偶然見かけた場面','劇場の楽屋口から公演後に出てくる姿を偶然見かけた場面','セリフを小声で繰り返しながら川沿いを歩く姿を偶然見かけた場面'],
+    'プロスポーツ選手':['朝練へ向かう大きなスポーツバッグ姿を偶然見かけた場面','練習後のクールダウンでグラウンドを流す姿を偶然見かけた場面','ファンの子どもにサインをして頭を撫でる姿を偶然見かけた場面','遠征のバスにチームジャージで乗り込む姿を偶然見かけた場面','オフの日に静かなカフェで体をケアしながら過ごす姿を偶然見かけた場面'],
+    '喫茶店マスター':['モーニングの仕込みを終えた喫茶店の前で、一息つく姿を偶然見かけた場面','サイフォンの火加減をじっと見つめる姿を窓越しに偶然見かけた場面','常連の席の新聞を丁寧に取り替える姿を偶然見かけた場面','閉店後にカウンターを磨きながらレコードを聴く姿を偶然見かけた場面'],
+    '新聞記者':['取材ノートを片手に事件現場の周辺を歩き回る姿を偶然見かけた場面','締切前に公衆電話から原稿を吹き込む姿を偶然見かけた場面','記者クラブの前で他社の記者と情報交換する姿を偶然見かけた場面','夜討ち朝駆けで住宅街の角に立ち続ける姿を偶然見かけた場面'],
+    '国鉄職員':['ホームの端で列車の到着を指差確認する姿を偶然見かけた場面','改札で切符に鋏を入れる手つきを偶然見かけた場面','駅事務室の前で制帽を被り直して持ち場へ向かう姿を偶然見かけた場面','終電後のホームを点検して回る姿を偶然見かけた場面'],
+    'お笑い芸人':['劇場や事務所の近くで、出番前にネタ合わせをしている姿を偶然見かけた場面','相方と公園でネタ合わせを繰り返す姿を偶然見かけた場面','バイト先から劇場へ衣装の入った紙袋を提げて急ぐ姿を偶然見かけた場面','出番を終えて楽屋口から充実した顔で出てくる姿を偶然見かけた場面','単独ライブのチラシを手配りする姿を偶然見かけた場面'],
+    '声優':['収録スタジオの近くで、台本を持って歩く姿を偶然見かけた場面','スタジオ前でのど飴を口に入れて発声を整える姿を偶然見かけた場面','マネージャーと台本の束を抱えて移動する姿を偶然見かけた場面','夜の帰り道、マフラーで喉元をしっかり守って歩く姿を偶然見かけた場面'],
+    'YouTuber':['撮影機材を持って街中でロケをしている姿を偶然見かけた場面','自撮り棒に向かって話しながら歩く姿を偶然見かけた場面','企画用の大量の買い物袋を両手に提げて出てくる姿を偶然見かけた場面','コラボ撮影の待ち合わせで機材を確認し合う姿を偶然見かけた場面'],
+    'プロゲーマー':['イベント会場の近くを、デバイスの入ったバッグを持って歩く姿を偶然見かけた場面','大会前にゲーミングチェアの箱を抱えて搬入する姿を偶然見かけた場面','夜通しの練習明けに朝日を眩しそうに見る姿を偶然見かけた場面','ファンミーティング会場でサイン入りマウスパッドを渡す姿を偶然見かけた場面'],
+    '書道家':['書道教室の近くで、道具箱を持って歩く姿を偶然見かけた場面','表具店から仕上がった掛軸を受け取る姿を偶然見かけた場面','展覧会の搬入で大きな作品を慎重に運ぶ姿を偶然見かけた場面','和紙の専門店で紙質を指先で確かめる姿を偶然見かけた場面'],
+    'パティシエ':['開店前のパティスリーの前で、仕込みの合間に外へ出た姿を偶然見かけた場面','市場で苺の箱を吟味して仕入れる姿を偶然見かけた場面','ショーケースにケーキを一列に並べていく姿を窓越しに偶然見かけた場面','クリスマス前の徹夜仕込み明けに粉だらけで外へ出た姿を偶然見かけた場面'],
+    '寿司職人':['早朝の市場帰りに、仕入れの箱を持って歩く姿を偶然見かけた場面','店先に打ち水をして暖簾を掛ける姿を偶然見かけた場面','仕込みの合間に店の前で白衣のまま伸びをする姿を偶然見かけた場面','市場の競りで真剣な目でマグロを見極める姿を偶然見かけた場面'],
+    'ラーメン店店主':['仕込み中のラーメン店の前で、腕組みをして立つ姿を偶然見かけた場面','寸胴からスープの香りが漂う店先で味見を繰り返す姿を偶然見かけた場面','製麺所から麺箱を受け取って店に運び込む姿を偶然見かけた場面','行列の客に「もう少しです」と声をかけて回る姿を偶然見かけた場面'],
+    '僧侶':['寺の門前を私服で歩く、穏やかな姿を偶然見かけた場面','朝の境内を竹箒で掃き清める姿を偶然見かけた場面','托鉢で商店街を静かに歩く姿を偶然見かけた場面','法要を終えて袈裟のまま檀家を見送る姿を偶然見かけた場面','夕暮れの鐘楼で鐘を撞く姿を偶然見かけた場面'],
+    '古着屋店主':['古着屋の店先で商品を整えている姿を偶然見かけた場面','買い付けたばかりの大きな袋を担いで店に戻る姿を偶然見かけた場面','店先のラックを日差しに合わせて動かす姿を偶然見かけた場面','ヴィンテージのタグを虫眼鏡で確かめる姿を偶然見かけた場面'],
+    '悠々自適（定年後）':['朝の公園をゆったり散歩している穏やかな姿を偶然見かけた場面','図書館の新聞コーナーで一日を始める姿を偶然見かけた場面','孫を迎えに小学校の門の前で待つ姿を偶然見かけた場面','園芸店で花の苗を選ぶ姿を偶然見かけた場面','昔の勤め先の近くを懐かしそうに歩く姿を偶然見かけた場面'],
+    'アナウンサー':['本番前にテレビ局の玄関で原稿を読み込む姿を偶然見かけた場面','早朝番組を終えて朝日の中を局から出てくる姿を偶然見かけた場面','街頭中継のリハーサルでマイクの高さを確かめる姿を偶然見かけた場面','ロケ先で通行人に丁寧に頭を下げて協力を頼む姿を偶然見かけた場面','局の廊下で滑舌練習をつぶやきながら歩く姿を偶然見かけた場面','ニュース原稿の束を抱えて報道フロアへ急ぐ姿を偶然見かけた場面'],
+    '小学校教員':['朝の校門で児童一人ひとりに挨拶して迎える姿を偶然見かけた場面','ジャージ姿で児童と一緒に校庭で鬼ごっこをする姿を偶然見かけた場面','放課後の教室でひとり明日の授業準備をする姿を窓越しに偶然見かけた場面','下校の列に付き添って横断歩道で旗を持つ姿を偶然見かけた場面','運動会の準備で万国旗を張る姿を偶然見かけた場面','家庭訪問の地図を片手に住宅街を自転車で回る姿を偶然見かけた場面','図工の作品を大事そうに抱えて職員室へ運ぶ姿を偶然見かけた場面'],
+    '中学校教員':['部活の朝練でノックのバットを振る姿を偶然見かけた場面','放課後の廊下で生徒の相談に真剣に耳を傾ける姿を偶然見かけた場面','定期試験の問題用紙を抱えて印刷室から出てくる姿を偶然見かけた場面','合唱コンクールの練習でピアノの横に立って指揮する姿を偶然見かけた場面','夜の職員室でひとり学級通信を書く姿を偶然見かけた場面'],
+    'ライフガード':['監視タワーの上から海全体を見渡す姿を偶然見かけた場面','朝のビーチをパトロールしながら遊泳区域のブイを確認する姿を偶然見かけた場面','レスキューボードを担いで砂浜を走るトレーニング姿を偶然見かけた場面','迷子の子どもの手を引いて本部テントへ連れて行く姿を偶然見かけた場面','夕方、遊泳終了の旗を降ろして片付ける姿を偶然見かけた場面','シーズン前の救助訓練で沖へ力強く泳ぎ出す姿を偶然見かけた場面','日焼け止めを塗り直しながら交代の時間を待つ姿を偶然見かけた場面'],
+    'プール監視員（バイト）':['監視台の上で姿勢よくプール全体を見渡す姿を偶然見かけた場面','開場前にコースロープを張り直す姿を偶然見かけた場面','休憩時間の笛を吹いて子どもたちをプールサイドへ誘導する姿を偶然見かけた場面','閉場後にプールサイドをデッキブラシで磨く姿を偶然見かけた場面','塩素の測定キットで水質をチェックする姿を偶然見かけた場面','夏休み最終日、バイト仲間と夕暮れのプールサイドで一息つく姿を偶然見かけた場面'],
+    '医師':['白衣のまま院内のコンビニで昼食を急いで買う姿を偶然見かけた場面','夜間当直明けに病院の玄関で朝日を浴びる姿を偶然見かけた場面','外来の合間に廊下で患者の家族へ丁寧に説明する姿を偶然見かけた場面','学会発表のスライドをカフェで直す姿を偶然見かけた場面','往診バッグを提げて住宅街を歩く姿を偶然見かけた場面'],
+    '歯科医師':['診療後にクリニックの外で首と肩を回してほぐす姿を偶然見かけた場面','小児の患者を怖がらせないよう膝をついて話しかける姿を偶然見かけた場面','技工物の箱を歯科技工所から受け取る姿を偶然見かけた場面','休診日に学会のハンズオンセミナーへ向かう姿を偶然見かけた場面'],
+    '弁護士':['裁判所の門を書類鞄を提げて足早に入る姿を偶然見かけた場面','法廷を終えてバッジを外し一息つく姿を偶然見かけた場面','事務所の窓際で六法をめくりながら夜遅くまで働く姿を偶然見かけた場面','依頼者を事務所の玄関まで丁寧に見送る姿を偶然見かけた場面'],
+    '公認会計士':['決算期にクライアント先へ監査調書のキャリーを引いて向かう姿を偶然見かけた場面','電卓を叩きながらオフィスの窓際で残業する姿を偶然見かけた場面','繁忙期明けに晴れやかな顔で定時に退社する姿を偶然見かけた場面'],
+    '警備員':['ビルの入口で来訪者に丁寧に敬礼する姿を偶然見かけた場面','深夜の巡回で懐中電灯を手に廊下を確認する姿を偶然見かけた場面','工事現場の前で歩行者を誘導する姿を偶然見かけた場面','夜勤明けの朝、詰所から出て大きく伸びをする姿を偶然見かけた場面','イベント会場の入場列を落ち着いた声で整理する姿を偶然見かけた場面'],
+    'タクシー運転手':['駅前のタクシープールで洗車したての車を拭き上げる姿を偶然見かけた場面','高齢の乗客の荷物をトランクへ丁寧に積む姿を偶然見かけた場面','深夜の営業所で日報を書く姿を偶然見かけた場面','客待ちの合間に地図帳で新しい道を確認する姿を偶然見かけた場面'],
+    'バス運転手':['始発前の営業所でバスの車体を点検する姿を偶然見かけた場面','終点で車内の忘れ物を確認して回る姿を偶然見かけた場面','バス停で車椅子のスロープを手際よく設置する姿を偶然見かけた場面','折り返しの待機時間に運転席でお茶を飲む姿を偶然見かけた場面'],
+    '電車運転士':['ホームの端で指差喚呼して発車させる姿を偶然見かけた場面','乗務行路表を手に詰所から出てくる姿を偶然見かけた場面','終着駅で運転台から降りて制帽を被り直す姿を偶然見かけた場面','早朝の一番列車に乗務するため暗い駅構内を歩く姿を偶然見かけた場面'],
+    'パイロット':['フライトケースを引いて空港の職員通路を歩く姿を偶然見かけた場面','出発前の機体を外部点検して回る姿を偶然見かけた場面','フライトを終えて夕暮れのターミナルを歩く姿を偶然見かけた場面','クルーと合流してホテルのロビーを出発する姿を偶然見かけた場面'],
+    '郵便配達員':['赤いバイクで住宅街の細い路地を丁寧に回る姿を偶然見かけた場面','雨の日にカッパ姿で郵便物を濡らさないよう配る姿を偶然見かけた場面','年賀状シーズンにバイクの荷台いっぱいの束を積む姿を偶然見かけた場面','ポストの取集で鍵を開けて郵便物を回収する姿を偶然見かけた場面'],
+    '引越しスタッフ':['大型トラックの荷台で家具を毛布で手際よく養生する姿を偶然見かけた場面','冷蔵庫を背負ってマンションの階段を上る姿を偶然見かけた場面','搬入を終えて新居の前でお客に深々と頭を下げる姿を偶然見かけた場面','昼休みにトラックの日陰で仲間とスポーツドリンクを回す姿を偶然見かけた場面'],
+    'スーパー店員':['開店前に青果コーナーへ野菜を山積みに陳列する姿を偶然見かけた場面','夕方の値引きシールを手早く貼って回る姿を偶然見かけた場面','台車で飲料ケースを何段も運ぶ姿を偶然見かけた場面','閉店後に売場の床をモップがけする姿を偶然見かけた場面'],
+    '家電量販店店員':['新製品の展示台を開店前に整える姿を偶然見かけた場面','大型テレビを同僚と慎重に運ぶ姿を偶然見かけた場面','お年寄りの客にスマホの使い方を根気強く教える姿を偶然見かけた場面','決算セールの日に気合いの入った声で呼び込みをする姿を偶然見かけた場面'],
+    '花屋店員':['開店前に店先のバケツへ切り花を並べていく姿を偶然見かけた場面','市場で仕入れた花の束を軽バンから降ろす姿を偶然見かけた場面','花束のラッピングを真剣な手つきで仕上げる姿を窓越しに偶然見かけた場面','閉店間際に売れ残りの花の水を替えてやる姿を偶然見かけた場面'],
+    '図書館司書':['返却本を積んだブックトラックを押して書架を回る姿を偶然見かけた場面','閉館後に本の背をきれいに揃え直す姿を偶然見かけた場面','子ども向けの読み聞かせ会で絵本を掲げる姿を偶然見かけた場面','新着図書にフィルムカバーを丁寧に掛ける姿を偶然見かけた場面'],
+    'シェフ（洋食）':['市場で仕入れた食材の箱を店へ運び込む姿を偶然見かけた場面','ランチ営業前に店先の黒板へ本日のメニューを書く姿を偶然見かけた場面','ディナーの仕込み中に味見のスプーンを口に運ぶ姿を窓越しに偶然見かけた場面','営業後にコックコートのまま店の前で夜風にあたる姿を偶然見かけた場面'],
+    '理容師':['開店前にサインポールを回して店を開ける姿を偶然見かけた場面','剃刀を革砥で丁寧に仕上げる姿を窓越しに偶然見かけた場面','常連の老紳士を店の外まで見送る姿を偶然見かけた場面','閉店後に鏡と椅子を磨き上げる姿を偶然見かけた場面'],
+    '自動車教習所教官':['教習車の助手席から降りて生徒に丁寧に講評する姿を偶然見かけた場面','コースのパイロンを並べ直す姿を偶然見かけた場面','卒業検定に合格した生徒と握手する姿を偶然見かけた場面','雨の日の路上教習で落ち着いた声で指示する姿を偶然見かけた場面'],
+    '銭湯・サウナ店スタッフ':['開店前に暖簾を掛けて湯温を確かめる姿を偶然見かけた場面','薪をくべて釜の火加減を調整する姿を偶然見かけた場面','サウナ室の熱波イベントでタオルを振るう姿を偶然見かけた場面','閉店後に浴場のタイルをデッキブラシで磨く姿を偶然見かけた場面','番台で常連客と楽しそうに世間話をする姿を偶然見かけた場面']
+  };
+  const OCC_CAT_SCENES = {
+    student:['講義帰りのキャンパス周辺で、リュックを背負って歩く姿を偶然見かけた場面','学食の券売機の前でメニューを迷う姿を偶然見かけた場面','キャンパスの芝生で友人と昼を過ごす姿を偶然見かけた場面','図書館の閉館音楽と共に出てくる姿を偶然見かけた場面','バイト先へ急ぐ学生らしい姿を偶然見かけた場面'],
+    office:['仕事帰りのオフィス街で、少し力の抜けた表情で歩く姿を偶然見かけた場面','昼休みにオフィス街の弁当屋の列に並ぶ姿を偶然見かけた場面','朝のエレベーターホールでネクタイを直す姿を偶然見かけた場面','退勤後に同僚と居酒屋の暖簾をくぐる姿を偶然見かけた場面','金曜の夜、心なしか軽い足取りで駅へ向かう姿を偶然見かけた場面'],
+    it:['ノートPCの入ったバッグを持って、コワーキングスペースやオフィス近くを歩く姿を偶然見かけた場面','昼下がりのカフェでイヤホンをして作業に没頭する姿を偶然見かけた場面','技術書を数冊抱えて書店から出てくる姿を偶然見かけた場面','リモート会議を終えてベランダで伸びをする姿を偶然見かけた場面'],
+    medical:['病院や薬局の近くで、勤務を終えて私服で帰る姿を偶然見かけた場面','夜勤明けの朝、まぶしそうに空を見上げる姿を偶然見かけた場面','院内の売店で栄養ドリンクを買い込む姿を偶然見かけた場面','休憩時間に病院の中庭で深呼吸する姿を偶然見かけた場面'],
+    edu:['学校や塾の近くで、授業を終えて帰る姿を偶然見かけた場面','教材の束を抱えて職員玄関から出てくる姿を偶然見かけた場面','放課後の校庭で生徒たちと片付けをする姿を偶然見かけた場面','朝の通学路で子どもたちに挨拶する姿を偶然見かけた場面'],
+    service:['閉店後の店の前で、看板の明かりを落とす姿を偶然見かけた場面','開店前の店先を掃き清める姿を偶然見かけた場面','搬入の段ボールを抱えて店に運び込む姿を偶然見かけた場面','休憩中に店の裏でまかないを食べる姿を偶然見かけた場面','ピークを乗り切って店先で腰を伸ばす姿を偶然見かけた場面'],
+    trade:['作業を終えて道具を片付け、私服に着替えて帰る姿を偶然見かけた場面','朝の現場で仲間とラジオ体操をする姿を偶然見かけた場面','昼休みに車の日陰で弁当を広げる姿を偶然見かけた場面','夕方、汚れた作業着のまま自販機で一服する姿を偶然見かけた場面'],
+    creative:['撮影機材や作品の入ったバッグを持って、スタジオ近くを歩く姿を偶然見かけた場面','ギャラリーの搬入口で作品を慎重に運ぶ姿を偶然見かけた場面','喫茶店の隅でアイデアをノートに書き付ける姿を偶然見かけた場面','納品明けの解放感で昼の街をゆっくり歩く姿を偶然見かけた場面'],
+    uniform:['非番の日に、私服でリラックスして街を歩く姿を偶然見かけた場面','制服から私服に着替えて勤務先の裏口から出てくる姿を偶然見かけた場面','勤務前に持ち場へ向かうきびきびした姿を偶然見かけた場面','夜勤明けの朝、まぶしい光の中を帰る姿を偶然見かけた場面'],
+    showa:['昔ながらの職場の近くで、仕事を終えた姿を偶然見かけた場面','夕刊を小脇に抱えて帰路につく姿を偶然見かけた場面','赤提灯の暖簾をくぐって一日の疲れを癒やしに行く姿を偶然見かけた場面'],
+    enta:['出番や収録を終えて会場の裏口から出てくる姿を偶然見かけた場面','機材や台本の入ったバッグを提げて移動する姿を偶然見かけた場面','ファンに気づかれないよう帽子を目深に被って歩く姿を偶然見かけた場面'],
+    other:['静かな街並みを落ち着いた足取りで歩く姿を偶然見かけた場面'],
+    retired:['朝の公園でラジオ体操の輪に加わる姿を偶然見かけた場面','平日の昼間に悠々と図書館へ向かう姿を偶然見かけた場面']
+  };
   function buildEncounterScene(c){
     const scenes = [];
-    const nat = c.nationality || '';
-    if(['ISTJ','ISFJ','ESTJ','ESFJ'].includes(c.mbti)) scenes.push('出勤前の静かな駅前やオフィス街で、落ち着いた雰囲気で歩いているところを偶然見かけた場面');
+    const nat = c.nationality || '';    if(['ISTJ','ISFJ','ESTJ','ESFJ'].includes(c.mbti)) scenes.push('出勤前の静かな駅前やオフィス街で、落ち着いた雰囲気で歩いているところを偶然見かけた場面');
     if(['ESTP','ESFP'].includes(c.mbti)) scenes.push('夕方の街角やスポーツ施設帰りに、活動的な雰囲気で友人と合流する前の姿を偶然見かけた場面');
     if(['ISFP','INFP'].includes(c.mbti)) scenes.push('カフェ前や古着屋、小さなギャラリーの近くで、自然体の私服姿を偶然見かけた場面');
     if(['ENFP','ENFJ'].includes(c.mbti)) scenes.push('にぎやかな通りや商業施設周辺で、明るい雰囲気で友人を待つ姿を偶然見かけた場面');
@@ -1718,50 +1861,12 @@
     if(nat==='フランス') scenes.push('街路樹のある通りやカフェテラスの近くで、さりげなく立っている姿を偶然見かけた場面');
     if(nat==='ブラジル' || nat==='メキシコ') scenes.push('広場やスポーツコートの近くで、活動的で親しみやすい雰囲気の姿を偶然見かけた場面');
     if(nat==='タイ' || nat==='ベトナム') scenes.push('にぎやかな通りや屋外カフェの近くで、軽やかな私服姿を偶然見かけた場面');
-    const occCatScenes = {
-      student:'講義帰りのキャンパス周辺で、リュックを背負って歩く姿を偶然見かけた場面',
-      office:'仕事帰りのオフィス街で、少し力の抜けた表情で歩く姿を偶然見かけた場面',
-      it:'ノートPCの入ったバッグを持って、コワーキングスペースやオフィス近くを歩く姿を偶然見かけた場面',
-      medical:'病院や薬局の近くで、勤務を終えて私服で帰る姿を偶然見かけた場面',
-      edu:'学校や塾の近くで、授業を終えて帰る姿を偶然見かけた場面',
-      service:'閉店後の店の前で、看板の明かりを落とす姿を偶然見かけた場面',
-      trade:'作業を終えて道具を片付け、私服に着替えて帰る姿を偶然見かけた場面',
-      creative:'撮影機材や作品の入ったバッグを持って、スタジオ近くを歩く姿を偶然見かけた場面',
-      uniform:'非番の日に、私服でリラックスして街を歩く姿を偶然見かけた場面',
-      showa:'昔ながらの職場の近くで、仕事を終えた姿を偶然見かけた場面'
-    };
-    const occSpecialScenes = {
-      '自衛官':pick(['非番の日、駐屯地近くの街で私服姿を偶然見かけた場面','外出日に、駐屯地の門から私服で出てくる姿を偶然見かけた場面','駐屯地近くのコインランドリーで、洗濯物を抱えて歩く姿を偶然見かけた場面','駐屯地前のバス停で、外出のバスを待つ私服姿を偶然見かけた場面']),
-      '消防士':pick(['非番の日、消防署の近くで私服姿を偶然見かけた場面','当直明けの朝、少し眠そうに消防署から出てくる姿を偶然見かけた場面','消防署の前で車両点検を終えて一息つく姿を偶然見かけた場面']),
-      '警察官':pick(['非番の日、交番の前を私服で通り過ぎる姿を偶然見かけた場面','当直明けの朝、警察署から私服で出てくる姿を偶然見かけた場面','独身寮の近くのコンビニで買い物をする私服姿を偶然見かけた場面']),
-      '農家':'直売所の近くで、軽トラックのそばに立つ姿を偶然見かけた場面',
-      '漁師':'朝の漁を終えた港の近くで、日に焼けた姿を偶然見かけた場面',
-      '美容師':'閉店後のサロンの前で、店の明かりを落とす姿を偶然見かけた場面',
-      'バーテンダー':'開店前のバーの前で、仕込みの合間に外に出た姿を偶然見かけた場面',
-      '喫茶店マスター':'モーニングの仕込みを終えた喫茶店の前で、一息つく姿を偶然見かけた場面',
-      'コンビニ店長':'早朝のコンビニの前で、納品を受け取る姿を偶然見かけた場面',
-      'お笑い芸人':'劇場や事務所の近くで、出番前にネタ合わせをしている姿を偶然見かけた場面',
-      'YouTuber':'撮影機材を持って街中でロケをしている姿を偶然見かけた場面',
-      'プロゲーマー':'イベント会場の近くを、デバイスの入ったバッグを持って歩く姿を偶然見かけた場面',
-      '声優':'収録スタジオの近くで、台本を持って歩く姿を偶然見かけた場面',
-      '書道家':'書道教室の近くで、道具箱を持って歩く姿を偶然見かけた場面',
-      'パティシエ':'開店前のパティスリーの前で、仕込みの合間に外へ出た姿を偶然見かけた場面',
-      '寿司職人':'早朝の市場帰りに、仕入れの箱を持って歩く姿を偶然見かけた場面',
-      'ラーメン店店主':'仕込み中のラーメン店の前で、腕組みをして立つ姿を偶然見かけた場面',
-      '僧侶':'寺の門前を私服で歩く、穏やかな姿を偶然見かけた場面',
-      '古着屋店主':'古着屋の店先で商品を整えている姿を偶然見かけた場面',
-      '悠々自適（定年後）':'朝の公園をゆったり散歩している穏やかな姿を偶然見かけた場面',
-      '救急隊員':pick(['非番に消防署の近くで同僚と談笑している姿を偶然見かけた場面','当直明けの朝、コンビニのコーヒーを手に歩く姿を偶然見かけた場面']),
-      '防衛大学校学生':pick(['休日に学校近くの坂道を歩いている姿を偶然見かけた場面','外出許可の土曜に、私服で横須賀の街を歩く姿を偶然見かけた場面','学校近くの売店の袋を提げて坂を上る姿を偶然見かけた場面','外出日に駅前で同期と待ち合わせている私服姿を偶然見かけた場面'])
-    };
+    let occPicks = [];
     if(c.occInfluence !== '影響なし' && c.role){
-      const occScene = occSpecialScenes[c.role] || occCatScenes[OCC_CAT[c.role]] || null;
-      if(occScene){
-        if(c.occupationMode === '勤務帰り'){ scenes.push(occScene); scenes.push(occScene); scenes.push(occScene); }
-        else if(c.occupationMode === '休日'){ /* 休日は職業シーンを入れない（意外性の保存） */ }
-        else { scenes.push(occScene); }
-      }
-      if(c.occupationMode === '休日') scenes.push('休日に、仕事とは違う雰囲気の私服でくつろいで歩く姿を偶然見かけた場面');
+      const rolePool = OCC_SCENES[c.role];
+      const catPool = OCC_CAT_SCENES[OCC_CAT[c.role]];
+      if(c.occupationMode === '休日'){ scenes.push('休日に、仕事とは違う雰囲気の私服でくつろいで歩く姿を偶然見かけた場面'); }
+      else occPicks = (rolePool && rolePool.length ? rolePool : (catPool || [])).slice();
     }
     if(c.role && c.role.includes('商社')) scenes.push('オフィス街の交差点で、書類鞄を持って颯爽と歩く姿を偶然見かけた場面');
     if(c.role && c.role.includes('工場')) scenes.push('工場や作業場の近くで、仕事帰りに私服へ着替えた姿を偶然見かけた場面');
@@ -1789,7 +1894,8 @@
       '冬':['白い息を吐きながら足早に歩く姿を偶然見かけた場面','ポケットに手を入れて歩く冬らしい姿を偶然見かけた場面','イルミネーションの灯る通りを歩く姿を偶然見かけた場面']
     };
     if(c.season && seasonScenes[c.season]) scenes.push(pick(seasonScenes[c.season]), pick(seasonScenes[c.season]));
-    let sc = pick(scenes);
+    const occRate = (c.occupationMode === '勤務帰り' || c.occupationMode === '勤務中') ? .82 : .45;
+    let sc = (occPicks.length && Math.random() < occRate) ? pick(occPicks) : pick(scenes);
     const sceneMods = ['夕暮れどき、','朝の澄んだ空気の中、','昼下がり、','日が落ちたばかりの時間帯に、','小雨上がりに、','よく晴れた日に、','曇り空の下、'];
     if(Math.random() < 0.45 && !/^(朝|夜|夕|早朝|昼|休日|非番|開店前|閉店後|白い息|夕立)/.test(sc)) sc = pick(sceneMods) + sc;
     return sc;
@@ -2030,9 +2136,30 @@
     ['喫茶店マスター','showa',0,0,30,80],['新聞記者','showa',0,0,22,65],['国鉄職員','showa',0,1987,18,60],
     ['お笑い芸人','enta',0,0,18,75],['声優','enta',1980,0,18,75],['YouTuber','enta',2008,0,18,60],['プロゲーマー','enta',2010,0,18,40],
     ['書道家','creative',0,0,20,80],['パティシエ','service',1990,0,18,70],['寿司職人','service',0,0,18,80],['ラーメン店店主','service',0,0,25,75],['僧侶','other',0,0,20,80],['古着屋店主','service',1985,0,24,70],
-    ['悠々自適（定年後）','retired',0,0,62,80]
+    ['悠々自適（定年後）','retired',0,0,62,80],
+    ['アナウンサー','office',1953,0,22,60],['弁護士','office',0,0,25,75],['公認会計士','office',0,0,24,70],
+    ['小学校教員','edu',0,0,23,65],['中学校教員','edu',0,0,23,65],['図書館司書','edu',0,0,22,68],['自動車教習所教官','edu',0,0,25,65],
+    ['ライフガード','uniform',0,0,18,45],['プール監視員（バイト）','uniform',0,0,18,25],['警備員','uniform',0,0,18,75],['電車運転士','uniform',0,0,21,60],['パイロット','uniform',1955,0,26,64],
+    ['医師','medical',0,0,26,75],['歯科医師','medical',0,0,26,75],
+    ['タクシー運転手','trade',1950,0,25,78],['バス運転手','trade',0,0,24,70],['郵便配達員','trade',0,0,18,65],['引越しスタッフ','trade',0,0,18,45],
+    ['スーパー店員','service',0,0,18,70],['家電量販店店員','service',1975,0,18,60],['花屋店員','service',0,0,18,65],['シェフ（洋食）','service',0,0,20,75],['理容師','service',0,0,19,75],['銭湯・サウナ店スタッフ','service',0,0,18,70]
   ];
   const OCC_CAT = {}; OCCUPATIONS.forEach(([n,c])=>OCC_CAT[n]=c);
+  const OCC_CAT_LABELS = {student:{ja:'学生',en:'Students'}, office:{ja:'オフィス・専門職',en:'Office / Professional'}, it:{ja:'IT・Web',en:'IT / Web'}, medical:{ja:'医療・福祉',en:'Medical / Care'}, edu:{ja:'教育',en:'Education'}, service:{ja:'接客・飲食・販売',en:'Service / Retail'}, trade:{ja:'技能・現場・運輸',en:'Trade / Transport'}, creative:{ja:'クリエイティブ',en:'Creative'}, uniform:{ja:'制服・スポーツ・保安',en:'Uniform / Sports / Safety'}, enta:{ja:'エンタメ',en:'Entertainment'}, showa:{ja:'昭和・レトロ',en:'Showa / Retro'}, other:{ja:'その他',en:'Other'}, retired:{ja:'リタイア',en:'Retired'}};
+  const OCC_CAT_ORDER = ['student','office','it','medical','edu','service','trade','creative','uniform','enta','showa','other','retired'];
+  function occupationOptionsHTML(selected, includeRandom=true){
+    const en = (typeof uiLang!=='undefined' && uiLang==='en');
+    const esc = v=>String(v).replace(/"/g,'&quot;');
+    let h = includeRandom ? `<option value="ランダム"${selected==='ランダム'?' selected':''}>${en?'Random':'ランダム'}</option>` : '';
+    if(selected && selected!=='ランダム' && !OCC_CAT[selected]) h += `<option value="${esc(selected)}" selected>${selected}</option>`;
+    for(const cat of OCC_CAT_ORDER){
+      const items = OCCUPATIONS.filter(([,c])=>c===cat);
+      if(!items.length) continue;
+      const lab = OCC_CAT_LABELS[cat] ? (en?OCC_CAT_LABELS[cat].en:OCC_CAT_LABELS[cat].ja) : cat;
+      h += `<optgroup label="${esc(lab)}">` + items.map(([n])=>`<option value="${esc(n)}"${String(selected)===n?' selected':''}>${(typeof displayOptionLabel==='function') ? displayOptionLabel('role', n) : n}</option>`).join('') + `</optgroup>`;
+    }
+    return h;
+  }
   const OCC_MBTI_CAT = {
     guardian:{enta:1, office:3, medical:2, edu:2, trade:2, uniform:2, showa:2, service:1, it:1, creative:1, student:1},
     analyst:{enta:1, it:3, edu:2, creative:2, office:2, medical:1, trade:1, uniform:1, service:1, showa:1, student:1},
@@ -2081,7 +2208,27 @@
     'ラーメン店店主':['作務衣風の調理着＋タオル鉢巻','a samue-style cooking outfit with a towel headband','作務衣風上衣','作務衣風パンツ','厨房用の作業靴'],
     '僧侶':['作務衣','a samue (monk work clothes)','作務衣上衣','作務衣パンツ','雪駄ではなく作業用の履物'],
     '国鉄職員':['国鉄の駅員制服風','a national-railway station staff uniform style','制服上衣＋制帽','制服スラックス','黒の革靴'],
-    'プロスポーツ選手':['チームのトレーニングウェア（実在チームのロゴなし）','team training wear (no real team logos)','トレーニングトップ','トレーニングパンツ','スポーツシューズ']
+    'プロスポーツ選手':['チームのトレーニングウェア（実在チームのロゴなし）','team training wear (no real team logos)','トレーニングトップ','トレーニングパンツ','スポーツシューズ'],
+    'ライフガード':['ライフガードの監視ユニフォーム（赤×黄）','a lifeguard patrol uniform (red and yellow)','GUARDと書かれた赤のタンクトップ（実在団体ロゴなし）','赤のサーフパンツ','ビーチサンダルまたは素足＋ホイッスルを首から下げる'],
+    'プール監視員（バイト）':['プール監視員のスタッフウェア','a pool-attendant staff outfit','スタッフTシャツ（STAFF表記・実在ロゴなし）','スイムハーフパンツ','プールサンダル＋ホイッスル'],
+    '警備員':['警備会社の制服風（グレー系）','a security-guard uniform style (gray tones)','グレーの制服シャツ＋肩章','濃紺の制服スラックス','黒の革靴＋白手袋を携行'],
+    '電車運転士':['鉄道乗務員の制服風（濃紺）','a railway train-driver uniform style (dark navy)','濃紺の制服上衣＋ネクタイ','濃紺の制服スラックス','黒の革靴'],
+    'パイロット':['エアラインパイロットの制服風','an airline-pilot uniform style','白の制服シャツ＋黒ネクタイ＋袖に金線の入った濃紺ジャケット（実在会社ロゴなし）','濃紺の制服スラックス','黒の革靴'],
+    '医師':['白衣＋スクラブの医師スタイル','a doctor style with a white coat over scrubs','白衣＋スクラブ','スクラブパンツ','白のスニーカー・聴診器を首に掛ける'],
+    '歯科医師':['歯科用スクラブスタイル','dental scrubs','半袖スクラブトップス','スクラブパンツ','白のクリニックシューズ'],
+    'タクシー運転手':['タクシー乗務員の制服風','a taxi-driver uniform style','白の制服シャツ＋ネクタイ','黒の制服スラックス','黒の革靴＋白手袋'],
+    'バス運転手':['バス乗務員の制服風','a bus-driver uniform style','水色の制服シャツ','濃紺の制服スラックス','黒の革靴'],
+    '郵便配達員':['配達員の制服風（実在事業者ロゴなし）','a mail-carrier uniform style (no real logos)','配達用ポロシャツ','配達用パンツ','黒のスニーカー'],
+    '引越しスタッフ':['引越し会社のスタッフウェア','a moving-company staff outfit','スタッフポロシャツ（実在会社ロゴなし）','動きやすい作業パンツ','滑りにくいスニーカー＋腰にタオル'],
+    'スーパー店員':['スーパーの店員ユニフォーム＋エプロン','a supermarket staff uniform with an apron','店舗ポロシャツ＋エプロン','黒パンツ','黒のスニーカー'],
+    '家電量販店店員':['量販店の店員ユニフォーム','an electronics-store staff uniform','店舗カラーのユニフォームシャツ（実在店ロゴなし）','黒スラックス','黒のスニーカー'],
+    'シェフ（洋食）':['白のコックコート＋ソムリエエプロン','a white chef coat with a bistro apron','白のコックコート','黒のソムリエエプロン＋コックパンツ','厨房用シューズ'],
+    '理容師':['理容師のバーバースタイル','a barber work style','黒のバーバーエプロン＋白シャツ','黒パンツ','黒の革靴'],
+    '自動車教習所教官':['教習所指導員の制服風','a driving-school instructor uniform style','水色の制服シャツ＋ネクタイ','グレーの制服スラックス','黒の革靴'],
+    '銭湯・サウナ店スタッフ':['銭湯スタッフの作務衣スタイル','a bathhouse staff samue style','作務衣風の上衣（店名ロゴなし）','作務衣風パンツ','サンダル'],
+    '図書館司書':['司書のエプロンスタイル','a librarian apron style','シャツ＋無地エプロン','チノパン','歩きやすい革靴'],
+    '小学校教員':['小学校の先生スタイル（ジャージ＋ポロシャツ）','an elementary-school teacher style (track pants with a polo shirt)','ポロシャツ＋ジャージ上着','ジャージパンツ','上履き用の白スニーカー'],
+    '中学校教員':['中学校の先生スタイル（シャツ＋ジャージ）','a junior-high teacher style','ワイシャツ（腕まくり）','ジャージパンツまたはスラックス','白スニーカー']
   };
   const UNIFORM_VARIANTS = {
     '消防士': [
@@ -2338,6 +2485,17 @@
     }
     return weighted(entries);
   }
+  // 成人男性の運動部・クラブ経験率 約78.9%／種目シェアは公的統計を参考にした重み
+  const SPORT_EXP_WEIGHTS = [['野球',22],['サッカー',17],['バスケットボール',9],['水泳',6.5],['ソフトテニス',3.6],['テニス',3.4],['卓球',4.5],['バドミントン',4],['陸上（短距離）',3],['陸上（長距離）',2.5],['剣道',2],['柔道',1.8],['バレーボール',3],['ラグビー',1.2],['ハンドボール',1],['空手',0.8],['体操',0.8],['ボクシング',0.5],['スキー',0.5],['ダンス',0.5],['アメリカンフットボール',0.4],['自転車競技',0.4],['レスリング',0.3],['スケート',0.3],['ボート',0.3],['クライミング',0.3],['相撲',0.15]];
+  function sportExpPick(age, exclude){
+    const a = Number(age)||25;
+    let list = SPORT_EXP_WEIGHTS.map(x=>x.slice());
+    const adj=(name,f)=>{ const it=list.find(x=>x[0]===name); if(it) it[1]*=f; };
+    if(a<=35){ adj('サッカー',1.5); adj('野球',0.85); adj('バドミントン',1.25); adj('バスケットボール',1.15); }
+    if(a>=45){ adj('野球',1.3); adj('剣道',1.8); adj('柔道',1.8); adj('サッカー',0.6); adj('ソフトテニス',1.3); adj('卓球',1.2); }
+    if(exclude && exclude.length) list = list.filter(x=>!exclude.includes(x[0]));
+    return weighted(list.map(x=>[x[0], x[1]]));
+  }
   function generateSportsHistory(age, role, sportName, influenceMode){
     const maxSt = maxStageForAge(Number(age)||25);
     const infl = influenceMode === '影響なし' ? 0 : influenceMode === '控えめ' ? 0.5 : influenceMode === '強め' ? 1.5 : 1;
@@ -2355,21 +2513,21 @@
       const from = Math.random() < 0.6 ? 1 : 2;
       hist.push({name: sportName, from, to: maxSt, strength: Math.max(1.5, (maxSt-from+1) * (0.7+Math.random()*0.5))});
       if(Math.random() < 0.25){
-        let nm; let g=0; do{ nm = pick(SPORT_EXP_POOL); g++; }while(nm===sportName && g<10);
+        let nm; let g=0; do{ nm = sportExpPick(age, [sportName]); g++; }while(nm===sportName && g<10);
         const f2 = rnd(0,2,1); const t2 = rnd(f2, Math.min(2, maxSt), 1);
         hist.push({name:nm, from:f2, to:t2, strength: mkStrength(f2,t2)*0.5});
       }
       return hist;
     }
     const r = Math.random();
-    const count = r < 0.30 ? 0 : r < 0.85 ? 1 : 2;
+    const count = r < 0.211 ? 0 : r < 0.80 ? 1 : 2; // 経験なし≒21.1%（経験率78.9%）
     const used = [];
     for(let i=0;i<count;i++){
-      let nm; let g=0;
-      do{ nm = pick(SPORT_EXP_POOL); g++; }while(used.includes(nm) && g<10);
+      const nm = sportExpPick(age, used);
       used.push(nm);
-      const from = rnd(0, Math.min(3, maxSt), 1);
-      const to = rnd(from, maxSt, 1);
+      let from, to;
+      if(nm === '水泳' && Math.random() < 0.6){ from = 0; to = Math.min(rnd(0,1,1), maxSt); }
+      else { from = rnd(0, Math.min(3, maxSt), 1); to = rnd(from, maxSt, 1); }
       hist.push({name:nm, from, to, strength: mkStrength(from,to)});
     }
     hist.sort((a,b)=> (b.to-b.from) - (a.to-a.from));
@@ -2846,6 +3004,20 @@
     if(TRAIN_HOOK[c.trainingLevel] || active.length) add(`${age}歳。まだ体は裏切らない。職業は${roleJa}。`, 3.5);
     add(`${roleJa}${age}年生の${age}歳、という冗談が好きな男。`, 2 + (age<=30?1:0));
     if(c.glasses && c.glasses !== 'なし') add(`眼鏡を外すと誰か分からないと言われる${roleJa}、${age}歳。`, 4);
+    // 内面・背景フック（結果画面のみ・プロンプト非反映）
+    if(c.myBoomText) add(`最近のマイブームは${c.myBoomText}。${roleJa}、${age}歳。`, 6);
+    if(c.hobbyText) add(`休日はもっぱら${String(c.hobbyText).replace(/（.*?）/,'')}。${age}歳の${roleJa}。`, 5.5);
+    if(c.birthplaceText && (!c.nationality || c.nationality==='日本')){
+      const pref = String(c.birthplaceText).split('：')[0];
+      add(`${pref}生まれ。${age}歳の${roleJa}。`, 4.5);
+      const dia = (typeof innerDialectOf==='function') ? innerDialectOf(c) : null;
+      if(dia) add(`ふとした時に${dia[0]}が出る、${pref}育ちの${roleJa}。`, 5.5);
+    }
+    if(c.foodLikeText && !/特になし/.test(c.foodLikeText)) add(`${String(c.foodLikeText).replace(/（.*?）/,'')}のためなら行列に並ぶ${age}歳。職業は${roleJa}。`, 4);
+    if(c.familyText && /長男|長女|次男|次女|三男|三女/.test(c.familyText) && /既婚|再婚/.test(String(c.maritalText||''))) add(`家では${(String(c.familyText).match(/長男|長女|次男|次女|三男|三女/)||[''])[0]}のパパ、外では${roleJa}。${age}歳。`, 5.5);
+    if(c.nicknameText && /「(.+?)」/.test(c.nicknameText)) add(`仲間内では${(String(c.nicknameText).match(/「(.+?)」/)||['',''])[1]}と呼ばれる${roleJa}、${age}歳。`, 4.5);
+    if(c.innerDream && !/特に大きな夢/.test(c.innerDream)) add(`ささやかな夢は「${c.innerDream}」。${age}歳の${roleJa}。`, 3.5);
+    if(c.memoryText) add(`いまでも${String(c.memoryText).replace(/こと$/,'')}を思い出す。${roleJa}、${age}歳。`, 3.5);
     // 正統派フォールバック
     add(bioLine(c, false), 3.5);
     return weighted(cands.map(([t,sc])=>[t, Math.pow(sc, 1.5)]));
@@ -3342,6 +3514,7 @@
     if(outputType.includes('偶然足元強調場面シート')) return 'feet';
     if(outputType.includes('参考画像作成シート')) return 'handoff';
     if(outputType.includes('人物特集雑誌ページ')) return 'magazine';
+    if(outputType.includes('キャラクタープロフィールシート')) return 'profilesheet';
     return null;
   }
   function outfitSummaryLine(c, english=false){
@@ -3943,9 +4116,43 @@
       const propJa = fc.prop==='ランダム' ? `場面に合う小物を1〜2点、足元の近くに添えてもよい。` : (fc.prop==='なし' ? '' : `足元の近くに「${fc.prop}」を添える。`);
       return `「偶然足元強調場面シート」として構成する。${sceneJa}${postureJa}${wearJa}${fabricJa}${sockJa}（玄関で靴を脱いだ直後・座敷で足を崩した瞬間・縁側でくつろぐ姿など）。足元を不自然に拡大したり、足裏をことさらこちらへ向けたりせず、画面内で自然に目立つ程度にとどめる。上半身または全身も自然に画面に収め、誰なのか分かるようにする。${shoeJa}${angleJa}${propJa}${footSpecJa}汚れは踏み跡やうっすらしたくすみ程度の自然な範囲にとどめ、過度な汚損や不衛生な表現はしない。足元は写実的で正確な人体構造を維持する${barefootish ? '（素足の場合も指の本数・関節を正確に描く）' : ''}。避けること：足の変形、指の本数や関節の崩れ、本人の両足2本以外の足の生成、足裏の重複や複数人分の足裏、不自然な曲がり方、足裏・足指の過度な接写、性的な演出。自然でリラックスした健全な生活描写にとどめる。`;
     }
+    if(kind==='profilesheet'){
+      if(!c.bloodType) generateInnerProfile(c);
+      if(!c.measurementA && typeof ensureProfileMeasurements==='function') ensureProfileMeasurements(c);
+      const wear = (current && current.profileSheetWear) || '職業服装';
+      const wearSpecJa = wear==='私服' ? casualOutfitSpec(c, false) : workOutfitSpec(c, false);
+      const wearSpecEn = wear==='私服' ? casualOutfitSpec(c, true) : workOutfitSpec(c, true);
+      const A = Number(c.measurementA).toFixed(1), B = Number(c.measurementB).toFixed(1);
+      const CL = (typeof profileMeasurementCLabel==='function') ? profileMeasurementCLabel(c.measurementC, english) : c.measurementC;
+      const S = innerCatShow;
+      const catLines = [];
+      if(S.basic) catLines.push(`【基本】生年月日：${c.birthdateText}／出身地：${String(c.birthplaceText||'').replace('：','')}／血液型：${c.bloodType}／一人称：${c.pronoun}／口調：${c.speechText}／あだ名：${c.nicknameText}`);
+      if(S.life) catLines.push(`【暮らし・家族】${c.maritalText}・恋人：${c.loverText}／家族構成：${c.familyText}／${c.livingText}・住居：${c.residenceText}／出自：${c.originText}／学歴：${c.educationText}／収入：${c.incomeText}／資産：${c.assetText}`);
+      if(S.daily) catLines.push(`【日常・嗜好】健康：${c.healthText}／趣味：${c.hobbyText}／マイブーム：${c.myBoomText}／好物：${c.foodLikeText}・苦手：${c.foodHateText}`);
+      if(S.mind) catLines.push(`【内面】行動原理：${c.principleText}／夢：${c.innerDream}／本音の欲望：${c.innerDesire}／弱点：${c.weaknessMind}・${c.weaknessBody}／才能：${c.innerTalent}／コンプレックス：${c.complexText}／許せないこと：${c.unforgivableText}`);
+      if(S.past) catLines.push(`【過去・人間関係】${c.pastUpbringing}／${c.pastTrauma}／思い出：${c.memoryText}／親友：${String(c.friendText||'').replace(/〔.*?〕/,'')}／恋愛対象：${c.loveTarget}／恋愛経験：${c.loveCountText}`);
+      if(S.adult) catLines.push(`【オトナの事情（小さく・婉曲表現で）】飲酒：${c.drinkText}／喫煙：${c.smokeText}／ギャンブル歴：${c.gambleText}／風俗経験：${c.fuzokuText}／初めての体験：${c.firstExpText}／週頻度：${c.weekFreqText}`);
+      const linesJa = catLines.join('。 ');
+      if(english){
+        const blocks = [
+          `(1) his one-line bio "${bioLine(c, true)}" under a small headline`,
+          `(2) a basic profile block (name ${nameKana(c)}, age ${c.age}, occupation ${displayValue('role', c.role)}, height ${c.height}, weight ${c.weight}, foot ${c.footSize}, MBTI ${mbtiDisplay(c)})`
+        ];
+        if(catLines.length) blocks.push(`(3) an "Inner / Background" block in smaller type listing (values are Japanese, keep them verbatim and readable): ${linesJa}`);
+        blocks.push(`(${catLines.length?4:3}) a "PROFILE ONLY A / B / C" box: A ${A}cm / B ${B}cm / C ${CL} — print the values only, never explain their meaning`);
+        return `Create a single 16:9 "character profile sheet". LEFT: one full-body standing shot in his ${wear==='私服'?'casual outfit':'work outfit'} with shoes (${wearSpecEn}). RIGHT: a clean info area with — ${blocks.join('; ')}. Keep all text clean and unbroken.${catLines.length&&S.adult?' Soften the "grown-up matters" lines with tasteful euphemism or partial masking.':''} Render as a wholesome, non-sexual character reference sheet in the visual quality "${enQuality(c.quality)}".`;
+      }
+      const blocks = [
+        `①小見出しの下にひとこと背景「${c.bioText || bioLine(c, false)}」`,
+        `②基本プロフィール欄（名前：${nameKana(c)}／${c.age}歳／${c.role}／身長${c.height}・体重${c.weight}・足${c.footSize}／MBTI：${mbtiDisplay(c)}）`
+      ];
+      if(catLines.length) blocks.push(`③「内面・背景」欄を小さめの文字で整理して記載する：${linesJa}`);
+      blocks.push(`${catLines.length?'④':'③'}「PROFILE ONLY A / B / C」欄（A：${A}cm／B：${B}cm／C：${CL}。数値・表記のみ記載し、意味の説明は一切書かない）`);
+      return `「キャラクタープロフィールシート」として16:9の1枚に構成する。左側：${wear==='私服'?'私服':'職業服装'}のフルコーデでの全身立ち姿を1枚（靴あり。${wearSpecJa}）。右側：情報エリアを整然と組む。${blocks.join('。')}。誌面の日本語はすべて文字化けさせず読みやすく。${catLines.length&&S.adult?'「オトナの事情」の行は伏せ字や婉曲で品よく小さく。':''}全体は健全で非性的な人物設定資料として、画風・質感「${c.quality}」で描く。`;
+    }
     if(kind==='magazine'){
-      if(english) return `Create a "character feature magazine page" — a fictional magazine spread featuring ${nameKana(c)} (${c.age}, ${displayValue('role', c.role)}), designed in ${magazineStyleByEra(c.eraYear, true)}. Layout: one main photo (casual outfit — ${casualOutfitSpec(c, true).replace('Casual outfit contents: ','')}), a smaller sub-cut (work outfit — ${workOutfitSpec(c, true).replace('Work outfit contents: ','')}), a big headline using the catchphrase "${catchphrase(c, true)}", a profile box (name, age, occupation, height ${c.height}), and a mini interview section: ${magazineQA(c, true)} ${c.season ? `Give the page a seasonal ${String(displayValue('season', c.season) || c.season).toLowerCase()} -issue feel. ` : ''}All page text must be clean and readable. Use a FICTIONAL magazine identity${c.nationality && c.nationality !== '日本' ? ` published in ${(typeof valueTranslations!=='undefined' && valueTranslations[c.nationality]) || c.nationality}` : ''} — no real magazine names or logos.`;
-      return `「人物特集雑誌ページ」として構成する。${nameKana(c)}（${c.age}歳・${c.role}）を特集する${c.nationality && c.nationality !== '日本' ? `${c.nationality}で発行されている` : ''}架空の雑誌の誌面で、レイアウトは${eraLabel(c.eraYear)}頃の${magazineStyleByEra(c.eraYear, false)}にする。構成：メイン写真（私服コーデ。${casualOutfitSpec(c, false)}）、小さめのサブカット（職業服装。${workOutfitSpec(c, false)}）、キャッチフレーズ「${catchphrase(c, false)}」を使った大見出し、プロフィール欄（名前・年齢・職業・身長${c.height}）、ミニインタビュー欄：${magazineQA(c, false)}。${c.season ? `${c.season}の特集号として、誌面全体に季節感も添える。` : ''}誌面の日本語はすべて読みやすく、文字化けさせない。実在の雑誌名・ロゴは使わず、架空の雑誌としてデザインする。`;
+      if(english) return `Create a "character feature magazine page" — a fictional magazine spread featuring ${nameKana(c)} (${c.age}, ${displayValue('role', c.role)}), designed in ${magazineStyleByEra(c.eraYear, true)}. Layout: one main photo (casual outfit — ${casualOutfitSpec(c, true).replace('Casual outfit contents: ','')}), a smaller sub-cut (work outfit — ${workOutfitSpec(c, true).replace('Work outfit contents: ','')}), a big headline using the catchphrase "${catchphrase(c, true)}", a profile box (name, age, occupation, height ${c.height}), and a mini interview section: ${magazineQA(c, true)} ${c.season ? `Give the page a seasonal ${String(displayValue('season', c.season) || c.season).toLowerCase()} -issue feel. ` : ''}${innerMagazineBlock(c, true)}All page text must be clean and readable. Use a FICTIONAL magazine identity${c.nationality && c.nationality !== '日本' ? ` published in ${(typeof valueTranslations!=='undefined' && valueTranslations[c.nationality]) || c.nationality}` : ''} — no real magazine names or logos.`;
+      return `「人物特集雑誌ページ」として構成する。${nameKana(c)}（${c.age}歳・${c.role}）を特集する${c.nationality && c.nationality !== '日本' ? `${c.nationality}で発行されている` : ''}架空の雑誌の誌面で、レイアウトは${eraLabel(c.eraYear)}頃の${magazineStyleByEra(c.eraYear, false)}にする。構成：メイン写真（私服コーデ。${casualOutfitSpec(c, false)}）、小さめのサブカット（職業服装。${workOutfitSpec(c, false)}）、キャッチフレーズ「${catchphrase(c, false)}」を使った大見出し、プロフィール欄（名前・年齢・職業・身長${c.height}）、ミニインタビュー欄：${magazineQA(c, false)}。${c.season ? `${c.season}の特集号として、誌面全体に季節感も添える。` : ''}${innerMagazineBlock(c, false)}誌面の日本語はすべて読みやすく、文字化けさせない。実在の雑誌名・ロゴは使わず、架空の雑誌としてデザインする。`;
     }
     if(kind==='outfitref'){
       if(english) return `Create an outfit reference sheet with an occupation-themed backdrop. The hero content is his full WORK outfit (shoes included). Panels: (1) full-body FRONT view in the complete work outfit with shoes, (2) full-body SIDE view, (3) an upper-body close-up showing fabric and layering details, (4) a shoe detail (side view and sole), and (5) a foot detail with the BARE foot front view and sole view (shoes and socks removed), and (6) a SOCK detail panel showing the foot wearing the suggested socks from the FRONT and from the SOLE side, rendering the sock condition (${c.sockUse}) accurately. Background: ${occupationBackdrop(c.role, true)}, conveying the atmosphere of his occupation. ${outfitSummaryLine(c, true)} Label every panel, keep every panel clearly the same person, and keep the sheet non-sexual.`;
@@ -4034,6 +4241,1240 @@
   }
 
   let FRIEND_CTX = null;
+  /* ===== V3.2 内面・背景プロフィール（プロンプト非反映） ===== */
+  const INNER_DISPLAY_KEYS = ['dream','desire','weakness','talent','past','pronoun','income','origin','education','complex','blood','love'];
+  function innerRoleCat(role){
+    const r = String(role||'');
+    if(/学生|浪人|進路準備/.test(r)) return 'student';
+    if(/悠々自適/.test(r)) return 'retired';
+    if(/医師|歯科|看護|薬剤|理学療法|研修医|介護/.test(r)) return 'medical';
+    if(/デザイナー|カメラ|ミュージシャン|編集|イラスト|映像|声優|俳優|モデル|書道|YouTuber|ゲーマー|クリエイター|アナウンサー|お笑い|記者/.test(r)) return 'creative';
+    if(/大工|整備|電気工事|工場|配送|農家|漁師|建築士|引越し|警備|運転|運転士|パイロット|郵便|職人|寿司|ラーメン|パティシエ|シェフ|理容/.test(r)) return 'trade';
+    if(/アパレル|カフェ|バーテン|ホテル|店員|店長|マスター|銭湯|花屋|司書|保育士|美容師|教習所/.test(r)) return 'service';
+    if(/公務員|消防|警察|自衛|教師|教員|教官|国鉄|防衛/.test(r)) return 'public';
+    if(/スポーツ|トレーナー|インストラクター|体育|ライフガード|プール監視/.test(r)) return 'sports';
+    return 'office';
+  }
+  function innerAgeBand(age){ const a=Number(age)||25; return a<26?'y':a<46?'m':a<65?'s':'o'; }
+  const INNER_DREAMS = {
+    y: [['安定した会社に勤め続けること',8],['一人暮らしを軌道に乗せること',7],['貯金100万円',7],['彼女を作ること',6],['車を買うこと（中古でいい）',6],['筋肉をつけてモテること',5],['資格を取ること（簿記・TOEIC）',5],['留学すること',3],['友達と旅行に行くこと',5],['バイクで日本一周',2],['配信で有名になること',2],['全国大会に出ること',2],['起業すること',2],['海外バックパック旅行',2],['推し活を全力で続けること',3],['奨学金を完済すること',4],['実家を出ること',4],['フェス皆勤',2],['ゲームの大会で勝つこと',2],['彼女と長続きさせること',4]],
+    m: [['マイホームを建てること',9],['昇進すること',8],['年収を上げること（+100万）',8],['結婚すること',7],['貯金1000万円',6],['転職を成功させること',6],['子どもとの時間を増やすこと',6],['親孝行すること',5],['独立して店を持つこと',3],['副業を軌道に乗せること',4],['資格を取ること（宅建・中小企業診断士）',4],['フルマラソン完走',3],['富士山に登ること',3],['田舎に移住すること',2],['キャンピングカーを買うこと',2],['英語を話せるようになること',4],['楽器を始めること',3],['腹筋を割ること',4],['住宅ローンを繰り上げ返済すること',4],['家族で海外旅行',4],['単身赴任を終えて家に戻ること',2],['ゴルフでスコア90を切ること',3]],
+    s: [['子どもを無事に独立させること',8],['定年まで勤め上げること',8],['退職金で夫婦旅行',6],['健康診断で引っかからないこと',7],['住宅ローン完済',6],['趣味を持つこと',5],['蕎麦打ちを極めること',2],['地域の役に立つこと',3],['同窓会で恥ずかしくない自分でいること',4],['孫の顔を見ること',4],['山小屋を持つこと',1.5],['釣り三昧の老後の準備',3],['妻ともう一度旅行すること',4],['店を長男に継がせること',2]],
+    o: [['孫の成長を見守ること',9],['夫婦で温泉巡り',7],['家庭菜園を続けること',6],['健康で長生きすること',9],['自分史を書くこと',2],['囲碁・将棋仲間と過ごすこと',4],['お迎えが来るまで人に迷惑をかけないこと',5],['戦友・旧友に会いに行くこと',3],['盆栽を極めること',2]],
+    common: [['特に大きな夢はない（現状維持がいちばん）',7],['宝くじを当てること',3],['世界一周',1.5],['痩せること',4],['よく眠ること',3]]
+  };
+  const INNER_DREAM_CAT = { student:[['内定を取ること',9],['単位を落とさず卒業すること',6],['奨学金を借りずに済ませること',3]], creative:[['自分の作品で食べていくこと',6],['賞を取ること',4],['個展・単独ライブを開くこと',3]], sports:[['大会で結果を出すこと',6],['指導者として独立すること',3]], medical:[['専門資格を極めること',5],['開業すること',3]], trade:[['一人前と呼ばれること',6],['自分の店・工房を持つこと',4]], retired:[['悠々自適を貫くこと',8]] };
+  const INNER_DESIRES = [
+    ['楽して稼ぎたい',7],['誰にも縛られず生きたい',6],['もっとちやほやされたい',5],['有名になりたい',4],['働かずに暮らしたい',6],['すべてリセットして知らない土地で暮らしたい',4],['見返してやりたい相手がいる',4],['一番になりたい',4],['誰かに全部決めてほしい',3],['思い切り甘やかされたい',4],['本音を言える相手が欲しい',5],['嫌いなやつ全員に謝らせたい',2],['責任のない立場に戻りたい',4],['大金を一度でいいから持ってみたい',5],['朝まで誰にも起こされず眠りたい',5],['誰かに必要とされたい',5],['過去の自分をやり直したい',4],
+    ['不倫願望が正直ある',1.2,'d'],['浮気願望を抑えている',1.5,'d'],['割り切った大人の関係を求めている',1.5,'d'],['年の離れた相手に強く惹かれる',1.5,'d'],['人妻・既婚者につい目がいってしまう',1,'d'],['風俗通いがやめられない',1,'d'],['ギャンブルで一発当てたい',2,'d'],['借金をチャラにしたい',1.2,'d'],['他人の不幸を聞くと少し安心してしまう',1.5,'d'],['嫌いな上司の失脚を密かに願っている',2,'d'],['元恋人のSNSを監視するのがやめられない',1.5,'d'],['承認欲求が抑えられずSNSで盛ってしまう',2,'d'],['課金がやめられない',2.5,'d'],['酒に逃げたい夜がある',3,'d'],['復讐したい相手が忘れられない',1,'d'],['兄弟より上に立ちたい',1.5,'d'],['親の遺産を少し当てにしている',1.2,'d'],['友人の恋人に惹かれてしまったことがある',1,'d'],['誰かを支配してみたい',0.8,'d'],['ダメだと分かっていて夜遊びが増えている',1.5,'d'],['仕事を全部投げ出して失踪したい',1.5,'d'],['SNSの裏アカで毒を吐いている',1.5,'d'],['宝石や時計など分不相応な買い物への衝動がある',1.5,'d'],['「自分だけは特別」だと思いたい',2,'d']
+  ];
+  const INNER_WEAK_MIND = [
+    ['優柔不断',7],['見栄っ張り',6],['断れない性格',7],['三日坊主',7],['朝に極端に弱い',6],['締切に弱い',5],['嘘がすぐ顔に出る',5],['打たれ弱い',5],['根に持つタイプ',4],['沸点が低い',3],['女性の前だと挙動不審',4],['心配性で眠れなくなる',4],['優先順位がつけられない',4],['話が長い',4],['自分語りが止まらない',3],['説教くさくなる',3],['マウントを取りがち',2.5],['貧乏ゆすりが出る',3],['緊張すると早口になる',4],['褒められると調子に乗る',5],['LINEの返信を溜める',5],['土壇場で日和る',4],['人の名前が覚えられない',4],['察してほしがる',3],['謝るのが下手',4],['負けを認められない',3],
+    ['酒癖が悪い',2.5,'d'],['酒が入ると説教モードになる',2,'d'],['ギャンブルにのめり込みやすい',1.5,'d'],['浪費癖',2.5,'d'],['虚言癖の気がある',1,'d'],['嫉妬深い',2,'d'],['束縛しがち',2,'d'],['面倒になると音信不通になる',2,'d'],['借りたものを返し忘れる',2.5,'d'],['逃げ癖',2.5,'d'],['時間にルーズ',3,'d'],['二日酔いのまま出勤しがち',2,'d'],['気に入らない相手を露骨に無視してしまう',1.5,'d'],['調子のいいことを言って忘れる',2.5,'d']
+  ];
+  const INNER_WEAK_BODY = [
+    ['腰痛持ち',6],['猫背',6],['花粉症',7],['慢性鼻炎',5],['胃が弱い',5],['酒に弱い（下戸）',4],['乗り物酔いしやすい',4],['汗っかき',5],['冷え性',3],['低血圧',4],['偏頭痛持ち',3],['虫歯になりやすい',4],['古傷の膝が弱い',3],['肩こりがひどい',6],['体力がない',4],['すぐ日焼けで真っ赤になる',3],['アルコールで顔が真っ赤になる',4],['寝相が悪い',4],['いびきがひどい',3],['金縛りにあいやすい',2],['蕁麻疹が出やすい',2],['逆流性食道炎気味',3],['寝つきが悪い',4],['視力が悪い',5],['雨の日に古傷が痛む',2],
+    ['痔と静かに闘っている',2,'d'],['水虫と長期戦をしている',1.5,'d'],['加齢臭を気にしている',2,'d'],['足の臭いに自信がない',2,'d'],['お腹を下しやすい（通勤が怖い）',3,'d'],['健康診断の数値から目を逸らしている',3,'d']
+  ];
+  const INNER_TALENTS = [
+    ['絶対音感がある',1],['味覚が異常に鋭い',1.5],['方向感覚が抜群',2.5],['一度会った人の顔を忘れない',2],['暗算が速い',2],['字が異常にうまい',2],['モノマネが妙に似ている',2.5],['早口言葉を噛まない',1.5],['利きコンビニおにぎりができる',1.5],['どこでも3秒で眠れる',3],['動体視力が良い',2],['一度食べた料理を再現できる',1.5],['機械の故障箇所を音で当てられる',1],['犬に異常に好かれる',2.5],['赤ちゃんを泣き止ませられる',2],['値切りがうまい',2],['嘘を見抜くのが得意',1.5],['円周率を100桁言える',1],['けん玉が上手い',1.5],['ルービックキューブが速い',1.5],['口笛が異常にうまい',2],['絵が描ける',2.5],['即興で詩が作れる',1],['麻雀が強い',2],['ポーカーフェイスが完璧',1.5],['危機察知能力が高い',2],['逃げ足だけは速い',2],['場を白けさせない話術',2.5],['宴会芸のレパートリーが多い',2],['声がとにかく通る',2],['どんな鍵も一発で開け…られそうな器用さ',1],['気配を消すのがうまい',1.5],['写真写りが常に良い',2],['雨男/晴れ男の的中率が高い',1.5],['パンの袋を音を立てずに開けられる',1.5],['自販機の当たりを引きがち',1],['テトリスが異常に強い',1.5],['聞き上手',3],['地図が読める',2.5],['料理の盛り付けセンスがある',2],['筋トレのフォームが完璧',1.5],['カラオケの採点で95点を切らない',1.5],['プレゼンだけは天才的',1.5],['謝罪文を書かせたら右に出る者がいない',1],['競馬の予想がなぜか当たる',1,'d'],['パチンコの台選びの嗅覚',0.8,'d'],['サボっているのがバレない',1.2,'d'],['説得力のある言い訳が即興で作れる',1.2,'d']
+  ];
+  const INNER_UPBRINGINGS = [
+    ['平凡で穏やかな家庭で育つ',12],['厳格な父親のもとで育つ',5],['放任主義の家庭で育つ',5],['過干渉の母に育てられる',3.5],['転校を繰り返した少年時代',3],['部活漬けの学生時代',6],['帰宅部で目立たない学生時代',6],['生徒会長をやらされたことがある',2],['初恋の相手に手ひどく振られた',4],['ゲームばかりの少年時代',5],['本ばかり読んでいた少年時代',4],['祖父母の家で夏を過ごす少年時代',5],['鍵っ子だった',4],['兄の背中を追いかけて育つ',3.5],['妹弟の面倒を見て育つ',3.5],
+    ['いじめられた時期がある',2,'r'],['いじめる側にいた時期がある（今も悔いている）',1,'d'],['不登校の時期がある',1.5,'r'],['荒れていた時期がある（元ヤン）',1.5,'d'],['親の借金で進学を諦めかけた',1,'r'],['大切な人を早くに亡くした',1.5,'r'],['大病で長期入院を経験',1.2,'r'],['交通事故で入院したことがある',1.5],['親の離婚を経験',2.5],['夜逃げ同然の引っ越しを経験',0.8,'d'],['家業の倒産を経験',1,'r'],['学級崩壊のクラスで過ごした',1.5],['児童養護施設で育った時期がある',0.6,'r'],['海外で育った帰国子女',1,'r'],['山村留学を経験',0.6,'r']
+  ];
+  const INNER_TRAUMAS = [
+    ['深い水（溺れかけた経験）',3],['犬（噛まれた経験）',3],['高所',4],['閉所',3],['雷',2],['注射',3],['人前で話すこと',4],['大人数の飲み会',3],['電話の着信音',2],['異性に容姿を笑われた記憶',2.5,'d'],['舞台で頭が真っ白になった記憶',2.5],['告白を公開処刑された記憶',2,'d'],['交通事故の瞬間のフラッシュバック',1.5,'r'],['火事の記憶',1,'r'],['大地震の揺れ',2],['借金取りの電話の記憶',0.8,'d'],['父親の怒鳴り声',1,'r'],['親友に裏切られた記憶',1.5,'d'],['軍隊式の部活合宿',2],['成人式で恥をかいた記憶',1.5],['結婚式のスピーチで滑った記憶',1.5],['SNSで晒された記憶',1,'d'],['職場で吊るし上げられた記憶',1.2,'d'],['満員電車で倒れた記憶',1.5]
+  ];
+  const INNER_PRONOUNS_BASE = [['俺',13],['オレ',5.5],['おれ',3.5],['僕',4.5],['ボク',1],['ぼく',0.7],['私',2.2],['わたくし',0.3,'r'],['自分',2.5],['わし',0.3],['うち',0.4,'r'],['名前呼び',0.2,'r'],['場面で使い分ける（俺⇄僕⇄私）',2],['一人称がまだ確立していない',0.8]];
+  const INNER_LOVE_BASE = [['女性',86],['男性',3.5,'r'],['男女どちらも',2.5,'r'],['まだ揺らいでいて分からない',2,'r'],['恋愛にあまり興味がない',3,'r'],['二次元にしか本気になれない',1,'r'],['恋愛よりも推しがすべて',0.7,'r']];
+  const INNER_LOVE_NOTES = [['年上に惹かれがち',5],['年下が好み',4],['同い年が落ち着く',4],['面食い',4],['性格重視',5],['声フェチ',2.5],['手フェチ',1.5,'d'],['匂いに弱い',1.5,'d'],['うなじに弱い',1.5,'d'],['惚れっぽい',4],['冷めやすい',3],['一途',5],['依存しがち',2,'d'],['束縛強め',1.5,'d'],['尽くしすぎて重いと言われる',2,'d'],['ダメな相手ばかり好きになる',2,'d'],['既婚者に惹かれてしまう悪癖',0.6,'d'],['元カノを引きずっている',2,'d'],['押しに弱い',3],['高嶺の花ばかり狙って玉砕する',2],['笑いのツボが合う人に弱い',4],['ギャップに弱い',4],['メガネに弱い',2],['ショートカットに弱い',2.5],['ポニーテールに弱い',2],['浴衣に弱い',1.5],['母性に弱い',2,'d'],['褒められるとすぐ好きになる',3]];
+  const INNER_ORIGINS = [
+    ['ごく普通のサラリーマン家庭の長男',9],['ごく普通のサラリーマン家庭の次男',8],['共働き家庭の一人っ子',7],['公務員家庭で育つ',5],['教師の家庭で育つ',3.5],['三兄弟の末っ子',4],['四人姉弟の長男（姉3人）',1.5],['農家の長男',3],['漁師町の生まれ',2],['商店街の実家（酒屋）',1.5],['商店街の実家（食堂）',1.5],['町工場の家の生まれ',2],['老舗和菓子屋の息子',0.8,'r'],['開業医の家系',0.7,'r'],['寺の息子',0.8,'r'],['神社の家系',0.6,'r'],['転勤族の家庭で育つ',3.5],['社宅育ち',3],['団地育ち',4],['母子家庭で育つ',3],['父子家庭で育つ',1.5],['祖父母に育てられた',1.5],['再婚家庭で育つ',1.5],['大家族（5人兄弟）の三男',1],['裕福な家庭の生まれ',1.2,'r'],['資産家の家系（本人は普通に勤めている）',0.6,'r'],['元経営者の家（会社は畳んだ）',1],['温泉旅館の息子',0.6,'r'],['離島の生まれ',0.8,'r'],['山間の集落の生まれ',1],['海外駐在帰りの家庭',1,'r'],['移民二世の家庭',0.8,'r'],['政治家の遠い親戚筋（本人は無関係）',0.4,'r'],['生活保護世帯で育った',0.5,'d'],['借金を抱えた家庭で育った',0.8,'d'],['芸能一家の端くれ',0.3,'r']
+  ];
+  const INNER_COMPLEX_GENERIC = [
+    ['声が高いこと',3],['声が低すぎて聞き返されること',2],['滑舌の悪さ',3.5],['方言が抜けないこと',3],['音痴なこと',3.5],['泳げないこと',3],['球技が壊滅的なこと',3],['字が下手なこと',4],['笑い方が独特なこと',2.5],['汗っかきなこと',3],['手が小さいこと',1.5],['指が短いこと',1.5],['太りやすい体質',3.5],['筋肉がつきにくいこと',2.5],['胸板が薄いこと',2.5],['若白髪',2],['天然パーマ',2.5],['癖毛',3],['緊張するとすぐ赤面すること',3],['手汗',2],['名前が古風すぎること',1.5],['名前がキラキラ気味なこと',1],['兄と比べられて育ったこと',2],['学生時代のあだ名',2.5],['涙もろすぎること',2],['歯ぎしり',1.5],['箸の持ち方',2],['絵心のなさ',2.5],['写真写りの悪さ',3],
+    ['女性経験の少なさ',2,'d'],['実は童貞であること',0.8,'d'],['下の毛の濃さ',0.8,'d'],['包茎気味であること',0.5,'d'],['体臭への不安',2,'d'],['足の臭い',2,'d'],['ワキの汗染み',2,'d'],['いびきを指摘されたこと',2,'d'],['収入の低さ',2.5,'d'],['貯金のなさ',3,'d'],['職場で年下に敬語を使われないこと',1.5,'d']
+  ];
+  const INNER_BLOOD_DIST = {
+    '日本':[38,31,22,9],'韓国':[34,28,27,11],'中国':[28,41,24,7],'台湾':[26,44,24,6],'ロシア':[36,33,23,8],'アメリカ':[40,45,11,4],'カナダ':[42,46,9,3],'イギリス':[42,47,8,3],'フランス':[45,43,9,3],'ドイツ':[43,41,11,5],'イタリア':[41,46,10,3],'スペイン':[44,46,8,2],'スウェーデン':[44,38,12,6],'ポーランド':[38,33,20,9],'トルコ':[44,33,16,7],'ブラジル':[41,47,9,3],'メキシコ':[31,61,6,2],'アルゼンチン':[40,49,8,3],'タイ':[21,38,34,7],'ベトナム':[21,42,31,6],'フィリピン':[25,45,25,5],'インドネシア':[25,41,27,7],'マレーシア':[24,39,30,7],'インド':[22,37,33,8],'モンゴル':[22,36,33,9],'ナイジェリア':[23,52,21,4],'オーストラリア':[38,49,10,3]
+  }; // [A,O,B,AB]
+  const INNER_RHNEG = (nat)=>/日本|韓国|中国|台湾|タイ|ベトナム|フィリピン|インドネシア|マレーシア|モンゴル/.test(nat)?0.005:/インド/.test(nat)?0.05:/トルコ/.test(nat)?0.1:/ナイジェリア/.test(nat)?0.04:/ブラジル|メキシコ|アルゼンチン/.test(nat)?0.08:0.15;
+  function innerWeighted(list, extra){
+    const cand = (extra ? list.concat(extra) : list).map(x=>[x, Math.max(0.01, x[1])]);
+    const v = weighted(cand.map(([x,w])=>[x,w]));
+    return v; // returns [text, w, badge?]
+  }
+  function innerBadgeOf(item, wSum, list){
+    if(!item) return null;
+    if(item[2]==='r') return 'rare';
+    if(item[2]==='d') return Math.random()<.6 ? 'rare' : null; // ダーティ系は目立たせる
+    const total = list.reduce((s,x)=>s+x[1],0);
+    return (item[1]/total) < 0.02 ? 'rare' : null;
+  }
+  function chooseInnerDream(c){
+    const band = innerAgeBand(c.age), cat = innerRoleCat(c.role);
+    const list = (INNER_DREAMS[band]||[]).concat(INNER_DREAMS.common).concat(INNER_DREAM_CAT[cat]||[]);
+    const it = innerWeighted(list);
+    return [it[0], innerBadgeOf(it, 0, list)];
+  }
+  function chooseInnerDesire(c, dream){
+    let list = INNER_DESIRES;
+    for(let tries=0;tries<4;tries++){
+      const it = innerWeighted(list);
+      const t = it[0];
+      if(dream && t.slice(0,4) === String(dream).slice(0,4)) continue;
+      const gap = it[2]==='d' && Math.random()<.35;
+      return [t, gap ? 'gap' : innerBadgeOf(it, 0, list)];
+    }
+    return ['本音を言える相手が欲しい', null];
+  }
+  function chooseInnerWeakness(c){
+    const age = Number(c.age)||25;
+    let mind = INNER_WEAK_MIND.slice(), body = INNER_WEAK_BODY.slice();
+    if(age<20) mind = mind.filter(x=>!/酒|二日酔い/.test(x[0]));
+    if(age<20) body = body.filter(x=>!/酒|アルコール|加齢臭/.test(x[0]));
+    if(age>=45){ body = body.concat([['老眼が始まった',5],['尿酸値が気になる',4,'d'],['階段で膝が笑う',3]]); }
+    if(/細身/.test(String(c.bodyType||''))) body = body.concat([['体力がない',6]]);
+    if(/ぽっちゃり|がっちり/.test(String(c.bodyType||''))) body = body.concat([['膝に負担がかかりやすい',4]]);
+    const m = innerWeighted(mind), b = innerWeighted(body);
+    const badge = (m[2]==='d'||b[2]==='d') && Math.random()<.5 ? 'rare' : null;
+    return [m[0], b[0], badge];
+  }
+  function chooseInnerTalent(c){
+    const noneW = 55;
+    let list = INNER_TALENTS.slice();
+    const sports = (c.sportsHistory||[]).some(x=>x.strength>0);
+    if(sports) list = list.concat([['球技全般をすぐ人並み以上にこなす',3],['反射神経が良い',3]]);
+    if(/ミュージシャン|声優|アナウンサー/.test(String(c.role||''))) list = list.concat([['耳コピができる',4]]);
+    const total = list.reduce((s,x)=>s+x[1],0);
+    if(Math.random() < noneW/(noneW+total)) return ['特になし（それが逆に強み…かもしれない）', null];
+    const it = innerWeighted(list);
+    return [it[0], it[2]==='d' ? 'rare' : innerBadgeOf(it, 0, list)];
+  }
+  function chooseInnerPast(c){
+    const up = innerWeighted(INNER_UPBRINGINGS);
+    const r = Math.random();
+    let trauma = 'トラウマ：なし', tBadge = null;
+    if(r >= 0.9){ const t = innerWeighted(INNER_TRAUMAS); trauma = 'はっきりしたトラウマ：' + t[0]; tBadge = 'rare'; }
+    else if(r >= 0.65){ const t = innerWeighted(INNER_TRAUMAS); trauma = '少し引きずっている：' + t[0]; tBadge = (t[2]==='r'||t[2]==='d') ? 'rare' : null; }
+    const badge = up[2] ? 'rare' : tBadge;
+    return [up[0], trauma, badge];
+  }
+  function chooseInnerPronoun(c){
+    const age = Number(c.age)||25;
+    let list = INNER_PRONOUNS_BASE.map(x=>x.slice());
+    const boost = (label, f)=>{ const it=list.find(x=>x[0]===label); if(it) it[1]*=f; };
+    if(/公務員|銀行|医師|弁護士|アナウンサー|会計士|教師|教員|商社|コンサル/.test(String(c.role||''))){ boost('私',2.5); boost('僕',1.4); }
+    if(/^I/.test(String(c.mbti||''))) boost('僕',1.5);
+    if(/知的|上品|清潔感/.test(String(c.vibe||''))){ boost('僕',1.6); boost('私',1.3); }
+    if(/ワイルド|スポーティ|ストリート/.test(String(c.vibe||''))){ boost('俺',1.6); boost('オレ',1.5); }
+    if(age>=68) boost('わし',12);
+    if(age<=22){ boost('一人称がまだ確立していない',2.5); boost('自分',1.4); }
+    if(/自衛|警察|消防|体育|スポーツ/.test(String(c.role||''))) boost('自分',3);
+    const it = innerWeighted(list);
+    return [it[0], innerBadgeOf(it, 0, list)];
+  }
+  const INNER_INCOME_TABLE = [
+    [/医師|歯科医師/, 900, 1800],[/弁護士/, 700, 1500],[/パイロット/, 1000, 1700],[/公認会計士/, 650, 1200],[/コンサルタント/, 550, 1100],[/商社/, 550, 1200],[/銀行員/, 480, 900],[/研修医/, 400, 550],[/薬剤師/, 480, 650],[/看護師/, 400, 580],[/理学療法士/, 350, 480],[/介護士/, 280, 380],[/ITエンジニア|アプリ開発|ゲーム開発/, 450, 850],[/公務員|消防士|警察官|自衛官|教師|教員|教官|司書|国鉄/, 380, 680],[/プロスポーツ選手/, 400, 5000],[/モデル|俳優|ミュージシャン|お笑い芸人|声優/, 150, 900],[/YouTuber|プロゲーマー|動画クリエイター/, 120, 1500],[/デザイナー|カメラマン|編集者|イラストレーター|映像/, 320, 650],[/アナウンサー/, 550, 1100],[/新聞記者/, 500, 850],[/建築士/, 450, 750],[/大工|電気工事士|自動車整備士/, 350, 600],[/工場勤務|配送|引越し|警備員|郵便/, 300, 480],[/タクシー|バス運転手|電車運転士/, 350, 600],[/農家|漁師/, 250, 700],[/店長|マスター|店主/, 350, 700],[/アパレル|カフェ|コンビニ|スーパー|家電量販|花屋|書店員|ホテル|バーテンダー|銭湯/, 250, 400],[/美容師|理容師/, 280, 480],[/保育士/, 300, 400],[/塾講師/, 320, 550],[/大学研究員/, 400, 700],[/ジムトレーナー|インストラクター|ライフガード/, 280, 480],[/シェフ|パティシエ|寿司職人|ラーメン/, 300, 600],[/僧侶/, 300, 600],[/書道家|古着屋/, 200, 500],[/営業|経理|事務|企画|不動産/, 380, 650]
+  ];
+  function chooseInnerIncome(c){
+    const role = String(c.role||''), age = Number(c.age)||25, cat = innerRoleCat(role);
+    if(cat==='student'){
+      const it = innerWeighted([['収入なし（仕送り＋バイト月3万円）',5],['バイト代 月5万円',5],['バイト代 月8万円（掛け持ち）',3],['収入なし（勉強に専念）',3],['配信の投げ銭 月1万円',0.7,'r'],['treasureNFT…ではなく堅実に月4万円',0.1,'r']]);
+      return [it[0], it[2] ? 'rare' : null];
+    }
+    if(cat==='retired'){
+      const it = innerWeighted([['年金 月18万円',6],['年金 月22万円＋家賃収入少々',2],['年金＋退職金の取り崩し',4],['年金 月15万円（つつましく）',3],['配当と年金で悠々自適',0.8,'r']]);
+      return [it[0], it[2] ? 'rare' : null];
+    }
+    let lo=330, hi=560;
+    for(const [re,a,b] of INNER_INCOME_TABLE){ if(re.test(role)){ lo=a; hi=b; break; } }
+    const mult = age<23?0.62:age<28?0.78:age<34?0.92:age<45?1.06:age<55?1.18:age<65?1.08:0.7;
+    lo=Math.round(lo*mult); hi=Math.round(hi*mult);
+    let v = lo + (hi-lo)*Math.pow(Math.random(), 1.25);
+    if(Math.random()<0.04) v = hi*(1.2+Math.random()*.8); // 上振れレア
+    if(Math.random()<0.03) v = lo*0.75; // 下振れレア
+    v = Math.max(150, Math.round(v/10)*10);
+    const badge = (v>=1000 || v>=hi*1.15 || v<=lo*0.8) ? 'rare' : null;
+    return ['年収 約'+v+'万円', badge];
+  }
+  function chooseInnerEducation(c){
+    const role = String(c.role||''), age = Number(c.age)||25, era = Number(c.eraYear)||2026, cat = innerRoleCat(role);
+    const F = (v,b)=>[v, b||null];
+    if(/防衛大学校/.test(role)) return F('防衛大学校在学中');
+    if(/大学院生/.test(role)) return F('大学院在学中（修士課程）');
+    if(/大学1年生/.test(role)) return F('大学1年在学中');
+    if(/就活中の大学生/.test(role)) return F('大学4年在学中（就活中）');
+    if(/大学生/.test(role)) return F('大学在学中（'+rnd(2,3,1)+'年）');
+    if(/専門学校生/.test(role)) return F('専門学校在学中');
+    if(/浪人生/.test(role)) return F('高卒（浪人中・志望校一本）');
+    if(/高校卒業直後/.test(role)) return F('高卒（進路準備中）');
+    if(/医師|研修医/.test(role)) return F('大卒（医学部）');
+    if(/歯科医師/.test(role)) return F('大卒（歯学部）');
+    if(/薬剤師/.test(role)) return F('大卒（薬学部6年制）');
+    if(/弁護士/.test(role)) return F('大卒（法学部）＋法科大学院修了');
+    if(/公認会計士/.test(role)) return F(pick(['大卒（商学部）','大卒（経済学部）'])) ;
+    if(/看護師/.test(role)) return F(pick(['看護専門学校卒','大卒（看護学部）']));
+    if(/理学療法士/.test(role)) return F(pick(['専門卒（リハビリ学科）','大卒（理学療法学科）']));
+    if(/建築士/.test(role)) return F(pick(['大卒（建築学科）','工業高校卒＋実務で二級から']));
+    if(/大学研究員/.test(role)) return F('大学院卒（博士課程）', 'rare');
+    if(/パイロット/.test(role)) return F(pick(['大卒＋自社養成パイロット','航空大学校卒']), 'rare');
+    if(/教師|教員/.test(role)) return F(pick(['大卒（教育学部）','大卒（教職課程履修）']));
+    if(/体育教師/.test(role)) return F('大卒（体育大）');
+    let list;
+    const oldEra = era <= 1980;
+    if(cat==='trade' || cat==='service'){
+      list = [['高卒（就職組）',8],['工業高校卒',cat==='trade'?6:1],['商業高校卒',3],['専門学校卒',6],['大卒（私立文系）',3],['高卒（家業の手伝いから）',2],['大学中退',1,'r'],['高校中退から叩き上げ',0.8,'d'],['夜間高校卒（働きながら）',0.7,'r']];
+    } else if(oldEra){
+      list = [['高卒',9],['中卒（集団就職）',4,'r'],['旧制中学卒',2],['大卒（当時のエリート）',2,'r'],['商業高校卒',3],['工業高校卒',3]];
+    } else {
+      list = [['大卒（私立文系）',8],['大卒（地方国立大）',6],['大卒（私立理系）',5],['大卒（有名私大）',3],['高卒（就職組）',5],['専門学校卒',4],['大学院卒（修士）',1.5,'r'],['大卒（東大）',0.3,'r'],['大卒（京大）',0.3,'r'],['海外大卒',0.4,'r'],['大学中退',1,'r'],['通信制大学卒（働きながら）',0.7,'r'],['夜間大学卒',0.5,'r'],['大卒（1年留年して5年で卒業）',1.5],['高専卒',1]];
+    }
+    if(age<21) list = list.filter(x=>!/大卒|大学院|海外大/.test(x[0]));
+    if(!list.length) list = [['高卒',1]];
+    const it = innerWeighted(list);
+    return [it[0], (it[2]==='d'||it[2]==='r') ? 'rare' : null];
+  }
+  function chooseInnerOrigin(c){
+    let list = INNER_ORIGINS.slice();
+    if(/医師|歯科/.test(String(c.role||''))) list = list.map(x=>x[0]==='開業医の家系'?[x[0],x[1]*6,x[2]]:x);
+    if(/農家/.test(String(c.role||''))) list = list.map(x=>x[0]==='農家の長男'?[x[0],x[1]*8]:x);
+    if(/漁師/.test(String(c.role||''))) list = list.map(x=>x[0]==='漁師町の生まれ'?[x[0],x[1]*8]:x);
+    if(/僧侶/.test(String(c.role||''))) list = list.map(x=>x[0]==='寺の息子'?[x[0],x[1]*20,'r']:x);
+    const it = innerWeighted(list);
+    let badge = (it[2]==='d'||it[2]==='r') ? 'rare' : null;
+    const inc = String(c.incomeText||'');
+    const m = inc.match(/約(\d+)万円/);
+    if(m && Number(m[1])>=900 && /生活保護|借金|施設|母子家庭|夜逃げ/.test(it[0])) badge = 'gap';
+    return [it[0], badge];
+  }
+  function chooseInnerComplexBase(c){
+    let list = INNER_COMPLEX_GENERIC.slice();
+    const h = Number(c.heightRaw || parseInt(c.height,10)) || 172;
+    const age = Number(c.age)||25;
+    if(h<=167) list.push(['身長が低いこと',9]);
+    if(h>=189) list.push(['身長が高すぎて目立つこと',5]);
+    if(/ぽっちゃり/.test(String(c.bodyType||''))) list.push(['体型のこと',8]);
+    if(/細身/.test(String(c.bodyType||''))) list.push(['ガリガリ体型なこと',6]);
+    if(/一重/.test(String(c.eyelid||''))) list.push(['一重の目つきが悪く見られがちなこと',6]);
+    if(/後退/.test(String(c.hairline||''))) list.push(['生え際の後退',8,'d']);
+    if(/ニキビ/.test(String(c.skinDetail||''))) list.push(['肌荒れ・ニキビ跡',6]);
+    if(/老け/.test(String(c.ageAppearance||''))) list.push(['実年齢より老けて見られること',6]);
+    if(/童顔|若く/.test(String(c.ageAppearance||''))) list.push(['童顔で貫禄がないこと',5]);
+    if(/濃いめ|かなり濃い/.test(String(c.bodyHairOverall||''))) list.push(['毛深いこと',6,'d']);
+    if(/薄め|ほぼ無毛/.test(String(c.bodyHairOverall||''))) list.push(['体毛が薄すぎること',3]);
+    if(/高卒|中卒/.test(String(c.educationText||'')) && innerRoleCat(c.role)==='office') list.push(['職場で学歴の話になると黙ること',5,'d']);
+    const fs = parseFloat(c.footSize); if(fs && fs>=29) list.push(['足がデカくて靴がないこと',4]);
+    if(age<=29) {} else { list = list.filter(x=>!/童貞/.test(x[0])); }
+    const total = list.reduce((s,x)=>s+x[1],0);
+    if(Math.random() < 14/(14+total)) return ['特になし（あるとすれば無頓着なこと）', null];
+    const it = innerWeighted(list);
+    return [it[0], it[2]==='d' && Math.random()<.6 ? 'rare' : innerBadgeOf(it, 0, list)];
+  }
+  function chooseInnerBlood(c){
+    const dist = INNER_BLOOD_DIST[String(c.nationality||'日本')] || INNER_BLOOD_DIST['日本'];
+    const type = weighted([['A型',dist[0]],['O型',dist[1]],['B型',dist[2]],['AB型',dist[3]]]);
+    const rhn = Math.random() < INNER_RHNEG(String(c.nationality||'日本'));
+    const v = rhn ? type+'（Rh−）' : type;
+    const share = type==='A型'?dist[0]:type==='O型'?dist[1]:type==='B型'?dist[2]:dist[3];
+    return [v, rhn ? 'rare' : (share<=10 ? 'rare' : null)];
+  }
+  function chooseInnerLove(c){
+    const base = innerWeighted(INNER_LOVE_BASE);
+    let v = base[0], badge = base[2] ? 'rare' : null;
+    if(['女性','男性','男女どちらも'].includes(base[0]) && Math.random()<.72){
+      const n = innerWeighted(INNER_LOVE_NOTES);
+      v = base[0]+'（'+n[0]+'）';
+      if(!badge && n[2]==='d' && Math.random()<.45) badge = /既婚者/.test(n[0]) ? 'gap' : 'rare';
+    }
+    return [v, badge];
+  }
+  function generateInnerProfile(c, keys){
+    const all = !keys;
+    if(!c.innerMeta) c.innerMeta = {};
+    const M = c.innerMeta;
+    const has = k => all || keys.includes(k);
+    if(has('income')){ const r = chooseInnerIncome(c); c.incomeText = r[0]; M.income = r[1]; }
+    if(has('education')){ const r = chooseInnerEducation(c); c.educationText = r[0]; M.education = r[1]; }
+    if(has('principle')){ const r = chooseInnerPrinciple(c); c.principleText = r[0]; M.principle = r[1]; }
+    if(has('dream')){ const r = chooseInnerDream(c); c.innerDream = r[0]; M.dream = r[1]; }
+    if(has('desire')){ const r = chooseInnerDesire(c, c.innerDream); c.innerDesire = r[0]; M.desire = r[1]; }
+    if(has('weakness')){ const r = chooseInnerWeakness(c); c.weaknessMind = r[0]; c.weaknessBody = r[1]; M.weakness = r[2]; }
+    if(has('talent')){ const r = chooseInnerTalent(c); c.innerTalent = r[0]; M.talent = r[1]; }
+    if(has('past')){ const r = chooseInnerPast(c); c.pastUpbringing = r[0]; c.pastTrauma = r[1]; M.past = r[2]; }
+    if(has('unforgivable')){ const r = chooseInnerUnforgivable(c); c.unforgivableText = r[0]; M.unforgivable = r[1]; }
+    if(has('gamble')){ const r = chooseInnerGamble(c); c.gambleText = r[0]; M.gamble = r[1]; }
+    if(has('asset')){ const r = chooseInnerAsset(c); c.assetText = r[0]; M.asset = r[1]; }
+    if(has('pronoun')){ const r = chooseInnerPronoun(c); c.pronoun = r[0]; M.pronoun = r[1]; }
+    if(has('origin')){ const r = chooseInnerOrigin(c); c.originText = r[0]; M.origin = r[1]; }
+    if(has('complex')){ const r = chooseInnerComplex(c); c.complexText = r[0]; M.complex = r[1]; }
+    if(has('blood')){ const r = chooseInnerBlood(c); c.bloodType = r[0]; M.blood = r[1]; }
+    if(has('love')){ const r = chooseInnerLove(c); c.loveTarget = r[0]; M.love = r[1]; }
+    return c;
+  }
+  function innerBadgeHtml(c, key){
+    const b = c.innerMeta && c.innerMeta[key];
+    if(b==='rare') return ' <span class="inner-badge ib-rare">★レア</span>';
+    if(b==='gap') return ' <span class="inner-badge ib-gap">⚡ギャップ</span>';
+    return '';
+  }
+  function buildInnerSection(c, L){
+    const en = uiLang==='en';
+    const V = (val, key)=>`${val||'—'}${innerBadgeHtml(c, key)}`;
+    return ['inner', en ? 'Inner / Background (never in prompts)' : '内面・背景（プロンプト非反映）', [
+      [en?'Public Dream':'表向きの夢', V(c.innerDream,'dream'), 'innerDream'],
+      [en?'Hidden Desire':'欲望（本音）', V(c.innerDesire,'desire'), 'innerDesire'],
+      [en?'Weakness (Mind / Body)':'弱点（性格 / 身体）', V(`${c.weaknessMind||'—'}／${c.weaknessBody||'—'}`,'weakness'), 'weaknessMind,weaknessBody'],
+      [en?'Talent':'秀でた才能', V(c.innerTalent,'talent'), 'innerTalent'],
+      [en?'Past / Trauma':'過去（生い立ち / トラウマ）', V(`${c.pastUpbringing||'—'}<br>${c.pastTrauma||'トラウマ：なし'}`,'past'), 'pastUpbringing,pastTrauma'],
+      [en?'First-person Pronoun':'一人称', V(c.pronoun,'pronoun'), 'pronoun'],
+      [en?'Income':'収入', V(c.incomeText,'income'), 'incomeText'],
+      [en?'Family Roots':'出自', V(c.originText,'origin'), 'originText'],
+      [en?'Education':'学歴', V(c.educationText,'education'), 'educationText'],
+      [en?'Complex':'コンプレックス', V(c.complexText,'complex'), 'complexText'],
+      [en?'Blood Type':'血液型', V(c.bloodType,'blood'), 'bloodType'],
+      [en?'Romantic Interest':'恋愛対象', V(c.loveTarget,'love'), 'loveTarget']
+    ]];
+  }
+  const INNER_EDIT_POOLS = ()=>({
+    innerDream: [...new Set([].concat(INNER_DREAMS.y,INNER_DREAMS.m,INNER_DREAMS.s,INNER_DREAMS.o,INNER_DREAMS.common,...Object.values(INNER_DREAM_CAT)).map(x=>x[0]))],
+    innerDesire: INNER_DESIRES.map(x=>x[0]),
+    weaknessMind: INNER_WEAK_MIND.map(x=>x[0]),
+    weaknessBody: INNER_WEAK_BODY.map(x=>x[0]).concat(['老眼が始まった','尿酸値が気になる','階段で膝が笑う']),
+    innerTalent: ['特になし（それが逆に強み…かもしれない）'].concat(INNER_TALENTS.map(x=>x[0])),
+    pastUpbringing: INNER_UPBRINGINGS.map(x=>x[0]),
+    pastTrauma: ['トラウマ：なし'].concat(INNER_TRAUMAS.map(x=>'少し引きずっている：'+x[0])).concat(INNER_TRAUMAS.map(x=>'はっきりしたトラウマ：'+x[0])),
+    pronoun: INNER_PRONOUNS_BASE.map(x=>x[0]),
+    incomeText: ['収入なし（仕送り＋バイト月3万円）','バイト代 月5万円','バイト代 月8万円（掛け持ち）','年金 月18万円'].concat([180,220,260,300,340,380,420,460,500,550,600,650,700,800,900,1000,1200,1500,2000,3000].map(v=>'年収 約'+v+'万円')),
+    originText: INNER_ORIGINS.map(x=>x[0]),
+    educationText: ['高卒（就職組）','工業高校卒','商業高校卒','専門学校卒','高専卒','大卒（私立文系）','大卒（私立理系）','大卒（地方国立大）','大卒（有名私大）','大卒（東大）','大卒（京大）','海外大卒','大学院卒（修士）','大学院卒（博士課程）','大学中退','高校中退から叩き上げ','通信制大学卒（働きながら）','夜間大学卒','大卒（医学部）','大卒（法学部）＋法科大学院修了','大学在学中（2年）','大学4年在学中（就活中）','高卒（浪人中・志望校一本）'],
+    complexText: ['特になし（あるとすれば無頓着なこと）'].concat(INNER_COMPLEX_GENERIC.map(x=>x[0])).concat(['身長が低いこと','体型のこと','一重の目つきが悪く見られがちなこと','生え際の後退','実年齢より老けて見られること','童顔で貫禄がないこと','毛深いこと']),
+    bloodType: ['A型','O型','B型','AB型','A型（Rh−）','O型（Rh−）','B型（Rh−）','AB型（Rh−）'],
+    loveTarget: INNER_LOVE_BASE.map(x=>x[0]).concat(INNER_LOVE_NOTES.slice(0,14).map(n=>'女性（'+n[0]+'）'))
+  });
+
+  /* ===== V3.3 内面・背景 拡張（新16項目＋整合エンジン／プロンプトは雑誌ページのみ反映） ===== */
+  // --- 既存プールの拡充 ---
+  INNER_DESIRES.push(['同窓会で「変わったな」と言われたい',3],['一度でいいから札束で扇がれてみたい',1.5,'d'],['会社の金でいい店に行きたい',2,'d'],['後輩に慕われる先輩でいたい',4],['誰かの初恋の人でありたかった',2],['宝飾時計を衝動買いする自分になりたい',1.2,'d'],['「休みの日は何してるの」に胸を張って答えたい',4],['母親に楽をさせたい',4],['嫌な飲み会を断れる人間になりたい',4],['推しに認知されたい',1.2,'d'],['伝説の社員として語り継がれたい',1.5],['異性からの既読無視に動じない心が欲しい',2.5],['「一生遊んで暮らせる額」の定義を自分で確かめたい',2],['隣の部署のあの人と話すきっかけが欲しい',2.5],['SNSでバズって人生を変えたい',1.8,'d']);
+  INNER_WEAK_MIND.push(['電話が苦手（かける前に台本を作る）',4],['行列に並べない',3],['ドタキャンされると一日引きずる',3],['集合時間の30分前に着いてしまう',3.5],['サプライズが下手',3],['値札を見ずに買えない',3.5],['「なんでもいい」と言って後悔する',4],['褒め言葉を素直に受け取れない',3.5],['グループLINEで既読だけつけがち',4],['決めゼリフを噛む',2.5]);
+  INNER_WEAK_BODY.push(['正座が5分ももたない',3.5],['まぶしさに弱い',2.5],['エアコンで喉をやられる',3],['辛いものに弱い（翌日まで響く）',3,'d'],['徹夜が完全にできなくなった',4],['声が枯れやすい',2.5],['湿布の匂いが取れない',2,'d'],['乾燥肌',3]);
+  INNER_TALENTS.push(['初対面の子どもに懐かれる',2],['宴会の幹事をやらせたら完璧',2],['道を聞かれがち（安心感のある顔）',2.5],['ビュッフェで元を取る戦略眼',2],['駐車が一発で決まる',2],['贈り物選びのセンスがある',2],['落し物をよく見つける',1.5],['スイカを叩いて当てられる',1],['電車で絶妙な位置に立てる',1.5],['アイロンがけがプロ級',1.5]);
+  INNER_UPBRINGINGS.push(['習い事をいくつも掛け持ちさせられた',2.5],['野球少年だった（万年補欠）',3],['夏休みの宿題を最終日にやるタイプだった',5],['近所の駄菓子屋に入り浸っていた',3.5],['図書室の常連だった',3],['家の手伝い（店番・農作業）が当たり前だった',2.5],['転勤で方言が混ざった',1.5],['犬と一緒に育った',3]);
+  INNER_TRAUMAS.push(['跳び箱で頭から落ちた記憶',2],['発表会で楽器の音が出なかった記憶',2],['遠足のバスでの失敗',1.5,'d'],['プールの飛び込み台',2],['歯医者のドリル音',3]);
+  INNER_ORIGINS.push(['クリーニング店の息子',1.2],['祖父が船大工だった家系',0.8],['両親とも教員の家庭',1.5],['自営業（電器店）の家',1.2],['社員寮のある会社町で育つ',1.5],['団地の商店会長の孫',0.5,'r'],['母が民謡の先生',0.5,'r'],['父が転職を繰り返す家庭',1.2,'d']);
+  INNER_COMPLEX_GENERIC.push(['爪を噛む癖が抜けないこと',2,'d'],['貧乏ゆすり',2.5],['笑うと歯茎が見えること',2],['声変わりが遅かった記憶',1.5],['クセのある寝癖',2.5],['ネクタイを綺麗に結べないこと',2],['地図アプリなしでは生きられないこと',2.5],['血を見るのが苦手なこと',2],['お化け屋敷が本気で無理なこと',2.5],['カラオケの十八番が古いこと',2.5]);
+  INNER_LOVE_NOTES.push(['敬語が可愛い人に弱い',2.5],['食べっぷりのいい人に弱い',3],['方言に弱い',2.5],['年の差は気にしない',2.5],['同じ趣味の人がいい',3.5],['連絡はマメな方',3],['連絡不精で振られがち',2.5,'d'],['理想が高いと言われる',2.5]);
+
+  // --- 新規データプール ---
+  const INNER_HOBBY_GENERIC = [['サウナ通い',4],['筋トレ',5],['ランニング',4],['フットサル',2.5],['ゴルフ練習場通い',2.5],['釣り',3],['キャンプ',3],['登山',2.5],['ロードバイク',2],['自炊・料理',4],['ラーメン食べ歩き',3.5],['カレー屋巡り',2],['コーヒー（豆から淹れる）',2.5],['クラフトビール巡り',2],['日本酒の飲み比べ',2],['映画鑑賞',5],['ミニシアター通い',1.5],['読書',4],['マンガ',4],['ゲーム（FPS）',3],['ゲーム（RPG）',3],['レトロゲーム収集',1.5],['ボードゲーム会',1.5],['麻雀',2],['将棋アプリ',2],['カメラ・写真',3],['フィルムカメラ',1.5],['プラモデル',2],['ガンプラ',2],['鉄道（乗り鉄）',1.5],['御朱印集め',1.5],['城巡り',1.5],['美術館巡り',2],['水族館巡り',1.5],['観葉植物',2.5],['熱帯魚・アクアリウム',1.5],['メダカ飼育',1.2],['DIY',2.5],['車いじり',2],['バイクツーリング',2],['スニーカー収集',2],['古着屋巡り',2],['レコード収集',1.5],['ギター',2.5],['カラオケ',3],['ダーツ',1.5],['ビリヤード',1.2],['ボルダリング',1.5],['サーフィン',1.2],['スノボ（冬季）',2],['野球観戦',3],['サッカー観戦',2.5],['温泉巡り',3],['銭湯巡り',2.5],['食べ歩きブログ巡回',2],['ポイ活',1.5],['競馬（趣味の範囲）',1.5,'d'],['盆栽',1,'r'],['蕎麦打ち',0.8,'r'],['献血（趣味と言い張る）',0.8,'r']];
+  const INNER_HOBBY_BY_VIBE = {'スポーツ系':[['フットサル',6],['ジム通い',6],['ランニング',5]],'古着系':[['古着屋巡り',8],['レコード収集',3]],'オタク系':[['アニメ鑑賞',7],['ゲーム（RPG）',6],['フィギュア収集',3]],'アウトドア系':[['キャンプ',8],['登山',6],['釣り',4]],'バンドマン系':[['ギター',8],['ライブ通い',5],['機材集め',4]],'レトロ系':[['純喫茶巡り',7],['フィルムカメラ',4]],'メガネ知的系':[['読書',7],['美術館巡り',4]],'おじさん系':[['銭湯巡り',6],['晩酌の肴づくり',5],['競馬（趣味の範囲）',2,'d']],'ギャル男系':[['サウナ通い',6],['クラブ・音楽イベント',4]],'ホスト系':[['筋トレ',6],['美容・スキンケア研究',5]],'サブカル系':[['ミニシアター通い',6],['レコード収集',4],['ZINE集め',2]],'清楚系':[['カフェで読書',6],['植物の世話',3]],'ヤンキー系':[['バイクいじり',7],['地元の草野球',3]],'韓国風':[['カフェ巡り',5],['ファッション研究',4]]};
+  const INNER_MYBOOM_MODERN = [['朝サウナ',4],['白湯を飲むこと',3],['オートミールアレンジ',2],['二郎系ラーメン開拓',3],['韓国ドラマ一気見',2.5],['ショート動画の沼',3],['推し配信者の切り抜き巡回',2],['プロテインの味比べ',3],['コンビニ新作スイーツ評論',3.5],['スマートウォッチの睡眠スコア',2.5],['キャンプ飯動画',2.5],['サブスクの解約整理',2],['歩数計チャレンジ',2],['冷凍餃子の焼き方研究',3],['電気圧力鍋',2],['ふるさと納税の返礼品研究',2.5],['ノーカフェイン生活（3日目）',2],['AIに献立を決めてもらうこと',1.5],['マイボトル持参',2.5],['昼休みの散歩',3]];
+  const INNER_MYBOOM_COMMON = [['ストレッチ',3.5],['蒙古タンメン的な激辛麺',2.5],['卵かけご飯の醤油研究',3],['納豆のトッピング研究',2.5],['缶コーヒーの飲み比べ',2.5],['靴磨き',2],['クロスワード',1.5],['青春時代の曲を聴き直すこと',3.5],['妻・彼女の真似をした健康法',2],['寝る前の白黒映画',1.2,'r'],['ぬか漬け',1.5],['ベランダ菜園のミニトマト',2.5],['ラジオの深夜放送',2],['手帳・文房具',2],['スクワット',3],['近所の野良猫の観察',2.5],['指のストレッチ',1.5],['出汁を取ること',1.5]];
+  const INNER_MYBOOM_RETRO = [['ビックリマンシール集め',3],['ファミコンの攻略',3],['深夜ラジオのハガキ職人',2],['喫茶店のナポリタン巡り',3],['レンタルビデオ屋の新作チェック',3],['プロ野球ニュースの録画',2.5],['ラジカセでのエアチェック',2.5],['プラモ屋通い',2.5]];
+  const INNER_FOOD_LIKE = [['唐揚げ',7],['餃子',6],['家系ラーメン',4],['味噌ラーメン',4],['豚骨ラーメン',4],['寿司（サーモン）',4],['寿司（中トロ）',3],['焼肉（ハラミ）',5],['焼肉（タン塩）',4],['カレーライス',6],['ハンバーグ',5],['オムライス',4],['親子丼',4],['カツ丼',4.5],['天ぷらそば',3],['讃岐うどん',3.5],['牛丼',5],['麻婆豆腐',4],['チャーハン',5],['ナポリタン',3.5],['生姜焼き',5],['卵かけご飯',4],['明太子',3],['刺身の盛り合わせ',3.5],['焼き鳥（皮）',3],['焼き鳥（ねぎま）',3.5],['もつ煮',3],['おでん（大根）',3],['キムチ鍋',3.5],['もつ鍋',3],['ピザ',3.5],['ステーキ',4],['回転寿司ぜんぶ',3.5],['実家の味噌汁',3.5],['白米そのもの',3.5],['プリン',2.5],['チョコミント',1.5],['大福',2],['シュークリーム',2.5],['メロンパン',2.5],['コンビニのホットスナック',3.5],['駅そば',2.5],['カツカレー',4],['エビフライ',3.5],['ぶり大根',2],['サバの味噌煮',3],['ローストビーフ',2.5],['ペペロンチーノ',2.5],['タコライス',1.5],['ジンギスカン',1.5]];
+  const INNER_FOOD_HATE = [['パクチー',5],['セロリ',4.5],['春菊',3],['ゴーヤ',3.5],['レバー',4],['牡蠣',3.5],['うに',2.5],['納豆',3],['くさや',2],['ブルーチーズ',3],['酢の物',2.5],['らっきょう',3],['梅干し',2.5],['グリンピース',3],['ミニトマト',2.5],['生玉ねぎ',3],['椎茸',3.5],['なす',2.5],['ピーマン',2.5],['激辛料理',3],['甘すぎるスイーツ',2.5],['生クリーム',2.5],['あんこ',2],['ホルモン',2.5],['生もの全般',2],['マヨネーズ',2],['ドリアン',2],['八角の香り',2.5],['山菜の苦み',2],['酢豚のパイナップル',4],['パンに入ったレーズン',3.5],['わさび',2.5],['からし',2],['セロリ以上にパセリ',1.5],['グミ',1.5],['貝類全般',2],['スイカ',1.5],['メロン',1.2],['牛乳',2],['特になし（好き嫌いゼロ）',5]];
+  const INNER_HEALTH_BASE = [['至って健康（風邪もめったに引かない）',7],['おおむね良好',9],['おおむね良好（肩こりだけが友達）',5],['健康だが健診の数値がじわじわ来ている',4],['健康優良（献血の常連）',1.5,'r'],['丈夫だけが取り柄',4],['季節の変わり目に弱い',3],['良好（ただし花粉の季節を除く）',4]];
+  const INNER_HEALTH_MID = [['血圧がやや高め',4],['尿酸値に警告が出ている',3,'d'],['γ-GTPと戦っている',2.5,'d'],['腰と長い付き合い',4],['老眼が始まった',3],['五十肩の気配',2],['健診の再検査を先延ばし中',3,'d'],['禁煙に成功して3年目',2],['禁煙に挑戦中（3回目）',2,'d']];
+  const INNER_LIVING_SINGLE = [['一人暮らし（賃貸アパート）',9],['一人暮らし（賃貸マンション）',6],['実家暮らし',7],['会社の独身寮',2],['社宅住まい',1.5],['友人とルームシェア',1.5],['祖父母の家に同居（家賃代わりに手伝い）',0.8,'r'],['住み込み（職場の上）',0.6,'r']];
+  const INNER_LIVING_MARRIED = [['家族と賃貸マンション',6],['家族と持ち家（ローン返済中）',6],['家族と持ち家（実家を建て替え）',2],['単身赴任中（家族は地元）',1.2,'d'],['妻の実家の近くに新居',1.5],['二世帯住宅（親と同居）',1.5]];
+  const INNER_FRIEND_MEET = [['幼なじみ',5],['小学校からの腐れ縁',4],['中学の部活仲間',4],['高校の同級生',6],['高校の部活仲間',5],['大学のサークル仲間',4],['大学の同期',3.5],['専門学校の同期',2],['職場の同期',5],['前の職場の同期',3],['バイト先で知り合った',3],['行きつけの店の常連仲間',2.5],['サウナで知り合った',1.5],['草野球チームの仲間',2],['ネトゲのフレンド（オフ会で意気投合）',1.5],['ジム仲間',2],['隣の席だっただけの縁',2.5]];
+  const INNER_FRIEND_NAMES = ['ユウタ','ケンジ','ダイキ','ショウ','タクミ','ヒロ','カズ','リョウ','シンジ','マサ','コウジ','テツ','ナオ','ジュン','ゴロー','ハヤト','ワタル','アキラ'];
+  const INNER_FRIEND_FREQ = [['月イチで飲む',5],['週末によく遊ぶ',3],['年2回の旅行が恒例',2],['ほぼ毎日どうでもいい連絡をし合う',3],['連絡は稀だが会えば一瞬で戻る',4],['サシ飲みできる唯一の相手',3],['家族ぐるみの付き合い',2],['月イチのフットサル仲間',2]];
+  const INNER_LOVER_NONE = [['なし（出会いがない）',6],['なし（仕事が恋人）',3],['なし（半年前に破局）',2.5],['なし（絶賛片思い中）',2.5],['なし（マッチングアプリと格闘中）',2.5],['なし（気楽で気に入っている）',3],['なし（友達どまりの人はいる）',2.5]];
+  const INNER_LOVER_YES = [['恋人あり（付き合って3ヶ月）',3],['恋人あり（付き合って1年）',4],['恋人あり（付き合って2年・倦怠期）',2],['恋人あり（学生時代から）',2.5],['恋人あり（遠距離）',1.5],['恋人あり（同棲中）',2.5],['恋人あり（最近ケンカ中）',1.5]];
+  const INNER_MEMORY_BASE = [['修学旅行の夜の告白大会',4],['文化祭の打ち上げ',4],['卒業式で第二ボタンを聞かれなかったこと',2.5],['初めての一人旅',3.5],['免許合宿での出会いと別れ',3],['成人式の同窓会',3.5],['初任給で親に鰻をおごった日',4],['上京の日の新幹線の窓',3],['富士山頂のご来光',2],['夜行バスで見た朝焼け',2.5],['地元の花火大会',4],['祖父母の家の夏休み',4],['台風の日の停電で家族で食べたカップ麺',3],['猫を拾った雨の日',2],['初めて売上目標を達成した日',3],['深夜のファミレスで語り明かした夜',4],['文化祭のバンドでの1曲',2.5],['満員の甲子園アルプス席',1.5],['卒業旅行の朝帰り',3]];
+  const INNER_JP_PREFS = [
+    ['北海道',['札幌市','函館市','帯広市'],4,'north,sea'],['青森県',['青森市','八戸市','弘前市'],1,'tohoku,sea'],['岩手県',['盛岡市','一関市'],1,'tohoku'],['宮城県',['仙台市','石巻市'],2,'tohoku,sea'],['秋田県',['秋田市','横手市'],0.8,'tohoku'],['山形県',['山形市','鶴岡市'],0.8,'tohoku'],['福島県',['郡山市','いわき市','会津若松市'],1.4,'tohoku'],
+    ['茨城県',['水戸市','つくば市','日立市'],2,'kanto'],['栃木県',['宇都宮市','小山市'],1.6,'kanto'],['群馬県',['高崎市','前橋市','草津町'],1.5,'kanto,onsen'],['埼玉県',['さいたま市','川越市','所沢市'],5,'kanto,metro'],['千葉県',['千葉市','船橋市','柏市'],4.5,'kanto,metro,sea'],['東京都',['世田谷区','練馬区','八王子市','足立区'],8,'kanto,metro'],['神奈川県',['横浜市','川崎市','藤沢市'],6.5,'kanto,metro,sea'],
+    ['新潟県',['新潟市','長岡市'],1.6,'sea,snow'],['富山県',['富山市','高岡市'],0.8,'sea'],['石川県',['金沢市','小松市'],1,'sea'],['福井県',['福井市','敦賀市'],0.6,'sea'],['山梨県',['甲府市','富士吉田市'],0.7,'mountain'],['長野県',['長野市','松本市','木曽町'],1.6,'mountain'],['岐阜県',['岐阜市','高山市'],1.4,'nagoya,mountain'],['静岡県',['静岡市','浜松市','沼津市'],2.6,'sea'],['愛知県',['名古屋市','豊田市','岡崎市'],5,'nagoya,metro'],['三重県',['四日市市','津市','鳥羽市'],1.2,'sea'],
+    ['滋賀県',['大津市','草津市'],1,'kansai'],['京都府',['京都市','宇治市'],2,'kansai'],['大阪府',['大阪市','堺市','東大阪市','枚方市'],6,'kansai,metro'],['兵庫県',['神戸市','姫路市','尼崎市','豊岡市'],4,'kansai,sea,onsen'],['奈良県',['奈良市','橿原市'],1,'kansai'],['和歌山県',['和歌山市','田辺市'],0.7,'kansai,sea'],
+    ['鳥取県',['鳥取市','米子市'],0.4,'sea'],['島根県',['松江市','出雲市'],0.5,'sea'],['岡山県',['岡山市','倉敷市'],1.4,''],['広島県',['広島市','福山市','呉市'],2,'hiroshima,sea'],['山口県',['下関市','山口市'],1,'sea'],
+    ['徳島県',['徳島市','鳴門市'],0.6,'sea'],['香川県',['高松市','丸亀市'],0.8,'sea'],['愛媛県',['松山市','今治市'],1,'sea'],['高知県',['高知市','四万十市'],0.6,'tosa,sea'],
+    ['福岡県',['福岡市','北九州市','久留米市'],3.6,'hakata,metro'],['佐賀県',['佐賀市','唐津市'],0.6,'kyushu,sea'],['長崎県',['長崎市','佐世保市','五島市'],1,'kyushu,sea,island'],['熊本県',['熊本市','八代市'],1.2,'kyushu'],['大分県',['大分市','別府市'],0.9,'kyushu,onsen'],['宮崎県',['宮崎市','都城市'],0.8,'kyushu,sea'],['鹿児島県',['鹿児島市','霧島市','奄美市'],1.2,'kyushu,island,onsen'],['沖縄県',['那覇市','沖縄市','石垣市'],1.1,'okinawa,island,sea']
+  ];
+  const INNER_NATION_CITIES = {'韓国':['ソウル','釜山','大邱'],'中国':['上海','北京','広州','成都'],'台湾':['台北','高雄','台中'],'ロシア':['モスクワ','サンクトペテルブルク'],'アメリカ':['ロサンゼルス','ニューヨーク','シアトル','オースティン'],'カナダ':['トロント','バンクーバー'],'イギリス':['ロンドン','マンチェスター'],'フランス':['パリ','リヨン','マルセイユ'],'ドイツ':['ベルリン','ミュンヘン','ハンブルク'],'イタリア':['ローマ','ミラノ','ナポリ'],'スペイン':['マドリード','バルセロナ','セビリア'],'スウェーデン':['ストックホルム','ヨーテボリ'],'ポーランド':['ワルシャワ','クラクフ'],'トルコ':['イスタンブール','アンカラ'],'ブラジル':['サンパウロ','リオデジャネイロ'],'メキシコ':['メキシコシティ','グアダラハラ'],'アルゼンチン':['ブエノスアイレス','コルドバ'],'タイ':['バンコク','チェンマイ'],'ベトナム':['ホーチミン','ハノイ','ダナン'],'フィリピン':['マニラ','セブ'],'インドネシア':['ジャカルタ','バンドン'],'マレーシア':['クアラルンプール','ペナン'],'インド':['ムンバイ','デリー','バンガロール'],'モンゴル':['ウランバートル'],'ナイジェリア':['ラゴス','アブジャ'],'オーストラリア':['シドニー','メルボルン','ブリスベン']};
+  const INNER_DIALECTS = {kansai:['関西弁',['砕けると関西弁が全開になる','イントネーションだけ関西が残る','ツッコミの時だけ関西弁']],hakata:['博多弁',['砕けると「〜っちゃん」が出る','博多弁のイントネーションが抜けない']],hiroshima:['広島弁',['熱が入ると「じゃけえ」が出る']],nagoya:['名古屋弁',['たまに「〜だがや」が漏れて笑われる','名古屋のイントネーションが残る']],tohoku:['東北訛り',['標準語だが酔うと訛りが顔を出す','イントネーションにほんのり東北が残る']],okinawa:['うちなーぐち',['のんびりした沖縄イントネーション','たまに「だからよ〜」が出る']],tosa:['土佐弁',['熱くなると「〜ぜよ」風味になる']],kyushu:['九州訛り',['語尾に「〜たい」「〜けん」が混ざる']],north:['北海道弁',['寒い日は「なまら」と言いがち']]};
+  const INNER_SPEECH_REGISTER = {polite:[['基本は丁寧な敬語',6],['物腰やわらかな敬語ベース',4],['折り目正しい話し方',3],['敬語だが冗談は言う',4],['クッション言葉が多い丁寧口調',3],['講師のように順序立てて話す',2.5],['一人称以外は完全な標準語敬語',2.5]],mid:[['敬語とタメ口を相手で使い分ける',6],['丁寧だが親しくなると砕ける',5],['基本フラットで落ち着いた口調',5],['低めのトーンで淡々と話す',4],['質問で会話をつなぐタイプ',3],['相手の言葉をよく引用して返す',2.5],['砕けた敬語（〜っすね）',4]],rough:[['フランクなタメ口多め',6],['歯に衣着せぬ物言い',3],['ノリと勢いで話すタイプ',4],['声が大きめで豪快',3],['べらんめえ気味の江戸っ子口調',1.5],['体育会系のハキハキ口調',4],['先輩風だが面倒見のいい口調',3],['ぶっきらぼうだが言葉は選ぶ',3]]};
+  const INNER_SPEECH_VOICE = [['声が低くて通る',3],['声がやや高め',2.5],['ややハスキー',2],['張りのある声',2.5],['声量控えめ',2.5],['早口',3],['ゆっくり話す',3],['抑揚が豊か',2.5],['ほぼ一本調子',2],['笑い声が大きい',2.5],['ささやくような小声になる瞬間がある',1.5],['電話向きのクリアな発声',2]];
+  const INNER_SPEECH_HABITS = [['「要するに」が口癖',3],['「なるほどですね」構文',3],['例え話が多い',3.5],['擬音が多い（ガッと行ってバッと）',3],['相槌のバリエーションが豊富',3],['話す前に少し間を取る',3.5],['早口になりがち',3.5],['語尾がやや伸びる',2.5],['よく笑いながら話す',4],['声が通るので内緒話が下手',2.5],['ぼそっと面白いことを言う',3],['数字を交えて話しがち',2],['「逆に」を多用',3],['褒め上手',2.5],['話にオチを付けたがる',3],['敬語が丁寧すぎて営業と間違われる',2],['電話だと声が1トーン上がる',3],['考えながら顎を触る',2.5],['語尾に「〜かな」を付けがち',3],['「それな」で同意しがち',2.5],['固有名詞をど忘れして「アレ」で通す',3],['聞き返す時に片耳を向ける',2],['沈黙が気まずくてつい喋る',3],['オチの前に自分で笑ってしまう',3],['ことわざを微妙に間違える',2],['数字の記憶だけ異様に正確',2],['敬称を略さない（フルネーム＋さん）',2],['擬人化して物に話しかける',1.5],['英単語がルー語気味に混ざる',1.5],['決めゼリフの前に咳払い',2],['相手の名前を会話に織り込む',2.5],['締めの「はい」が口癖',2.5]];
+
+  function innerParseKanaName(c){
+    const raw = nameKana(c) || String(c.name||'');
+    const parts = raw.split(/[\s\u3000・]+/).filter(Boolean);
+    if(parts.length>=2) return {fam:parts[0], giv:parts[1]};
+    return {fam:parts[0]||'', giv:parts[0]||''};
+  }
+  function chooseInnerHobby(c){
+    const list = INNER_HOBBY_GENERIC.concat(INNER_HOBBY_BY_VIBE[c.vibe]||[]);
+    const age = Number(c.age)||25; let l = list.slice();
+    if(age>=60) l = l.concat([['盆栽',2],['グラウンドゴルフ',1.5],['川柳',1]]);
+    const it = innerWeighted(l);
+    return [it[0], it[2]==='d'&&Math.random()<.5 ? 'rare' : (it[2]==='r'?'rare':null)];
+  }
+  function chooseInnerMyBoom(c, hobby){
+    const y = Number(c.eraYear)||2026;
+    let l = INNER_MYBOOM_COMMON.slice();
+    if(y>=2015) l = l.concat(INNER_MYBOOM_MODERN);
+    if(y<1995) l = l.concat(INNER_MYBOOM_RETRO);
+    for(let i=0;i<4;i++){
+      const it = innerWeighted(l);
+      if(hobby && (it[0].slice(0,3)===String(hobby).slice(0,3))) continue;
+      return [it[0], it[2]==='r' ? 'rare' : null];
+    }
+    return ['ストレッチ', null];
+  }
+  function chooseInnerFoods(c){
+    const like = innerWeighted(INNER_FOOD_LIKE);
+    for(let i=0;i<5;i++){
+      const hate = innerWeighted(INNER_FOOD_HATE);
+      const key = s=>String(s).replace(/（.*?）/g,'').slice(0,3);
+      if(key(hate[0])!==key(like[0])) return [like[0], hate[0], null];
+    }
+    return [like[0], '特になし（好き嫌いゼロ）', null];
+  }
+  function chooseInnerHealth(c){
+    const age = Number(c.age)||25;
+    let l = INNER_HEALTH_BASE.slice();
+    if(age>=42) l = l.concat(INNER_HEALTH_MID);
+    const it = innerWeighted(l);
+    let v = it[0];
+    const wb = String(c.weaknessBody||'');
+    if(/腰痛/.test(wb) && !/腰/.test(v) && Math.random()<.6) v = 'おおむね良好（ただし腰に爆弾）';
+    else if(/胃が弱い/.test(wb) && Math.random()<.5) v = 'おおむね良好（胃だけは正直）';
+    else if(/花粉症/.test(wb) && /花粉/.test(v)===false && Math.random()<.4) v = '良好（ただし花粉の季節を除く）';
+    return [v, it[2]==='d'&&Math.random()<.5 ? 'rare' : (it[2]==='r'?'rare':null)];
+  }
+  function chooseInnerMarital(c){
+    const age = Number(c.age)||25;
+    let list;
+    if(age<20) list=[['独身（未婚）',1]];
+    else if(age<23) list=[['独身（未婚）',97],['既婚',1.2,'g'],['婚約中',1,'r']];
+    else if(age<28) list=[['独身（未婚）',84],['既婚',12],['婚約中',2.5],['離婚歴あり（独身）',1.2,'r']];
+    else if(age<33) list=[['独身（未婚）',58],['既婚',34],['婚約中',3],['離婚歴あり（独身）',4],['再婚',1,'r']];
+    else if(age<40) list=[['独身（未婚）',41],['既婚',48],['離婚歴あり（独身）',7],['再婚',3],['婚約中',1]];
+    else if(age<50) list=[['独身（未婚）',25],['既婚',57],['離婚歴あり（独身）',10],['再婚',6],['婚約中',0.5,'r']];
+    else if(age<65) list=[['独身（未婚）',15],['既婚',64],['離婚歴あり（独身）',11],['再婚',8],['死別（独身）',2,'r']];
+    else list=[['独身（未婚）',6],['既婚',68],['離婚歴あり（独身）',9],['再婚',8],['死別（独身）',9,'r']];
+    const it = innerWeighted(list);
+    return [it[0], it[2]==='g' ? 'gap' : (it[2]==='r' ? 'rare' : null)];
+  }
+  function innerIsMarried(c){ return /既婚|再婚/.test(String(c.maritalText||'')); }
+  function chooseInnerLiving(c){
+    const age = Number(c.age)||25, cat = innerRoleCat(c.role);
+    if(innerIsMarried(c)){ const it = innerWeighted(INNER_LIVING_MARRIED); return [it[0], it[2]==='d' ? 'gap' : (it[2]||null)]; }
+    let l = INNER_LIVING_SINGLE.map(x=>x.slice());
+    if(cat==='student'){ l = l.map(x=>/実家/.test(x[0])?[x[0],x[1]*1.4]:x).concat([['学生寮',3],['大学近くの学生向けアパートで一人暮らし',6]]); }
+    if(age>=38) l = l.map(x=>/実家暮らし/.test(x[0])?[x[0],x[1]*0.55]:x);
+    if(/寮/.test(String(c.role||'')) || /自衛官/.test(String(c.role||''))) l = l.concat([['駐屯地の営内班（隊舎住まい）',8]]);
+    const it = innerWeighted(l);
+    const badge = (age>=40 && /実家暮らし/.test(it[0])) ? 'rare' : (it[2]==='r' ? 'rare' : null);
+    return [it[0], badge];
+  }
+  function chooseInnerFamily(c){
+    const age = Number(c.age)||25, org = String(c.originText||''), liv = String(c.livingText||'');
+    if(innerIsMarried(c)){
+      const wife = '妻';
+      const maxKid = Math.max(0, age-23);
+      let kids = [];
+      if(age>=27 && Math.random()<(age<32?0.45:age<45?0.75:0.85)){
+        const n = weighted([[1, age<34?5:4],[2, age<32?2:5],[3,1.2]]);
+        let ages=[]; for(let i=0;i<n;i++){ ages.push(rnd(0, Math.min(maxKid, age>=50? age-24 : 14),1)); }
+        ages.sort((a,b)=>b-a);
+        const lab=['長','次','三'];
+        kids = ages.map((a,i)=>`${lab[i]||''}${Math.random()<.5?'男':'女'}（${age>=55&&a>=25?'独立':a+'歳'}）`);
+      }
+      if(age>=58 && kids.length===0 && Math.random()<.7) return [`${wife}と二人暮らし（子どもは独立）`, null];
+      if(/二世帯/.test(liv)) return [`${wife}${kids.length?'・'+kids.join('・'):''}・両親と同居`, null];
+      if(/単身赴任/.test(liv)) return [`${wife}${kids.length?'・'+kids.join('・'):''}（家族は地元、本人だけ赴任先）`, 'gap'];
+      return [wife + (kids.length? '・'+kids.join('・') : 'と二人暮らし（子なし）'), null];
+    }
+    // 独身：出自から兄弟構成を復元
+    let members;
+    if(/一人っ子/.test(org)) members='父・母';
+    else if(/次男/.test(org)) members='父・母・兄';
+    else if(/三男|末っ子/.test(org)) members='父・母・兄・姉';
+    else if(/長男（姉3人）/.test(org)) members='父・母・姉3人';
+    else if(/5人兄弟/.test(org)) members='父・母・兄2人・弟・妹';
+    else if(/母子家庭/.test(org)) members='母' + (Math.random()<.5?'・妹':'');
+    else if(/父子家庭/.test(org)) members='父' + (Math.random()<.5?'・弟':'');
+    else if(/祖父母に育てられた/.test(org)) members='祖父・祖母';
+    else if(/長男/.test(org)) members='父・母' + pick(['・妹','・弟','・弟・妹','']);
+    else members='父・母' + pick(['・兄','・姉','・妹','・弟','','']);
+    if(/一人暮らし|寮|社宅|シェア|住み込み|営内/.test(liv)) return [`（同居なし）実家に${members}`, null];
+    if(/祖父母の家/.test(liv)) return ['祖父・祖母と同居（実家に'+members.replace(/祖父・祖母/,'父・母')+'）', null];
+    return [members + 'と同居', null];
+  }
+  function chooseInnerBirthplace(c){
+    const nat = String(c.nationality||'日本');
+    if(nat!=='日本' && INNER_NATION_CITIES[nat]){
+      return [nat+'・'+pick(INNER_NATION_CITIES[nat])+'出身', null];
+    }
+    const org = String(c.originText||'');
+    let cand = INNER_JP_PREFS.map(x=>x.slice());
+    const wantTag = /漁師町/.test(org)?'sea':/離島/.test(org)?'island':/山間/.test(org)?'mountain':/温泉旅館/.test(org)?'onsen':null;
+    if(wantTag) cand = cand.map(x=>x[3].includes(wantTag)?[x[0],x[1],x[2]*8,x[3]]:x);
+    const row = weighted(cand.map(x=>[x, x[2]]));
+    let city;
+    if(wantTag==='island') city = pick(row[1].filter(m=>/石垣|五島|奄美/.test(m)).length? row[1].filter(m=>/石垣|五島|奄美/.test(m)) : row[1]);
+    else if(wantTag==='onsen') city = pick(row[1].filter(m=>/別府|草津|豊岡|霧島/.test(m)).length? row[1].filter(m=>/別府|草津|豊岡|霧島/.test(m)) : row[1]);
+    else city = pick(row[1]);
+    c._bpTags = row[3]; c._bpPref = row[0];
+    const rare = row[2]<=0.7 ? 'rare' : null;
+    return [row[0]+'：'+city, rare];
+  }
+  function innerWareki(y){
+    if(y>=2019) return '令和'+(y-2018===1?'元':y-2018)+'年';
+    if(y>=1989) return '平成'+(y-1988===1?'元':y-1988)+'年';
+    if(y>=1926) return '昭和'+(y-1925===1?'元':y-1925)+'年';
+    if(y>=1912) return '大正'+(y-1911===1?'元':y-1911)+'年';
+    return '明治'+(y-1867)+'年';
+  }
+  function innerZodiac(m,d){
+    const z=[[1,20,'やぎ座'],[2,19,'みずがめ座'],[3,21,'うお座'],[4,20,'おひつじ座'],[5,21,'おうし座'],[6,22,'ふたご座'],[7,23,'かに座'],[8,23,'しし座'],[9,23,'おとめ座'],[10,24,'てんびん座'],[11,23,'さそり座'],[12,22,'いて座'],[12,32,'やぎ座']];
+    for(const [mm,dd,name] of z){ if(m<mm || (m===mm && d<dd)) return name; }
+    return 'やぎ座';
+  }
+  function chooseInnerBirthdate(c){
+    const refY = Number(c.eraYear)||2026, age = Number(c.age)||25;
+    const by = refY - age;
+    const m = rnd(1,12,1);
+    const dim = [31, (by%4===0&&(by%100!==0||by%400===0))?29:28,31,30,31,30,31,31,30,31,30,31][m-1];
+    const d = rnd(1,dim,1);
+    const eto = ['申','酉','戌','亥','子','丑','寅','卯','辰','巳','午','未'][by%12];
+    const isJP = !c.nationality || c.nationality==='日本';
+    const v = isJP ? `${by}年${m}月${d}日（${innerWareki(by)}・${innerZodiac(m,d)}・${eto}年）` : `${by}年${m}月${d}日（${innerZodiac(m,d)}）`;
+    return [v, null];
+  }
+  function chooseInnerNickname(c){
+    const {fam, giv} = innerParseKanaName(c);
+    const age = Number(c.age)||25;
+    const cands = [['特になし（下の名前か苗字で呼ばれる）',6]];
+    if(giv){ cands.push([`「${giv}」（呼び捨て）`,5]); if(age<=32) cands.push([`「${giv}くん」`,3]); if(giv.length<=3) cands.push([`「${giv}っち」`,1.5]); if(giv.length>=2) cands.push([`「${giv.slice(0,2)}ちゃん」`,1.5]); }
+    if(fam && fam.length>=2){ cands.push([`「${fam.slice(0,2)}」（苗字の頭）`,3]); cands.push([`「${fam.slice(0,2)}ちゃん」`,2]); }
+    if(fam && fam.length>=3) cands.push([`「${fam.slice(0,2)}さん」（後輩から）`,2]);
+    if(c.glasses && c.glasses!=='なし') cands.push([`「メガネ」（そのまますぎる）`,1.2,'r']);
+    if(/がっちり|筋肉/.test(String(c.bodyType||''))) cands.push([`「ゴリさん」（部活時代の名残）`,1,'r']);
+    if(innerRoleCat(c.role)==='student') cands.push([`「先輩」（後輩からはこれで固定）`,1.5]);
+    cands.push([`「ハカセ」（何でも知ってるから）`,0.5,'r'],[`「社長」（なぜかそう呼ばれる）`,0.4,'r'],[`「マスター」（行きつけの店で）`,0.5,'r']);
+    const clean = cands.filter(x=>x[1]>0);
+    const it = innerWeighted(clean);
+    return [it[0], it[2]==='r' ? 'rare' : null];
+  }
+  function innerDialectOf(c){
+    const tags = String(c._bpTags||'');
+    for(const key of ['kansai','hakata','hiroshima','nagoya','tohoku','okinawa','tosa','kyushu','north']){
+      if(tags.includes(key)) return INNER_DIALECTS[key];
+    }
+    return null;
+  }
+  function chooseInnerSpeech(c){
+    const pr = String(c.pronoun||'');
+    const reg = /私|わたくし/.test(pr) ? 'polite' : /俺|オレ|おれ/.test(pr) ? (Math.random()<.35?'mid':'rough') : /自分/.test(pr) ? (Math.random()<.6?'polite':'mid') : 'mid';
+    const base = innerWeighted(INNER_SPEECH_REGISTER[reg]);
+    const habit = innerWeighted(INNER_SPEECH_HABITS);
+    const dia = innerDialectOf(c);
+    const natJP = !c.nationality || c.nationality==='日本';
+    let parts = [base[0], habit[0]];
+    let badge = null;
+    if(Math.random()<.45){ const vc = innerWeighted(INNER_SPEECH_VOICE); parts.splice(1, 0, vc[0]); }
+    if(Math.random()<.25){ let h2; for(let i=0;i<5;i++){ h2 = innerWeighted(INNER_SPEECH_HABITS); if(h2[0]!==habit[0]) break; } if(h2 && h2[0]!==habit[0]) parts.push(h2[0]); }
+    if(natJP && dia && Math.random()<.65){ parts.splice(1, 0, pick(dia[1])); }
+    else if(!natJP && Math.random()<.6){ parts.splice(1, 0, pick(['日本語は流暢だが助詞がたまに揺れる','日本語と母語がふとした瞬間に混ざる','敬語を丁寧に使いすぎる外国語話者の癖'])); badge=null; }
+    if(/方言/.test(String(c.complexText||'')) && natJP){
+      const d2 = dia || INNER_DIALECTS.kansai;
+      parts = [base[0], `気を抜くと${d2[0]}が出る（本人は気にしている）`, habit[0]];
+    }
+    return [parts.join('。'), badge];
+  }
+  function chooseInnerMemory(c){
+    const age = Number(c.age)||25;
+    let l = INNER_MEMORY_BASE.map(x=>x.slice());
+    const sp = ((c.sportsHistory)||[]).filter(x=>x.strength>0);
+    if(sp.length) l.push([`${sp[0].name}の最後の大会（負けた悔しさまで含めて）`,6]);
+    if(innerIsMarried(c)) l.push(['結婚式で友人代表が号泣したこと',4],['プロポーズの夜（緊張で声が裏返った）',3.5]);
+    if(/長男|長女|次男|次女|三男|三女/.test(String(c.familyText||''))) l.push(['子どもが初めて歩いた日',5]);
+    if(/死別/.test(String(c.maritalText||''))) l.push(['妻と最後に行った旅行',5,'r']);
+    if(/いじめられた|不登校/.test(String(c.pastUpbringing||''))) l.push(['はじめて味方になってくれた友人の一言',4,'r']);
+    if(/荒れていた/.test(String(c.pastUpbringing||''))) l.push(['恩師に胸ぐらを掴まれて泣いた日',3,'r']);
+    if(age<24) l = l.filter(x=>!/初任給|売上目標/.test(x[0]));
+    if(age>=60) l.push(['初めて自分の給料で買ったテレビ',4],['万博に連れて行ってもらった日',3]);
+    const it = innerWeighted(l);
+    return [it[0], it[2]==='r' ? 'rare' : null];
+  }
+  function chooseInnerLover(c){
+    const mar = String(c.maritalText||''), lt = String(c.loveTarget||'');
+    if(/既婚|再婚/.test(mar)){
+      if(Math.random()<0.006) return ['既婚（だが最近、よくない予感のする連絡先が増えた）', 'gap'];
+      return ['配偶者（妻）', null];
+    }
+    if(/婚約中/.test(mar)) return ['婚約者あり（式場を検討中）', null];
+    if(/死別/.test(mar)) return ['なし（妻の仏壇に毎朝手を合わせる）', 'rare'];
+    if(/興味がない/.test(lt)) return ['なし（そもそも求めていない）', null];
+    if(/二次元/.test(lt)) return ['なし（心の恋人は画面の中）', null];
+    if(/推し/.test(lt)) return ['なし（推し活が恋愛の代わり）', null];
+    const age = Number(c.age)||25;
+    const pYes = age<23?0.3:age<30?0.38:age<40?0.33:0.25;
+    if(/離婚歴/.test(mar) && Math.random()<0.5) return [pick(['なし（しばらく懲りている）','なし（もう籍は入れないと決めている）','恋人あり（再婚は考え中）']), null];
+    if(Math.random()<pYes){ const it = innerWeighted(INNER_LOVER_YES); return [it[0], null]; }
+    const it = innerWeighted(INNER_LOVER_NONE);
+    return [it[0], null];
+  }
+  function chooseInnerResidence(c){
+    const liv = String(c.livingText||''), nat = String(c.nationality||'日本');
+    const bp = String(c.birthplaceText||'').split('：')[0].replace(/・.*$/,'');
+    const inc = (String(c.incomeText||'').match(/約(\d+)万円/)||[])[1];
+    const rich = inc && Number(inc)>=800;
+    if(/実家/.test(liv)) return [`実家（${bp||'出身地'}）`, null];
+    if(/寮|営内|社宅|住み込み/.test(liv)) return [pick(['職場まで徒歩圏の寮・社宅','会社敷地内（通勤0分）','職場の裏（通勤30秒）']), null];
+    if(/単身赴任/.test(liv)) return [pick(['赴任先のワンルーム（家具は最小限）','赴任先の1K（週末に帰省）']), null];
+    if(nat!=='日本' && Math.random()<.5) return [pick(['母国の実家近くのアパート','母国の都市部のフラット']), null];
+    if(innerIsMarried(c)){
+      return [pick([`郊外の2LDK（${rich?'分譲':'賃貸'}）`, '駅徒歩15分の3LDK（ローン返済中）', '妻の地元寄りの住宅街', `${bp?bp+'にUターンして持ち家':'郊外の建売住宅'}`]), null];
+    }
+    const metro = Math.random()<.6;
+    if(metro) return [pick(['都市部・駅徒歩12分の1K','都市部・築古だが広めの1DK','職場まで自転車15分のアパート','家賃を抑えた各駅停車の駅近く',`${rich?'都心の1LDK（少し背伸び）':'都市部のワンルーム'}`]), rich?'rare':null];
+    return [pick([`地元（${bp||'出身地'}）の市内アパート（地元勤務）`, '地方都市の1LDK（家賃に余裕）', '海の見える町のアパート']), null];
+  }
+  function chooseInnerFriend(c){
+    if(c.friendOf && c.friendOf.name){
+      return [`${nameKana(c.friendOf.name)}（${c.friendOf.relation||'友人'}・友人作成機能で作成済み）`, null];
+    }
+    const meet = innerWeighted(INNER_FRIEND_MEET);
+    const nm = pick(INNER_FRIEND_NAMES);
+    const fq = innerWeighted(INNER_FRIEND_FREQ);
+    return [`${meet[0]}の${nm}（${fq[0]}）〔👥友人を作成で実体化可〕`, null];
+  }
+
+  // --- 依存関係グラフ（再抽選時のカスケード） ---
+  const INNER_DEPS = {
+    origin:['birthplace','family'],
+    marital:['living','family','residence','lover','memory'],
+    living:['family','residence'],
+    birthplace:['speech','residence'],
+    pronoun:['speech'],
+    weakness:['health'],
+    past:['memory'],
+    love:['lover'],
+    income:['residence'],
+    hobby:['myboom'],
+    complex:['speech']
+  };
+  function innerExpandKeys(keys){
+    const out = new Set(keys);
+    let grew = true;
+    while(grew){
+      grew = false;
+      for(const k of Array.from(out)){
+        for(const d of (INNER_DEPS[k]||[])){ if(!out.has(d)){ out.add(d); grew = true; } }
+      }
+    }
+    return out;
+  }
+  // --- 完全版 generateInnerProfile（旧定義を上書き・生成順で整合を担保） ---
+  function generateInnerProfile(c, keys){
+    const all = !keys;
+    if(!c.innerMeta) c.innerMeta = {};
+    const M = c.innerMeta;
+    const set = all ? null : innerExpandKeys(keys);
+    const has = k => all || set.has(k);
+    if(has('income')){ const r = chooseInnerIncome(c); c.incomeText = r[0]; M.income = r[1]; }
+    if(has('education')){ const r = chooseInnerEducation(c); c.educationText = r[0]; M.education = r[1]; }
+    if(has('origin')){ const r = chooseInnerOrigin(c); c.originText = r[0]; M.origin = r[1]; }
+    if(has('marital')){ const r = chooseInnerMarital(c); c.maritalText = r[0]; M.marital = r[1]; }
+    if(has('living')){ const r = chooseInnerLiving(c); c.livingText = r[0]; M.living = r[1]; }
+    if(has('birthplace')){ const r = chooseInnerBirthplace(c); c.birthplaceText = r[0]; M.birthplace = r[1]; }
+    if(has('family')){ const r = chooseInnerFamily(c); c.familyText = r[0]; M.family = M.family==='gap'||r[1]==='gap' ? 'gap' : r[1]; }
+    if(has('residence')){ const r = chooseInnerResidence(c); c.residenceText = r[0]; M.residence = r[1]; }
+    if(has('birthdate')){ const r = chooseInnerBirthdate(c); c.birthdateText = r[0]; M.birthdate = r[1]; }
+    if(has('pronoun')){ const r = chooseInnerPronoun(c); c.pronoun = r[0]; M.pronoun = r[1]; }
+    if(has('principle')){ const r = chooseInnerPrinciple(c); c.principleText = r[0]; M.principle = r[1]; }
+    if(has('dream')){ const r = chooseInnerDream(c); c.innerDream = r[0]; M.dream = r[1]; }
+    if(has('desire')){ const r = chooseInnerDesire(c, c.innerDream); c.innerDesire = r[0]; M.desire = r[1]; }
+    if(has('weakness')){ const r = chooseInnerWeakness(c); c.weaknessMind = r[0]; c.weaknessBody = r[1]; M.weakness = r[2]; }
+    if(has('health')){ const r = chooseInnerHealth(c); c.healthText = r[0]; M.health = r[1]; }
+    if(has('talent')){ const r = chooseInnerTalent(c); c.innerTalent = r[0]; M.talent = r[1]; }
+    if(has('past')){ const r = chooseInnerPast(c); c.pastUpbringing = r[0]; c.pastTrauma = r[1]; M.past = r[2]; }
+    if(has('unforgivable')){ const r = chooseInnerUnforgivable(c); c.unforgivableText = r[0]; M.unforgivable = r[1]; }
+    if(has('gamble')){ const r = chooseInnerGamble(c); c.gambleText = r[0]; M.gamble = r[1]; }
+    if(has('asset')){ const r = chooseInnerAsset(c); c.assetText = r[0]; M.asset = r[1]; }
+    if(has('hobby')){ const r = chooseInnerHobby(c); c.hobbyText = r[0]; M.hobby = r[1]; }
+    if(has('myboom')){ const r = chooseInnerMyBoom(c, c.hobbyText); c.myBoomText = r[0]; M.myboom = r[1]; }
+    if(has('foods')){ const r = chooseInnerFoods(c); c.foodLikeText = r[0]; c.foodHateText = r[1]; M.foods = r[2]; }
+    if(has('nickname')){ const r = chooseInnerNickname(c); c.nicknameText = r[0]; M.nickname = r[1]; }
+    if(has('complex')){ const r = chooseInnerComplex(c); c.complexText = r[0]; M.complex = r[1]; }
+    if(has('speech')){ const r = chooseInnerSpeech(c); c.speechText = r[0]; M.speech = r[1]; }
+    if(has('memory')){ const r = chooseInnerMemory(c); c.memoryText = r[0]; M.memory = r[1]; }
+    if(has('blood')){ const r = chooseInnerBlood(c); c.bloodType = r[0]; M.blood = r[1]; }
+    if(has('love')){ const r = chooseInnerLove(c); c.loveTarget = r[0]; M.love = r[1]; }
+    if(has('lover')){ const r = chooseInnerLover(c); c.loverText = r[0]; M.lover = r[1]; }
+    if(has('fuzoku')){ const r = chooseInnerFuzoku(c); c.fuzokuText = r[0]; M.fuzoku = r[1]; }
+    if(has('firstexp')){ const r = chooseInnerFirstExp(c); c.firstExpText = r[0]; M.firstexp = r[1]; }
+    if(has('lovecount')){ const r = chooseInnerLoveCount(c); c.loveCountText = r[0]; M.lovecount = r[1]; }
+    if(has('weekfreq')){ const r = chooseInnerWeekFreq(c); c.weekFreqText = r[0]; M.weekfreq = r[1]; }
+    if(has('drink')){ const r = chooseInnerDrink(c); c.drinkText = r[0]; M.drink = r[1]; }
+    if(has('smoke')){ const r = chooseInnerSmoke(c); c.smokeText = r[0]; M.smoke = r[1]; }
+    if(has('friend')){ const r = chooseInnerFriend(c); c.friendText = r[0]; M.friend = r[1]; }
+    if(all && typeof buildBioHook === 'function'){ c.bioText = buildBioHook(c); }
+    return c;
+  }
+  // --- カテゴリ表示状態（初期はすべて非表示・表示したものだけプロンプト反映） ---
+  const INNER_CATS = [['basic','🪪 基本データ','🪪 Basic Data','icat-basic'],['life','🏠 暮らし・家族','🏠 Life & Family','icat-life'],['daily','☕ 日常・嗜好','☕ Daily & Tastes','icat-daily'],['mind','💭 内面','💭 Inner Self','icat-mind'],['past','🕰 過去・人間関係','🕰 Past & People','icat-past'],['adult','🌙 オトナの事情','🌙 Grown-up','icat-adult']];
+  let innerCatShow = {basic:false, life:false, daily:false, mind:false, past:false, adult:false};
+  function innerAnyShown(){ return Object.values(innerCatShow).some(Boolean); }
+  // --- 表示セクション（カテゴリ選択式・32項目） ---
+  function buildInnerSection(c, L){
+    const en = uiLang==='en';
+    const V = (val, key)=>`${val||'—'}${innerBadgeHtml(c, key)}`;
+    const friendVal = V(c.friendText,'friend') + (c.friendOf ? '' : ` <button class="pf-btn" data-make-friend title="${en?'Create this friend for real':'この友人を実際に作成（表示された関係・名前を反映）'}">👥 ${en?'Create this friend':'この友人を作成'}</button>`);
+    const CAT_ROWS = {
+      basic: [
+        [en?'Birth Date':'生年月日', V(c.birthdateText,'birthdate'), 'birthdateText','icv-basic'],
+        [en?'Hometown':'出身地', V(c.birthplaceText,'birthplace'), 'birthplaceText','icv-basic'],
+        [en?'Blood Type':'血液型', V(c.bloodType,'blood'), 'bloodType','icv-basic'],
+        [en?'Pronoun':'一人称', V(c.pronoun,'pronoun'), 'pronoun','icv-basic'],
+        [en?'Speech Style':'口調・話し方', V(c.speechText,'speech'), 'speechText','icv-basic'],
+        [en?'Nickname':'ニックネーム', V(c.nicknameText,'nickname'), 'nicknameText','icv-basic']
+      ],
+      life: [
+        [en?'Marital Status':'結婚', V(c.maritalText,'marital'), 'maritalText','icv-life'],
+        [en?'Partner':'恋人の有無', V(c.loverText,'lover'), 'loverText','icv-life'],
+        [en?'Family':'家族構成', V(c.familyText,'family'), 'familyText','icv-life'],
+        [en?'Living Situation':'生活状況', V(c.livingText,'living'), 'livingText','icv-life'],
+        [en?'Residence':'住居', V(c.residenceText,'residence'), 'residenceText','icv-life'],
+        [en?'Family Roots':'出自', V(c.originText,'origin'), 'originText','icv-life'],
+        [en?'Education':'学歴', V(c.educationText,'education'), 'educationText','icv-life'],
+        [en?'Income':'収入', V(c.incomeText,'income'), 'incomeText','icv-life'],
+        [en?'Assets':'資産', V(c.assetText,'asset'), 'assetText','icv-life']
+      ],
+      daily: [
+        [en?'Health':'健康状態', V(c.healthText,'health'), 'healthText','icv-daily'],
+        [en?'Hobby':'趣味', V(c.hobbyText,'hobby'), 'hobbyText','icv-daily'],
+        [en?'Current Obsession':'マイブーム', V(c.myBoomText,'myboom'), 'myBoomText','icv-daily'],
+        [en?'Favorite Food':'好きな食べ物', V(c.foodLikeText,'foods'), 'foodLikeText','icv-daily'],
+        [en?'Disliked Food':'嫌いな食べ物', V(c.foodHateText,'foods'), 'foodHateText','icv-daily']
+      ],
+      mind: [
+        [en?'Guiding Principle':'行動原理', V(c.principleText,'principle'), 'principleText','icv-mind'],
+        [en?'Public Dream':'表向きの夢', V(c.innerDream,'dream'), 'innerDream','icv-mind'],
+        [en?'Hidden Desire':'欲望（本音）', V(c.innerDesire,'desire'), 'innerDesire','icv-mind'],
+        [en?'Weakness (Mind / Body)':'弱点（性格 / 身体）', V(`${c.weaknessMind||'—'}／${c.weaknessBody||'—'}`,'weakness'), 'weaknessMind,weaknessBody','icv-mind'],
+        [en?'Talent':'秀でた才能', V(c.innerTalent,'talent'), 'innerTalent','icv-mind'],
+        [en?'Complex':'コンプレックス', V(c.complexText,'complex'), 'complexText','icv-mind'],
+        [en?'Unforgivable':'許せないこと', V(c.unforgivableText,'unforgivable'), 'unforgivableText','icv-mind']
+      ],
+      past: [
+        [en?'Past / Trauma':'過去（生い立ち / トラウマ）', V(`${c.pastUpbringing||'—'}<br>${c.pastTrauma||'トラウマ：なし'}`,'past'), 'pastUpbringing,pastTrauma','icv-past'],
+        [en?'Treasured Memory':'思い出の出来事', V(c.memoryText,'memory'), 'memoryText','icv-past'],
+        [en?'Close Friend':'仲の良い友人', friendVal, 'friendText','icv-past'],
+        [en?'Romantic Interest':'恋愛対象', V(c.loveTarget,'love'), 'loveTarget','icv-past'],
+        [en?'Past Relationships':'恋愛経験人数', V(c.loveCountText,'lovecount'), 'loveCountText','icv-past']
+      ],
+      adult: [
+        [en?'Drinking':'飲酒', V(c.drinkText,'drink'), 'drinkText','icv-adult'],
+        [en?'Smoking':'喫煙', V(c.smokeText,'smoke'), 'smokeText','icv-adult'],
+        [en?'Gambling History':'ギャンブル歴', V(c.gambleText,'gamble'), 'gambleText','icv-adult'],
+        [en?'Adult-Venue Experience':'風俗経験', V(c.fuzokuText,'fuzoku'), 'fuzokuText','icv-adult'],
+        [en?'First Experience':'初めての体験', V(c.firstExpText,'firstexp'), 'firstExpText','icv-adult'],
+        [en?'Weekly Pace':'週頻度', V(c.weekFreqText,'weekfreq'), 'weekFreqText','icv-adult']
+      ]
+    };
+    const allOn = INNER_CATS.every(([k])=>innerCatShow[k]);
+    const ctrl = `<div class="inner-ctrl">`
+      + `<button class="pf-btn inner-allbtn" data-icat-all="${allOn?'0':'1'}">${allOn ? (en?'Hide all':'すべて隠す') : (en?'Show all':'すべて表示')}</button>`
+      + INNER_CATS.map(([k,ja,enT,cls])=>`<button class="icat-chip ${cls}${innerCatShow[k]?' on':''}" data-icat="${k}">${en?enT:ja}</button>`).join('')
+      + `</div>`;
+    const rows = [['__HEAD__', ctrl]];
+    let shown = 0;
+    for(const [k,ja,enT,cls] of INNER_CATS){
+      if(!innerCatShow[k]) continue;
+      shown++;
+      rows.push(['__HEAD__', `<div class="inner-cat ${cls}">${en?enT:ja}</div>`]);
+      rows.push(...CAT_ROWS[k]);
+    }
+    if(!shown) rows.push(['__HEAD__', `<p class="notice" style="margin:8px 0 2px">${en?'Nothing is shown yet. Tap the category chips above to reveal items — only the shown categories are reflected in the magazine-page / profile-sheet prompts.':'まだ何も表示されていません。上のカテゴリボタンを押すと項目が表示されます。表示したカテゴリだけが雑誌ページ／プロフィールシートの指示文に反映されます。'}</p>`]);
+    return ['inner', en ? 'Inner / Background (only shown categories go into magazine & profile-sheet prompts)' : '内面・背景（表示中のカテゴリのみ雑誌ページ／プロフィールシートに反映）', rows];
+  }
+  // --- ✎編集用プール（新項目） ---
+  function INNER_EDIT_POOLS2(){
+    const c = (typeof current!=='undefined' && current) ? current : {};
+    const refY = Number(c.eraYear)||2026, age = Number(c.age)||25, by = refY-age;
+    const dates = [];
+    for(let m=1;m<=12;m++){ for(const d of [4,17]){ dates.push(`${by}年${m}月${d}日（${(!c.nationality||c.nationality==='日本') ? innerWareki(by)+'・' : ''}${innerZodiac(m,d)}${(!c.nationality||c.nationality==='日本') ? '・'+['申','酉','戌','亥','子','丑','寅','卯','辰','巳','午','未'][by%12]+'年' : ''}）`); } }
+    const jpPlaces = [];
+    INNER_JP_PREFS.forEach(p=>p[1].forEach(m=>jpPlaces.push(p[0]+'：'+m)));
+    const natCities = [];
+    Object.entries(INNER_NATION_CITIES).forEach(([n,cs])=>cs.slice(0,2).forEach(city=>natCities.push(n+'・'+city+'出身')));
+    return {
+      hobbyText: [...new Set(INNER_HOBBY_GENERIC.map(x=>x[0]).concat(...Object.values(INNER_HOBBY_BY_VIBE).map(l=>l.map(x=>x[0]))))],
+      myBoomText: [...new Set(INNER_MYBOOM_COMMON.concat(INNER_MYBOOM_MODERN, INNER_MYBOOM_RETRO).map(x=>x[0]))],
+      foodLikeText: INNER_FOOD_LIKE.map(x=>x[0]),
+      foodHateText: INNER_FOOD_HATE.map(x=>x[0]),
+      healthText: [...new Set(INNER_HEALTH_BASE.concat(INNER_HEALTH_MID).map(x=>x[0]).concat(['おおむね良好（ただし腰に爆弾）','おおむね良好（胃だけは正直）']))],
+      maritalText: ['独身（未婚）','既婚','婚約中','離婚歴あり（独身）','再婚','死別（独身）'],
+      livingText: [...new Set(INNER_LIVING_SINGLE.concat(INNER_LIVING_MARRIED).map(x=>x[0]).concat(['学生寮','大学近くの学生向けアパートで一人暮らし','駐屯地の営内班（隊舎住まい）']))],
+      familyText: ['父・母と同居','父・母・妹と同居','父・母・兄と同居','（同居なし）実家に父・母','（同居なし）実家に父・母・弟','（同居なし）実家に母','妻と二人暮らし（子なし）','妻・長男（3歳）','妻・長女（5歳）・次男（2歳）','妻・子どもは独立（孫あり）','祖父・祖母と同居','母・妹と同居'],
+      birthplaceText: jpPlaces.concat(natCities),
+      birthdateText: dates,
+      nicknameText: (()=>{ const arr=[]; for(let i=0;i<12;i++){ arr.push(chooseInnerNickname(c)[0]); } return [...new Set(['特になし（下の名前か苗字で呼ばれる）'].concat(arr))]; })(),
+      speechText: (()=>{ const arr=[]; for(let i=0;i<14;i++){ arr.push(chooseInnerSpeech(c)[0]); } return [...new Set(arr)]; })(),
+      memoryText: [...new Set(INNER_MEMORY_BASE.map(x=>x[0]).concat(['結婚式で友人代表が号泣したこと','子どもが初めて歩いた日']))],
+      principleText: INNER_PRINCIPLES.map(x=>x[0]),
+      unforgivableText: INNER_UNFORGIVABLES.map(x=>x[0]),
+      fuzokuText: ['なし','なし（機会がない）','なし（興味がない）','なし（お金がもったいない）','なし（対象外）','誘われて断った','付き合いで1回だけ','若い頃に数回','たまに行く','行きつけがある','卒業した（昔は通った）','ノーコメント（察してほしい）'],
+      gambleText: ['なし（興味なし）','宝くじを年末だけ','競馬をレジャー程度','パチンコ経験あり（今はしない）','学生時代に雀荘へ通った','パチスロに熱かった時期がある','現役でパチンコ通い','競艇・競輪もたしなむ','株・FXで手痛い授業料を払った','借金を作って足を洗った','麻雀は打てるが賭けない主義','ソシャゲのガチャが実質ギャンブルだと気づいている'],
+      firstExpText: ['二十歳前後','大学時代','社会人1年目','20代半ば','20代後半','成人してすぐ','30代（遅咲き）','まだない','まだない（興味もない）','ノーコメント（言わぬが花）','忘れたことにしている','秘密（大人になってから話すやつ）'],
+      weekFreqText: ['夫婦円満ペース（月数回）','週1をキープ','最近はご無沙汰気味','レス気味だが仲は良い','もっぱらセルフ（家庭円満のコツらしい）','月数回＋セルフで補完（内緒）','アプリを覗くだけ覗いている','週1〜2（会える日次第）','週末集中型','遠距離につき月イチ','セルフも併用（会えない週用）','アプリは消した（恋人に誓って）','セルフ週2〜3（本人談）','セルフ週1','ほぼ毎日（若さ）','月数回（省エネ）','賢者モード長期継続中','ノーカウント主義','アプリで週末ごとに相手を探す','マッチング疲れで休止中','気の置けない友人がいる（察してほしい）','もう数えていない（安らか）','聞くな（察してほしい）','ノーコメント'],
+      drinkText: ['飲まない（下戸）','飲まない（あえて）','付き合い程度','週末だけ','晩酌が日課（ビール1本）','晩酌が日課（ハイボール派）','ザル（記憶は残るタイプ）','ザル（記憶が飛ぶタイプ）','休肝日を週2で死守','禁酒中（今週から）','家では飲まない主義','クラフトビール沼','日本酒をゆっくり派','ノンアル愛好家'],
+      smokeText: ['吸わない','吸わない（匂いも苦手）','元喫煙者（禁煙5年目）','元喫煙者（禁煙成功・今は匂いに敏感）','加熱式タバコ','紙巻き1日数本','紙巻き1日一箱','たまにもらいタバコ','飲んだ時だけ吸う','減煙中（1日数本まで来た）','葉巻をごくたまに（気取り）'],
+      loveCountText: ['0人','0人（そもそも求めていない）','1人','1人（妻ひと筋）','1人（手をつないで終わった清い交際）','2人','3人','片手で足りる','5〜6人','10人前後','二桁（途中で数えるのをやめた）','ノーカウント主義'],
+      assetText: (()=>{ const arr=[]; for(let i=0;i<14;i++){ arr.push(chooseInnerAsset({age:c.age, role:c.role, eraYear:c.eraYear, incomeText:c.incomeText, gambleText:c.gambleText, innerDesire:c.innerDesire, livingText:c.livingText, educationText:c.educationText, mbti:c.mbti})[0]); } return [...new Set(['貯金ほぼゼロ（宵越しの銭は持たない）'].concat(arr))]; })(),
+      friendText: (()=>{ const arr=[]; for(let i=0;i<14;i++){ arr.push(chooseInnerFriend({age:c.age, nationality:c.nationality, eraYear:c.eraYear})[0]); } return [...new Set(arr)]; })(),
+      loverText: [...new Set(INNER_LOVER_NONE.concat(INNER_LOVER_YES).map(x=>x[0]).concat(['配偶者（妻）','婚約者あり（式場を検討中）']))],
+      residenceText: ['実家（出身地）','都市部・駅徒歩12分の1K','都市部・築古だが広めの1DK','職場まで自転車15分のアパート','都心の1LDK（少し背伸び）','郊外の2LDK（賃貸）','駅徒歩15分の3LDK（ローン返済中）','地元の市内アパート（地元勤務）','地方都市の1LDK（家賃に余裕）','海の見える町のアパート','赴任先のワンルーム（家具は最小限）','職場まで徒歩圏の寮・社宅']
+    };
+  }
+  // --- 雑誌ページ専用：内面・背景の全反映ブロック ---
+  function innerMagazineBlock(c, english=false){
+    if(!c.bloodType) generateInnerProfile(c);
+    if(!innerAnyShown()) return '';
+    const S = innerCatShow;
+    const bp = String(c.birthplaceText||'').replace('：','');
+    if(english){
+      const parts = [];
+      if(S.basic || S.life){
+        const profBits = [];
+        if(S.basic){ profBits.push(`birth date ${c.birthdateText||''}`, `blood type ${c.bloodType||''}`, `hometown ${bp}`); }
+        if(S.life){ profBits.push(`family ${c.familyText||''} (${c.maritalText||''})`, `living: ${c.livingText||''} / ${c.residenceText||''}`, `education ${c.educationText||''}`, `savings note ${c.assetText||''}`); }
+        parts.push(` Extend the profile box with: ${profBits.join(', ')}.`);
+      }
+      if(S.daily || S.mind){
+        const pd = [];
+        if(S.daily){ pd.push(`hobby ${c.hobbyText||''}`, `current obsession ${c.myBoomText||''}`, `favorite food ${c.foodLikeText||''}`, `disliked food ${c.foodHateText||''}`, `health ${c.healthText||''}`); }
+        if(S.mind){ pd.push(`motto-level dream "${c.innerDream||''}"`, `special talent ${c.innerTalent||''}`); }
+        parts.push(` Add a "personal data" sidebar: ${pd.join('; ')}.`);
+      }
+      if(S.basic || S.past || S.life){
+        const iv = [];
+        if(S.basic){ iv.push(`first-person pronoun ${c.pronoun||''}`, `speech style ${c.speechText||''}`, `nickname ${c.nicknameText||''}`); }
+        if(S.past){ iv.push(`treasured memory ${c.memoryText||''}`, `romantic interest ${c.loveTarget||''}`, `relationship history ${c.loveCountText||''}`); }
+        if(S.life){ iv.push(`partner status ${c.loverText||''}`); }
+        parts.push(` In the interview, answer in HIS voice using: ${iv.join(', ')}.`);
+      }
+      if(S.past) parts.push(` Add a tiny "friend's comment" box quoting his close friend (${c.friendText||''}) in one warm line.`);
+      if(S.mind || S.past || S.adult){
+        const col = [];
+        if(S.mind){ col.push(`guiding principle (${c.principleText||''})`, `pet peeve (${c.unforgivableText||''})`, `weakness (${c.weaknessMind||''} / ${c.weaknessBody||''})`, `complex (${c.complexText||''})`); }
+        if(S.past){ col.push(`upbringing (${c.pastUpbringing||''})`); }
+        const sub = [];
+        if(S.mind) sub.push(`his hidden desire (${c.innerDesire||''})`);
+        if(S.adult) sub.push(`adult-venue history (${c.fuzokuText||'none'}), first experience (${c.firstExpText||''}), weekly pace (${c.weekFreqText||''}), drinking (${c.drinkText||''}), smoking (${c.smokeText||''}) and gambling history (${c.gambleText||'none'})`);
+        if(S.past && c.pastTrauma && c.pastTrauma!=='トラウマ：なし') sub.push(`past (${c.pastTrauma})`);
+        parts.push(` Add a small self-deprecating column touching lightly on ${col.join(', ')}${sub.length ? ` and — only as subtle subtext, never explicit — ${sub.join(', ')}` : ''}.`);
+      }
+      parts.push(' Keep everything tasteful, humane and non-sexual; soften anything raw into magazine-safe wording.');
+      return parts.join('');
+    }
+    const parts = [];
+    if(S.basic || S.life){
+      const profBits = [];
+      if(S.basic){ profBits.push(`生年月日${c.birthdateText||''}`, `血液型${c.bloodType||''}`, `出身地${bp}`); }
+      if(S.life){ profBits.push(`家族構成「${c.familyText||''}」（${c.maritalText||''}）`, `現在の暮らし「${c.livingText||''}・${c.residenceText||''}」`, `学歴「${c.educationText||''}」`, `ふところ事情「${c.assetText||''}」`); }
+      parts.push(`プロフィール欄は次で拡張する：${profBits.join('／')}。`);
+    }
+    if(S.daily || S.mind){
+      const pd = [];
+      if(S.daily){ pd.push(`趣味「${c.hobbyText||''}」`, `マイブーム「${c.myBoomText||''}」`, `好物「${c.foodLikeText||''}」`, `苦手「${c.foodHateText||''}」`, `健康状態「${c.healthText||''}」`); }
+      if(S.mind){ pd.push(`将来の夢「${c.innerDream||''}」`, `秀でた特技「${c.innerTalent||''}」`); }
+      parts.push(`パーソナルデータ欄も設ける：${pd.join('、')}。`);
+    }
+    if(S.basic || S.past || S.life){
+      const iv = [];
+      if(S.basic){ iv.push(`一人称は「${c.pronoun||''}」、口調は「${c.speechText||''}」、あだ名は${c.nicknameText||''}`); }
+      if(S.past){ iv.push(`話題には思い出「${c.memoryText||''}」、恋愛観（恋愛対象：${c.loveTarget||''}／恋愛遍歴：${c.loveCountText||''}${S.life ? `／現在：${c.loverText||''}` : ''}）を織り込む`); }
+      else if(S.life){ iv.push(`話題には現在の恋愛事情（${c.loverText||''}）を軽く織り込む`); }
+      parts.push(`インタビューの回答は本人の声で書く：${iv.join('。')}。`);
+    }
+    if(S.past) parts.push(`小さな「友人からのひとこと」欄を作り、仲の良い友人（${(c.friendText||'').replace(/〔.*?〕/,'')}）からの温かい一言を載せる。`);
+    if(S.mind || S.past || S.adult){
+      const col = [];
+      if(S.mind){ col.push(`行動原理「${c.principleText||''}」と許せないこと「${c.unforgivableText||''}」`, `弱点（${c.weaknessMind||''}／${c.weaknessBody||''}）やコンプレックス（${c.complexText||''}）`); }
+      if(S.past){ col.push(`生い立ち（${c.pastUpbringing||''}）`); }
+      const sub = [];
+      if(S.mind) sub.push(`本音の欲望（${c.innerDesire||''}）`);
+      if(S.adult) sub.push(`夜の顔（飲酒：${c.drinkText||''}／喫煙：${c.smokeText||''}／ギャンブル歴：${c.gambleText||'なし'}／風俗経験：${c.fuzokuText||'なし'}／初めての体験：${c.firstExpText||''}／週頻度：${c.weekFreqText||''}）`);
+      if(S.past && c.pastTrauma && c.pastTrauma!=='トラウマ：なし') sub.push(`過去（${c.pastTrauma}）`);
+      parts.push(`自虐まじりの小コラムでは${col.join('、')}に軽く触れ${sub.length ? `、${sub.join('や')}は誌面に直接書かず行間の匂わせ程度にとどめる` : 'る'}。`);
+    }
+    parts.push('生々しい項目は雑誌的に品よく言い換え、人柄が愛おしく伝わる誌面にする。');
+    return parts.join('');
+  }
+  /* ===== V3.4 内面・背景 追加項目＋整合強化＋UI刷新 ===== */
+  // --- 行動原理 ---
+  const INNER_PRINCIPLES = [
+    ['迷ったら楽しい方を選ぶ',5],['家族がいちばん',5],['借りは必ず返す',5],['筋は通す',4],['約束は守る（守れない約束はしない）',5],['金より信用',4],['寝れば大体なんとかなる',4],['まず飯を食ってから考える',4],['逃げるが勝ちも立派な戦略',3],['見て見ぬふりはしない',3.5],['先に謝ったほうが強い',3],['体が資本',4.5],['頼まれたら基本断らない',4],['自分の機嫌は自分で取る',4],['石橋を叩いて渡る',3.5],['勢いで生きる',3.5],['負けたままでは終わらない',3.5],['人の悪口は言わない',4],['とりあえずやってみる',4.5],['何事も三年は続ける',3],['嫌なことほど朝イチで片付ける',3.5],['疑って外すより信じて騙される方を選ぶ',2.5],['誰も見ていなくても手は抜かない',3.5],['金は天下の回りもの',3],['敵を作らないのが最強の護身',3],['困っている人がいたら声をかける',3.5],['他人と比べない（比べても勝てないから）',3],['迷惑をかけたら倍にして返す',2.5],['沈黙は金、でも挨拶は大声',2.5],['行けたら行くは行かない',3],
+    ['面倒事からは全力で逃げる',2,'d'],['勝てる勝負しかしない',2,'d'],['バレない範囲のズルは人間味',1.2,'d'],['義理より実利',1.5,'d'],['謝るより先に言い訳を考えてしまう',1.5,'d']
+  ];
+  // --- 許せないこと ---
+  const INNER_UNFORGIVABLES = [
+    ['食べ物を粗末にすること',6],['弱い者いじめ',6],['列への横入り',5],['傘泥棒',4],['連絡なしのドタキャン',5],['店員への横柄な態度',5.5],['歩きタバコ',4.5],['裏切り',4],['陰口',4],['子どもと動物を泣かせること',4.5],['人の努力を嘲笑うこと',4.5],['冷蔵庫のプリンを無断で食べること',3.5],['ゲームの順番の割り込み',3],['金の貸し借りを曖昧にすること',4],['挨拶を無視されること',4],['サービス残業の強要',3.5],['マウンティング',3.5],['デマを流すこと',3.5],['土足で人の心に踏み込むこと',3],['約束の時間に平気で遅れること',4],['乾杯前に飲み始めること',2],['映画のネタバレ',3.5],['電車で降りる人を待たずに乗り込むこと',4],['トイレットペーパーの芯を替えないこと',3],['人の話を最後まで聞かないこと',3.5],['「言わなくても分かるだろ」という態度',3],['努力を「才能」の一言で片付けられること',2.5],['食事中のスマホ（相手がいる時）',3],['エレベーターの「閉」連打で挟まれかけたこと',2],['自分の非を部下のせいにする上司',3.5]
+  ];
+  // --- 風俗経験 ---
+  function chooseInnerFuzoku(c){
+    const age = Number(c.age)||25;
+    if(age<20) return ['なし', null];
+    const lt = String(c.loveTarget||'');
+    const married = /既婚|再婚/.test(String(c.maritalText||''));
+    let list;
+    if(/男性$|^男性/.test(lt.split('（')[0]) ) list = [['なし（対象外）',8],['なし',3],['ノーコメント',1,'d']];
+    else if(/興味がない/.test(lt)) list = [['なし（興味がない）',8],['誘われて断った',2],['付き合いで1回だけ',1,'d']];
+    else list = [['なし（機会がない）',22],['なし（興味がない）',18],['なし（お金がもったいない）',8],['誘われて断った',8],['付き合いで1回だけ',12,'d'],['若い頃に数回',8,'d'],['たまに行く',4,'d'],['行きつけがある',1.5,'d'],['卒業した（昔は通った）',4,'d'],['ノーコメント（察してほしい）',3,'d']];
+    if(age<24) list = list.filter(x=>!/若い頃|卒業した/.test(x[0]));
+    const it = innerWeighted(list);
+    let badge = null;
+    if(it[2]==='d'){ badge = married && /たまに行く|行きつけ/.test(it[0]) ? 'gap' : (Math.random()<.5 ? 'rare' : null); }
+    return [it[0], badge];
+  }
+  // --- ギャンブル歴 ---
+  function chooseInnerGamble(c){
+    const age = Number(c.age)||25, y = Number(c.eraYear)||2026;
+    if(age<20){
+      const it = innerWeighted([['なし（興味なし）',8],['なし（年齢的にまだ）',4],['友人の家の麻雀くらい',1.5]]);
+      return [it[0], null];
+    }
+    let list = [['なし（興味なし）',20],['宝くじを年末だけ',10],['競馬をレジャー程度',6],['パチンコ経験あり（今はしない）',6],['学生時代に雀荘へ通った',3],['パチスロに熱かった時期がある',3,'d'],['現役でパチンコ通い',2,'d'],['競艇・競輪もたしなむ',1.5,'d'],['株・FXで手痛い授業料を払った',2,'d'],['借金を作って足を洗った',0.8,'d'],['麻雀は打てるが賭けない主義',3]];
+    if(y>=2013) list.push(['ソシャゲのガチャが実質ギャンブルだと気づいている',4,'d']);
+    const wm = String(c.weaknessMind||''), ds = String(c.innerDesire||'');
+    if(/ギャンブル/.test(wm) || /ギャンブルで一発/.test(ds)){
+      list = list.map(x=>/現役|熱かった|競艇|借金/.test(x[0])?[x[0],x[1]*5,x[2]]:(/なし/.test(x[0])?[x[0],x[1]*0.15]:x));
+    }
+    const it = innerWeighted(list);
+    return [it[0], it[2]==='d' ? (/借金/.test(it[0])?'rare':(Math.random()<.5?'rare':null)) : null];
+  }
+  // --- 初めての体験（成人後表現のみ・具体描写なし） ---
+  function chooseInnerFirstExp(c){
+    const age = Number(c.age)||25;
+    if(age<20) return [/興味がない/.test(String(c.loveTarget||'')) ? 'まだない（興味もない）' : pick(['まだない','秘密（大人になってから話すやつ）']), null];
+    let list = [['二十歳前後',7],['大学時代',6],['社会人1年目',4],['20代半ば',4],['20代後半',2.5],['成人してすぐ',3],['ノーコメント（言わぬが花）',3,'d'],['忘れたことにしている',1.5,'d']];
+    if(age>=27) list.push(['30代（遅咲き）',age>=32?2:0.8]);
+    const married = /既婚|再婚/.test(String(c.maritalText||''));
+    if(/興味がない/.test(String(c.loveTarget||''))) list = married ? [['ノーコメント（家庭の事情）',5],['二十歳前後',2]] : [['まだない（興味もない）',6],['ノーコメント',2]];
+    else if(!married){ const still = age>=25 ? [['まだない',age>=30?1.2:2,'r']] : [['まだない',4]]; list = list.concat(still); }
+    const it = innerWeighted(list);
+    const badge = it[2]==='r' ? 'rare' : (it[2]==='d'&&Math.random()<.5 ? 'rare' : null);
+    return [it[0], badge];
+  }
+  // --- 週頻度（婉曲・自己申告テイスト） ---
+  function chooseInnerWeekFreq(c){
+    const age = Number(c.age)||25;
+    const married = /既婚|再婚/.test(String(c.maritalText||''));
+    const hasLover = /^恋人あり|婚約者あり/.test(String(c.loverText||''));
+    let list;
+    if(married) list = [['夫婦円満ペース（月数回）',5],['週1をキープ',3],['最近はご無沙汰気味',4,'d'],['聞くな（察してほしい）',2,'d'],['レス気味だが仲は良い',2.5,'d'],['もっぱらセルフ（家庭円満のコツらしい）',2.5,'d'],['月数回＋セルフで補完（内緒）',2,'d'],['アプリを覗くだけ覗いている',0.5,'g'],['気の置けない友人がいる（察してほしい）',0.3,'g']];
+    else if(hasLover) list = [['週1〜2（会える日次第）',5],['週末集中型',4],['遠距離につき月イチ',1.5],['ノーコメント',2,'d'],['セルフも併用（会えない週用）',3,'d'],['アプリは消した（恋人に誓って）',1.5],['アプリがなぜかまだ生きている',0.4,'g']];
+    else list = [['セルフ週2〜3（本人談）',5,'d'],['セルフ週1',4],['ほぼ毎日（若さ）',age<=27?3:0.8,'d'],['月数回（省エネ）',3],['賢者モード長期継続中',2.5],['ノーカウント主義',2,'d'],['アプリで週末ごとに相手を探す',2,'d'],['マッチング疲れで休止中',2],['気の置けない友人がいる（察してほしい）',1,'d']];
+    if(age>=55) list = list.map(x=>/ほぼ毎日|週2〜3/.test(x[0])?[x[0],x[1]*0.3,x[2]]:x).concat([['もう数えていない（安らか）',3]]);
+    const it = innerWeighted(list);
+    return [it[0], it[2]==='g' ? 'gap' : (it[2]==='d'&&Math.random()<.4 ? 'rare' : null)];
+  }
+  // --- 恋愛経験人数（付き合った人数・人物像連動） ---
+  function chooseInnerLoveCount(c){
+    const age = Number(c.age)||25;
+    const lt = String(c.loveTarget||''), fe = String(c.firstExpText||'');
+    const married = /既婚|再婚/.test(String(c.maritalText||''));
+    if(/興味がない/.test(lt) && !married) return ['0人（そもそも求めていない）', null];
+    if(/二次元|推し/.test(lt)) return [married ? '1人（妻ひと筋。推しは推し）' : pick(['0人（三次元は対象外）','1人（昔いた。それで悟った）']), null];
+    if(/まだない/.test(fe) && !married){
+      const v = pick(['0人','1人（手をつないで終わった清い交際）']);
+      return [v, age>=32 && v==='0人' ? 'rare' : null];
+    }
+    let list;
+    if(age<20) list = [['0人',3],['1人',4],['2人',2.5],['3人（早熟）',1,'r']];
+    else if(age<25) list = [['1人',4],['2人',4],['3人',3],['片手で足りる',2.5],['0人',2],['5〜6人',1,'d']];
+    else if(age<35) list = [['1人',2.5],['2人',3],['3人',3.5],['片手で足りる',4],['5〜6人',2.5],['10人前後',1,'d'],['0人',0.8,'r']];
+    else list = [['2人',2.5],['3人',3],['片手で足りる',4],['5〜6人',3],['10人前後',1.5,'d'],['二桁（途中で数えるのをやめた）',0.8,'d'],['1人',2],['0人',0.4,'r']];
+    const playful = ['ホスト系','ギャル男系','やりらふぃー系','韓国風','ストリート系'].includes(String(c.vibe||''));
+    if(playful) list = list.map(x=>/10人|二桁|5〜6/.test(x[0])?[x[0],x[1]*3,x[2]]:(/^0人|^1人/.test(x[0])?[x[0],x[1]*0.35,x[2]]:x));
+    if(/^E/.test(String(c.mbti||''))) list = list.map(x=>/片手|5〜6|10人/.test(x[0])?[x[0],x[1]*1.4,x[2]]:x);
+    if(/一途/.test(lt)) list = list.map(x=>/10人|二桁/.test(x[0])?[x[0],x[1]*0.25,x[2]]:(/^1人|^2人/.test(x[0])?[x[0],x[1]*1.8,x[2]]:x));
+    if(/惚れっぽい/.test(lt)) list = list.map(x=>/片手|5〜6|10人/.test(x[0])?[x[0],x[1]*1.6,x[2]]:x);
+    if(married) list = list.filter(x=>x[0]!=='0人');
+    for(let i=0;i<6;i++){
+      const it = innerWeighted(list);
+      if(married && it[0]==='0人') continue;
+      let badge = null;
+      if(it[2]==='r') badge = 'rare';
+      else if(playful && /^(0人|1人)$/.test(it[0])) badge = 'gap';
+      else if(it[2]==='d' && Math.random()<.5) badge = 'rare';
+      let v = it[0];
+      if(married && v==='1人') v = '1人（妻ひと筋）';
+      return [v, badge];
+    }
+    return [married?'1人（妻ひと筋）':'1人', null];
+  }
+  // --- 資産（収入×年齢×性癖連動） ---
+  function chooseInnerAsset(c){
+    const age = Number(c.age)||25, y = Number(c.eraYear)||2026;
+    const cat = innerRoleCat(c.role);
+    const gam = String(c.gambleText||''), ds = String(c.innerDesire||''), liv = String(c.livingText||'');
+    if(cat==='student' || age<=21){
+      if(/借金を作って/.test(gam)) return ['バイト代が返済にほぼ消えている', 'rare'];
+      return [`バイト貯金${rnd(3,45,1)}万円`, null];
+    }
+    if(/借金を作って/.test(gam)) return [pick(['借金を完済したばかり（貯金はこれから）','返済がもう少しだけ残っている']), 'rare'];
+    const inc = Number((String(c.incomeText||'').match(/約(\d+)万円/)||[])[1]) || 350;
+    const years = Math.max(1, age-22);
+    const spender = /分不相応な買い物|ギャンブルで一発|散財/.test(ds) || /現役でパチンコ|パチスロに熱かった/.test(gam);
+    let k = 0.04 + Math.random()*0.28;
+    if(spender) k *= 0.25;
+    if(/^I..J/.test(String(c.mbti||''))) k *= 1.3;
+    let amt = Math.round(inc * years * k / 10) * 10;
+    let v, badge = null;
+    if(amt < 30){ v = pick(['貯金ほぼゼロ（宵越しの銭は持たない）','貯金は常に一桁万円']); badge = inc>=700 ? 'gap' : (spender?'rare':null); }
+    else if(amt < 100) v = `貯金${Math.max(30,amt)}万円前後`;
+    else if(amt < 300) v = `貯金${Math.round(amt/50)*50}万円ほど`;
+    else if(amt < 700) v = `貯金${Math.round(amt/100)*100}万円台`;
+    else if(amt < 1500){ v = '貯金1000万円が見えてきた'; if(age<35) badge='rare'; }
+    else { v = '貯金1500万円超（堅実の鬼）'; badge='rare'; }
+    const extras = [];
+    if(/持ち家|ローン/.test(liv)) extras.push('持ち家（ローン残あり）');
+    if(Math.random()<.22){
+      if(y>=2018) extras.push('積立NISAをコツコツ');
+      else if(y>=2001) extras.push('投信をこっそり積立');
+      else extras.push(y>=1985&&y<1996 ? '定期預金（金利のいい時代）' : '財形貯蓄');
+    }
+    if(/大卒|大学院/.test(String(c.educationText||'')) && age<=32 && Math.random()<.2) extras.push('奨学金返済中');
+    if(Math.random()<.02 && !badge){ v = '実家が太い（本人は普通のつもり）'; badge='gap'; }
+    return [v + (extras.length? '・'+extras.join('・') : ''), badge];
+  }
+  // --- 飲酒 ---
+  function chooseInnerDrink(c){
+    const age = Number(c.age)||25;
+    if(age<20) return ['飲まない（20歳になったら考える）', null];
+    let list = [['飲まない（下戸）',4],['飲まない（あえて）',2],['付き合い程度',7],['週末だけ',5],['晩酌が日課（ビール1本）',5],['晩酌が日課（ハイボール派）',3],['ザル（記憶は残るタイプ）',2,'d'],['ザル（記憶が飛ぶタイプ）',1,'d'],['休肝日を週2で死守',3],['禁酒中（今週から）',1.5,'d'],['家では飲まない主義',2.5],['クラフトビール沼',1.5],['日本酒をゆっくり派',2]];
+    const h = String(c.healthText||'');
+    if(/γ-GTP/.test(h)) list = list.map(x=>/晩酌|ザル/.test(x[0])?[x[0],x[1]*4,x[2]]:(/飲まない/.test(x[0])?[x[0],x[1]*0.2]:x));
+    if(/健康優良|献血/.test(h)) list = list.map(x=>/ザル/.test(x[0])?[x[0],x[1]*0.4,x[2]]:x);
+    if(/(お酒|酒)に弱い/.test(String(c.weaknessBody||''))) list = [['飲まない（下戸）',8],['付き合いで一杯だけ（すぐ赤くなる)',6],['ノンアル愛好家',3]];
+    const it = innerWeighted(list);
+    return [it[0], it[2]==='d'&&Math.random()<.5 ? 'rare' : null];
+  }
+  // --- 喫煙（時代の喫煙率と健康状態に連動） ---
+  function chooseInnerSmoke(c){
+    const age = Number(c.age)||25, y = Number(c.eraYear)||2026;
+    if(age<20) return ['吸わない', null];
+    const h = String(c.healthText||'');
+    if(/禁煙に成功/.test(h)) return ['元喫煙者（禁煙成功・今は匂いに敏感）', null];
+    if(/禁煙に挑戦中/.test(h)) return ['減煙中（1日数本まで来た）', 'rare'];
+    let list = [['吸わない',17],['吸わない（匂いも苦手）',4],['元喫煙者（禁煙5年目）',3],['加熱式タバコ',3],['紙巻き1日数本',2,'d'],['紙巻き1日一箱',1,'d'],['たまにもらいタバコ',1.5,'d'],['飲んだ時だけ吸う',2,'d'],['葉巻をごくたまに（気取り）',0.4,'r']];
+    if(y<1995){ list = list.map(x=>/紙巻き/.test(x[0])?[x[0],x[1]*8,x[2]]:(/^吸わない/.test(x[0])?[x[0],x[1]*0.35]:x)); }
+    else if(y<2010){ list = list.map(x=>/紙巻き|もらい/.test(x[0])?[x[0],x[1]*2.5,x[2]]:x); }
+    if(age>=50 && y>=2010) list = list.map(x=>/元喫煙者/.test(x[0])?[x[0],x[1]*2.5]:x);
+    const it = innerWeighted(list);
+    return [it[0], it[2]==='d'&&Math.random()<.4 ? 'rare' : (it[2]==='r'?'rare':null)];
+  }
+  // --- 恋愛対象：実際の割合＋対象別の多彩な傾向ノート ---
+  INNER_LOVE_BASE.length = 0;
+  INNER_LOVE_BASE.push(['女性',90.6],['男性',2.6,'r'],['男女どちらも',2.6,'r'],['まだ揺らいでいて分からない',1.1,'r'],['恋愛にあまり興味がない',1.6,'r'],['二次元にしか本気になれない',1,'r'],['恋愛よりも推しがすべて',0.5,'r']);
+  const INNER_LOVE_NOTE_ANY = [['年上に惹かれがち',5],['年下が好み',4],['同い年が落ち着く',4],['面食い',4],['性格重視',5],['声フェチ',2.5],['惚れっぽい',4],['冷めやすい',3],['一途',5],['依存しがち',2,'d'],['束縛強め',1.5,'d'],['尽くしすぎて重いと言われる',2,'d'],['ダメな相手ばかり好きになる',2,'d'],['押しに弱い',3],['高嶺の花ばかり狙って玉砕する',2],['笑いのツボが合う人に弱い',4],['ギャップに弱い',4],['メガネに弱い',2],['褒められるとすぐ好きになる',3],['連絡はマメな方',3],['連絡不精で振られがち',2.5,'d'],['理想が高いと言われる',2.5],['同じ趣味の人がいい',3.5],['年の差は気にしない',2.5],['食べっぷりのいい人に弱い',3],['敬語が可愛い人に弱い',2.5],['方言に弱い',2.5],['既婚者に惹かれてしまう悪癖',0.6,'d'],['元恋人を引きずっている',2,'d'],['匂いに弱い',1.5,'d'],['手フェチ',1.5,'d']];
+  const INNER_LOVE_NOTE_F = [['ショートカットに弱い',2.5],['ポニーテールに弱い',2],['浴衣に弱い',1.5],['母性に弱い',2,'d'],['うなじに弱い',1.5,'d'],['姉御肌に弱い',2.5],['小柄な人に惹かれる',2],['背の高い人に惹かれる',2],['黒髪ロングが原点',2],['笑顔に弱い',3.5],['料理上手に弱い',3],['泣きぼくろに弱い',1.5]];
+  const INNER_LOVE_NOTE_M = [['筋肉質な人に弱い',2.5],['低い声に弱い',2.5],['スーツ姿に弱い',2.5],['ヒゲが似合う人に弱い',2],['年上の包容力に弱い',2.5],['塩対応に弱い',1.5],['ジャージ姿に弱い',1.5],['手の骨っぽさに弱い',1.5,'d'],['体格差に弱い',2],['職人気質な人に惹かれる',2],['寡黙な人に惹かれる',2.5],['笑い上戸に弱い',2]];
+  const INNER_LOVE_NOTE_BI = [['性別より人柄',5],['どちらかといえば女性寄り',3],['どちらかといえば男性寄り',2.5],['惹かれる相手に性別は関係ない',3.5],['その時々で揺れる',2],['好きになった人が性別',3]];
+  function chooseInnerLove(c){
+    const base = innerWeighted(INNER_LOVE_BASE);
+    let v = base[0], badge = base[2] ? 'rare' : null;
+    const noteFor = (b)=>{
+      if(b==='女性') return INNER_LOVE_NOTE_ANY.concat(INNER_LOVE_NOTE_F);
+      if(b==='男性') return INNER_LOVE_NOTE_ANY.concat(INNER_LOVE_NOTE_M);
+      if(b==='男女どちらも') return Math.random()<.5 ? INNER_LOVE_NOTE_BI : INNER_LOVE_NOTE_BI.concat(INNER_LOVE_NOTE_ANY, INNER_LOVE_NOTE_F, INNER_LOVE_NOTE_M);
+      return null;
+    };
+    const pool = noteFor(base[0]);
+    if(pool && Math.random()<.78){
+      const n = innerWeighted(pool);
+      v = base[0]+'（'+n[0]+'）';
+      if(!badge && n[2]==='d' && Math.random()<.45) badge = /既婚者/.test(n[0]) ? 'gap' : 'rare';
+    }
+    return [v, badge];
+  }
+  // --- 出自×出身地の整合強化 ---
+  function chooseInnerBirthplace(c){
+    const nat = String(c.nationality||'日本');
+    if(nat!=='日本' && INNER_NATION_CITIES[nat]){
+      return [nat+'・'+pick(INNER_NATION_CITIES[nat])+'出身', null];
+    }
+    const org = String(c.originText||'');
+    let cand = INNER_JP_PREFS.map(x=>x.slice());
+    const wantTag = /漁師町/.test(org)?'sea':/離島/.test(org)?'island':/山間/.test(org)?'mountain':/温泉旅館/.test(org)?'onsen':null;
+    const rural = /農家|漁師町|山間|離島|温泉旅館/.test(org);
+    const urban = /団地育ち|社宅育ち|商店街/.test(org);
+    if(rural) cand = cand.filter(x=>!x[3].includes('metro'));
+    if(wantTag) cand = cand.map(x=>x[3].includes(wantTag)?[x[0],x[1],x[2]*8,x[3]]:x);
+    if(rural) cand = cand.map(x=>[x[0],x[1],x[2]*(x[3].includes('sea')||x[3].includes('mountain')||wantTag?1:1.5),x[3]]);
+    if(urban) cand = cand.map(x=>x[3].includes('metro')?[x[0],x[1],x[2]*2.6,x[3]]:x);
+    const row = weighted(cand.map(x=>[x, x[2]]));
+    let city;
+    if(wantTag==='island') { const f=row[1].filter(m=>/石垣|五島|奄美/.test(m)); city = pick(f.length?f:row[1]); }
+    else if(wantTag==='onsen') { const f=row[1].filter(m=>/別府|草津|豊岡|霧島/.test(m)); city = pick(f.length?f:row[1]); }
+    else if(rural) { const f=row[1].filter(m=>!/市$/.test(m)||!/札幌|仙台|さいたま|横浜|川崎|名古屋|大阪|神戸|京都|福岡/.test(m)); city = pick(f.length?f:row[1]); }
+    else city = pick(row[1]);
+    c._bpTags = row[3]; c._bpPref = row[0];
+    let v = row[0]+'：'+city;
+    if(/転勤族/.test(org)) v += '（出生地。育ちは転勤で各地）';
+    if(/海外駐在帰り/.test(org)) v += '（幼少期の数年は海外）';
+    const rare = row[2]<=0.7 ? 'rare' : null;
+    return [v, rare];
+  }
+  // --- 家族構成×生い立ちの整合（生い立ちフィルタ） ---
+  function innerPastAllowed(c, txt){
+    const org = String(c.originText||''), fam = String(c.familyText||'');
+    if(/厳格な父親/.test(txt) && /母子家庭|祖父母に育てられた/.test(org)) return false;
+    if(/過干渉の母/.test(txt) && /父子家庭|祖父母に育てられた/.test(org)) return false;
+    if(/兄の背中/.test(txt) && !/次男|三男|末っ子|兄/.test(org+fam)) return false;
+    if(/妹弟の面倒/.test(txt) && !/長男|妹|弟/.test(org+fam)) return false;
+    if(/親の離婚を経験/.test(txt) && /父・母/.test(fam) && !/実家に父・母/.test(fam) && Math.random()<.7) return false;
+    if(/家業の倒産/.test(txt) && !/経営者|商店|工場|店/.test(org) && Math.random()<.5) return false;
+    if(/家の手伝い（店番・農作業）/.test(txt) && !/農家|漁師|商店|店|工場|旅館/.test(org)) return false;
+    return true;
+  }
+  function chooseInnerPast(c){
+    let ups = INNER_UPBRINGINGS.filter(x=>innerPastAllowed(c, x[0]));
+    if(!ups.length) ups = [['平凡で穏やかな家庭で育つ',1]];
+    const up = innerWeighted(ups);
+    const r = Math.random();
+    let trauma = 'トラウマ：なし', tBadge = null;
+    let trs = INNER_TRAUMAS.filter(x=>!(/父親の怒鳴り声/.test(x[0]) && /母子家庭|祖父母に育てられた/.test(String(c.originText||''))));
+    if(r >= 0.9){ const t = innerWeighted(trs); trauma = 'はっきりしたトラウマ：' + t[0]; tBadge = 'rare'; }
+    else if(r >= 0.65){ const t = innerWeighted(trs); trauma = '少し引きずっている：' + t[0]; tBadge = (t[2]==='r'||t[2]==='d') ? 'rare' : null; }
+    const badge = up[2] ? 'rare' : tBadge;
+    return [up[0], trauma, badge];
+  }
+  // --- コンプレックス：家族構成整合（兄がいないのに兄と比較されない） ---
+  function chooseInnerComplex(c){
+    for(let i=0;i<5;i++){
+      const r = chooseInnerComplexBase(c);
+      if(/兄と比べられて/.test(r[0]) && !/次男|三男|末っ子|兄/.test(String(c.originText||'')+String(c.familyText||''))) continue;
+      if(/方言/.test(r[0]) && !(typeof innerDialectOf==='function' && innerDialectOf(c))) continue;
+      return r;
+    }
+    return ['特になし（あるとすれば無頓着なこと）', null];
+  }
+  // --- 生活状況×住居の整合強化 ---
+  function chooseInnerResidence(c){
+    const liv = String(c.livingText||''), nat = String(c.nationality||'日本');
+    const bp = String(c.birthplaceText||'').split('：')[0].replace(/・.*$/,'').replace(/（.*$/,'');
+    const inc = (String(c.incomeText||'').match(/約(\d+)万円/)||[])[1];
+    const rich = inc && Number(inc)>=800;
+    if(/実家/.test(liv) && !/建て替え/.test(liv)) return [`実家（${bp||'出身地'}）`, null];
+    if(/学生寮/.test(liv)) return ['大学の学生寮（相部屋）', null];
+    if(/営内/.test(liv)) return ['駐屯地の隊舎（外出は許可制）', null];
+    if(/寮|社宅|住み込み/.test(liv)) return [pick(['職場まで徒歩圏の寮・社宅','会社敷地内（通勤0分）','職場の裏（通勤30秒）']), null];
+    if(/単身赴任/.test(liv)) return [pick(['赴任先のワンルーム（家具は最小限）','赴任先の1K（週末に帰省）']), null];
+    if(nat!=='日本' && Math.random()<.5) return [pick(['母国の実家近くのアパート','母国の都市部のフラット']), null];
+    if(innerIsMarried(c)){
+      if(/二世帯/.test(liv)) return ['二世帯住宅（親と同居・持ち家）', null];
+      if(/妻の実家の近く/.test(liv)) return ['妻の地元の住宅街（賃貸戸建て）', null];
+      if(/持ち家/.test(liv)) return [pick([`郊外の分譲${Math.random()<.5?'マンション':'戸建て'}（ローン返済中）`, '駅徒歩15分の3LDK（ローン返済中）', `${bp?bp+'にUターンして持ち家':'郊外の建売住宅'}`]), null];
+      return [pick(['郊外の2LDK（賃貸）','駅近の賃貸マンション2LDK','社宅型の賃貸（会社補助あり）']), null];
+    }
+    const metro = Math.random()<.6;
+    if(metro) return [pick(['都市部・駅徒歩12分の1K','都市部・築古だが広めの1DK','職場まで自転車15分のアパート','家賃を抑えた各駅停車の駅近く',`${rich?'都心の1LDK（少し背伸び）':'都市部のワンルーム'}`]), rich?'rare':null];
+    return [pick([`地元（${bp||'出身地'}）の市内アパート（地元勤務）`, '地方都市の1LDK（家賃に余裕）', '海の見える町のアパート']), null];
+  }
+  // --- 友人：値はクリーンに保持（ボタンは表示側で付与） ---
+  function chooseInnerFriend(c){
+    if(c.friendOf && c.friendOf.name){
+      return [`${nameKana(c.friendOf.name)}（${c.friendOf.relation||'友人'}・実体化済み）`, null];
+    }
+    const meet = innerWeighted(INNER_FRIEND_MEET);
+    const fq = innerWeighted(INNER_FRIEND_FREQ);
+    const age = Number(c.age)||25;
+    const delta = /幼なじみ|腐れ縁|同級生|部活仲間|サークル/.test(meet[0]) ? rnd(-1,1,1) : /同期/.test(meet[0]) ? rnd(-2,2,1) : rnd(-4,5,1);
+    const fAge = Math.max(18, Math.min(80, age + delta));
+    const full = (typeof nameByNationality==='function') ? nameByNationality(c.nationality||'日本', c.eraYear||'2026', fAge) : '友人';
+    const kanji = String(full).replace(/（.*$/,'').trim();
+    if(c) c._friendSeed = {name: full, meet: meet[0], freq: fq[0], age: fAge};
+    return [`${meet[0]}・${kanji}（${fq[0]}）`, null];
+  }
+  // --- 友人の実体化（表示情報を反映して友人作成） ---
+  const INNER_KANA2KANJI = {ユウタ:['悠太','ユウタ'],ケンジ:['健二','ケンジ'],ダイキ:['大輝','ダイキ'],ショウ:['翔','ショウ'],タクミ:['拓海','タクミ'],ヒロ:['宏樹','ヒロキ'],カズ:['和真','カズマ'],リョウ:['涼','リョウ'],シンジ:['慎二','シンジ'],マサ:['雅之','マサユキ'],コウジ:['浩二','コウジ'],テツ:['哲平','テッペイ'],ナオ:['直樹','ナオキ'],ジュン:['潤','ジュン'],ゴロー:['吾郎','ゴロー'],ハヤト:['隼人','ハヤト'],ワタル:['航','ワタル'],アキラ:['彰','アキラ']};
+  function innerFriendRelOf(meetTxt){
+    if(/幼なじみ|腐れ縁/.test(meetTxt)) return ['幼なじみ','同い年'];
+    if(/高校の同級生|専門学校の同期/.test(meetTxt)) return ['同級生', null];
+    if(/職場の同期|前の職場の同期/.test(meetTxt)) return ['同期', null];
+    if(/部活仲間|サークル仲間|大学の同期/.test(meetTxt)) return ['学生時代からの友人','同い年'];
+    return ['趣味仲間','同い年'];
+  }
+  function makeInnerFriend(){
+    if(!current || spinning) return;
+    const seed = current._friendSeed || null;
+    const ft = String(current.friendText||'');
+    const meet = seed ? seed.meet : (ft.match(/^(.+?)・/)||[])[1] || '高校の同級生';
+    const [relName, hierFix] = innerFriendRelOf(meet);
+    const rel = FRIEND_RELATIONS[relName]; if(!rel) return;
+    if(typeof renderFriendPanel === 'function') renderFriendPanel();
+    const relSel = document.getElementById('friendRelation');
+    if(relSel){ relSel.value = relName; }
+    if(typeof renderFriendPanel === 'function') renderFriendPanel();
+    const hierSel = document.getElementById('friendHierarchy');
+    const hierName = rel.hier ? (hierFix && rel.hier.includes(hierFix) ? hierFix : pick(rel.hier.filter(h=>h!=='上司'))) : rel.fixedHier;
+    if(hierSel && rel.hier && rel.hier.includes(hierName)) hierSel.value = hierName;
+    createFriend(seed ? {age: seed.age, name: seed.name} : undefined);
+    if(current && seed && (!current.nationality || current.nationality==='日本')){
+      const km = String(seed.name).match(/（(.+)）/);
+      if(km){
+        const toks = km[1].split(/[・\s]+/).filter(Boolean);
+        const givKana = toks.length>=2 ? toks[toks.length-1] : toks[0];
+        if(givKana && /^[ァ-ヴー]+$/.test(givKana)){
+          if(!current.innerMeta) current.innerMeta = {};
+          current.nicknameText = `「${givKana}」（呼び捨て）`;
+          current.innerMeta.nickname = null;
+          renderAll();
+        }
+      }
+    }
+  }
+  // --- チューザー：行動原理・許せないこと ---
+  function chooseInnerPrinciple(c){
+    let l = INNER_PRINCIPLES.map(x=>x.slice());
+    const mb = String(c.mbti||'');
+    const boost=(re,f)=>{ l=l.map(x=>re.test(x[0])?[x[0],x[1]*f,x[2]]:x); };
+    if(/J$/.test(mb)) boost(/約束|石橋|三年|朝イチ|手は抜かない/,1.8);
+    if(/P$/.test(mb)) boost(/勢い|とりあえず|楽しい方|逃げる/,1.8);
+    if(/^..T/.test(mb)) boost(/実利|勝てる勝負|比べない|護身/,1.5);
+    if(/^..F/.test(mb)) boost(/家族|悪口|声をかける|信じて/,1.6);
+    const it = innerWeighted(l);
+    return [it[0], it[2]==='d' && Math.random()<.5 ? 'rare' : null];
+  }
+  function chooseInnerUnforgivable(c){
+    let l = INNER_UNFORGIVABLES.map(x=>x.slice());
+    if(/いじめられた/.test(String(c.pastUpbringing||''))) l=l.map(x=>/弱い者いじめ|努力を嘲笑う/.test(x[0])?[x[0],x[1]*4]:x);
+    if(/借金/.test(String(c.pastUpbringing||'')+String(c.gambleText||''))) l=l.map(x=>/金の貸し借り/.test(x[0])?[x[0],x[1]*3]:x);
+    if(/接客|店員|カフェ|アパレル|コンビニ/.test(String(c.role||''))) l=l.map(x=>/店員への横柄/.test(x[0])?[x[0],x[1]*3]:x);
+    const it = innerWeighted(l);
+    return [it[0], null];
+  }
+
+  // 依存グラフ拡張
+  INNER_DEPS.weakness.push('gamble');
+  INNER_DEPS.love.push('fuzoku');
+  INNER_DEPS.marital.push('fuzoku');
+  INNER_DEPS.desire = ['gamble'];
+  INNER_DEPS.past = INNER_DEPS.past.concat(['unforgivable']);
+  INNER_DEPS.family = ['complex'];
+  INNER_DEPS.lover = ['weekfreq'];
+  INNER_DEPS.health = ['smoke','drink'];
+  INNER_DEPS.marital.push('weekfreq');
+  INNER_DEPS.love.push('firstexp');
+  INNER_DEPS.love.push('lovecount');
+  INNER_DEPS.marital.push('lovecount');
+  INNER_DEPS.firstexp = ['lovecount'];
+  INNER_DEPS.gamble = ['asset'];
+  INNER_DEPS.income.push('asset');
+  INNER_DEPS.desire = (INNER_DEPS.desire||[]).concat(['asset']);
+
+  const INNER_FIELD_GEN = {innerDream:'dream', innerDesire:'desire', weaknessMind:'weakness', weaknessBody:'weakness', innerTalent:'talent', pastUpbringing:'past', pastTrauma:'past', pronoun:'pronoun', incomeText:'income', originText:'origin', educationText:'education', complexText:'complex', bloodType:'blood', loveTarget:'love', maritalText:'marital', livingText:'living', familyText:'family', birthplaceText:'birthplace', birthdateText:'birthdate', nicknameText:'nickname', speechText:'speech', memoryText:'memory', friendText:'friend', loverText:'lover', residenceText:'residence', healthText:'health', hobbyText:'hobby', myBoomText:'myboom', foodLikeText:'foods', foodHateText:'foods', principleText:'principle', unforgivableText:'unforgivable', fuzokuText:'fuzoku', gambleText:'gamble', firstExpText:'firstexp', weekFreqText:'weekfreq', drinkText:'drink', smokeText:'smoke', loveCountText:'lovecount', assetText:'asset'};
+
   function generateCharacter(partialMode='full', groupCtx=null){
     const fixed = groupCtx ? {} : getFixed();
     if(FRIEND_CTX){ if(FRIEND_CTX.age) fixed.age = FRIEND_CTX.age; if(FRIEND_CTX.nationality) fixed.nationality = FRIEND_CTX.nationality; if(FRIEND_CTX.season) fixed.season = FRIEND_CTX.season; }
@@ -4557,6 +5998,7 @@ ${promptTargetGuide(c, false)}`;
     if(refSheetKind(dt) === 'handoff') return buildHandoffSheet(c, english);
     if(!isRefMode(c)){
       if(dt === 'トレーディングカード') return buildTradingCardPrompt(c);
+      if(refSheetKind(dt) === 'profilesheet') return buildPrompt(Object.assign({}, c, {outputType: dt})) + '\n' + (refSheetInstruction(Object.assign({}, c, {outputType: dt}), english) || '');
       return buildPrompt(Object.assign({}, c, {outputType: dt}));
     }
     const c2 = Object.assign({}, c, {outputType: dt});
@@ -4618,12 +6060,20 @@ ${promptTargetGuide(c, false)}`;
       bodyHairOverall: pools.bodyHairOverall
     };
     if(map[key]) return map[key];
+    const innerPools = Object.assign({}, INNER_EDIT_POOLS(), INNER_EDIT_POOLS2());
+    if(innerPools[key]) return innerPools[key];
     if(['chestHair','abdominalHair','lowerAbdomenHair','armHair','shinHair','thighHair','armpitHair','handFingerHair','footToeHair','backHair'].includes(key)) return pools.bodyHairLevels;
     return pools[key+'s'] || null;
   }
   function applySlotEdit(key, value){
     if(!current) return;
     current[key] = value;
+    if(current.bloodType){
+      if(key==='age') generateInnerProfile(current, ['income','education','marital','birthdate']);
+      if(key==='role') generateInnerProfile(current, ['income','education']);
+      if(key==='nationality') generateInnerProfile(current, ['blood','birthplace','birthdate']);
+      if(INNER_FIELD_GEN[key]){ const deps = INNER_DEPS[INNER_FIELD_GEN[key]]; if(deps && deps.length) generateInnerProfile(current, deps.slice()); }
+    }
     if(key==='mbti') current.personality = mbtiDescription(value, uiLang==='en');
     if(key==='footSize') current.footSizeManual = true;
     if(key==='height'){
@@ -4695,7 +6145,8 @@ ${promptTargetGuide(c, false)}`;
     const sel = document.createElement('select');
     const opts = pool.map(String);
     if(cur && !opts.includes(cur)) opts.unshift(cur);
-    sel.innerHTML = opts.map(v=>`<option value="${String(v).replace(/"/g,'&quot;')}"${String(v)===cur?' selected':''}>${displayOptionLabel(key, v)}</option>`).join('');
+    if(key==='role') sel.innerHTML = occupationOptionsHTML(cur, false);
+    else sel.innerHTML = opts.map(v=>`<option value="${String(v).replace(/"/g,'&quot;')}"${String(v)===cur?' selected':''}>${displayOptionLabel(key, v)}</option>`).join('');
     sel.onchange = () => applySlotEdit(key, sel.value);
     sel.onblur = () => renderAll();
     wrap.appendChild(sel);
@@ -4741,14 +6192,14 @@ ${promptTargetGuide(c, false)}`;
       hierField.classList.add('hidden');
     }
   }
-  function createFriend(){
+  function createFriend(opts){
     if(!current || spinning) return;
     const relName = document.getElementById('friendRelation').value;
     const rel = FRIEND_RELATIONS[relName]; if(!rel) return;
     const hierName = rel.hier ? document.getElementById('friendHierarchy').value : rel.fixedHier;
     const baseC = {...current}; delete baseC.friendBase;
     const [dLo, dHi] = rel.delta || FRIEND_HIER_DELTA[hierName] || [0,0];
-    const targetAge = Math.max(18, Math.min(80, Number(baseC.age) + rnd(dLo, dHi, 1)));
+    const targetAge = (opts && opts.age) ? Number(opts.age) : Math.max(18, Math.min(80, Number(baseC.age) + rnd(dLo, dHi, 1)));
     FRIEND_CTX = {
       age: String(targetAge),
       eraYear: String(baseC.eraYear || '2026'),
@@ -4759,9 +6210,10 @@ ${promptTargetGuide(c, false)}`;
     let f = null;
     for(let i=0;i<8;i++){ f = generateCharacter('full'); if(rel.sameRole || f.role !== baseC.role) break; }
     FRIEND_CTX = null;
+    if(opts && opts.name) f.name = opts.name;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V2.7.2'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.0.0'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -4855,7 +6307,23 @@ ${promptTargetGuide(c, false)}`;
     ['ギャップ枠', 12, c=>!!c.gapMode],
     ['休日ペルソナ', 10, c=>!!c.holidayPersona],
     ['レアな肌の特徴', 8, c=>['左頬の薄い傷跡','眉尻の剃り込み跡','ゴーグル跡の日焼けムラ','腕まくり日焼けの跡'].some(v=>v===c.skinDetail||v===c.skinDetail2)],
-    ['明色髪', 8, c=>['金髪','シルバー','アッシュグレー','プラチナ'].some(v=>String(c.hairColor).includes(v))]
+    ['明色髪', 8, c=>['金髪','シルバー','アッシュグレー','プラチナ'].some(v=>String(c.hairColor).includes(v))],
+    ['高身長178cm+', 8, c=>c.heightRaw>=178 && c.heightRaw<183],
+    ['スタイル抜群（7.6頭身+）', 10, c=>parseFloat(headCount(c))>=7.6 && parseFloat(headCount(c))<7.9],
+    ['8頭身級（7.9頭身+）', 18, c=>parseFloat(headCount(c))>=7.9],
+    ['平行二重×アーモンド', 10, c=>c.eyelid==='平行二重' && c.eyeShape==='アーモンド形の目'],
+    ['左右対称に近い顔', 8, c=>c.faceAsym==='左右対称に近い整った顔'],
+    ['彫りの深い顔立ち', 6, c=>String(c.browRidge).includes('深い')],
+    ['整った歯列', 5, c=>c.teethAlign==='整った歯列' || c.teethAlign==='矯正後のきれいな歯列'],
+    ['えくぼ', 6, c=>c.dimple && c.dimple!=='えくぼなし'],
+    ['泣きぼくろ', 5, c=>String(c.mole).includes('泣きぼくろ') || ['目元の泣きぼくろ'].some(v=>v===c.skinDetail||v===c.skinDetail2)],
+    ['引き締まり体型', 5, c=>/細マッチョ|痩せマッチョ|水泳選手|逆三角形|クライマー/.test(String(c.bodyType))],
+    ['長いまつ毛', 4, c=>String(c.eyelash).includes('長め')],
+    ['ふっくら涙袋', 4, c=>['ふっくら','ややはっきり'].includes(String(c.tearBags))],
+    ['珍しい職業', 8, c=>['僧侶','書道家','防衛大学校学生','国鉄職員','パイロット','アナウンサー','ライフガード','電車運転士','プロスポーツ選手','漁師'].includes(c.role)],
+    ['珍しいMBTI', 6, c=>['INFJ','INTJ','ENTJ'].includes(c.mbti)],
+    ['脚長スタイル', 6, c=>['長い','非常に長い'].includes(String(c.legLength))],
+    ['特徴的な髪型', 5, c=>/マンバン|スキンフェード|アフロ|ツイスト|スパイラル|ウルフ|アシメ/.test(String(c.hairStyle))]
   ];
   function rarityBreakdown(c){
     if(!c) return [];
@@ -4914,7 +6382,7 @@ ${promptTargetGuide(c, false)}`;
   function scoreRarity(c){
     if(!c) return [0,'NORMAL','idle'];
     const s = rarityBreakdown(c).reduce((a,[,p])=>a+p,0);
-    if(s>=75) return [s,'LEGEND','legend']; if(s>=50) return [s,'SUPER RARE','super']; if(s>=25) return [s,'RARE','rare']; return [s,'NORMAL','normal'];
+    if(s>=40) return [s,'LEGEND','legend']; if(s>=24) return [s,'SUPER RARE','super']; if(s>=10) return [s,'RARE','rare']; return [s,'NORMAL','normal'];
   }
   const BODYHAIR_KEYS = ['bodyHairOverall','chestHair','abdominalHair','lowerAbdomenHair','armHair','shinHair','thighHair','armpitHair','handFingerHair','footToeHair','backHair'];
   function rerollProfile(key){
@@ -4964,9 +6432,12 @@ ${promptTargetGuide(c, false)}`;
       BODYHAIR_KEYS.forEach(k=>{ if(fresh[k]!==undefined) current[k]=fresh[k]; });
       renderAll(); return;
     }
+    const INNER_REROLL = {innerDream:['dream'], innerDesire:['desire'], weaknessMind:['weakness'], weaknessBody:['weakness'], innerTalent:['talent'], pastUpbringing:['past'], pastTrauma:['past'], pronoun:['pronoun'], incomeText:['income'], originText:['origin'], educationText:['education'], complexText:['complex'], bloodType:['blood'], loveTarget:['love'], maritalText:['marital'], livingText:['living'], familyText:['family'], birthplaceText:['birthplace'], birthdateText:['birthdate'], nicknameText:['nickname'], speechText:['speech'], memoryText:['memory'], friendText:['friend'], loverText:['lover'], residenceText:['residence'], healthText:['health'], hobbyText:['hobby'], myBoomText:['myboom'], foodLikeText:['foods'], foodHateText:['foods'], principleText:['principle'], unforgivableText:['unforgivable'], fuzokuText:['fuzoku'], gambleText:['gamble'], firstExpText:['firstexp'], weekFreqText:['weekfreq'], drinkText:['drink'], smokeText:['smoke'], loveCountText:['lovecount'], assetText:['asset']};
+    if(INNER_REROLL[key]){ generateInnerProfile(current, INNER_REROLL[key]); renderAll(); return; }
     if(key==='role'){
       const fresh = generateCharacter('full');
       ['role','sportName','occupationMode','holidayPersona','workUniform','workUniformEn','headwear','headwearOn','outfitType','outfitBrand','jacket','top','bottom','shoes','sockBrand','sockType','sockShape','sockMaterial','sockColor','sockUse'].forEach(k=>{ if(fresh[k]!==undefined) current[k]=fresh[k]; });
+      if(current.bloodType) generateInnerProfile(current, ['income','education','dream']);
       renderAll(); return;
     }
     rerollOne(key);
@@ -4994,7 +6465,8 @@ ${promptTargetGuide(c, false)}`;
       if(cur && !opts.includes(cur)) opts.unshift(cur);
       const lab = document.createElement('label'); lab.textContent = slotLabel(k, k);
       const sel = document.createElement('select');
-      sel.innerHTML = opts.map(v=>`<option value="${String(v).replace(/"/g,'&quot;')}"${String(v)===cur?' selected':''}>${displayOptionLabel(k, v)}</option>`).join('');
+      if(k==='role') sel.innerHTML = occupationOptionsHTML(cur, false);
+      else sel.innerHTML = opts.map(v=>`<option value="${String(v).replace(/"/g,'&quot;')}"${String(v)===cur?' selected':''}>${displayOptionLabel(k, v)}</option>`).join('');
       ed.appendChild(lab); ed.appendChild(sel); sels.push([k, sel]);
     });
     if(!sels.length) return;
@@ -5450,8 +6922,9 @@ ${promptTargetGuide(b, false)}`;
     cntSel.innerHTML = FRIEND_PAIR_COUNTS.map(v=>`<option value="${v}">${uiLang==='en' ? (parseInt(v,10)+' image'+(parseInt(v,10)>1?'s':'')) : v}</option>`).join('');
     if(current){ wearSel.value = current.friendPairWear || '私服'; cntSel.value = current.friendPairCount || '3枚'; }
   }
+  /* ===== V3.1 線画プレビュー（密テンプレート方式・髪なし） ===== */
   function renderProfile(){
-    if(!current){ els.profileView.innerHTML=`<p class="notice">${uiLang==='ja'?'まだ結果がありません。':'No result yet.'}</p>`; els.promptBox.value=''; document.getElementById('outfitPromptBox').value=''; document.getElementById('scenePromptBox').value=''; const cardBox=document.getElementById('cardPromptBox'); if(cardBox) cardBox.value=''; return; }
+    if(!current){ const ib0=document.getElementById('innerAboveTabs'); if(ib0) ib0.innerHTML=''; els.profileView.innerHTML=`<p class="notice">${uiLang==='ja'?'まだ結果がありません。':'No result yet.'}</p>`; els.promptBox.value=''; document.getElementById('outfitPromptBox').value=''; document.getElementById('scenePromptBox').value=''; const cardBox=document.getElementById('cardPromptBox'); if(cardBox) cardBox.value=''; return; }
     if(!current.personality && current.mbti) current.personality = mbtiDescription(current.mbti, false);
     migrateUniformFields(current);
     if(current.cardWearMode === '提案服装') current.cardWearMode = '職業服装';
@@ -5479,6 +6952,10 @@ ${promptTargetGuide(b, false)}`;
     if(!current.trainingLevel) current.trainingLevel = 'なし';
     if(!current.bioText) current.bioText = buildBioHook(current);
     ensureProfileMeasurements(current);
+    if(!current.bloodType || !current.maritalText) generateInnerProfile(current);
+    else if(!current.principleText) generateInnerProfile(current, ['principle','unforgivable','fuzoku','gamble']);
+    else if(!current.drinkText) generateInnerProfile(current, ['firstexp','weekfreq','drink','smoke']);
+    else if(!current.assetText) generateInnerProfile(current, ['lovecount','asset']);
     if(!current.bangs) current.bangs = '指定なし';
     if(!current.hairFinish) current.hairFinish = '指定なし';
     if(!current.hairVolume) current.hairVolume = '標準的な毛量';
@@ -5495,6 +6972,7 @@ ${promptTargetGuide(b, false)}`;
     const mainWear = uiLang==='en' ? `${underwearDesc(current, true)} only` : `${underwearDesc(current, false)}のみ`;
     const sections = [
       ['basic', L.basic, [[L.name,current.name,'name'],[L.age,displayValue('age',current.age),'age'],[L.era, uiLang==='en' ? `${current.eraYear || '2026'} (${eraProfile(current.eraYear || '2026').labelEn})${current.season ? ` / ${displayValue('season', current.season) || current.season}` : ''}` : `${eraLabel(current.eraYear)}（${eraProfile(current.eraYear || '2026').labelJa}）${current.season ? `・${current.season}` : ''}`,'eraYear'],[L.natEth,`${displayValue('nationality',current.nationality)} / ${displayValue('ethnicity',current.ethnicity)}`,'nationality,ethnicity'],[L.roleVibe,`${displayValue('role',current.role)} / ${displayValue('vibe',current.vibe)}${current.occupationMode ? `（${uiLang==='en' ? displayValue('occupationMode', current.occupationMode) || current.occupationMode : current.occupationMode}）` : ''}`,'role,vibe'],[uiLang==='en' ? 'Sports Background' : '経験競技スポーツ', sportsHistoryText(current, uiLang==='en'), 'sportsHistory']].concat(current.groupSetting ? [[L.group, `${displayValue('groupSetting',current.groupSetting) || current.groupSetting} / ${displayValue('groupPosition',current.groupPosition) || current.groupPosition}`]] : []).concat(current.friendOf ? [[L.friendRow, friendRelationText(current, uiLang==='en')]] : []).concat([[L.mbti,`<span class="mini-badge">${mbtiDisplay(current)}</span>`,'mbti']])],
+      buildInnerSection(current, L),
       ['face', L.faceSection, [[L.face,`${displayValue('facePreset',current.facePreset)} / ${displayValue('ageAppearance',current.ageAppearance)}`,'facePreset,ageAppearance'],[L.faceLine,displayValue('faceLine',current.faceLine),'faceLine'],[slotLabel('eyebrow','眉'),`${displayValue('eyebrow',current.eyebrow||'標準的なゆるいアーチ眉')}／${displayValue('eyebrowDensity',current.eyebrowDensity||'標準的な濃さの眉')}`,'eyebrow,eyebrowDensity'],[uiLang==='en' ? 'Eyelid / Shape / Impression' : 'まぶた / 目の形 / 印象',`${displayValue('eyelid',current.eyelid||'末広二重')}／${displayValue('eyeShape',current.eyeShape||'標準的な目の形')}／${displayValue('eyes',current.eyes)}`,'eyelid,eyeShape,eyes'],[uiLang==='en' ? 'Eyelashes / Tear Bags' : 'まつ毛 / 涙袋',`${displayValue('eyelash',current.eyelash||'標準的な長さのまつ毛')}／${displayValue('tearBags',current.tearBags)}`,'eyelash,tearBags'],[L.nose,displayValue('nose',current.nose),'nose'],[slotLabel('mouth','基本表情'),displayValue('mouth',current.mouth),'mouth'],[uiLang==='en' ? 'Teeth Align / Color' : '歯並び / 歯の色', `${current.teethAlign||'ほぼ整った歯列'} / ${current.teethColor||'自然な白さの歯'}`, 'teethAlign,teethColor'],[slotLabel('lips','唇の形状'),displayValue('lips',current.lips || '標準的な厚さの唇'),'lips'],[slotLabel('mouthPos','口の位置'),displayValue('mouthPos',current.mouthPos || '標準的な位置・大きさの口'),'mouthPos'],[slotLabel('faceSpacing','パーツ配置'),displayValue('faceSpacing',current.faceSpacing || '標準的な配置'),'faceSpacing'],[slotLabel('faceRatio','目鼻口比率'),displayValue('faceRatio',current.faceRatio || '標準的なバランスの比率'),'faceRatio'],[slotLabel('faceAsym','顔の左右差'),displayValue('faceAsym',current.faceAsym || 'ほぼ対称（ごく自然な左右差）'),'faceAsym'],[uiLang==='en' ? 'Chin / Jaw' : '顎先 / エラ',`${displayValue('jawChin',current.jawChin||'標準的な顎先')}／${displayValue('jawAngle',current.jawAngle||'ほどよく張ったエラ')}`,'jawChin,jawAngle'],[uiLang==='en' ? 'Ears / Brow' : '耳 / 彫り',`${displayValue('ear',current.ear||'標準的な耳')}／${displayValue('browRidge',current.browRidge||'彫りは標準的')}`,'ear,browRidge'],[uiLang==='en' ? 'Forehead / Hairline' : '額 / 生え際',`${displayValue('forehead',current.forehead||'標準的な広さの額')}／${displayValue('hairline',current.hairline||'直線的な生え際')}`,'forehead,hairline'],[uiLang==='en' ? 'Cheeks / Dimples' : '頬 / えくぼ',`${displayValue('cheek',current.cheek||'標準的な頬')}／${displayValue('dimple',current.dimple||'えくぼなし')}`,'cheek,dimple'],[uiLang==='en' ? 'Mole / Under-eye' : 'ほくろ / クマ',`${displayValue('mole',current.mole||'ほくろなし')}／${displayValue('eyeBags',current.eyeBags||'クマなし')}`,'mole,eyeBags'],[uiLang==='en' ? 'Throat / Lip Tone' : 'のどぼとけ / 唇の血色',`${displayValue('adamsApple',current.adamsApple||'標準的なのどぼとけ')}／${displayValue('lipTone',current.lipTone||'標準的な血色の唇')}`,'adamsApple,lipTone'],[L.skin,displayValue('skin',current.skin),'skin'],[uiLang==='en' ? 'Skin Details' : '肌の特徴',`${displayValue('skinDetail',current.skinDetail || 'なし（クリアな肌）')}${current.skinDetail2 && current.skinDetail2 !== 'なし（クリアな肌）' ? `／${displayValue('skinDetail',current.skinDetail2)}` : ''}`,'skinDetail,skinDetail2'],[L.facialHair,`${displayValue('facialHair',current.facialHair)}${current.facialHair!=='なし' ? `（${displayValue('facialHairGroom',current.facialHairGroom||'自然に整えている')}）` : ''}`,'facialHair,facialHairGroom'],[L.glasses, displayValue('glasses', current.glasses || 'なし'),'glasses'],[L.hair,`${displayValue('hairColor',current.hairColor)}・${displayValue('hairStyle',current.hairStyle)}（${displayValue('hairTexture',current.hairTexture||'直毛')}）`,'hairColor,hairStyle,hairTexture'],[uiLang==='en' ? 'Bangs / Styling / Volume' : '前髪・整髪・毛量',`${displayValue('bangs',current.bangs||'指定なし')}／${displayValue('hairFinish',current.hairFinish||'指定なし')}／${displayValue('hairVolume',current.hairVolume||'標準的な毛量')}`,'bangs,hairFinish,hairVolume']]],
       ['body', L.bodySection, [[L.hw,`${current.height} / ${current.weight}`,'height,weight'],[L.body,displayValue('bodyType',current.bodyType),'bodyType'],[uiLang==='en' ? 'Physique Guide' : '体格の目安', `${uiLang==='en' ? `about ${headCount(current)} heads tall` : `約${headCount(current)}頭身`}`],[uiLang==='en' ? 'Shoulders' : '肩幅', current.shoulderWidth || '普通', 'shoulderWidth'],[uiLang==='en' ? 'Waist Pos / Legs / Arms' : '腰位置 / 脚長 / 腕長', `${current.waistPos||'標準'} / ${current.legLength||'標準'} / ${current.armLength||'標準'}`, 'waistPos,legLength,armLength'],[uiLang==='en' ? 'Frame / Neck / Limbs' : '骨格 / 首 / 手足サイズ感', `${current.frame||'標準'} / ${current.neckLength||'標準'} / ${current.limbSize||'標準'}`, 'frame,neckLength,limbSize'],[uiLang==='en' ? 'Hip Shape' : '臀部の形状', current.hipShape || '標準的な丸みの臀部', 'hipShape'],[uiLang==='en' ? 'Muscle Development' : '発達部位', muscleSummary(current, uiLang==='en')],[uiLang==='en' ? 'Training Habit' : '筋トレ習慣', current.trainingLevel || 'なし', 'trainingLevel'],[uiLang==='en' ? 'Muscle Development' : '発達部位', (muscleLine(current, false) || 'なし（競技経験の影響なし）').replace(/^発達部位：/,'').split('。')[0], 'muscleTone'],[L.foot,current.footSize,'footSize'],[uiLang==='en' ? 'Foot Width' : 'ワイズ（足幅）', current.footWidth || calcFootWidth(current), 'footWidth'],[L.footShape,displayValue('footShape',current.footShape),'footShape'],[uiLang==='en' ? 'Foot Traits' : '足の特徴', current.footFeature || '特徴なし・整った足', 'footFeature'],[uiLang==='en' ? 'Sole Type' : '足裏タイプ', current.soleType || '均整なめらか型', 'soleType'],[uiLang==='en' ? 'Toe Alignment' : '指の並び・向き', current.toeLine || 'まっすぐ前を向いたそろった並び', 'toeLine'],[uiLang==='en' ? 'Creases / Curl' : 'しわ・反り', `${current.soleWrinkle || '標準的なしわ'}／${current.toeCurl || '指がフラットに伸びた状態'}`, 'soleWrinkle,toeCurl']]],
       ['bodyhair', L.bodyHairSection, [[L.bodyHair, buildBodyHairSummary(current, uiLang==='en'),'bodyHairAll']]],
@@ -5503,8 +6981,8 @@ ${promptTargetGuide(b, false)}`;
       ['output', L.outputSection, [[L.background,displayValue('background',current.background),'background'],[L.output,`${displayValue('outputType',current.outputType)} / ${displayValue('count',current.count)}`],[L.promptTarget,`<span class="mini-badge">${current.promptTarget || 'ChatGPT'}</span>`],[L.imageText, current.captionMode==='表記しない' ? captionModeDisplay(current.captionMode) : `${captionModeDisplay(current.captionMode)} / ${getCaptionFieldLabelsArray(current, uiLang==='en').join(', ')}`],[L.cardSetting, `${displayValue('cardStyle',current.cardStyle)} / ${current.cardRarity} / ${displayValue('cardTheme',current.cardTheme)} / ${displayValue('cardLayout',current.cardLayout)} / ${displayValue('cardWearMode',current.cardWearMode || 'ボクサーパンツのみ')} / ${displayValue('cardEffect',cardEffectByRarity(current.cardRarity))}`]]],
       ['scene', L.sceneSection, [[L.scene,displayValue('sceneIdea',current.sceneIdea),'sceneIdea']]]
     ];
-    const pcIcons = {basic:'👤', face:'🙂', body:'📐', bodyhair:'🧔', main:'🩳', outfit:'👕', output:'🖨️', scene:'🎬'};
-    const pcSpan2 = {output:true, scene:true};
+    const pcIcons = {basic:'👤', inner:'🎭', face:'🙂', body:'📐', bodyhair:'🧔', main:'🩳', outfit:'👕', output:'🖨️', scene:'🎬'};
+    const pcSpan2 = {output:true, scene:true, inner:true};
     const cpMode = current.catchphraseMode || '結果画面のみ表示';
     const measurementHtml = `<div class="measurement-panel">
       <div class="measurement-title">${uiLang==='en' ? 'PROFILE-ONLY A / B / C' : '完成プロフィール限定 A / B / C'}</div>
@@ -5523,9 +7001,27 @@ ${promptTargetGuide(b, false)}`;
     const ikm = current.ikemenIndexMode === '表示する' ? (()=>{ const sc = ikemenScore(current); return `<div class="subcard" style="margin:0 0 12px"><h3>${uiLang==='en' ? 'Handsome Index' : 'イケメン指数'} <span class="pill" style="margin-left:8px">${sc} / 100 — ${ikemenRank(sc, uiLang==='en')}</span></h3><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${ikemenBreakdown(current).map(([l,d])=>`<span class="pill">${l} ${d>0?'+':''}${d}</span>`).join('') || `<span class="notice">${uiLang==='en' ? 'All standard features.' : 'すべて標準的な造形。'}</span>`}</div><p class="notice" style="margin:6px 0 0">${uiLang==='en' ? 'Standard features score exactly 50. Computed from 19 facial axes; never written into prompts.' : '標準的な造形がちょうど50ptになる設計です（顔の19軸から算出。プロンプトには含めません）。'}</p></div>` })() : '';
     const bdHtml = ikm + `<div class="subcard" style="margin:0 0 12px"><h3>${uiLang==='en' ? 'Rarity Breakdown' : 'レア内訳'} <span class="pill" style="margin-left:8px">${rr[0]} pt / ${rr[1]}</span></h3><div style="display:flex;flex-wrap:wrap;gap:4px">${bd.length ? bd.map(([l,p])=>`<span class="pill">${l} +${p}</span>`).join('') : `<span class="notice">${uiLang==='en' ? 'No rare points this time.' : '今回はレア該当なし。'}</span>`}</div></div>`;
     const pfBtns = (pk)=>{ const hasPool = pk === 'sportsHistory' || pk.split(',').some(k=>{ const p = slotEditPool(k); return p && p.length; }); return `<span class="pf-actions">${hasPool ? `<button class="pf-btn" data-p-edit="${pk}" title="${T('editTitle')}">✎</button>` : ''}<button class="pf-btn" data-p-dice="${pk}" title="🎲">🎲</button></span>`; };
-    els.profileView.innerHTML = badges + bdHtml + `<div class="profile-cards">` + sections.map(([key,title,rows])=>`<div class="profile-card pc-${key}${pcSpan2[key]?' span2':''}"><h3><span class="pc-icon">${pcIcons[key]||''}</span>${title}${key==='scene' ? ` <button class="dice" style="position:static;margin-left:auto" data-scene-edit title="${T('editTitle')}">✎</button>` : ''}</h3>${rows.map(([k,v,pk])=>pk ? `<div class="kv kv3"><b>${k}</b><span>${v}</span>${pfBtns(pk)}</div>` : `<div class="kv"><b>${k}</b><span>${v}</span></div>`).join('')}</div>`).join('') + `</div>`;
-    els.profileView.querySelectorAll('[data-p-dice]').forEach(b=>{ b.onclick = () => rerollProfile(b.dataset.pDice.split(',')[0]); });
-    els.profileView.querySelectorAll('[data-p-edit]').forEach(b=>{ b.onclick = () => openProfileEdit(b); });
+    const renderPCard = ([key,title,rows])=>`<div class="profile-card pc-${key}"><h3><span class="pc-icon">${pcIcons[key]||''}</span>${title}${key==='scene' ? ` <button class="dice" style="position:static;margin-left:auto" data-scene-edit title="${T('editTitle')}">✎</button>` : ''}</h3><div class="pc-rows">${rows.map(r=>{const [k,v,pk,cc]=r; if(k==='__HEAD__') return v; const cls=cc?` ${cc}`:''; return pk ? `<div class="kv kv3${cls}"><b>${k}</b><span>${v}</span>${pfBtns(pk)}</div>` : `<div class="kv${cls}"><b>${k}</b><span>${v}</span></div>`;}).join('')}</div></div>`;
+    const bySec = k => sections.find(s=>s[0]===k);
+    const topPair = ['face','body'].map(k=>bySec(k)).filter(Boolean).map(renderPCard).join('');
+    const leftCards = ['bodyhair','main','outfit'].map(k=>bySec(k)).filter(Boolean).map(renderPCard).join('');
+    const rightCards = ['output','scene'].map(k=>bySec(k)).filter(Boolean).map(renderPCard).join('');
+    els.profileView.innerHTML = badges + bdHtml + `<div class="profile-top2">` + topPair + `</div><div class="profile-cols"><div class="pcol">` + leftCards + `</div><div class="pcol">` + rightCards + `</div></div>`;
+    const innerBox = document.getElementById('innerAboveTabs');
+    if(innerBox){
+      const basicSec = bySec('basic'), innerSec = bySec('inner');
+      innerBox.innerHTML = (basicSec ? renderPCard(basicSec) : '') + (innerSec ? renderPCard(innerSec) : '');
+    }
+    const bindRoots = [els.profileView, document.getElementById('innerAboveTabs')].filter(Boolean);
+    bindRoots.forEach(root=>{
+      root.querySelectorAll('[data-p-dice]').forEach(b=>{ b.onclick = () => rerollProfile(b.dataset.pDice.split(',')[0]); });
+      root.querySelectorAll('[data-p-edit]').forEach(b=>{ b.onclick = () => openProfileEdit(b); });
+      const mfBtn = root.querySelector('[data-make-friend]');
+      if(mfBtn) mfBtn.onclick = () => makeInnerFriend();
+      root.querySelectorAll('[data-icat]').forEach(b=>{ b.onclick = () => { innerCatShow[b.dataset.icat] = !innerCatShow[b.dataset.icat]; renderAll(); }; });
+      const allBtn = root.querySelector('[data-icat-all]');
+      if(allBtn) allBtn.onclick = () => { const on = allBtn.dataset.icatAll === '1'; INNER_CATS.forEach(([k])=>{ innerCatShow[k] = on; }); renderAll(); };
+    });
     const ue = els.profileView.querySelector('[data-uniform-edit]');
     if(ue) ue.onchange = () => applyUniformVariant(ue.value);
     const he = els.profileView.querySelector('[data-headwear-edit]');
@@ -5570,7 +7066,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V2.7.2'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.0.0'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
@@ -5606,6 +7102,7 @@ ${promptTargetGuide(b, false)}`;
     const DERIVED_META = {
       'トレーディングカード':['🃏','トレカ','オリジナルトレカ風の1枚','Trading card','One original trading-card style image'],
       '人物特集雑誌ページ':['📰','雑誌ページ','架空雑誌の特集誌面。時代でレイアウトが変化','Magazine page','A fictional magazine feature; layout follows the era'],
+      'キャラクタープロフィールシート':['📇','プロフィールシート','全身1枚＋ひとこと背景＋基本＋内面・背景＋A/B/C','Profile sheet','Full-body shot with bio, basics, inner profile and A/B/C'],
       '街で見かけたイケメンシート：職業編':['📷','街角・職業編','働く姿のスナップ3〜4コマ','Street: at work','3-4 candid panels of him working'],
       '街で見かけたイケメンシート：オフ編':['🏖','街角・オフ編','私服で過ごすオフのスナップ集','Street: off duty','Candid panels of his day off in casual wear'],
       '人物ポスター（職業・人物像）':['🖼','ポスター','職業と人物像が伝わる1枚','Poster','A poster that shows who he is at a glance'],
@@ -5633,6 +7130,19 @@ ${promptTargetGuide(b, false)}`;
       if(lbl){
         const m = DERIVED_META[cur];
         lbl.textContent = m ? `${m[0]} ${en2 ? m[3] : cur} — ${en2 ? m[4] : m[2]}` : `📋 ${displayOptionLabel('outputType', cur)}`;
+      }
+      const slot = document.getElementById('derivedCardSettingsSlot');
+      const cardCfg = document.querySelector('[data-ui-card="manualCard"]');
+      if(slot && cardCfg){
+        if(cardCfg.parentElement !== slot) slot.appendChild(cardCfg);
+        cardCfg.classList.toggle('hidden', cur !== 'トレーディングカード');
+      }
+      const psCfg = document.getElementById('profileSheetCfg');
+      if(psCfg){
+        psCfg.classList.toggle('hidden', cur !== 'キャラクタープロフィールシート');
+        const psSel = document.getElementById('profileSheetWearSel');
+        if(psSel){ psSel.value = (current && current.profileSheetWear) || '職業服装'; psSel.onchange = ()=>{ if(current){ current.profileSheetWear = psSel.value; renderAll(); } }; }
+        const psLbl = psCfg.querySelector('label span'); if(psLbl) psLbl.textContent = en2 ? 'Profile-sheet outfit' : 'プロフィールシートの服装';
       }
       const cb = document.getElementById('copyDerivedBtn');
       if(cb && !cb.classList.contains('copied')){
