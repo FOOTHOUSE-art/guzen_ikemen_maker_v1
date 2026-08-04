@@ -4131,7 +4131,7 @@
       if(S.daily) catLines.push(`【日常・嗜好】健康：${c.healthText}／趣味：${c.hobbyText}／マイブーム：${c.myBoomText}／好物：${c.foodLikeText}・苦手：${c.foodHateText}`);
       if(S.mind) catLines.push(`【内面】行動原理：${c.principleText}／夢：${c.innerDream}／本音の欲望：${c.innerDesire}／弱点：${c.weaknessMind}・${c.weaknessBody}／才能：${c.innerTalent}／コンプレックス：${c.complexText}／許せないこと：${c.unforgivableText}`);
       if(S.past) catLines.push(`【過去・人間関係】${c.pastUpbringing}／${c.pastTrauma}／思い出：${c.memoryText}／親友：${String(c.friendText||'').replace(/〔.*?〕/,'')}／恋愛対象：${c.loveTarget}／恋愛経験：${c.loveCountText}`);
-      if(S.adult) catLines.push(`【オトナの事情（小さく・婉曲表現で）】飲酒：${c.drinkText}／喫煙：${c.smokeText}／ギャンブル歴：${c.gambleText}／風俗経験：${c.fuzokuText}／初めての体験：${c.firstExpText}／週頻度：${c.weekFreqText}`);
+      if(S.adult) catLines.push(`【オトナの事情（小さく・婉曲表現で）】飲酒：${c.drinkText}／喫煙：${c.smokeText}／ギャンブル歴：${c.gambleText}／風俗経験：${c.fuzokuText}／初めての体験：${c.firstExpText}／週頻度：相手あり ${c.weekFreqText}・セルフ ${c.selfFreqText}`);
       const linesJa = catLines.join('。 ');
       if(english){
         const blocks = [
@@ -4293,7 +4293,7 @@
     ['ごく普通のサラリーマン家庭の長男',9],['ごく普通のサラリーマン家庭の次男',8],['共働き家庭の一人っ子',7],['公務員家庭で育つ',5],['教師の家庭で育つ',3.5],['三兄弟の末っ子',4],['四人姉弟の長男（姉3人）',1.5],['農家の長男',3],['漁師町の生まれ',2],['商店街の実家（酒屋）',1.5],['商店街の実家（食堂）',1.5],['町工場の家の生まれ',2],['老舗和菓子屋の息子',0.8,'r'],['開業医の家系',0.7,'r'],['寺の息子',0.8,'r'],['神社の家系',0.6,'r'],['転勤族の家庭で育つ',3.5],['社宅育ち',3],['団地育ち',4],['母子家庭で育つ',3],['父子家庭で育つ',1.5],['祖父母に育てられた',1.5],['再婚家庭で育つ',1.5],['大家族（5人兄弟）の三男',1],['裕福な家庭の生まれ',1.2,'r'],['資産家の家系（本人は普通に勤めている）',0.6,'r'],['元経営者の家（会社は畳んだ）',1],['温泉旅館の息子',0.6,'r'],['離島の生まれ',0.8,'r'],['山間の集落の生まれ',1],['海外駐在帰りの家庭',1,'r'],['移民二世の家庭',0.8,'r'],['政治家の遠い親戚筋（本人は無関係）',0.4,'r'],['生活保護世帯で育った',0.5,'d'],['借金を抱えた家庭で育った',0.8,'d'],['芸能一家の端くれ',0.3,'r']
   ];
   const INNER_COMPLEX_GENERIC = [
-    ['声が高いこと',3],['声が低すぎて聞き返されること',2],['滑舌の悪さ',3.5],['方言が抜けないこと',3],['音痴なこと',3.5],['泳げないこと',3],['球技が壊滅的なこと',3],['字が下手なこと',4],['笑い方が独特なこと',2.5],['汗っかきなこと',3],['手が小さいこと',1.5],['指が短いこと',1.5],['太りやすい体質',3.5],['筋肉がつきにくいこと',2.5],['胸板が薄いこと',2.5],['若白髪',2],['天然パーマ',2.5],['癖毛',3],['緊張するとすぐ赤面すること',3],['手汗',2],['名前が古風すぎること',1.5],['名前がキラキラ気味なこと',1],['兄と比べられて育ったこと',2],['学生時代のあだ名',2.5],['涙もろすぎること',2],['歯ぎしり',1.5],['箸の持ち方',2],['絵心のなさ',2.5],['写真写りの悪さ',3],
+    ['声が高いこと',3],['声が低すぎて聞き返されること',2],['滑舌の悪さ',3.5],['方言が抜けないこと',3],['音痴なこと',3.5],['泳げないこと',3],['球技が壊滅的なこと',3],['字が下手なこと',4],['笑い方が独特なこと',2.5],['汗っかきなこと',3],['手が小さいこと',1.5],['指が短いこと',1.5],['太りやすい体質',3.5],['筋肉がつきにくいこと',2.5],['胸板が薄いこと',2.5],['若白髪',2],['天然パーマ',2.5],['癖毛',3],['緊張するとすぐ赤面すること',3],['手汗',2],['名前が古風すぎること',0.7],['名前がキラキラ気味なこと',0.8],['兄と比べられて育ったこと',2],['学生時代のあだ名',2.5],['涙もろすぎること',2],['歯ぎしり',1.5],['箸の持ち方',2],['絵心のなさ',2.5],['写真写りの悪さ',3],
     ['女性経験の少なさ',2,'d'],['実は童貞であること',0.8,'d'],['下の毛の濃さ',0.8,'d'],['包茎気味であること',0.5,'d'],['体臭への不安',2,'d'],['足の臭い',2,'d'],['ワキの汗染み',2,'d'],['いびきを指摘されたこと',2,'d'],['収入の低さ',2.5,'d'],['貯金のなさ',3,'d'],['職場で年下に敬語を使われないこと',1.5,'d']
   ];
   const INNER_BLOOD_DIST = {
@@ -4431,6 +4431,11 @@
     } else {
       list = [['大卒（私立文系）',8],['大卒（地方国立大）',6],['大卒（私立理系）',5],['大卒（有名私大）',3],['高卒（就職組）',5],['専門学校卒',4],['大学院卒（修士）',1.5,'r'],['大卒（東大）',0.3,'r'],['大卒（京大）',0.3,'r'],['海外大卒',0.4,'r'],['大学中退',1,'r'],['通信制大学卒（働きながら）',0.7,'r'],['夜間大学卒',0.5,'r'],['大卒（1年留年して5年で卒業）',1.5],['高専卒',1]];
     }
+    if(/銀行員|商社勤務|コンサルタント|企画職/.test(role)){
+      list = list.filter(x=>!/高卒|高専卒|専門学校卒|中退|夜間高校/.test(x[0]));
+      if(/コンサルタント|商社勤務/.test(role)) list = list.map(x=>/有名私大|東大|京大|海外大|大学院/.test(x[0])?[x[0],x[1]*4,x[2]]:x);
+    }
+    if(age<23) list = list.filter(x=>!/留年して5年|大学院卒/.test(x[0]));
     if(age<21) list = list.filter(x=>!/大卒|大学院|海外大/.test(x[0]));
     if(!list.length) list = [['高卒',1]];
     const it = innerWeighted(list);
@@ -4912,6 +4917,7 @@
     if(has('firstexp')){ const r = chooseInnerFirstExp(c); c.firstExpText = r[0]; M.firstexp = r[1]; }
     if(has('lovecount')){ const r = chooseInnerLoveCount(c); c.loveCountText = r[0]; M.lovecount = r[1]; }
     if(has('weekfreq')){ const r = chooseInnerWeekFreq(c); c.weekFreqText = r[0]; M.weekfreq = r[1]; }
+    if(has('selffreq')){ const r = chooseInnerSelfFreq(c); c.selfFreqText = r[0]; M.selffreq = r[1]; }
     if(has('drink')){ const r = chooseInnerDrink(c); c.drinkText = r[0]; M.drink = r[1]; }
     if(has('smoke')){ const r = chooseInnerSmoke(c); c.smokeText = r[0]; M.smoke = r[1]; }
     if(has('friend')){ const r = chooseInnerFriend(c); c.friendText = r[0]; M.friend = r[1]; }
@@ -4976,7 +4982,8 @@
         [en?'Gambling History':'ギャンブル歴', V(c.gambleText,'gamble'), 'gambleText','icv-adult'],
         [en?'Adult-Venue Experience':'風俗経験', V(c.fuzokuText,'fuzoku'), 'fuzokuText','icv-adult'],
         [en?'First Experience':'初めての体験', V(c.firstExpText,'firstexp'), 'firstExpText','icv-adult'],
-        [en?'Weekly Pace':'週頻度', V(c.weekFreqText,'weekfreq'), 'weekFreqText','icv-adult']
+        [en?'Weekly Pace (Partner)':'週頻度（相手あり）', V(c.weekFreqText,'weekfreq'), 'weekFreqText','icv-adult'],
+        [en?'Weekly Pace (Solo)':'週頻度（セルフ）', V(c.selfFreqText,'selffreq'), 'selfFreqText','icv-adult']
       ]
     };
     const allOn = INNER_CATS.every(([k])=>innerCatShow[k]);
@@ -5024,7 +5031,8 @@
       fuzokuText: ['なし','なし（機会がない）','なし（興味がない）','なし（お金がもったいない）','なし（対象外）','誘われて断った','付き合いで1回だけ','若い頃に数回','たまに行く','行きつけがある','卒業した（昔は通った）','ノーコメント（察してほしい）'],
       gambleText: ['なし（興味なし）','宝くじを年末だけ','競馬をレジャー程度','パチンコ経験あり（今はしない）','学生時代に雀荘へ通った','パチスロに熱かった時期がある','現役でパチンコ通い','競艇・競輪もたしなむ','株・FXで手痛い授業料を払った','借金を作って足を洗った','麻雀は打てるが賭けない主義','ソシャゲのガチャが実質ギャンブルだと気づいている'],
       firstExpText: ['二十歳前後','大学時代','社会人1年目','20代半ば','20代後半','成人してすぐ','30代（遅咲き）','まだない','まだない（興味もない）','ノーコメント（言わぬが花）','忘れたことにしている','秘密（大人になってから話すやつ）'],
-      weekFreqText: ['夫婦円満ペース（月数回）','週1をキープ','最近はご無沙汰気味','レス気味だが仲は良い','もっぱらセルフ（家庭円満のコツらしい）','月数回＋セルフで補完（内緒）','アプリを覗くだけ覗いている','週1〜2（会える日次第）','週末集中型','遠距離につき月イチ','セルフも併用（会えない週用）','アプリは消した（恋人に誓って）','セルフ週2〜3（本人談）','セルフ週1','ほぼ毎日（若さ）','月数回（省エネ）','賢者モード長期継続中','ノーカウント主義','アプリで週末ごとに相手を探す','マッチング疲れで休止中','気の置けない友人がいる（察してほしい）','もう数えていない（安らか）','聞くな（察してほしい）','ノーコメント'],
+      weekFreqText: ['夫婦円満ペース（月数回）','週1をキープ','最近はご無沙汰気味','レス気味だが仲は良い','記念日限定','聞くな（察してほしい）','週1〜2（会える日次第）','週末集中型','遠距離につき月イチ','まだそういう関係ではない','なし（相手がいない）','ゼロ更新中（記録継続）','たまに（アプリで会う人と）','気の置けない友人がいる（察してほしい）','ご縁があれば（現在は素振りのみ）','なし（そもそも求めていない）','もう数えていない（安らか）','ノーコメント'],
+      selfFreqText: ['週2〜3（本人談）','週1','ほぼ毎日（若さ）','月数回（省エネ）','賢者モード長期継続中','ノーカウント主義','週1（内緒）','月数回（こっそり）','ほぼ卒業した','会えない週の補完程度','恋人に誓って控えめ','ほぼなし（性欲も控えめ）','月数回（健康維持）','もう数えていない（安らか）'],
       drinkText: ['飲まない（下戸）','飲まない（あえて）','付き合い程度','週末だけ','晩酌が日課（ビール1本）','晩酌が日課（ハイボール派）','ザル（記憶は残るタイプ）','ザル（記憶が飛ぶタイプ）','休肝日を週2で死守','禁酒中（今週から）','家では飲まない主義','クラフトビール沼','日本酒をゆっくり派','ノンアル愛好家'],
       smokeText: ['吸わない','吸わない（匂いも苦手）','元喫煙者（禁煙5年目）','元喫煙者（禁煙成功・今は匂いに敏感）','加熱式タバコ','紙巻き1日数本','紙巻き1日一箱','たまにもらいタバコ','飲んだ時だけ吸う','減煙中（1日数本まで来た）','葉巻をごくたまに（気取り）'],
       loveCountText: ['0人','0人（そもそも求めていない）','1人','1人（妻ひと筋）','1人（手をつないで終わった清い交際）','2人','3人','片手で足りる','5〜6人','10人前後','二桁（途中で数えるのをやめた）','ノーカウント主義'],
@@ -5068,7 +5076,7 @@
         if(S.past){ col.push(`upbringing (${c.pastUpbringing||''})`); }
         const sub = [];
         if(S.mind) sub.push(`his hidden desire (${c.innerDesire||''})`);
-        if(S.adult) sub.push(`adult-venue history (${c.fuzokuText||'none'}), first experience (${c.firstExpText||''}), weekly pace (${c.weekFreqText||''}), drinking (${c.drinkText||''}), smoking (${c.smokeText||''}) and gambling history (${c.gambleText||'none'})`);
+        if(S.adult) sub.push(`adult-venue history (${c.fuzokuText||'none'}), first experience (${c.firstExpText||''}), weekly pace with partner (${c.weekFreqText||''}), solo pace (${c.selfFreqText||''}), drinking (${c.drinkText||''}), smoking (${c.smokeText||''}) and gambling history (${c.gambleText||'none'})`);
         if(S.past && c.pastTrauma && c.pastTrauma!=='トラウマ：なし') sub.push(`past (${c.pastTrauma})`);
         parts.push(` Add a small self-deprecating column touching lightly on ${col.join(', ')}${sub.length ? ` and — only as subtle subtext, never explicit — ${sub.join(', ')}` : ''}.`);
       }
@@ -5102,7 +5110,7 @@
       if(S.past){ col.push(`生い立ち（${c.pastUpbringing||''}）`); }
       const sub = [];
       if(S.mind) sub.push(`本音の欲望（${c.innerDesire||''}）`);
-      if(S.adult) sub.push(`夜の顔（飲酒：${c.drinkText||''}／喫煙：${c.smokeText||''}／ギャンブル歴：${c.gambleText||'なし'}／風俗経験：${c.fuzokuText||'なし'}／初めての体験：${c.firstExpText||''}／週頻度：${c.weekFreqText||''}）`);
+      if(S.adult) sub.push(`夜の顔（飲酒：${c.drinkText||''}／喫煙：${c.smokeText||''}／ギャンブル歴：${c.gambleText||'なし'}／風俗経験：${c.fuzokuText||'なし'}／初めての体験：${c.firstExpText||''}／週頻度：相手あり ${c.weekFreqText||''}・セルフ ${c.selfFreqText||''}）`);
       if(S.past && c.pastTrauma && c.pastTrauma!=='トラウマ：なし') sub.push(`過去（${c.pastTrauma}）`);
       parts.push(`自虐まじりの小コラムでは${col.join('、')}に軽く触れ${sub.length ? `、${sub.join('や')}は誌面に直接書かず行間の匂わせ程度にとどめる` : 'る'}。`);
     }
@@ -5161,21 +5169,84 @@
     if(/興味がない/.test(String(c.loveTarget||''))) list = married ? [['ノーコメント（家庭の事情）',5],['二十歳前後',2]] : [['まだない（興味もない）',6],['ノーコメント',2]];
     else if(!married){ const still = age>=25 ? [['まだない',age>=30?1.2:2,'r']] : [['まだない',4]]; list = list.concat(still); }
     const it = innerWeighted(list);
-    const badge = it[2]==='r' ? 'rare' : (it[2]==='d'&&Math.random()<.5 ? 'rare' : null);
-    return [it[0], badge];
+    let badge = it[2]==='r' ? 'rare' : (it[2]==='d'&&Math.random()<.5 ? 'rare' : null);
+    let v = it[0];
+    if(!/まだない|ノーコメント|忘れた/.test(v)){
+      const lt2 = String(c.loveTarget||'');
+      let partners = ['当時の恋人','同い年の恋人','年上の人','お互い初めて同士'];
+      if(/^女性|どちらも/.test(lt2)) partners = partners.concat(['当時の彼女','初カノ','バイト先で出会った年上の彼女']);
+      if(/^男性/.test(lt2)) partners = ['当時の恋人','年上の人','学生時代からの恋人','お互い初めて同士'];
+      if(/社会人|20代半ば|20代後半|30代/.test(v)){
+        partners.push('職場で出会った人','合コンで知り合った人');
+        if((Number(c.eraYear)||2026)>=2016) partners.push('マッチングアプリで出会った人');
+      }
+      if(married && /二十歳前後|大学時代|社会人1年目|成人してすぐ/.test(v) && Math.random()<0.35) partners = ['のちに妻になる人'];
+      let places = ['相手の部屋','自分の部屋','旅行先の宿'];
+      if(/大学時代/.test(v)) places = ['相手の下宿','自分のワンルーム','ゼミ旅行先の宿'];
+      if(/二十歳前後|成人してすぐ/.test(v)) places.push('実家（家族の留守中）');
+      if(/社会人|20代|30代/.test(v)) places.push('ホテル');
+      let place = pick(places);
+      if(Math.random()<0.05){ place = pick(['車の中','漫画喫茶の個室']); if(!badge) badge='rare'; }
+      v = `${v}（相手は${pick(partners)}・場所は${place}）`;
+    }
+    return [v, badge];
   }
-  // --- 週頻度（婉曲・自己申告テイスト） ---
+  // --- 週頻度・相手あり（婉曲・自己申告テイスト） ---
   function chooseInnerWeekFreq(c){
     const age = Number(c.age)||25;
     const married = /既婚|再婚/.test(String(c.maritalText||''));
     const hasLover = /^恋人あり|婚約者あり/.test(String(c.loverText||''));
+    const noInterest = /興味がない/.test(String(c.loveTarget||''));
     let list;
-    if(married) list = [['夫婦円満ペース（月数回）',5],['週1をキープ',3],['最近はご無沙汰気味',4,'d'],['聞くな（察してほしい）',2,'d'],['レス気味だが仲は良い',2.5,'d'],['もっぱらセルフ（家庭円満のコツらしい）',2.5,'d'],['月数回＋セルフで補完（内緒）',2,'d'],['アプリを覗くだけ覗いている',0.5,'g'],['気の置けない友人がいる（察してほしい）',0.3,'g']];
-    else if(hasLover) list = [['週1〜2（会える日次第）',5],['週末集中型',4],['遠距離につき月イチ',1.5],['ノーコメント',2,'d'],['セルフも併用（会えない週用）',3,'d'],['アプリは消した（恋人に誓って）',1.5],['アプリがなぜかまだ生きている',0.4,'g']];
-    else list = [['セルフ週2〜3（本人談）',5,'d'],['セルフ週1',4],['ほぼ毎日（若さ）',age<=27?3:0.8,'d'],['月数回（省エネ）',3],['賢者モード長期継続中',2.5],['ノーカウント主義',2,'d'],['アプリで週末ごとに相手を探す',2,'d'],['マッチング疲れで休止中',2],['気の置けない友人がいる（察してほしい）',1,'d']];
-    if(age>=55) list = list.map(x=>/ほぼ毎日|週2〜3/.test(x[0])?[x[0],x[1]*0.3,x[2]]:x).concat([['もう数えていない（安らか）',3]]);
+    if(married) list = [['夫婦円満ペース（月数回）',5],['週1をキープ',3],['最近はご無沙汰気味',4,'d'],['レス気味だが仲は良い',2.5,'d'],['記念日限定',2],['聞くな（察してほしい）',2,'d'],['アプリを覗くだけ覗いている',0.5,'g'],['気の置けない友人がいる（察してほしい）',0.3,'g']];
+    else if(hasLover) list = [['週1〜2（会える日次第）',5],['週末集中型',4],['遠距離につき月イチ',1.5],['まだそういう関係ではない',1.5],['ノーコメント',2,'d']];
+    else if(noInterest) list = [['なし（そもそも求めていない）',8],['なし',3]];
+    else list = [['なし（相手がいない）',7],['ゼロ更新中（記録継続）',3,'d'],['たまに（アプリで会う人と）',1.5,'d'],['気の置けない友人がいる（察してほしい）',1,'d'],['ご縁があれば（現在は素振りのみ）',2]];
+    if(age>=55) list = list.map(x=>/週1〜2|週末集中/.test(x[0])?[x[0],x[1]*0.4,x[2]]:x).concat(married?[['もう数えていない（安らか）',3]]:[]);
     const it = innerWeighted(list);
     return [it[0], it[2]==='g' ? 'gap' : (it[2]==='d'&&Math.random()<.4 ? 'rare' : null)];
+  }
+  // --- 週頻度・セルフ（婉曲） ---
+  function chooseInnerSelfFreq(c){
+    const age = Number(c.age)||25;
+    const married = /既婚|再婚/.test(String(c.maritalText||''));
+    const hasLover = /^恋人あり|婚約者あり/.test(String(c.loverText||''));
+    const noInterest = /興味がない/.test(String(c.loveTarget||''));
+    let list = [['週2〜3（本人談）',5,'d'],['週1',4],['ほぼ毎日（若さ）',age<=27?3:0.6,'d'],['月数回（省エネ）',3],['賢者モード長期継続中',2],['ノーカウント主義',2,'d']];
+    if(married) list = [['週1（内緒）',4,'d'],['月数回（こっそり）',4],['ほぼ卒業した',3],['ノーカウント主義',2,'d'],['風呂掃除当番の日だけ…いや何でもない',1,'d']];
+    else if(hasLover) list = [['会えない週の補完程度',5],['週1',3],['月数回',3],['恋人に誓って控えめ',2],['ノーコメント',1.5,'d']];
+    if(noInterest) list = [['ほぼなし（性欲も控えめ）',5],['月数回（健康維持）',3],['ノーカウント主義',1.5,'d']];
+    if(age>=55) list = list.map(x=>/ほぼ毎日|週2〜3/.test(x[0])?[x[0],x[1]*0.25,x[2]]:x).concat([['もう数えていない（安らか）',3]]);
+    const it = innerWeighted(list);
+    let v = it[0];
+    let badge = it[2]==='d'&&Math.random()<.35 ? 'rare' : null;
+    // タイミングと場所（住居・職業と整合）
+    if(!/ほぼ卒業|ほぼなし|賢者モード|もう数えていない/.test(v)){
+      const liv = String(c.livingText||''), res = String(c.residenceText||''), role = String(c.role||'');
+      const y = Number(c.eraYear)||2026;
+      const tanshin = /単身赴任/.test(liv);
+      const dorm = /相部屋|営内|隊舎/.test(liv+res);
+      const sumikomi = /住み込み/.test(liv);
+      const jikka = /実家暮らし|祖父母の家/.test(liv);
+      const cohab = married && !tanshin;
+      const share = /ルームシェア/.test(liv);
+      let timings = [['寝る前',5],['風呂上がり',3],['休日の昼下がり',2.5],['深夜',3]];
+      let places;
+      if(dorm) { places = [['風呂の個室（相部屋ゆえ）',4],['消灯後の布団の中（無音の攻防）',3],['トイレの個室',2.5]]; timings = [['消灯後',5],['皆が出払った隙',3],['外泊時にまとめて',2]]; }
+      else if(sumikomi) { places = [['店の上の自室（音量に細心の注意）',5],['風呂場',3]]; }
+      else if(jikka) { places = [['深夜の自室（音に気を使う）',5],['風呂場',3.5],['家族の外出中の自室',3]]; timings = [['深夜、家族が寝静まってから',5],['家に誰もいない隙に',3.5],['風呂のついでに',3]]; }
+      else if(cohab) { places = [['風呂場',4],['書斎（家族に内緒）',2.5],['トイレ（安住の地）',3],['自室（妻の外出中）',3]]; timings = [['妻の外出中',4],['深夜、家族が寝静まってから',4],['早朝、誰よりも早く起きて',1.5]]; }
+      else if(share) { places = [['自室（鍵を確認してから）',5],['風呂場',3]]; }
+      else { places = [['自室（誰にも気兼ねなく）',5],['ベッドでだらだらと',3.5],['風呂場',2.5]]; }
+      if(/看護師|警備員|消防士|自衛官|工場|夜勤/.test(role)) timings.push(['夜勤明けの朝',4]);
+      if(/トラック|長距離/.test(role)) timings.push(['長距離明け',4]);
+      if(/営業|商社|コンサルタント/.test(role) && !dorm) { places.push(['出張先のビジネスホテル',2]); timings.push(['出張の夜',2]); }
+      if(y>=2020 && /IT|エンジニア|Web|デザイナー|企画/.test(role) && !dorm && !jikka){ timings.push(['テレワークの昼休み（背徳）',0.8,'d']); }
+      const t = innerWeighted(timings), p = innerWeighted(places);
+      if(t[2]==='d' && !badge) badge = 'rare';
+      v = `${v}（タイミング：${t[0]}／場所：${p[0]}）`;
+    }
+    return [v, badge];
   }
   // --- 恋愛経験人数（付き合った人数・人物像連動） ---
   function chooseInnerLoveCount(c){
@@ -5355,6 +5426,27 @@
       const r = chooseInnerComplexBase(c);
       if(/兄と比べられて/.test(r[0]) && !/次男|三男|末っ子|兄/.test(String(c.originText||'')+String(c.familyText||''))) continue;
       if(/方言/.test(r[0]) && !(typeof innerDialectOf==='function' && innerDialectOf(c))) continue;
+      const by2 = (Number(c.eraYear)||2026) - (Number(c.age)||25);
+      if(/名前がキラキラ/.test(r[0]) && by2 < 1996) continue;
+      if(/名前が古風/.test(r[0])){
+        if(c.nationality && c.nationality!=='日本') continue;
+        const nm = String(c.name||'').match(/^(\S+)[\s\u3000]+(\S+)（([^）]+)）$/);
+        if(!nm) continue;
+        const INNER_RETRO_GIVEN = [['茂','シゲル'],['勇','イサム'],['清','キヨシ'],['進','ススム'],['昇','ノボル'],['稔','ミノル'],['勝','マサル'],['守','マモル'],['武','タケシ'],['正','タダシ'],['博','ヒロシ'],['隆','タカシ'],['修','オサム'],['豊','ユタカ'],['巌','イワオ']];
+        const kanaSep = nm[3].includes('・') ? '・' : ' ';
+        const kanaToks = nm[3].split(/[・\s\u3000]+/).filter(Boolean);
+        const famKana = kanaToks[0] || '';
+        const alreadyRetro = INNER_RETRO_GIVEN.some(([kj])=>nm[2]===kj);
+        if(by2 > 1978 && !alreadyRetro){
+          const [kj, kk] = pick(INNER_RETRO_GIVEN);
+          c.name = `${nm[1]} ${kj}（${famKana}${kanaSep}${kk}）`;
+          const nr = chooseInnerNickname(c);
+          c.nicknameText = nr[0];
+          if(c.innerMeta) c.innerMeta.nickname = nr[1];
+          return [`名前が古風すぎること（祖父と同じ「${kj}」）`, 'rare'];
+        }
+        return [r[0], by2 > 1978 ? 'rare' : r[1]];
+      }
       return r;
     }
     return ['特になし（あるとすれば無頓着なこと）', null];
@@ -5462,7 +5554,7 @@
   INNER_DEPS.desire = ['gamble'];
   INNER_DEPS.past = INNER_DEPS.past.concat(['unforgivable']);
   INNER_DEPS.family = ['complex'];
-  INNER_DEPS.lover = ['weekfreq'];
+  INNER_DEPS.lover = ['weekfreq','selffreq'];
   INNER_DEPS.health = ['smoke','drink'];
   INNER_DEPS.marital.push('weekfreq');
   INNER_DEPS.love.push('firstexp');
@@ -5473,7 +5565,7 @@
   INNER_DEPS.income.push('asset');
   INNER_DEPS.desire = (INNER_DEPS.desire||[]).concat(['asset']);
 
-  const INNER_FIELD_GEN = {innerDream:'dream', innerDesire:'desire', weaknessMind:'weakness', weaknessBody:'weakness', innerTalent:'talent', pastUpbringing:'past', pastTrauma:'past', pronoun:'pronoun', incomeText:'income', originText:'origin', educationText:'education', complexText:'complex', bloodType:'blood', loveTarget:'love', maritalText:'marital', livingText:'living', familyText:'family', birthplaceText:'birthplace', birthdateText:'birthdate', nicknameText:'nickname', speechText:'speech', memoryText:'memory', friendText:'friend', loverText:'lover', residenceText:'residence', healthText:'health', hobbyText:'hobby', myBoomText:'myboom', foodLikeText:'foods', foodHateText:'foods', principleText:'principle', unforgivableText:'unforgivable', fuzokuText:'fuzoku', gambleText:'gamble', firstExpText:'firstexp', weekFreqText:'weekfreq', drinkText:'drink', smokeText:'smoke', loveCountText:'lovecount', assetText:'asset'};
+  const INNER_FIELD_GEN = {innerDream:'dream', innerDesire:'desire', weaknessMind:'weakness', weaknessBody:'weakness', innerTalent:'talent', pastUpbringing:'past', pastTrauma:'past', pronoun:'pronoun', incomeText:'income', originText:'origin', educationText:'education', complexText:'complex', bloodType:'blood', loveTarget:'love', maritalText:'marital', livingText:'living', familyText:'family', birthplaceText:'birthplace', birthdateText:'birthdate', nicknameText:'nickname', speechText:'speech', memoryText:'memory', friendText:'friend', loverText:'lover', residenceText:'residence', healthText:'health', hobbyText:'hobby', myBoomText:'myboom', foodLikeText:'foods', foodHateText:'foods', principleText:'principle', unforgivableText:'unforgivable', fuzokuText:'fuzoku', gambleText:'gamble', firstExpText:'firstexp', weekFreqText:'weekfreq', drinkText:'drink', smokeText:'smoke', loveCountText:'lovecount', assetText:'asset', selfFreqText:'selffreq'};
 
   function generateCharacter(partialMode='full', groupCtx=null){
     const fixed = groupCtx ? {} : getFixed();
@@ -6432,7 +6524,7 @@ ${promptTargetGuide(c, false)}`;
       BODYHAIR_KEYS.forEach(k=>{ if(fresh[k]!==undefined) current[k]=fresh[k]; });
       renderAll(); return;
     }
-    const INNER_REROLL = {innerDream:['dream'], innerDesire:['desire'], weaknessMind:['weakness'], weaknessBody:['weakness'], innerTalent:['talent'], pastUpbringing:['past'], pastTrauma:['past'], pronoun:['pronoun'], incomeText:['income'], originText:['origin'], educationText:['education'], complexText:['complex'], bloodType:['blood'], loveTarget:['love'], maritalText:['marital'], livingText:['living'], familyText:['family'], birthplaceText:['birthplace'], birthdateText:['birthdate'], nicknameText:['nickname'], speechText:['speech'], memoryText:['memory'], friendText:['friend'], loverText:['lover'], residenceText:['residence'], healthText:['health'], hobbyText:['hobby'], myBoomText:['myboom'], foodLikeText:['foods'], foodHateText:['foods'], principleText:['principle'], unforgivableText:['unforgivable'], fuzokuText:['fuzoku'], gambleText:['gamble'], firstExpText:['firstexp'], weekFreqText:['weekfreq'], drinkText:['drink'], smokeText:['smoke'], loveCountText:['lovecount'], assetText:['asset']};
+    const INNER_REROLL = {innerDream:['dream'], innerDesire:['desire'], weaknessMind:['weakness'], weaknessBody:['weakness'], innerTalent:['talent'], pastUpbringing:['past'], pastTrauma:['past'], pronoun:['pronoun'], incomeText:['income'], originText:['origin'], educationText:['education'], complexText:['complex'], bloodType:['blood'], loveTarget:['love'], maritalText:['marital'], livingText:['living'], familyText:['family'], birthplaceText:['birthplace'], birthdateText:['birthdate'], nicknameText:['nickname'], speechText:['speech'], memoryText:['memory'], friendText:['friend'], loverText:['lover'], residenceText:['residence'], healthText:['health'], hobbyText:['hobby'], myBoomText:['myboom'], foodLikeText:['foods'], foodHateText:['foods'], principleText:['principle'], unforgivableText:['unforgivable'], fuzokuText:['fuzoku'], gambleText:['gamble'], firstExpText:['firstexp'], weekFreqText:['weekfreq'], drinkText:['drink'], smokeText:['smoke'], loveCountText:['lovecount'], assetText:['asset'], selfFreqText:['selffreq']};
     if(INNER_REROLL[key]){ generateInnerProfile(current, INNER_REROLL[key]); renderAll(); return; }
     if(key==='role'){
       const fresh = generateCharacter('full');
@@ -6956,6 +7048,7 @@ ${promptTargetGuide(b, false)}`;
     else if(!current.principleText) generateInnerProfile(current, ['principle','unforgivable','fuzoku','gamble']);
     else if(!current.drinkText) generateInnerProfile(current, ['firstexp','weekfreq','drink','smoke']);
     else if(!current.assetText) generateInnerProfile(current, ['lovecount','asset']);
+    else if(!current.selfFreqText) generateInnerProfile(current, ['weekfreq','selffreq']);
     if(!current.bangs) current.bangs = '指定なし';
     if(!current.hairFinish) current.hairFinish = '指定なし';
     if(!current.hairVolume) current.hairVolume = '標準的な毛量';
