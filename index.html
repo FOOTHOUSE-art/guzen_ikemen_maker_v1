@@ -534,13 +534,15 @@
     measurementDeckState[indexKey]=(measurementDeckState[indexKey]+1)%deck.length;
     return value;
   };
+  const deriveMeasurementB = a => { const A=Number(a)||7; return Math.round((A*1.57 + Math.random()*1)*10)/10; }; // B = A×1.57＋0〜1の誤差
   const ensureProfileMeasurements = c => {
     if(!c) return;
     const invalidA=!Number.isFinite(Number(c.measurementA)) || Number(c.measurementA)<5 || Number(c.measurementA)>10.5;
-    const invalidB=!Number.isFinite(Number(c.measurementB)) || Number(c.measurementB)<9 || Number(c.measurementB)>19;
+    const A0 = Number(c.measurementA);
+    const invalidB=!Number.isFinite(Number(c.measurementB)) || Number(c.measurementB) < A0*1.57 - 0.05 || Number(c.measurementB) > A0*1.57 + 1.05;
     const invalidC=!C_MEASUREMENT_VALUES.includes(c.measurementC);
     if(invalidA) c.measurementA=drawProfileMeasurement('A');
-    if(invalidB) c.measurementB=drawProfileMeasurement('B');
+    if(invalidB) c.measurementB=deriveMeasurementB(c.measurementA);
     if(invalidC) c.measurementC=drawProfileMeasurement('C');
   };
   const profileMeasurementCLabel = (value, english=false) => english ? (C_MEASUREMENT_EN[value] || value) : value;
@@ -5780,7 +5782,7 @@
       height: `${height}cm`, weight: `${weight}kg`, bodyType,
       footSize: base.footSize || footFromHeight(height, ethnicity),
       measurementA: base.measurementA ?? drawProfileMeasurement('A'),
-      measurementB: base.measurementB ?? drawProfileMeasurement('B'),
+      measurementB: base.measurementB ?? null, // Aから導出（ensureProfileMeasurementsで B = A×1.57＋0〜1）
       measurementC: base.measurementC || drawProfileMeasurement('C'),
       footShape: base.footShape || pick(pools.footShapes),
       facePreset,
@@ -6492,8 +6494,8 @@ ${promptTargetGuide(c, false)}`;
     if(key==='trainingLevel'){ current.trainingLevel = chooseTrainingLevel(current); current.bioText = buildBioHook(current); renderAll(); return; }
     if(key==='sportsHistory'){ current.sportsHistory = generateSportsHistory(current.age, current.role, current.sportName, getInitial().sportsBodyInfluence); current.bioText = buildBioHook(current); renderAll(); return; }
     if(key==='bioText'){ current.bioText = buildBioHook(current); renderAll(); return; }
-    if(key==='measurementA'){ current.measurementA=drawProfileMeasurement('A'); renderAll(); return; }
-    if(key==='measurementB'){ current.measurementB=drawProfileMeasurement('B'); renderAll(); return; }
+    if(key==='measurementA'){ current.measurementA=drawProfileMeasurement('A'); current.measurementB=deriveMeasurementB(current.measurementA); renderAll(); return; }
+    if(key==='measurementB'){ current.measurementB=deriveMeasurementB(current.measurementA); renderAll(); return; }
     if(key==='measurementC'){ current.measurementC=drawProfileMeasurement('C'); renderAll(); return; }
     if(key==='baseWearType'){ current.baseWearType = weighted([['ボクサーパンツ',6],['ショートショーツ',2],['スポーツスパッツ',2]]); renderAll(); return; }
     if(key==='boxerColor'){ current.boxerColor = pick(pools.boxerColors); renderAll(); return; }
@@ -7168,7 +7170,16 @@ ${promptTargetGuide(b, false)}`;
     document.querySelectorAll('[data-load]').forEach(b=>b.onclick=()=>{current=h[Number(b.dataset.load)]; currentGroup=null; activeMember=0; renderAll(); switchTab('result');});
     document.querySelectorAll('[data-fav]').forEach(b=>b.onclick=()=>{ const i=Number(b.dataset.fav); h[i].fav=!h[i].fav; localStorage.setItem(STORAGE_KEY, JSON.stringify(h)); renderHistory(); });
   }
-  function downloadJson(){ const data = current || {}; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})); a.download='guzen-ikemen-result.json'; a.click(); URL.revokeObjectURL(a.href); }
+  function downloadJson(){
+    const data = current || {};
+    const nm = String(data.name||'').replace(/（.*?）/g,'').replace(/[\s\u3000]+/g,'').replace(/[\\/:*?"<>|]/g,'') || 'result';
+    const d = new Date(); const pad=n=>String(n).padStart(2,'0');
+    const stamp = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+    a.download=`guzen-ikemen_${nm}_${stamp}.json`;
+    a.click(); URL.revokeObjectURL(a.href);
+  }
   function switchTab(name){ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name)); ['slot','result','history','settings'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('hidden',t!==name)); const ip=document.getElementById('initialPanel'); if(ip) ip.classList.toggle('hidden', !(name==='slot' || name==='settings')); const sa=document.getElementById('slotAside'); if(sa) sa.classList.toggle('hidden', name!=='slot'); }
 
   // ===== V1.9.1 A案 UI logic =====
