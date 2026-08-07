@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V3.2.2</title>
+  <title>Guzen Ikemen Maker V3.3.4</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -132,8 +132,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V3.2.2</span>
-        <h1 class="title">Guzen Ikemen Maker V3.2.2</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V3.3.4</span>
+        <h1 class="title">Guzen Ikemen Maker V3.3.4</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -179,6 +179,7 @@
           <label class="field"><span>季節</span><select id="initialSeason"></select></label>
           <label class="field"><span>顔立ちプリセット出力</span><select id="initialFacePresetOut"><option value="含める">含める</option><option value="含めない">含めない</option></select></label>
           <label class="field"><span>撮影演出（派生）</span><select id="initialSnapMode"><option>通常（スタジオ演出）</option><option>他撮りスナップ風</option><option>自撮り風</option></select></label>
+          <label class="field"><span>Midjourneyモード</span><select id="initialMjMode"><option>OFF</option><option>ON</option></select></label>
           <label class="field"><span>イケメン指数</span><select id="initialIkemenIndex"><option value="表示しない">表示しない</option><option value="表示する">表示する</option></select></label>
           <label class="field"><span>体毛表現</span><select id="initialBodyHairMode"><option value="詳細指定">詳細指定（従来）</option><option value="自然な表現（簡潔）">自然な表現（簡潔）</option></select></label>
           <label class="field"><span>筋トレ習慣</span><select id="initialTraining"><option value="ランダム">ランダム</option></select></label>
@@ -300,6 +301,9 @@
             <label class="field"><span>光</span><select id="manualLighting"></select></label>
             <label class="field"><span>指示文言語</span><select id="manualPromptLanguage"></select></label>
             <label class="field"><span>生成先</span><select id="manualPromptTarget"></select></label>
+            <label class="field"><span>顔立ちプリセット出力</span><select id="manualFacePresetOut"><option>含める</option><option>含めない</option></select></label>
+            <label class="field"><span>撮影演出（派生）</span><select id="manualSnapMode"><option>通常（スタジオ演出）</option><option>他撮りスナップ風</option><option>自撮り風</option></select></label>
+            <label class="field"><span>Midjourneyモード</span><select id="manualMjMode"><option>OFF</option><option>ON</option></select></label>
           </div></div>
           <div class="subcard" data-ui-card="manualProfileText"><h3>画像内プロフィール表記</h3><div class="form">
             <label class="field"><span>画像内スペック表示</span><select id="manualCaptionMode"></select></label>
@@ -350,6 +354,7 @@
         <div class="section-title"><h2 id="paneTitle-main" style="font-size:15px">メイン画像用 指示文</h2><button class="btn primary" id="copyPromptBtn">📋 コピー</button></div>
         <p class="notice pane-desc" id="desc-main"></p>
         <textarea class="textarea" id="promptBox" readonly></textarea>
+        <div id="mjJaView" style="display:none; margin-top:8px; padding:10px 12px; background:rgba(120,140,255,.07); border:1px solid rgba(120,140,255,.25); border-radius:10px; font-size:12px; line-height:1.7; white-space:pre-wrap; color:var(--ink, #ccd);"></div>
         <p class="notice charcount" id="cc-promptBox"></p>
         </div>
         <div class="prompt-pane hidden" id="pane-outfit">
@@ -424,7 +429,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.2.2</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.3.4</p>
   </div>
 
 <script>
@@ -1174,8 +1179,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.2.2';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.2.2';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.3.4';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.3.4';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1265,6 +1270,12 @@
     const lang = document.getElementById('manualPromptLanguage');
     const target = document.getElementById('manualPromptTarget');
     const caption = document.getElementById('manualCaptionMode');
+    const mFp = document.getElementById('manualFacePresetOut');
+    const mSn = document.getElementById('manualSnapMode');
+    const mMj = document.getElementById('manualMjMode');
+    if(mFp) mFp.onchange = () => { if(current){ current.facePresetOut = mFp.value; renderAll(); } };
+    if(mSn) mSn.onchange = () => { if(current){ current.snapMode = mSn.value; renderAll(); } };
+    if(mMj) mMj.onchange = () => { if(current){ current.mjMode = mMj.value; renderAll(); } };
     const cardStyle = document.getElementById('manualCardStyle');
     const cardRarity = document.getElementById('manualCardRarity');
     const cardTheme = document.getElementById('manualCardTheme');
@@ -1379,6 +1390,10 @@
     const ssSel = document.getElementById('initialSeason');
     renderSelectOptions(ssSel, 'season', pools.seasons, ssSel?.value || 'ランダム', false);
     if(ssSel) ssSel.onchange = () => { if(current){ current.season = ssSel.value !== 'ランダム' ? ssSel.value : current.season; refreshSeasonOutfits(current); renderAll(); } };
+    const snSel = document.getElementById('initialSnapMode');
+    if(snSel) snSel.onchange = () => { if(current){ current.snapMode = snSel.value; renderAll(); } };
+    const mjSel = document.getElementById('initialMjMode');
+    if(mjSel) mjSel.onchange = () => { if(current){ current.mjMode = mjSel.value; renderAll(); } };
     if(dmSel) dmSel.onchange = () => { if(current){ current.derivedMode = dmSel.value; renderAll(); } };
     if(groupPMSel) groupPMSel.onchange = () => { if(currentGroup){ currentGroup.promptMode = groupPMSel.value; renderAll(); } };
     renderSelectOptions(count, 'count', pools.counts, selected.count, false);
@@ -1426,6 +1441,7 @@
       season: document.getElementById('initialSeason')?.value || 'ランダム',
       facePresetOut: document.getElementById('initialFacePresetOut')?.value || '含める',
       snapMode: document.getElementById('initialSnapMode')?.value || '通常（スタジオ演出）',
+      mjMode: document.getElementById('initialMjMode')?.value || 'OFF',
       heightBase: document.getElementById('initialHeightBase')?.value || '平均身長ベース',
       ikemenIndexMode: document.getElementById('initialIkemenIndex')?.value || '表示しない',
       bodyHairMode: document.getElementById('initialBodyHairMode')?.value || '詳細指定',
@@ -1908,7 +1924,7 @@
     return sc;
   }
 
-  /* ===== V3.2.2 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
+  /* ===== V3.3.4 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
   // 項目: [名称, from, peak, to, tags]  tags: c=カジュアル s=ストリート k=きれいめ f=古着 o=オフィス可 p=スポーツ / アウターのみ W=冬 L=春秋 S=夏羽織
   const FVOCAB = {
   top: [
@@ -2064,7 +2080,7 @@
   }
 
 
-  // ===== V3.2.2 コーデ部位ヘルパー・アクセサリー・季節連動 =====
+  // ===== V3.3.4 コーデ部位ヘルパー・アクセサリー・季節連動 =====
   const COORD_TYPE_TAG = FASHION_CASUAL_TAGS;
   function eraOptionsFor(kind, c, holiday){
     const y = Number(c.eraYear)||2026;
@@ -3690,7 +3706,152 @@
     return e;
   }
 
-  // ===== V3.2.2 笑い方（表情変化）モジュール =====
+  /* ===== V3.3.4 Midjourneyモード：4:3 diptych基準カード（英語＋日本語訳） ===== */
+  // 対訳辞書：''=標準値のため省略、未登録=省略（日本語訳側に注記）
+  const MJ_EN = {
+  // フェイスライン
+  '自然なフェイスライン':'', 'シャープなフェイスライン':'a sharp jawline','しっかりしたフェイスライン':'a strong firm jawline','柔らかいフェイスライン':'a soft rounded face line','逆三角形に近いフェイスライン':'an inverted-triangle face tapering to the chin','やや角ばったフェイスライン':'a slightly angular face line','面長のフェイスライン':'a long oval face','丸顔寄りのフェイスライン':'a roundish face','ベース型のフェイスライン':'a wide square-ish face','卵型のフェイスライン':'an oval face','ホームベース型のフェイスライン':'a broad home-plate shaped face','卵型寄りのベース型（顎まわりに厚み）':'an oval-to-square face with a solid jaw',
+  // 眉
+  '太めの直線眉':'thick straight eyebrows','太めのアーチ眉':'thick arched eyebrows','標準的な直線眉':'straight eyebrows','標準的なゆるいアーチ眉':'gently arched eyebrows','やや細めの直線眉':'slightly thin straight eyebrows','やや細めのアーチ眉':'slightly thin arched eyebrows','眉尻の下がった優しい眉':'kind eyebrows that slope down at the tails','への字型の眉':'eyebrows angled like a shallow inverted V','眉山のはっきりした眉':'eyebrows with a defined peak','短めで力強い眉':'short powerful eyebrows','眉尻の上がった太めの直線眉':'thick straight eyebrows that kick up at the tails','整えたシャープな直線眉':'neatly groomed sharp straight eyebrows','眉尻の上がったアーチ眉':'arched eyebrows rising at the tails',
+  '濃い眉':'dark full','標準的な濃さの眉':'','薄めの眉':'sparse light','とても濃い眉':'very dark bold','やや濃い眉':'fairly dark','やや薄めの眉':'slightly sparse','薄い眉':'thin faint',
+  // まぶた・目
+  '一重':'monolid eyes','奥二重':'hidden double eyelids','末広二重':'tapered double eyelids widening outward','平行二重':'parallel double eyelids','左右で異なるまぶた（片方だけ二重）':'mismatched eyelids, double on one side only',
+  '標準的な目の形':'','切れ長の目':'long narrow almond eyes','アーモンド形の目':'almond-shaped eyes','丸みのある目':'round eyes','たれ目気味の目':'gently downturned eyes','つり目気味の目':'slightly upturned eyes','細めの目':'narrow eyes',
+  '力強い目元':'an intense gaze','優しい目元':'a gentle gaze','涼しげな目元':'a cool composed gaze','知的な目元':'an intelligent gaze','眠たげな目元':'sleepy heavy-lidded eyes','鋭い目元':'a sharp piercing gaze','親しみやすい目元':'a friendly approachable gaze','落ち着いた目元':'a calm settled gaze',
+  '短めで控えめなまつ毛':'short understated eyelashes','標準的な長さのまつ毛':'','やや長めのまつ毛':'somewhat long eyelashes','長めで濃いまつ毛':'long dark eyelashes','細くまばらなまつ毛':'thin sparse eyelashes',
+  'なし':'', '控えめ':'subtle tear bags under the eyes','自然':'natural tear bags','ややはっきり':'fairly pronounced tear bags','ふっくら':'plump tear bags','笑うと少し出る':'tear bags that appear when he smiles',
+  // 鼻・口・唇
+  '自然な鼻筋':'','通った鼻筋':'a straight well-defined nose bridge','高めの鼻筋':'a high nose bridge','すっきりした鼻筋':'a clean slender nose','しっかりした鼻':'a strong solid nose','控えめで自然な鼻':'a modest unassuming nose','鼻先の丸い鼻':'a round-tipped nose','わし鼻気味の鼻':'a slightly aquiline nose','小鼻の張った鼻':'a nose with flared nostrils','団子鼻気味の鼻':'a soft button nose','高さ控えめで平たい鼻':'a low flattish nose','鼻筋の細い鼻':'a thin narrow nose bridge','丸みのある団子鼻（愛嬌のある控えめな鼻筋）':'an endearing round button nose with a low bridge',
+  '自然な笑顔':'a natural smile','控えめな微笑み':'a modest soft smile','落ち着いた表情':'a calm expression','爽やかな笑顔':'a fresh bright smile','誠実な表情':'a sincere earnest expression','余裕のある表情':'a relaxed confident expression','穏やかな真顔':'a mild neutral face','凛々しい表情':'a dignified gallant expression','口角だけ軽く上げた表情':'lips closed with just the corners lifted','落ち着いた無表情':'a composed deadpan face',
+  '薄い唇':'thin lips','やや薄い唇':'fairly thin lips','標準的な厚さの唇':'','厚めの唇':'full lips','上唇が薄く下唇が厚い唇':'a thin upper lip over a fuller lower lip','口角のきゅっと上がった唇':'lips with crisply upturned corners','引き締まった一文字の唇':'a firm straight-set mouth','ふっくらした唇':'soft plump lips',
+  '標準的な位置・大きさの口':'','やや大きめの口':'a slightly wide mouth','小さめの口':'a small mouth','鼻と口の距離が近い口':'a short philtrum, mouth sitting close to the nose','鼻と口の距離がやや長い口':'a longish philtrum','口角の横幅が広い口':'a wide-cornered mouth',
+  // 配置・比率・左右差
+  '求心顔（目鼻口が中心に寄った配置）':'facial features set close toward the center','やや求心寄りの配置':'features set slightly toward the center','標準的な配置':'','やや遠心寄りの配置':'features spaced slightly wide apart','遠心顔（パーツが外側に離れた配置）':'widely spaced facial features','はっきり求心的な配置（自然範囲の上限）':'distinctly center-clustered features','はっきり遠心的な配置（自然範囲の上限）':'distinctly wide-set features',
+  '標準的なバランスの比率':'','目が大きめで存在感のある比率':'large prominent eyes relative to his other features','目が小さめ・切れ長寄りの比率':'smallish elongated eyes relative to his other features','鼻の存在感が強い比率':'a nose that dominates the face slightly','口が大きめではっきりした比率':'a comparatively large defined mouth','口が小さめの比率':'a comparatively small mouth','全体に小づくりな比率':'compact small-scaled features overall','全体に大ぶりでくっきりした比率':'bold large-scaled features overall',
+  '左右対称に近い整った顔':'a near-symmetrical face','ほぼ対称（ごく自然な左右差）':'','わずかな左右差がある自然な顔':'natural slight facial asymmetry','眉の高さに少し左右差がある顔':'one eyebrow sitting slightly higher than the other','口角の上がり方に少し左右差がある顔':'mouth corners lifting unevenly, one a touch higher','目の大きさにわずかな左右差がある顔':'one eye fractionally larger than the other','左右で目の開き方が少し違う顔':'eyes opening slightly unevenly left and right','笑うと片側の口角が先に上がる顔':'a smile where one corner rises first','鼻筋がごくわずかに湾曲した顔':'a nose bridge with the faintest curve',
+  // 生え際・額・顎・エラ・頬
+  '直線的な生え際':'','ゆるいM字の生え際':'a soft M-shaped hairline','富士額の生え際':"a widow's peak hairline",'やや後退気味の生え際':'a slightly receding hairline',
+  '標準的な広さの額':'','狭めの額':'a narrow forehead','広めの額':'a broad forehead',
+  '標準的な顎先':'','尖り気味の顎先':'a pointed chin','丸みのある顎先':'a rounded chin','しっかりした顎先':'a solid firm chin','軽く割れた顎先':'a faintly cleft chin','丸みのあるしっかりした顎先':'a rounded but solid chin',
+  'エラは目立たない':'','ほどよく張ったエラ':'a moderately squared jaw angle','はっきり張ったエラ':'a strongly squared jaw',
+  '標準的な頬':'','頬骨が高めの頬':'high cheekbones','ややこけた頬':'slightly hollow cheeks','ふっくらした頬':'full soft cheeks','ハリのある引き締まった頬':'firm taut cheeks','子供の頃の面影が残る丸い頬':'round boyish cheeks','餅のように柔らかそうな頬':'pillowy mochi-soft cheeks','薄くシャープな頬':'lean sharp cheeks','頬骨の下がすっと影になる頬':'cheeks with a clean shadow under the cheekbones','年齢なりに少し位置が下がった頬':'cheeks settling slightly with age','たるみはじめた頬':'cheeks beginning to sag',
+  // えくぼ・ほくろ・クマ
+  'えくぼなし':'','片側にえくぼ':'a dimple on one cheek','両側にえくぼ':'dimples on both cheeks',
+  'ほくろなし':'','目尻の下の泣きぼくろ':'a small round beauty mark just below the outer corner of one eye','口元のほくろ':'a small mole by his mouth','顎のほくろ':'a small mole on his chin','頬のほくろ':'a small mole on his cheek','首すじのほくろ':'a small mole on his neck',
+  'クマなし':'','うっすらとした目の下のクマ':'faint shadows under the eyes',
+  // 肌
+  '自然な肌質':'','健康的な肌質':'healthy skin','透明感のある肌':'clear luminous skin','ほんのり日焼けした肌':'faintly sun-kissed skin','少し日焼けした肌':'lightly tanned skin','小麦色に日焼けした肌':'wheat-tanned skin','しっかり日焼けした肌':'deeply tanned skin','屋外仕事のこんがり日焼け肌':'a working outdoor tan','マットで自然な肌':'matte natural skin','スポーツ経験者らしい肌':"an athlete's weathered skin",'色白の肌':'fair pale skin','非常に色白の肌':'very fair porcelain-pale skin','浅黒い肌':'dusky skin','褐色の肌':'brown skin','深い褐色の肌':'deep brown skin','血色のよい肌':'ruddy healthy-colored skin',
+  '血色のよい上気した頬':'a warm flush on his cheeks','なし（クリアな肌）':'','頬にそばかす':'freckles across his cheeks','鼻まわりに薄いそばかす':'faint freckles around the nose','額に小さなニキビ':'a few small pimples on the forehead','頬にニキビ跡（薄い凹凸）':'faint acne scarring on the cheeks','目元の泣きぼくろ':'a small round beauty mark near the corner of his eye','首筋のほくろ':'a mole on his neck','頬の小さなほくろ':'a small mole on his cheek','うっすら青ひげ（剃り跡）':'a faint five o\'clock shadow','日焼けによる肌ムラ':'uneven suntan patches','えくぼ':'dimples','左頬の薄い傷跡':'a faint old scar on his left cheek','眉尻の剃り込み跡':'a shaved notch at the eyebrow tail','目の下のうっすらしたクマ':'faint under-eye shadows','頬の自然な赤み':'a natural redness on the cheeks','額の皮脂感（自然なテカリ）':'a natural sheen on the forehead','頬の毛穴感（自然な質感）':'visible pores on the cheeks','腕まくり日焼けの跡':'a farmer\'s tan line on his arms','ゴーグル跡の日焼けムラ':'a goggle-shaped tan line','眉間のしわ':'a crease between the brows','目尻の笑いじわ':'smile lines at the corners of his eyes','ほうれい線':'visible nasolabial folds','頬の薄いシミ':'faint sun spots on the cheeks','首のしわ':'lines on his neck',
+  // 髪
+  '直毛':'straight','やわらかい猫っ毛':'soft fine','硬めの剛毛':'coarse thick','ゆるいくせ毛':'loosely wavy','強いくせ毛':'strongly wavy','強いカールのアフロテクスチャ':'tightly curled afro-textured','細かいカールヘア':'finely curled',
+  '指定なし':'','ツヤを抑えたナチュラルセット':'styled naturally with a matte finish','ワックスの束感セット':'styled with waxed separated strands','きっちり撫でつけたセット':'neatly slicked into place','無造作セット':'casually tousled','パーマ風の動きを出したセット':'styled with permed-looking movement','セットなしの自然に崩れた無造作':'left completely unstyled and naturally messy','湿気でラフにうねった':'roughened into waves by humidity','寝癖が少し残るラフさ':'with a hint of bed-head left in','風にラフに乱れた':'loosely wind-blown',
+  '短髪':'very short hair','アップバング':'short hair with the fringe swept up off the forehead','センターパート':'center-parted hair','サイドパート':'side-parted hair','マッシュ':'a mushroom-cut mop of hair','ソフトツーブロック':'an undercut with soft longer top','ビジネス短髪':'a conservative business haircut','韓国風センターパート':'a Korean-style center-parted cut','ニュアンスパーマ':'a subtle loose perm','ツイストパーマ':'a twist perm','スパイラルパーマ':'a spiral perm','波巻きパーマ':'a wavy S-curl perm','ウルフミディアム':'a medium wolf cut','ロング寄りミディアム':'longish medium-length hair','七三分け':'a 7:3 side part','ナチュラルテーパー短髪':'a naturally tapered short cut','ショートフェード':'a short fade','タイトなアフロショート':'a tight short afro','ツイストショート':'short twisted coils','マンバン':'a man bun','スキンフェード':'a skin fade','ローフェード':'a low fade','フェード×ツイストスパイラル':'a fade with twist-spiral top','バーバースタイル（七三フェード）':'a barbershop 7:3 fade','クロップスタイル':'a textured crop','マッシュウルフ':'a mash-wolf hybrid cut','ソフトモヒカン':'a soft mohawk','アシメショート':'an asymmetrical short cut',
+  '黒':'black','ブルーブラック':'blue-black','ネイビーブラック':'navy-black','黒に近いダークブラウン':'blackish dark-brown','ダークアッシュ':'dark ash','ダークチェリーブラウン':'dark cherry-brown','チョコレートブラウン':'chocolate-brown','赤みブラウン':'reddish-brown','マロンブラウン':'chestnut-brown','カーキブラウン':'khaki-brown','自然な茶髪':'natural brown','アッシュブラウン':'ash-brown','オリーブアッシュ':'olive-ash','グレージュ':'greige','ブルージュ':'blue-beige','ラベンダーグレージュ':'lavender-greige','ミルクティーベージュ':'milk-tea beige','ナチュラルブロンド':'natural blond','ダークブロンド':'dark blond','明るめブラウン':'light brown','オレンジブラウン':'orange-brown','ハイトーンアッシュ':'high-tone ash','シルバーアッシュ':'silver-ash','ブリーチベージュ':'bleached beige','金髪（ブリーチ）':'bleached blond','メッシュ入りブラック':'black with highlights','インナーカラー（アッシュ）':'black with hidden ash inner color','プリン気味の伸びた茶髪':'grown-out brown with dark roots','白髪まじり':'salt-and-pepper','ロマンスグレー':'distinguished gray','ごま塩頭':'close-cropped salt-and-pepper','ほぼ白髪':'almost fully gray',
+  // ひげ
+  'ごく薄い青ひげ':'the faintest shadow of stubble','自然な青ひげ':'a natural five o\'clock shadow','短い無精ひげ':'short scruffy stubble','整えた短いひげ':'a neatly trimmed short beard','口ひげ':'a mustache','あごひげ':'a chin beard','口ひげ＋あごひげ':'a mustache and chin beard','ワイルドめのひげ':'a rugged fuller beard',
+  // 歯
+  '整った歯列':'straight even teeth','ほぼ整った歯列':'nearly straight teeth','前歯がわずかに重なる歯列':'front teeth overlapping just slightly','すきっ歯気味の歯列':'a slight gap between the front teeth','八重歯が少し覗く歯列':'a pointed canine peeking when he smiles','矯正後のきれいな歯列':'perfectly aligned post-orthodontic teeth','前歯2本がやや大きめの歯列':'two slightly prominent front teeth','下の前歯に軽い重なりがある歯列':'mildly crowded lower front teeth','前歯がわずかに前傾した歯列':'front teeth tilting slightly forward','矯正中（目立ちにくい矯正装置）':'discreet braces',
+  '自然な白さの歯':'','やや黄味がかった自然な色の歯':'naturally slightly ivory teeth','白く手入れされた歯':'well-kept white teeth','うっすらした着色のある歯':'teeth with faint staining','生まれつきやや灰味・縞状のトーンがある歯':'teeth with a faint natural grayish banding','前歯1本だけ色味がわずかに異なる歯（差し歯・補綴由来）':'one front tooth a slightly different shade',
+  // 笑い方
+  '笑うと目が糸のように細くなり三日月形に消える':'when he smiles his eyes narrow into thread-thin crescents and almost disappear','笑うと目尻が下がって垂れ目になる':'when he smiles the outer corners of his eyes droop sweetly','笑っても目の形はあまり変わらない（口で笑うタイプ）':'his eyes keep their shape even when he smiles — he smiles with his mouth','笑うと目尻に若い笑い皺が寄る':'young smile lines gather at his eye corners when he laughs','笑うと片目だけ強く細くなる':'one eye squints harder than the other when he laughs','笑うと下まぶたが持ち上がる涙袋笑い':'his lower lids push up when he smiles, plumping his tear bags','笑うと目を見開いて輝かせる':'his eyes widen and light up when he smiles','笑うと細まりつつ目に光をたたえる':'his eyes narrow but hold a bright glint when he smiles',
+  '上の歯をしっかり見せる満面のくしゃ笑い':'a full crinkled grin showing his upper teeth','八重歯がのぞく笑い':'a grin that flashes a pointed canine','口角だけ上げる控えめな笑み':'a restrained smile of just lifted corners','歯を見せない照れ笑い':'a bashful closed-lip smile','笑うと鼻に軽くしわが寄る':'his nose crinkles lightly when he laughs','声が出そうな大口の笑い':'a wide open-mouthed laugh','口角が左右非対称に上がるニヒルな笑み':'a wry lopsided smirk','はにかんで口元を手で隠しがちな笑い':'a shy laugh he tends to hide behind his hand','ふっと息が漏れるような笑い方':'a soft breathy chuckle','にっと横に大きく広がる笑い':'a grin that spreads wide sideways',
+  '笑うと頬がリンゴのように高く盛り上がる':'his cheeks bunch up high like apples when he smiles','笑うと頬に縦の笑いジワが入る':'vertical smile creases form on his cheeks','笑ってもシャープな頬のまま':'his cheeks stay lean even mid-smile','笑うと頬とえくぼが連動してへこむ':'his dimples sink in as his cheeks lift','頬全体が柔らかく持ち上がる':'his whole cheeks lift softly when he smiles',
+  '地顔でも口角が上がり気味（常に機嫌よく見える）':'his resting mouth corners sit slightly upturned, making him look perpetually good-humored','口角は水平でニュートラル':'','への字気味（笑うと印象が激変する）':'his resting mouth turns faintly down, so his smile transforms his whole face','片側だけわずかに上がる':'one mouth corner rests a touch higher than the other',
+  // 体型
+  '標準体型':'an average build','中肉中背':'a medium build','やせ型':'a lean thin build','細身':'a slim build','華奢な体型':'a delicate slight build','細マッチョ':'a lean toned build','隠れ筋肉質':'a deceptively muscular build under a normal silhouette','逆三角形体型':'a V-tapered build','痩せマッチョ':'a wiry muscular build','引き締まったスポーツ体型':'a tight athletic build','サッカー選手体型':"a soccer player's build with strong legs",'水泳選手体型':"a swimmer's build with broad shoulders",'バスケットボール選手体型':"a basketball player's long-limbed build",'ラグビー選手体型':"a rugby player's thick powerful build",'柔道家体型':"a judoka's dense heavy build",'陸上短距離選手体型':"a sprinter's explosive build",'陸上長距離選手体型':"a distance runner's lean build",'クライマー体型':"a climber's sinewy build",'スーツ映え体型':'a trim suit-friendly build','高身長モデル体型':'a tall model-like build','筋肉質':'a muscular build','がっしり体型':'a sturdy solid build','骨太体型':'a big-boned build','肩幅広め体型':'a broad-shouldered build','腹だけぽっちゃり':'a build with a soft belly on otherwise normal frame','ビール腹':'a beer-bellied build','ぽっちゃり':'a chubby build','脚が長い':'a long-legged build'
+  };
+  function mjT(v){ if(v===undefined||v===null||v==='') return null; const t=MJ_EN[String(v)]; return t===undefined ? undefined : (t===''?null:t); }
+  function buildMjDiptychPrompt(c){
+    const EN=[], JA=[], MISS=[];
+    const put=(v, jaLabel)=>{ const t=mjT(v); if(t===null) return; if(t===undefined){ if(v && !/なし|標準|指定なし/.test(String(v))) MISS.push(String(v)); return; } EN.push(t); JA.push((jaLabel?jaLabel+'：':'')+v); };
+    // --- 顔（左パネル）
+    const face=[];
+    const F=(v)=>{ const t=mjT(v); if(t){ face.push(t); JA.push(v); } else if(t===undefined && v && !/なし|標準|指定なし/.test(String(v))) MISS.push(String(v)); };
+    F(c.faceLine); F(c.forehead); F(c.hairline);
+    const bd=mjT(c.eyebrowDensity), bs=mjT(c.eyebrow);
+    if(bs){ face.push(bd?`${bd} ${bs.replace('eyebrows','eyebrows')}`:bs); JA.push(`${c.eyebrowDensity||''}${c.eyebrow}`); }
+    else if(bd){ face.push(`${bd} eyebrows`); JA.push(String(c.eyebrowDensity)); }
+    const lid=mjT(c.eyelid), esh=mjT(c.eyeShape), eim=mjT(c.eyes);
+    if(lid&&esh) { face.push(`${lid} over ${esh}`); JA.push(`${c.eyelid}×${c.eyeShape}`); }
+    else { if(lid){face.push(lid); JA.push(String(c.eyelid));} if(esh){face.push(esh); JA.push(String(c.eyeShape));} }
+    if(eim){ face.push(eim); JA.push(String(c.eyes)); }
+    F(c.tearBags); F(c.eyelash); F(c.nose); F(c.mouthPos); F(c.lips);
+    F(c.faceSpacing); F(c.faceRatio); F(c.faceAsym);
+    F(c.cheek); F(c.jawChin); F(c.jawAngle); F(c.dimple); F(c.mole);
+    F(c.skinDetail); if(c.skinDetail2!==c.skinDetail) F(c.skinDetail2);
+    F(c.eyeBags); F(c.skin);
+    if(c.facialHair && !/^なし/.test(c.facialHair)){ F(c.facialHair); } 
+    if(c.glasses && !/なし/.test(String(c.glasses))){ face.push('wearing glasses'); JA.push(String(c.glasses)); }
+    // 笑い方（2つに厳選：目＋スタイル、頬か口角はどちらか）
+    const smiles=[]; const S=(v)=>{ const t=mjT(v); if(t){ smiles.push(t); JA.push(v); } };
+    S(c.smileEyes); S(c.smileStyle); S(c.cheekSmile); S(c.mouthCorner);
+    // 髪
+    const hcol=mjT(c.hairColor)||'dark', hsty=mjT(c.hairStyle)||'short hair', htex=mjT(c.hairTexture), hfin=mjT(c.hairFinish);
+    let hairEn=`${hcol} ${hsty}`.replace(/\s+/g,' ');
+    if(htex) hairEn=`${hcol} ${htex} ${hsty.replace(/^a /,'')}`;
+    if(hfin) hairEn+=`, ${hfin}`;
+    JA.push(`髪：${c.hairColor||''}の${c.hairStyle||''}${c.hairTexture?'・'+c.hairTexture:''}${c.hairFinish&&c.hairFinish!=='指定なし'?'・'+c.hairFinish:''}`);
+    // 表情ベース
+    const expr=mjT(c.mouth)||'a calm expression';
+    // --- 体（右パネル）
+    const body=mjT(c.bodyType)||'an athletic build';
+    JA.push(`体型：${c.bodyType||''}（${c.height}cm・${c.weight}kg）`);
+    const highT=(typeof HIGH_TRAIN!=='undefined')&&HIGH_TRAIN.includes(c.trainingLevel);
+    const muscle=highT?', visibly trained chest, shoulders and arms':'';
+    const devEn = c.developedPart && /大腿|ふくらはぎ|下半身|脚/.test(String(c.developedPart)) ? ', strongly developed thighs and calves' : '';
+    // --- 年齢感（数字を書かずに若さを固定） ---
+    const ageN = Number(c.age)||25;
+    const looksY = /若く見える/.test(String(c.ageAppearance||''));
+    const looksO = /上に見える|老け/.test(String(c.ageAppearance||''));
+    const effA = ageN + (looksY?-3:0) + (looksO?3:0);
+    let ageBand, ageBandJa;
+    if(effA<=19){ ageBand='a college-age young man with a boyish, youthful face'; ageBandJa='大学生年代の若者（あどけなさの残る若い顔）'; }
+    else if(effA<=23){ ageBand='a young man in his early twenties with a youthful face'; ageBandJa='20代前半の若者らしい顔'; }
+    else if(effA<=27){ ageBand='a young man in his mid twenties'; ageBandJa='20代半ば'; }
+    else if(effA<=32){ ageBand='a man in his late twenties'; ageBandJa='20代後半'; }
+    else if(effA<=38){ ageBand='a man in his mid thirties'; ageBandJa='30代半ば'; }
+    else if(effA<=45){ ageBand='a man in his early forties'; ageBandJa='40代前半'; }
+    else if(effA<=55){ ageBand='a middle-aged man around fifty'; ageBandJa='50歳前後'; }
+    else { ageBand='an older man in his sixties'; ageBandJa='60代'; }
+    const young = effA<=25;
+    // --- 体型ダンパー（筋肉質化の抑制） ---
+    const btStr = String(c.bodyType||'');
+    const slimBody = /やせ型|細身|華奢|陸上長距離|クライマー/.test(btStr);
+    const softBody = /ぽっちゃり|ビール腹|腹だけ|骨太/.test(btStr);
+    const athBody = /選手体型|筋肉質|がっしり|逆三角形|細マッチョ|痩せマッチョ|スポーツ体型|隠れ筋肉/.test(btStr);
+    let damper, damperJa;
+    if(highT){ damper=''; damperJa=''; }
+    else if(slimBody){ damper=' He is genuinely slim and lightly built, with no gym muscle at all.'; damperJa='本当に細身で筋肉のつかない体（ジム筋なし）と明示'; }
+    else if(softBody){ damper=' His body is soft and non-athletic, true to everyday life.'; damperJa='柔らかく運動選手的でない体と明示'; }
+    else if(athBody){ damper=' His muscle is realistic everyday athleticism, clearly NOT a fitness model or bodybuilder physique.'; damperJa='現実的な運動部レベルでフィットネスモデル体型ではないと明示'; }
+    else { damper=' His physique is ordinary and unremarkable, not athletic, not a fitness model.'; damperJa='ごく普通の体型でアスリート体型ではないと明示'; }
+    const styleWord = (highT||athBody) ? 'sportswear catalog style' : 'casual summer catalog style';
+    const skinFinish = young ? 'smooth youthful skin with fine natural texture and slight asymmetry' : 'visible pores and natural asymmetry';
+    // --- 組み立て
+    const en =
+`A true-to-life documentary photo diptych on one seamless gray studio background, two panels side by side, both showing the same adult Japanese man — ${ageBand}.
+
+On the left, a large head-and-shoulders portrait. He has ${face.join(', ')}. ${smiles.length?smiles.join('; ')+'. ':''}His base expression here is ${expr}. His hair is ${hairEn}.
+
+On the right, the same man standing straight and relaxed, his entire body from head to toe inside the frame, feet planted on the studio floor with clear space beneath them, no shoes; this full-body panel is photographed with deep depth of field so that his legs and feet are in the same crisp focus as his face — no blur anywhere in the frame. He has ${body} at ${c.height}cm${muscle}${devEn}, wearing plain light-gray training shorts, in the manner of a swim-team roster photo.${damper}
+
+Soft window light, 50mm lens look, subtle film grain, ${styleWord}. A realistic, non-idealized face with ${skinFinish}, not an airbrushed AI face, not older-looking than ${ageBand.replace(/^an? /,'')}, no 3d render look, no text and no watermark.`;
+    const ja =
+`【日本語訳（確認用・コピー不要）】
+つなぎ目のないグレーのスタジオ背景に、同一の成人日本人男性を左右2パネルで並べた無修正ドキュメンタリー風の写真。
+◆左パネル（顔のアップ）に反映した項目：
+・${JA.join('\n・')}
+・基本表情：${c.mouth||''}
+◆年齢感：${ageBandJa}として明示（数字は書かずに若さ/年代を固定）
+${damperJa?'◆体型補正：'+damperJa+'\n':''}◆右パネル：同一人物の直立全身（頭からつま先まで、足元に余白・靴なし）。深い被写界深度で脚・足元まで顔と同じシャープなピント（ボケ禁止）を明示。ライトグレーのトレーニングショーツのみ（水泳部の名簿写真風の文脈で裸系の単語を回避）${highT?'・胸/肩/腕の発達が分かる':''}。
+◆仕上げ：柔らかい窓光・50mmレンズ感・微細な粒状感・スポーツウェアカタログ風。毛穴と自然な左右差のある実在感の顔、AI的な修正顔/3DCG調/文字/透かしは禁止。
+※既定はショーツのみ（swim-team roster photoの文脈で通過を狙う設計）。それでも弾かれる場合は「, in the manner of a swim-team roster photo」の直前に「 and a plain fitted white sleeveless training top」を挿入して着衣版で再送（判定は確率的なので同文の再送で通ることもあります）。
+${MISS.length?'※未対訳のため英語版から省略：'+MISS.join('、'):''}
+◆使い方：Web UIでアスペクト比4:3・スタイルRawを設定して生成。良い1枚が出たら以後の派生で参照画像（Omni Reference）に指定。`;
+    return [en, ja];
+  }
+
+  // ===== V3.3.4 笑い方（表情変化）モジュール =====
   const SMILE_EYES=['笑うと目が糸のように細くなり三日月形に消える','笑うと目尻が下がって垂れ目になる','笑っても目の形はあまり変わらない（口で笑うタイプ）','笑うと目尻に若い笑い皺が寄る','笑うと片目だけ強く細くなる','笑うと下まぶたが持ち上がる涙袋笑い','笑うと目を見開いて輝かせる','笑うと細まりつつ目に光をたたえる'];
   const SMILE_STYLES=['上の歯をしっかり見せる満面のくしゃ笑い','八重歯がのぞく笑い','口角だけ上げる控えめな笑み','歯を見せない照れ笑い','笑うと鼻に軽くしわが寄る','声が出そうな大口の笑い','口角が左右非対称に上がるニヒルな笑み','はにかんで口元を手で隠しがちな笑い','ふっと息が漏れるような笑い方','にっと横に大きく広がる笑い'];
   const CHEEK_SMILES=['笑うと頬がリンゴのように高く盛り上がる','笑うと頬に縦の笑いジワが入る','笑ってもシャープな頬のまま','笑うと頬とえくぼが連動してへこむ','頬全体が柔らかく持ち上がる'];
@@ -6323,6 +6484,7 @@
       holidayAccessories: base.holidayAccessories || generateAccessories({eraYear, age, role, vibe, incomeText: base.incomeText, season, holidayOutfitType, sportsHistory: sportsHistoryArr, holidayShoes: hCoord.shoes, holidayBottom: hCoord.bottom}, true),
       facePresetOut: base.facePresetOut || (initial.facePresetOut || '含める'),
       snapMode: base.snapMode || (initial.snapMode || '通常（スタジオ演出）'),
+      mjMode: base.mjMode || (initial.mjMode || 'OFF'),
       smileEyes: base.smileEyes || null, smileStyle: base.smileStyle || null, cheekSmile: base.cheekSmile || null, mouthCorner: base.mouthCorner || null,
       topBrand: coord.topBrand||'', bottomBrand: coord.bottomBrand||'', shoesBrand: coord.shoesBrand||'', outerBrand: coord.outerBrand||'', tie: coord.tie||'', coat: coord.coat||'', suitSilhouette: coord.silhouette||'', eraFashionNote: coord.eraNote||'', styleNote: coord.styleNote||'',
       holidayTopBrand: hCoord.topBrand||'', holidayBottomBrand: hCoord.bottomBrand||'', holidayShoesBrand: hCoord.shoesBrand||'', holidayOuterBrand: hCoord.outerBrand||'', holidayEraFashionNote: hCoord.eraNote||'', holidayStyleNote: hCoord.styleNote||'',
@@ -6671,6 +6833,7 @@ ${promptTargetGuide(c, false)}`;
       if(key==='holidayStyleNote') return ['—','清潔感重視のベーシックな着こなし','柄物や差し色をその日の気分で','モノトーン中心・機能優先','柔らかい色味と肌ざわり重視','サイズ感が微妙に合っていない','古着ミックスの味のある風合い'];
       if(key==='facePresetOut') return ['含める','含めない'];
       if(key==='snapMode') return pools.snapModes;
+      if(key==='mjMode') return ['OFF','ON'];
       if(key==='smileEyes') return SMILE_EYES;
       if(key==='smileStyle') return SMILE_STYLES;
       if(key==='cheekSmile') return CHEEK_SMILES;
@@ -6857,7 +7020,7 @@ ${promptTargetGuide(c, false)}`;
     if(opts && opts.name) f.name = opts.name;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.2.2'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.3.4'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -7663,7 +7826,7 @@ ${promptTargetGuide(b, false)}`;
         }
         return rows;
       })()],
-      ['output', L.outputSection, [[L.background,displayValue('background',current.background),'background'],[L.output,`${displayValue('outputType',current.outputType)} / ${displayValue('count',current.count)}`],[L.promptTarget,`<span class="mini-badge">${current.promptTarget || 'ChatGPT'}</span>`],[L.imageText, current.captionMode==='表記しない' ? captionModeDisplay(current.captionMode) : `${captionModeDisplay(current.captionMode)} / ${getCaptionFieldLabelsArray(current, uiLang==='en').join(', ')}`],[uiLang==='en'?'Face Preset in Prompt':'顔立ちプリセット出力', current.facePresetOut||'含める', 'facePresetOut'],[uiLang==='en'?'Photo Style (Derived)':'撮影演出（派生出力）', current.snapMode||'通常（スタジオ演出）', 'snapMode'],[L.cardSetting, `${displayValue('cardStyle',current.cardStyle)} / ${current.cardRarity} / ${displayValue('cardTheme',current.cardTheme)} / ${displayValue('cardLayout',current.cardLayout)} / ${displayValue('cardWearMode',current.cardWearMode || 'ボクサーパンツのみ')} / ${displayValue('cardEffect',cardEffectByRarity(current.cardRarity))}`]]],
+      ['output', L.outputSection, [[L.background,displayValue('background',current.background),'background'],[L.output,`${displayValue('outputType',current.outputType)} / ${displayValue('count',current.count)}`],[L.promptTarget,`<span class="mini-badge">${current.promptTarget || 'ChatGPT'}</span>`],[L.imageText, current.captionMode==='表記しない' ? captionModeDisplay(current.captionMode) : `${captionModeDisplay(current.captionMode)} / ${getCaptionFieldLabelsArray(current, uiLang==='en').join(', ')}`],[L.cardSetting, `${displayValue('cardStyle',current.cardStyle)} / ${current.cardRarity} / ${displayValue('cardTheme',current.cardTheme)} / ${displayValue('cardLayout',current.cardLayout)} / ${displayValue('cardWearMode',current.cardWearMode || 'ボクサーパンツのみ')} / ${displayValue('cardEffect',cardEffectByRarity(current.cardRarity))}`]]],
       ['scene', L.sceneSection, [[L.scene,displayValue('sceneIdea',current.sceneIdea),'sceneIdea']]]
     ];
     const pcIcons = {basic:'👤', inner:'🎭', face:'🙂', body:'📐', bodyhair:'🧔', main:'🩳', outfit:'👕', output:'🖨️', scene:'🎬'};
@@ -7725,13 +7888,22 @@ ${promptTargetGuide(b, false)}`;
     };
     if(isCombinedGroup()){
       const en = isEnglish(currentGroup.members[0]);
+      const mjv0=document.getElementById('mjJaView'); if(mjv0){ mjv0.style.display='none'; mjv0.textContent=''; }
       els.promptBox.value = buildGroupMainPrompt(currentGroup, en);
       const gd=document.getElementById('derivedPromptBox'); if(gd) gd.value = (isRefMode(currentGroup.members[0]) ? (en ? `[REFERENCE IMAGES PROVIDED] Attach each member's base reference card. Every member must remain exactly the same person as his own card (match by member number). Never blend or swap their features. Redraw every member from scratch to match the scene's lighting and color — never a cut-and-paste composite look.\n\n` : `【参照画像あり・重要】各メンバーの基準リファレンスカードの画像を添付する。各メンバーは自分の基準カード（メンバー番号で対応）と完全に同一人物として描き、特徴を混ぜたり入れ替えたりしない。各メンバーとも参照画像の切り抜き合成のようにせず、場面の光・影・色味に完全になじませて一から描き直す。\n\n`) : '') + (currentDerivedType()==='トレーディングカード' ? buildGroupCardPrompt(currentGroup, en) : buildGroupMainPrompt(currentGroup, en)) + (isRefMode(currentGroup.members[0]) ? usageNote(en) : '');
       document.getElementById('outfitPromptBox').value = buildGroupOutfitPrompt(currentGroup, en, 'weekday');
       const gh=document.getElementById('outfitHolidayPromptBox'); if(gh) gh.value = buildGroupOutfitPrompt(currentGroup, en, 'holiday');
       document.getElementById('scenePromptBox').value = buildGroupPrompt(currentGroup, en);
     } else {
-      els.promptBox.value = buildPrompt(current, true);
+      const mjv = document.getElementById('mjJaView');
+      if(current.mjMode === 'ON'){
+        const [mjEn, mjJa] = buildMjDiptychPrompt(current);
+        els.promptBox.value = mjEn;
+        if(mjv){ mjv.style.display='block'; mjv.textContent = mjJa; }
+      } else {
+        els.promptBox.value = buildPrompt(current, true);
+        if(mjv){ mjv.style.display='none'; mjv.textContent=''; }
+      }
       const pref = refPrefix(current, isEnglish(current));
       document.getElementById('outfitPromptBox').value = pref + buildOutfitPrompt(current, 'weekday') + (pref ? usageNote(isEnglish(current)) : '');
       const oh=document.getElementById('outfitHolidayPromptBox'); if(oh) oh.value = pref + buildOutfitPrompt(current, 'holiday') + (pref ? usageNote(isEnglish(current)) : '');
@@ -7742,7 +7914,7 @@ ${promptTargetGuide(b, false)}`;
       renderFootCfgPanel();
     }
     const mo=document.getElementById('manualOutputType'), mc=document.getElementById('manualCount'), mq=document.getElementById('manualQuality'), mb=document.getElementById('manualBackground'), ml=document.getElementById('manualLighting'), mpl=document.getElementById('manualPromptLanguage'), mpt=document.getElementById('manualPromptTarget'), mcm=document.getElementById('manualCaptionMode'), mcs=document.getElementById('manualCardStyle'), mcr=document.getElementById('manualCardRarity'), mct=document.getElementById('manualCardTheme'), mcl=document.getElementById('manualCardLayout'), mcw=document.getElementById('manualCardWearMode'), mce=document.getElementById('manualCardEffect');
-    if(mo) mo.value=current.outputType; if(mc) mc.value=current.count; if(mq) mq.value=current.quality; if(mb) mb.value=current.background; if(ml) ml.value=current.lighting; if(mpl) mpl.value=current.promptLanguage || '日本語'; if(mpt) mpt.value=current.promptTarget || 'ChatGPT'; if(mcm) mcm.value=current.captionMode || '表記する';
+    if(mo) mo.value=current.outputType; if(mc) mc.value=current.count; if(mq) mq.value=current.quality; if(mb) mb.value=current.background; if(ml) ml.value=current.lighting; if(mpl) mpl.value=current.promptLanguage || '日本語'; if(mpt) mpt.value=current.promptTarget || 'ChatGPT'; if(mcm) mcm.value=current.captionMode || '表記する'; const mFp2=document.getElementById('manualFacePresetOut'); if(mFp2) mFp2.value=current.facePresetOut||'含める'; const mSn2=document.getElementById('manualSnapMode'); if(mSn2) mSn2.value=current.snapMode||'通常（スタジオ演出）'; const mMj2=document.getElementById('manualMjMode'); if(mMj2) mMj2.value=current.mjMode||'OFF';
     if(mcs) mcs.value=current.cardStyle || 'スタンダード'; if(mcr) mcr.value=current.cardRarity || 'R'; if(mct) mct.value=current.cardTheme || 'ネイビー'; if(mcl) mcl.value=current.cardLayout || '縦長カード'; if(mcw) mcw.value=current.cardWearMode || 'ボクサーパンツのみ'; if(mce){ mce.value=cardEffectByRarity(current.cardRarity || 'R'); mce.disabled=true; } syncCardSettingsVisibility();
     writeCaptionFields('manual', current.captionFields || {name:true,era:true,height:true,weight:true,footSize:true,mbti:true});
     writeCardFields('manual', current.cardFields || {name:true,age:true,era:true,height:true,weight:true,footSize:true,role:true,mbti:true,rarity:true});
@@ -7751,7 +7923,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.2.2'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.3.4'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
