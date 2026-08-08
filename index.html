@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V3.8.1</title>
+  <title>Guzen Ikemen Maker V3.8.2</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -132,8 +132,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V3.8.1</span>
-        <h1 class="title">Guzen Ikemen Maker V3.8.1</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V3.8.2</span>
+        <h1 class="title">Guzen Ikemen Maker V3.8.2</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -429,7 +429,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.8.1</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.8.2</p>
   </div>
 
 <script>
@@ -1182,8 +1182,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.8.1';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.8.1';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.8.2';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.8.2';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1945,7 +1945,7 @@
     return sc;
   }
 
-  /* ===== V3.8.1 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
+  /* ===== V3.8.2 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
   // 項目: [名称, from, peak, to, tags]  tags: c=カジュアル s=ストリート k=きれいめ f=古着 o=オフィス可 p=スポーツ / アウターのみ W=冬 L=春秋 S=夏羽織
   const FVOCAB = {
   top: [
@@ -2116,7 +2116,7 @@
     if(outfitType==='ストリート系') pool = pool.concat(eraBrandList(BRAND_TIER_STREET_ADD, eraYear, null).filter(Boolean));
     return pool.length ? pool : basePool;
   }
-  // ===== V3.8.1 ブランドDB（部位×系統×tier×人気カーブ）＋整合システム =====
+  // ===== V3.8.2 ブランドDB（部位×系統×tier×人気カーブ）＋整合システム =====
   // 形式: [名, 部位(t/b/s/o/k=socks 複数可), 系統タグ(k/c/s/f/p/w), tier(h/m/l/w), from, peak, to(9999=現役), ピーク係数]
   const BRAND_DB = [
     ['UNIQLO','tbok','ck','l',1984,2012,9999,3.0],['GU','tbok','c','l',2006,2020,9999,2.2],['無印良品','tbok','ck','l',1980,2016,9999,1.8],['しまむら','tbok','c','l',1961,2010,9999,1.4],['無地ノーブランド','tbsok','ckcfspw','l',1900,2000,9999,1.5],
@@ -2130,6 +2130,9 @@
     ['AOKI','tbo','k','l',1976,2005,9999,1.4],['洋服の青山','tbo','k','l',1974,2003,9999,1.5],['SUIT SELECT','tbo','k','m',2000,2015,9999,1.2],['THE SUIT COMPANY','tbo','k','m',2000,2014,9999,1.2],['ORIHICA','tbo','k','m',2003,2016,9999,1.1],['はるやま','tbo','k','l',1974,2000,9999,1.1],
     ['雲駄','s','kcf','h',2020,2023,9999,1.1],['GRAMICCI','b','cps','m',1995,2021,9999,1.3],['HOKA','s','pc','m',2016,2022,9999,1.4],['On','s','pc','m',2018,2023,9999,1.2],['SALOMON','s','sp','m',2019,2023,9999,1.4],['KEEN','s','cp','m',2005,2018,9999,1.2],['Onitsuka Tiger','s','cf','m',2002,2015,9999,1.3],['Paraboot','s','k','h',1995,2015,9999,1.1],['Danner','s','cw','m',1990,2016,9999,1.1],
     ["FREAK'S STORE",'tbo','cf','m',1986,2016,9999,1.2],['niko and...','tbo','c','l',2007,2017,9999,1.2],['GAP','tb','c','l',1995,2008,9999,1.5],['A.P.C.','tbo','k','h',1992,2012,9999,1.2],['MARGARET HOWELL','tbo','k','h',1983,2010,9999,1.1],['ROTOTO','k','ck','m',2015,2022,9999,1.2],['CHICSTOCKS','k','k','m',2016,2022,9999,1.0],
+    ['李寧 Li-Ning','tbs','spc','m',1990,2008,9999,1.6],['ANTA','tbs','sp','m',1991,2015,9999,1.2],['HLA 海瀾之家','tb','kc','l',2002,2015,9999,1.4],['Metersbonwe','tb','c','l',1995,2006,2016,1.8],['Bosideng','o','c','m',1994,2010,9999,1.3],
+    ['Giordano','tb','c','l',1981,1995,9999,1.6],['Hang Ten','tb','c','l',1975,1992,2010,1.5],['NET','tb','c','l',1991,2008,9999,1.3],['Baleno','tb','c','l',1996,2006,2018,1.2],
+    ['GQ (Thai)','t','k','m',1968,2000,9999,1.2],['Viettien','t','k','m',1990,2010,9999,1.2],['Bench','tb','cs','l',1987,2005,9999,1.4],['Penshoppe','tb','c','l',1986,2004,9999,1.3],['Erigo','tb','cs','m',2011,2021,9999,1.0],
     ['VAN','tbo','k','m',1954,1978,1998,1.6],['McGREGOR','to','kc','m',1965,1985,2010,1.1],['Right-on','tb','c','l',1980,2005,2022,1.3],['コムサデモード','tbo','k','m',1985,1998,2018,1.5],['TAKEO KIKUCHI','tbo','k','h',1984,1999,9999,1.3]
   ];
   const BRAND_POP_W = (rec, y) => {
@@ -2147,6 +2150,9 @@
     'ホスト系': /ワークマン|しまむら|mont-bell/, 'ギャル男系': /BROOKS BROTHERS|ワークマン/,
     'インテリ系': /WEGO|XLARGE/, 'クール系': /しまむら/
   };
+  const JP_DOMESTIC = new Set(['しまむら','ワークマン','AOKI','洋服の青山','はるやま','SUIT SELECT','THE SUIT COMPANY','ORIHICA','Tabio','靴下屋','Fukuske','雲駄','WEGO','coen','niko and...','GLOBAL WORK','URBAN RESEARCH','JOURNAL STANDARD','BEAMS','UNITED ARROWS','SHIPS','TOMORROWLAND','EDIFICE','nano・universe','AURALEE','COMOLI','STUDIOUS','UNITED TOKYO',"FREAK'S STORE",'無印良品','GU','EDWIN','BIG JOHN','REGAL','HARUTA','VAN','コムサデモード','TAKEO KIKUCHI','McGREGOR','Right-on','mont-bell','DESCENTE','MIZUNO','ASICS','Onitsuka Tiger']);
+  const LOCAL_NAT = {'中国':/李寧|ANTA|HLA|Metersbonwe|Bosideng/,'台湾':/Giordano|Hang Ten|NET|Baleno/,'タイ':/GQ \(Thai\)|Baleno/,'ベトナム':/Viettien/,'フィリピン':/Bench|Penshoppe/,'インドネシア':/Erigo/,'韓国':/FILA/};
+  const JP_EXPANSION = {'UNIQLO':2005,'H&M':2007,'ZARA':1998};
   function resolvePartBrand(part, itemName, outfitType, persona, vibe, eraYear, sockCare){
     const y = Number(eraYear)||2026;
     const pk = FV_PART_KEY[part];
@@ -2184,6 +2190,15 @@
       if(name==='ワークマン'){
         const wOk = outfitType==='ワークマン系機能カジュアル' || (persona && (/ワークマンで全部|機能性最優先/.test(String(persona.senseText||'')) || /現場|職人|整備|工場|大工|鳶|建設|農|漁|車夫|警備|運送|ドライバー/.test(String(persona.role||''))));
         w *= wOk ? 1.5 : 0.03;
+      }
+      // 国籍×地域可用性
+      const nat = persona && persona.nat, resJP = persona && /日本|東京|大阪|首都圏/.test(String(persona.res||''));
+      if(nat && nat!=='日本' && !resJP){
+        if(JP_DOMESTIC.has(name)) continue;
+        if(JP_EXPANSION[name] && y < JP_EXPANSION[name]) continue;
+        const lre = LOCAL_NAT[nat]; if(lre && lre.test(name)) w *= 2.5;
+      } else {
+        if(LOCAL_NAT['中国'] && /李寧|ANTA|HLA|Metersbonwe|Bosideng|Giordano|Hang Ten|^NET$|Baleno|GQ \(Thai\)|Viettien|Bench|Penshoppe|Erigo/.test(name)) w *= 0.05;
       }
       // vibe禁止
       const ban = VIBE_BRAND_BAN[vibe];
@@ -2284,7 +2299,7 @@
   }
 
 
-  // ===== V3.8.1 コーデ部位ヘルパー・アクセサリー・季節連動 =====
+  // ===== V3.8.2 コーデ部位ヘルパー・アクセサリー・季節連動 =====
   const COORD_TYPE_TAG = FASHION_CASUAL_TAGS;
   function eraOptionsFor(kind, c, holiday){
     const y = Number(c.eraYear)||2026;
@@ -2432,7 +2447,7 @@
     return `アクセサリーは${l.length?l.join('・'):'なし'}${note}。`;
   }
   function applyCoordToCharacter(c, holiday){
-    const persona = { senseText: c.fashionSenseText, incomeText: c.incomeText, assetText: c.assetText, gambleText: c.gambleText, role: c.role };
+    const persona = { senseText: c.fashionSenseText, incomeText: c.incomeText, assetText: c.assetText, gambleText: c.gambleText, role: c.role, nat: c.nationality, res: c.residenceText };
     const co = generateCoordinatedOutfit(holiday?(c.holidayOutfitType||c.outfitType):c.outfitType, c.age, false, c.nationality, c.vibe, c.eraYear, c.season, c.mbti, persona);
     if(holiday){
       c.holidayOutfitBrand=co.outfitBrand; c.holidayJacket=co.jacket; c.holidayTop=co.top; c.holidayBottom=co.bottom; c.holidayShoes=co.shoes;
@@ -3594,7 +3609,7 @@
   })();
   function sportYears(x){ const Y=[2,6,3,3,4,5]; let t=0; for(let i=x.from;i<=x.to;i++) t+=Y[i]||3; return t; }
 
-  // ===== V3.8.1 サリエンスエンジン＋二軸キャッチ＋人物要約 =====
+  // ===== V3.8.2 サリエンスエンジン＋二軸キャッチ＋人物要約 =====
   const ROLE_ALIAS = {'銀行員':'銀行マン','ITエンジニア':'キーボードの人','人力車の車夫':'人力車乗り','公務員':'役所の人','営業職':'営業マン','経理・事務職':'経理マン','美容師':'ハサミ使い','大工':'現場の男','看護師':'夜勤明けの白衣','消防士':'火消し','警察官':'制服の人','タクシー運転手':'夜の運転手','コンサルタント':'横文字の人','商社勤務':'商社マン','高校教師':'先生','バーテンダー':'カウンターの人','カフェ店員':'エプロンの人','農家':'土の人','漁師':'海の男'};
   function roleAlias(role){ return ROLE_ALIAS[String(role||'')] || String(role||'').replace(/（.+）/,'') || '男'; }
   function salienceTop(c, n){
@@ -4070,7 +4085,7 @@
     return e;
   }
 
-  /* ===== V3.8.1 Midjourneyモード：4:3 diptych基準カード（英語＋日本語訳） ===== */
+  /* ===== V3.8.2 Midjourneyモード：4:3 diptych基準カード（英語＋日本語訳） ===== */
   // 対訳辞書：''=標準値のため省略、未登録=省略（日本語訳側に注記）
   const MJ_EN = {
   // フェイスライン
@@ -4226,7 +4241,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     return [en, ja];
   }
 
-  // ===== V3.8.1 笑い方（表情変化）モジュール =====
+  // ===== V3.8.2 笑い方（表情変化）モジュール =====
   const SMILE_EYES=['笑うと目が糸のように細くなり三日月形に消える','笑うと目尻が下がって垂れ目になる','笑っても目の形はあまり変わらない（口で笑うタイプ）','笑うと目尻に若い笑い皺が寄る','笑うと片目だけ強く細くなる','笑うと下まぶたが持ち上がる涙袋笑い','笑うと目を見開いて輝かせる','笑うと細まりつつ目に光をたたえる'];
   const SMILE_STYLES=['上の歯をしっかり見せる満面のくしゃ笑い','八重歯がのぞく笑い','口角だけ上げる控えめな笑み','歯を見せない照れ笑い','笑うと鼻に軽くしわが寄る','声が出そうな大口の笑い','口角が左右非対称に上がるニヒルな笑み','はにかんで口元を手で隠しがちな笑い','ふっと息が漏れるような笑い方','にっと横に大きく広がる笑い'];
   const CHEEK_SMILES=['笑うと頬がリンゴのように高く盛り上がる','笑うと頬に縦の笑いジワが入る','笑ってもシャープな頬のまま','笑うと頬とえくぼが連動してへこむ','頬全体が柔らかく持ち上がる'];
@@ -4843,9 +4858,17 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     if(!c || !c.workUniform || !c.headwear || c.headwearOn === false) return '';
     return english ? `, headwear: ${c.headwear} (worn on the head)` : `、帽子は${c.headwear}を着用`;
   }
+  const NAT_ADJ = {'日本':'Japanese','アメリカ':'American','中国':'Chinese','台湾':'Taiwanese','韓国':'Korean','タイ':'Thai','ベトナム':'Vietnamese','フィリピン':'Filipino','インドネシア':'Indonesian','イギリス':'British','フランス':'French','ブラジル':'Brazilian','メキシコ':'Mexican'};
+  function natUniformFix(c, s, english){
+    if(!s) return s;
+    const nat=String(c.nationality||'日本'), resJP=/日本|東京|大阪|首都圏/.test(String(c.residenceText||''));
+    if(nat==='日本'||resJP) return s;
+    const adj=NAT_ADJ[nat]||'local';
+    return english ? String(s).replace(/Japanese/g, adj) : String(s).replace(/日本の/g, `${nat}の`).replace(/^/, `${nat}の標準的な様式で。`);
+  }
   function workOutfitSpec(c, english=false){
     if(c.workUniform){
-      if(english) return `Work outfit contents: ${c.workUniformEn} — top: ${c.top}${uniformJacketPhrase(c, true)}, bottom: ${c.bottom}, shoes: ${c.shoes}${uniformHatPhrase(c, true)}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${accText(c,false,true)} Do not reproduce real organizations' insignia or logos. `;
+      if(english) return `Work outfit contents: ${natUniformFix(c, c.workUniformEn, true)} — top: ${c.top}${uniformJacketPhrase(c, true)}, bottom: ${c.bottom}, shoes: ${c.shoes}${uniformHatPhrase(c, true)}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${accText(c,false,true)} Do not reproduce real organizations' insignia or logos. `;
       return `職業服装の内容：${c.workUniform}。トップスは${c.top}${uniformJacketPhrase(c, false)}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。${accText(c,false,false)}実在組織の記章・ロゴは正確に再現しない。`;
     }
     if(english) return `Work outfit contents: ${c.outfitBrand?`${c.outfitBrand} `:''}${c.outfitType} — outerwear: ${c.jacket}, top: ${c.topBrand?`${c.topBrand} `:''}${c.top}, bottom: ${c.bottomBrand?`${c.bottomBrand} `:''}${c.bottom}, shoes: ${c.shoesBrand?`${c.shoesBrand} `:''}${c.shoes}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${c.tie?` Tie: ${c.tie}.`:''}${c.coat?` Coat: ${c.coat}.`:''}${c.suitSilhouette?` Suit silhouette: ${c.suitSilhouette}.`:''}${c.workFitNote?` ${c.workFitNote}.`:''}${accText(c,false,true)} `;
@@ -6710,7 +6733,8 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     const season = fixed.season || base.season || ((initial.season && initial.season !== 'ランダム') ? initial.season : pick(['春','夏','秋','冬']));
     const profile = vibeProfile(vibe, age);
     const gapMode = Math.random() < 0.15;
-    const role = FRIEND_CTX ? (FRIEND_CTX.role || chooseRoleByMbti(age, vibe, mbti, eraYear, gapMode)) : (base.role || (initial.occupation && initial.occupation !== 'ランダム' ? initial.occupation : chooseRoleByMbti(age, vibe, mbti, eraYear, gapMode)));
+    let role = FRIEND_CTX ? (FRIEND_CTX.role || chooseRoleByMbti(age, vibe, mbti, eraYear, gapMode)) : (base.role || (initial.occupation && initial.occupation !== 'ランダム' ? initial.occupation : chooseRoleByMbti(age, vibe, mbti, eraYear, gapMode)));
+    if(nationality && nationality!=='日本' && /国鉄職員|自衛官|人力車の車夫|僧侶|寿司職人/.test(role)) role = pick(['営業職','ITエンジニア','カフェ店員','工場勤務','大学生']);
     const holidayPersona = !!(VIBE_OCC[vibe] && VIBE_OCC[vibe].bad.includes(role));
     const occRowForAge = OCCUPATIONS.find(o=>o[0]===role);
     if(occRowForAge && !base.age){
@@ -7529,7 +7553,7 @@ ${promptTargetGuide(c, false)}`;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
     generateInnerProfile(f, ['friend']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.8.1'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.8.2'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -7559,7 +7583,7 @@ ${promptTargetGuide(c, false)}`;
     half.forEach(k=>{ if(baseC[k] && Math.random()<0.5) f[k]=baseC[k]; });
     f.siblingOf = {name: baseC.name, kind, age: baseC.age};
     generateInnerProfile(f, ['family']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.8.1'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.8.2'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -7863,7 +7887,7 @@ Preserve the character's identity. Era setting: ${c.eraYear || '2026'} CE. ${era
 
 ${mode==='holiday'
   ? `[Casual outfit] This is his personal, off-duty style that reflects his personality and vibe. Base the outfit on ${c.holidayOutfitBrand || c.outfitBrand} ${c.holidayOutfitType || c.outfitType}. Outerwear: ${c.holidayOuterBrand?`${c.holidayOuterBrand} `:''}${c.holidayJacket || 'none'}. Top: ${c.holidayTopBrand?`${c.holidayTopBrand} `:''}${c.holidayTopColor?`${c.holidayTopColor} `:''}${c.holidayTop || c.top}. Bottom: ${c.holidayBottomBrand?`${c.holidayBottomBrand} `:''}${c.holidayBottomColor?`${c.holidayBottomColor} `:''}${c.holidayBottom || c.bottom}. Shoes: ${c.holidayShoesBrand?`${c.holidayShoesBrand} `:''}${c.holidayShoes || c.shoes}. Socks: ${c.holidaySockBrand || c.sockBrand} ${c.holidaySockType || c.sockType} (${c.holidaySockColor || c.sockColor}).${c.holidayEraFashionNote?` Overall silhouette: ${c.holidayEraFashionNote}.`:''}${accText(c,true,true)}${innerCasualNotes(c, true)}`
-  : c.workUniform ? `[Work uniform — as a ${(typeof valueTranslations!=='undefined' && valueTranslations[c.role]) || displayValue('role', c.role) || c.role}] He wears ${c.workUniformEn}. Depict it as practical issued workwear. Do NOT accurately reproduce insignia or logos of any real organization, unit, or company — keep it a generic, standard uniform style for his occupation. Outerwear: ${c.jacket && c.jacket !== 'なし' ? c.jacket : 'none'}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}${uniformHatPhrase(c, true)}. Socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${accText(c,false,true)}` : `[Work outfit${c.role ? ` — as a ${displayValue('role', c.role)}` : ''}] Base the outfit on ${c.outfitBrand?`${c.outfitBrand} `:''}${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.topBrand?`${c.topBrand} `:''}${c.top}. Bottom: ${c.bottomBrand?`${c.bottomBrand} `:''}${c.bottom}. Shoes: ${c.shoesBrand?`${c.shoesBrand} `:''}${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.${c.tie?` Tie: ${c.tie}.`:''}${c.coat?` Coat: ${c.coat}.`:''}${c.suitSilhouette?` Suit silhouette: ${c.suitSilhouette}.`:''}${c.workFitNote?` ${c.workFitNote}.`:''}${accText(c,false,true)}`}
+  : c.workUniform ? `[Work uniform — as a ${(typeof valueTranslations!=='undefined' && valueTranslations[c.role]) || displayValue('role', c.role) || c.role}] He wears ${natUniformFix(c, c.workUniformEn, true)}. Depict it as practical issued workwear. Do NOT accurately reproduce insignia or logos of any real organization, unit, or company — keep it a generic, standard uniform style for his occupation. Outerwear: ${c.jacket && c.jacket !== 'なし' ? c.jacket : 'none'}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}${uniformHatPhrase(c, true)}. Socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${accText(c,false,true)}` : `[Work outfit${c.role ? ` — as a ${displayValue('role', c.role)}` : ''}] Base the outfit on ${c.outfitBrand?`${c.outfitBrand} `:''}${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.topBrand?`${c.topBrand} `:''}${c.top}. Bottom: ${c.bottomBrand?`${c.bottomBrand} `:''}${c.bottom}. Shoes: ${c.shoesBrand?`${c.shoesBrand} `:''}${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.${c.tie?` Tie: ${c.tie}.`:''}${c.coat?` Coat: ${c.coat}.`:''}${c.suitSilhouette?` Suit silhouette: ${c.suitSilhouette}.`:''}${c.workFitNote?` ${c.workFitNote}.`:''}${accText(c,false,true)}`}
 
 ${styleEn}
 Era setting: around ${c.eraYear || '2026'}. Match the garment silhouettes, fabrics, and accessories to this period.\n${adultUniformEn}
@@ -8487,7 +8511,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); if(current && current.id !== lastRarityPlayed){ lastRarityPlayed = current.id; playRaritySound(r); } els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.8.1'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.8.2'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function renderHistory(){
     const h = loadHistory();
