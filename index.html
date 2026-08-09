@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V3.9.2</title>
+  <title>Guzen Ikemen Maker V3.9.6</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -132,8 +132,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V3.9.2</span>
-        <h1 class="title">Guzen Ikemen Maker V3.9.2</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V3.9.6</span>
+        <h1 class="title">Guzen Ikemen Maker V3.9.6</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -350,9 +350,10 @@
         </div>
         <div id="flowGuide"><span class="flow-step" data-flow="1">STEP1&nbsp;🪪&nbsp;<b id="flowStep1">基準カードで画像を生成</b></span><span class="flow-arrow">→</span><span class="flow-step" data-flow="2">STEP2&nbsp;🎨&nbsp;<b id="flowStep2">その画像を添付して派生出力</b></span></div>
         <div id="promptTabs"></div>
+        <div class="section-title" style="margin-top:14px"><h2 style="font-size:15px">詳細プロフまとめ（閲覧・転記用）</h2><span><button class="btn primary" id="copyFullProfBtn">📋 コピー</button></span></div>
+        <p class="notice">人物の全設定を読みやすくまとめたテキストです。画像生成用プロンプトではありません。</p>
+        <textarea class="textarea" id="fullProfBox" readonly style="min-height:220px" placeholder="キャラクターを生成するとここに表示されます"></textarea>
         <div class="prompt-pane" id="pane-main">
-        <div class="section-title"><h2 style="font-size:15px">詳細プロフまとめ</h2><button class="btn primary" id="copyFullProfBtn">📋 コピー</button></div>
-        <textarea class="textarea" id="fullProfBox" readonly style="min-height:170px"></textarea>
         <div class="section-title" style="margin-top:14px"><h2 id="paneTitle-main" style="font-size:15px">メイン画像用 指示文</h2><button class="btn primary" id="copyPromptBtn">📋 コピー</button></div>
         <p class="notice pane-desc" id="desc-main"></p>
         <textarea class="textarea" id="promptBox" readonly></textarea>
@@ -380,8 +381,6 @@
         <textarea class="textarea" id="vrefPromptBox" readonly style="min-height:150px"></textarea>
         <div class="section-title" style="margin-top:14px"><h2 style="font-size:15px">動画プロンプト（SeeDance・日本語／動画差分）</h2><span><select id="videoDur" style="margin-right:6px"><option value="15">15秒（2.0）</option><option value="30">30秒（2.5）</option></select><button class="pf-btn" id="videoDice">🎲</button><button class="btn primary" id="copyVideoBtn">📋 コピー</button></span></div>
         <textarea class="textarea" id="videoPromptBox" readonly style="min-height:210px"></textarea>
-        <div class="section-title" style="margin-top:14px"><h2 style="font-size:15px">詳細プロフまとめ</h2><span><button class="btn primary" id="copyFullProfBtn">📋 コピー</button></span></div>
-        <textarea class="textarea" id="fullProfBox" readonly style="min-height:220px"></textarea>
         <div class="section-title" style="margin-top:10px"><h2 style="font-size:15px">テロップ提案（後付け編集用）</h2><span><button class="pf-btn" id="telopDice">🎲</button><button class="btn primary" id="copyTelopBtn">📋 コピー</button></span></div>
         <textarea class="textarea" id="telopBox" readonly style="min-height:170px"></textarea>
         </div>
@@ -439,7 +438,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.9.2</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.9.6</p>
   </div>
 
 <script>
@@ -1192,8 +1191,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.9.2';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.9.2';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.9.6';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.9.6';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1956,7 +1955,7 @@
     return sc;
   }
 
-  /* ===== V3.9.2 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
+  /* ===== V3.9.6 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
   // 項目: [名称, from, peak, to, tags]  tags: c=カジュアル s=ストリート k=きれいめ f=古着 o=オフィス可 p=スポーツ / アウターのみ W=冬 L=春秋 S=夏羽織
   const FVOCAB = {
   top: [
@@ -2127,7 +2126,7 @@
     if(outfitType==='ストリート系') pool = pool.concat(eraBrandList(BRAND_TIER_STREET_ADD, eraYear, null).filter(Boolean));
     return pool.length ? pool : basePool;
   }
-  // ===== V3.9.2 ブランドDB（部位×系統×tier×人気カーブ）＋整合システム =====
+  // ===== V3.9.6 ブランドDB（部位×系統×tier×人気カーブ）＋整合システム =====
   // 形式: [名, 部位(t/b/s/o/k=socks 複数可), 系統タグ(k/c/s/f/p/w), tier(h/m/l/w), from, peak, to(9999=現役), ピーク係数]
   const BRAND_DB = [
     ['UNIQLO','tbok','ck','l',1984,2012,9999,3.0],['GU','tbok','c','l',2006,2020,9999,2.2],['無印良品','tbok','ck','l',1980,2016,9999,1.8],['しまむら','tbok','c','l',1961,2010,9999,1.4],['無地ノーブランド','tbsok','ckcfspw','l',1900,2000,9999,1.5],
@@ -2310,7 +2309,7 @@
   }
 
 
-  // ===== V3.9.2 コーデ部位ヘルパー・アクセサリー・季節連動 =====
+  // ===== V3.9.6 コーデ部位ヘルパー・アクセサリー・季節連動 =====
   const COORD_TYPE_TAG = FASHION_CASUAL_TAGS;
   function eraOptionsFor(kind, c, holiday){
     const y = Number(c.eraYear)||2026;
@@ -3620,7 +3619,7 @@
   })();
   function sportYears(x){ const Y=[2,6,3,3,4,5]; let t=0; for(let i=x.from;i<=x.to;i++) t+=Y[i]||3; return t; }
 
-  // ===== V3.9.2 サリエンスエンジン＋二軸キャッチ＋人物要約 =====
+  // ===== V3.9.6 サリエンスエンジン＋二軸キャッチ＋人物要約 =====
   const ROLE_ALIAS = {'銀行員':'銀行マン','ITエンジニア':'キーボードの人','人力車の車夫':'人力車乗り','公務員':'役所の人','営業職':'営業マン','経理・事務職':'経理マン','美容師':'ハサミ使い','大工':'現場の男','看護師':'夜勤明けの白衣','消防士':'火消し','警察官':'制服の人','タクシー運転手':'夜の運転手','コンサルタント':'横文字の人','商社勤務':'商社マン','高校教師':'先生','バーテンダー':'カウンターの人','カフェ店員':'エプロンの人','農家':'土の人','漁師':'海の男'};
   function roleAlias(role){ return ROLE_ALIAS[String(role||'')] || String(role||'').replace(/（.+）/,'') || '男'; }
   function salienceTop(c, n){
@@ -4106,7 +4105,7 @@
     return e;
   }
 
-  /* ===== V3.9.2 Midjourneyモード：4:3 diptych基準カード（英語＋日本語訳） ===== */
+  /* ===== V3.9.6 Midjourneyモード：4:3 diptych基準カード（英語＋日本語訳） ===== */
   // 対訳辞書：''=標準値のため省略、未登録=省略（日本語訳側に注記）
   const MJ_EN = {
   // フェイスライン
@@ -4262,7 +4261,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     return [en, ja];
   }
 
-  // ===== V3.9.2 笑い方（表情変化）モジュール =====
+  // ===== V3.9.6 笑い方（表情変化）モジュール =====
   const SMILE_EYES=['笑うと目が糸のように細くなり三日月形に消える','笑うと目尻が下がって垂れ目になる','笑っても目の形はあまり変わらない（口で笑うタイプ）','笑うと目尻に若い笑い皺が寄る','笑うと片目だけ強く細くなる','笑うと下まぶたが持ち上がる涙袋笑い','笑うと目を見開いて輝かせる','笑うと細まりつつ目に光をたたえる'];
   const SMILE_STYLES=['上の歯をしっかり見せる満面のくしゃ笑い','八重歯がのぞく笑い','口角だけ上げる控えめな笑み','歯を見せない照れ笑い','笑うと鼻に軽くしわが寄る','声が出そうな大口の笑い','口角が左右非対称に上がるニヒルな笑み','はにかんで口元を手で隠しがちな笑い','ふっと息が漏れるような笑い方','にっと横に大きく広がる笑い'];
   const CHEEK_SMILES=['笑うと頬がリンゴのように高く盛り上がる','笑うと頬に縦の笑いジワが入る','笑ってもシャープな頬のまま','笑うと頬とえくぼが連動してへこむ','頬全体が柔らかく持ち上がる'];
@@ -7587,7 +7586,7 @@ ${promptTargetGuide(c, false)}`;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
     generateInnerProfile(f, ['friend']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.2'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.6'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -7617,7 +7616,7 @@ ${promptTargetGuide(c, false)}`;
     half.forEach(k=>{ if(baseC[k] && Math.random()<0.5) f[k]=baseC[k]; });
     f.siblingOf = {name: baseC.name, kind, age: baseC.age};
     generateInnerProfile(f, ['family']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.2'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.6'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -8347,7 +8346,7 @@ ${promptTargetGuide(b, false)}`;
   }
   /* ===== V3.1 線画プレビュー（密テンプレート方式・髪なし） ===== */
   function renderProfile(){
-    if(!current){ const ib0=document.getElementById('innerAboveTabs'); if(ib0) ib0.innerHTML=''; els.profileView.innerHTML=`<p class="notice">${uiLang==='ja'?'まだ結果がありません。':'No result yet.'}</p>`; els.promptBox.value=''; document.getElementById('outfitPromptBox').value=''; document.getElementById('scenePromptBox').value=''; const vb0=document.getElementById('videoPromptBox'); if(vb0) vb0.value=''; const tb0=document.getElementById('telopBox'); if(tb0) tb0.value=''; const cardBox=document.getElementById('cardPromptBox'); if(cardBox) cardBox.value=''; return; }
+    if(!current){ const ib0=document.getElementById('innerAboveTabs'); if(ib0) ib0.innerHTML=''; els.profileView.innerHTML=`<p class="notice">${uiLang==='ja'?'まだ結果がありません。':'No result yet.'}</p>`; try{ const fpb2=document.getElementById('fullProfBox'); if(fpb2 && current && typeof buildFullProfileText==='function'){ fpb2.value=buildFullProfileText(current); } }catch(e){} els.promptBox.value=''; document.getElementById('outfitPromptBox').value=''; document.getElementById('scenePromptBox').value=''; const vb0=document.getElementById('videoPromptBox'); if(vb0) vb0.value=''; const tb0=document.getElementById('telopBox'); if(tb0) tb0.value=''; const cardBox=document.getElementById('cardPromptBox'); if(cardBox) cardBox.value=''; return; }
     if(!current.personality && current.mbti) current.personality = mbtiDescription(current.mbti, false);
     migrateUniformFields(current);
     if(current.cardWearMode === '提案服装') current.cardWearMode = '職業服装';
@@ -8617,21 +8616,19 @@ ${promptTargetGuide(b, false)}`;
     return L.join('\n');
   }
   function renderVideoBoxes(){
-    const vb=document.getElementById('videoPromptBox'), tb=document.getElementById('telopBox');
-    if(!vb||!current) return;
+    if(!current) return;
     const dur=(document.getElementById('videoDur')||{}).value||'15';
-    vb.value = buildVideoPrompt(current, dur);
-    const fpb=document.getElementById('fullProfBox'); if(fpb) fpb.value = buildFullProfileText(current);
-    const rb=document.getElementById('vrefPromptBox'); if(rb) rb.value = buildVideoRefStill(current);
-    if(tb) tb.value = buildTelopSuggest(current);
-    const fp=document.getElementById('fullProfBox'); if(fp) fp.value = buildFullProfileText(current);
+    const fill=(id,fn)=>{ const el=document.getElementById(id); if(!el) return; try{ el.value=fn(); }catch(e){ el.value='(生成エラー: '+e.message+')'; } };
+    fill('videoPromptBox', ()=>buildVideoPrompt(current, dur));
+    fill('vrefPromptBox', ()=>buildVideoRefStill(current));
+    fill('telopBox', ()=>buildTelopSuggest(current));
+    fill('fullProfBox', ()=>buildFullProfileText(current));
   }
   function renderRarity(){
-    renderVideoBoxes();
     const [s,r,note] = scoreRarity(current); if(current && current.id !== lastRarityPlayed){ lastRarityPlayed = current.id; playRaritySound(r); } els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
-  function renderAll(){ renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.9.2'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function renderAll(){ setTimeout(()=>{ try{ renderVideoBoxes(); }catch(e){} }, 0); renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.9.6'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function deleteHistoryItem(i){
     const h = loadHistory();
@@ -8647,7 +8644,55 @@ ${promptTargetGuide(b, false)}`;
     del(id){ try{ const tx=IDB.db.transaction('thumbs','readwrite'); tx.objectStore('thumbs').delete(String(id)); }catch(e){} } };
   let thumbCache={}, pendingThumbId=null;
   async function refreshThumbs(){ if(!IDB.db) return; const h=loadHistory(); for(const c of h){ if(c.id && thumbCache[c.id]===undefined) thumbCache[c.id]=await IDB.get(c.id); } }
-  function registerThumb(id){ pendingThumbId=id; let fi=document.getElementById('thumbFile'); if(!fi){ fi=document.createElement('input'); fi.type='file'; fi.accept='image/*'; fi.id='thumbFile'; fi.style.display='none'; document.body.appendChild(fi); fi.onchange=()=>{ const f=fi.files[0]; if(!f||!pendingThumbId) return; const img=new Image(); img.onload=()=>{ const cv=document.createElement('canvas'); const sc=256/Math.max(img.width,img.height); cv.width=Math.round(img.width*sc); cv.height=Math.round(img.height*sc); cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height); const du=cv.toDataURL('image/jpeg',0.82); IDB.put(pendingThumbId,du); thumbCache[pendingThumbId]=du; renderHistory(); }; img.src=URL.createObjectURL(f); fi.value=''; }; } fi.click(); }
+  function saveThumbFromRegion(img, sx, sy, ssize){
+    const cv=document.createElement('canvas'); cv.width=256; cv.height=256;
+    const ctx=cv.getContext('2d');
+    if(!ctx){ // フォールバック：全体縮小
+      const c2=document.createElement('canvas'); const sc=256/Math.max(img.width,img.height); c2.width=img.width*sc; c2.height=img.height*sc;
+      try{ c2.getContext('2d').drawImage(img,0,0,c2.width,c2.height); }catch(e){}
+      finishThumb(c2.toDataURL('image/jpeg',0.82)); return;
+    }
+    ctx.drawImage(img, sx, sy, ssize, ssize, 0, 0, 256, 256);
+    finishThumb(cv.toDataURL('image/jpeg',0.82));
+  }
+  function finishThumb(du){ if(!pendingThumbId) return; IDB.put(pendingThumbId,du); thumbCache[pendingThumbId]=du; const m=document.getElementById('cropModal'); if(m) m.remove(); renderHistory(); }
+  function openCropModal(img){
+    const old=document.getElementById('cropModal'); if(old) old.remove();
+    const vw=Math.min(480, Math.max(280, (window.innerWidth||800)-60));
+    const sc=Math.min(vw/img.width, 420/img.height);
+    const cw=Math.round(img.width*sc), ch=Math.round(img.height*sc);
+    const minDim=Math.min(img.width,img.height);
+    const st={size:minDim*0.6, cx:img.width/2, cy:img.height*0.3};
+    const wrap=document.createElement('div'); wrap.id='cropModal';
+    wrap.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:flex;align-items:center;justify-content:center;';
+    wrap.innerHTML=`<div style="background:#101623;border:1px solid #ffffff33;border-radius:14px;padding:14px;max-width:${vw+40}px">
+      <div style="color:#cfe0f5;font-weight:900;margin-bottom:8px">表示範囲を選択（ドラッグで移動・スライダーで枠サイズ）</div>
+      <canvas id="cropCv" width="${cw}" height="${ch}" style="touch-action:none;cursor:move;border-radius:8px;max-width:100%"></canvas>
+      <div style="margin:8px 0"><input type="range" id="cropSize" min="15" max="100" value="60" style="width:100%"></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn dark" data-cp="face">顔</button><button class="btn dark" data-cp="upper">上半身</button><button class="btn dark" data-cp="all">全体</button>
+        <span style="flex:1"></span>
+        <button class="btn dark" id="cropWhole">そのまま登録</button>
+        <button class="btn dark" id="cropCancel">キャンセル</button>
+        <button class="btn primary" id="cropOk">決定</button>
+      </div></div>`;
+    document.body.appendChild(wrap);
+    const cv=wrap.querySelector('#cropCv'), ctx=cv.getContext('2d');
+    const clamp=()=>{ st.size=Math.max(minDim*0.15, Math.min(minDim, st.size)); const h2=st.size/2; st.cx=Math.max(h2, Math.min(img.width-h2, st.cx)); st.cy=Math.max(h2, Math.min(img.height-h2, st.cy)); };
+    const draw=()=>{ if(!ctx) return; clamp(); ctx.drawImage(img,0,0,cw,ch); ctx.fillStyle='rgba(0,0,0,.55)'; ctx.fillRect(0,0,cw,ch); const s=st.size*sc, x=(st.cx-st.size/2)*sc, y=(st.cy-st.size/2)*sc; ctx.drawImage(img, st.cx-st.size/2, st.cy-st.size/2, st.size, st.size, x, y, s, s); ctx.strokeStyle='#ffd44d'; ctx.lineWidth=2; ctx.strokeRect(x,y,s,s); };
+    let dragging=false;
+    const toImg=(e)=>{ const r=cv.getBoundingClientRect(); const px=(e.touches?e.touches[0].clientX:e.clientX)-r.left, py=(e.touches?e.touches[0].clientY:e.clientY)-r.top; return [px/sc*(cw/r.width? r.width/cw*1:1), py/sc]; };
+    cv.onpointerdown=(e)=>{ dragging=true; const [ix,iy]=toImg(e); st.cx=ix; st.cy=iy; draw(); };
+    cv.onpointermove=(e)=>{ if(!dragging) return; const [ix,iy]=toImg(e); st.cx=ix; st.cy=iy; draw(); };
+    cv.onpointerup=()=>{ dragging=false; };
+    wrap.querySelector('#cropSize').oninput=(e)=>{ st.size=minDim*(Number(e.target.value)/100); draw(); };
+    wrap.querySelectorAll('[data-cp]').forEach(b=>{ b.onclick=()=>{ const k=b.dataset.cp; if(k==='face'){ st.size=minDim*0.42; st.cx=img.width/2; st.cy=img.height*0.20; wrap.querySelector('#cropSize').value=42; } else if(k==='upper'){ st.size=minDim*0.7; st.cx=img.width/2; st.cy=img.height*0.32; wrap.querySelector('#cropSize').value=70; } else { st.size=minDim; st.cx=img.width/2; st.cy=img.height/2; wrap.querySelector('#cropSize').value=100; } draw(); }; });
+    wrap.querySelector('#cropCancel').onclick=()=>wrap.remove();
+    wrap.querySelector('#cropWhole').onclick=()=>{ const c2=document.createElement('canvas'); const s2=256/Math.max(img.width,img.height); c2.width=Math.round(img.width*s2); c2.height=Math.round(img.height*s2); try{ c2.getContext('2d').drawImage(img,0,0,c2.width,c2.height); finishThumb(c2.toDataURL('image/jpeg',0.82)); }catch(e){ wrap.remove(); } };
+    wrap.querySelector('#cropOk').onclick=()=>{ clamp(); saveThumbFromRegion(img, st.cx-st.size/2, st.cy-st.size/2, st.size); };
+    draw();
+  }
+  function registerThumb(id){ pendingThumbId=id; let fi=document.getElementById('thumbFile'); if(!fi){ fi=document.createElement('input'); fi.type='file'; fi.accept='image/*'; fi.id='thumbFile'; fi.style.display='none'; document.body.appendChild(fi); fi.onchange=()=>{ const f=fi.files[0]; if(!f||!pendingThumbId) return; const img=new Image(); img.onload=()=>{ openCropModal(img); }; img.src=URL.createObjectURL(f); fi.value=''; }; } fi.click(); }
   function renderHistory(){
     const h = loadHistory();
     setTimeout(()=>{ els.historyList.querySelectorAll('[data-hdel]').forEach(b=>{ b.onclick=(e)=>{ e.stopPropagation(); deleteHistoryItem(Number(b.dataset.hdel)); }; }); els.historyList.querySelectorAll('[data-thumb]').forEach(b=>{ b.onclick=(e)=>{ e.stopPropagation(); registerThumb(b.dataset.thumb); }; }); els.historyList.querySelectorAll('[data-tzoom]').forEach(im=>{ im.onclick=(e)=>{ e.stopPropagation(); const w=window.open(); if(w) w.document.write('<img src="'+im.src+'" style="max-width:100%">'); }; }); },0);
@@ -8671,7 +8716,7 @@ ${promptTargetGuide(b, false)}`;
   // ===== V1.9.1 A案 UI logic =====
   let promptTab = 'main';
   const PROMPT_PANES = [['main','pane-main'],['derived','pane-derived'],['outfit','pane-outfit'],['outfitHoliday','pane-outfitHoliday'],['scene','pane-scene'],['friendPair','pane-friendPair'],['group','pane-group']];
-  function renderPromptTabs(){
+  function renderPromptTabs(){ try{ const fpb3=document.getElementById('fullProfBox'); if(fpb3 && current) fpb3.value=buildFullProfileText(current); }catch(e){}
     const bar = document.getElementById('promptTabs'); if(!bar) return;
     const labels = uiLang==='en'
       ? {main:'🪪 Base Card', derived:'🎨 Derived Output', outfit:'👔 Work Outfit', outfitHoliday:'👕 Casual Outfit', scene:'🎬 Scene', friendPair:'🤝 Friend Two-shot', group:'👥 Group Photo'}
