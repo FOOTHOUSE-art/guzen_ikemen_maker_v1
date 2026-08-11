@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V3.9.9</title>
+  <title>Guzen Ikemen Maker V3.9.14</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -88,6 +88,7 @@
     .icat-mind{background:#a855f719;border-color:#a855f74d;color:#e3c8ff}
     .icat-past{background:#06b6d417;border-color:#06b6d44d;color:#aeeaf5}
     .icat-adult{background:#ef444417;border-color:#ef44444d;color:#ffc2c2}
+    .icat-fashion{background:#ec489917;border-color:#ec48994d;color:#ffc9e5}
     .inner-ctrl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:2px 0 8px}
     .icat-chip{border-radius:999px;padding:6px 11px;font-size:12px;font-weight:900;letter-spacing:.03em;border:1px solid #ffffff26;background:#ffffff08;color:#8fa3bd;opacity:.6;cursor:pointer}
     .icat-chip.on{opacity:1;box-shadow:0 0 0 1.5px currentColor inset}
@@ -132,8 +133,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V3.9.9</span>
-        <h1 class="title">Guzen Ikemen Maker V3.9.9</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V3.9.14</span>
+        <h1 class="title">Guzen Ikemen Maker V3.9.14</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -197,6 +198,7 @@
           <label class="field"><span>出力枚数</span><select id="initialCount"></select></label>
           <label class="field"><span>指示文言語</span><select id="initialPromptLanguage"></select></label>
           <label class="field"><span>生成先</span><select id="initialPromptTarget"></select></label>
+          <label class="field"><span>足の詳細表現</span><select id="initialFootDetail"></select></label>
         </div></div>
         <div class="subcard" data-ui-card="initialProfileText"><h3>画像内プロフィール表記</h3><div class="form">
           <label class="field"><span>画像内スペック表示</span><select id="initialCaptionMode"></select></label>
@@ -291,6 +293,8 @@
       </div>
       <div class="panel">
         <div id="innerAboveTabs"></div>
+        <div id="innerSceneTitle" style="display:none;margin-top:10px"><button class="btn dark" id="innerSceneToggle">▶ 紹介場面プロンプトを表示</button></div>
+        <textarea class="textarea" id="innerSceneBox" readonly style="display:none"></textarea>
         <div class="section-title"><h2 id="promptAreaTitle">画像生成用 指示文</h2><span class="pill" id="promptAreaTarget"></span></div>
         <div class="form" style="margin-bottom:12px">
           <div class="subcard" data-ui-card="manualOutput"><h3>出力設定</h3><div class="form">
@@ -438,7 +442,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.9.9</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.9.14</p>
   </div>
 
 <script>
@@ -1192,8 +1196,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.9.9';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.9.9';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.9.14';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.9.14';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1367,6 +1371,8 @@
     const count = document.getElementById('initialCount');
     const promptLang = document.getElementById('initialPromptLanguage');
     const target = document.getElementById('initialPromptTarget');
+    const fdSel = document.getElementById('initialFootDetail');
+    if(fdSel && !fdSel.options.length){ ['詳細','標準','なし'].forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; fdSel.appendChild(o); }); }
     const caption = document.getElementById('initialCaptionMode');
     const cardStyle = document.getElementById('initialCardStyle');
     const cardRarity = document.getElementById('initialCardRarity');
@@ -1464,6 +1470,7 @@
       count: document.getElementById('initialCount')?.value || pools.counts[0],
       promptLanguage: document.getElementById('initialPromptLanguage')?.value || pools.promptLanguages[0],
       promptTarget: document.getElementById('initialPromptTarget')?.value || pools.promptTargets[0],
+      footDetailMode: document.getElementById('initialFootDetail')?.value || '詳細',
       captionMode: document.getElementById('initialCaptionMode')?.value || '表記する',
       bioCaptionMode: document.getElementById('initialBioCaption')?.value || '入れない',
       promptDetail: document.getElementById('initialPromptDetail')?.value || '自動（生成先に合わせる）',
@@ -1959,7 +1966,7 @@
     return sc;
   }
 
-  /* ===== V3.9.9 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
+  /* ===== V3.9.14 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
   // 項目: [名称, from, peak, to, tags]  tags: c=カジュアル s=ストリート k=きれいめ f=古着 o=オフィス可 p=スポーツ / アウターのみ W=冬 L=春秋 S=夏羽織
   const FVOCAB = {
   top: [
@@ -2130,7 +2137,7 @@
     if(outfitType==='ストリート系') pool = pool.concat(eraBrandList(BRAND_TIER_STREET_ADD, eraYear, null).filter(Boolean));
     return pool.length ? pool : basePool;
   }
-  // ===== V3.9.9 ブランドDB（部位×系統×tier×人気カーブ）＋整合システム =====
+  // ===== V3.9.14 ブランドDB（部位×系統×tier×人気カーブ）＋整合システム =====
   // 形式: [名, 部位(t/b/s/o/k=socks 複数可), 系統タグ(k/c/s/f/p/w), tier(h/m/l/w), from, peak, to(9999=現役), ピーク係数]
   const BRAND_DB = [
     ['UNIQLO','tbok','ck','l',1984,2012,9999,3.0],['GU','tbok','c','l',2006,2020,9999,2.2],['無印良品','tbok','ck','l',1980,2016,9999,1.8],['しまむら','tbok','c','l',1961,2010,9999,1.4],['無地ノーブランド','tbsok','ckcfspw','l',1900,2000,9999,1.5],
@@ -2199,7 +2206,11 @@
       if(part==='socks'){
         if(sockCare==='care') w *= /Tabio|靴下屋/.test(name) ? 3.5 : 0.8;
       }
-      if(persona && persona.favBrand && name===persona.favBrand && !FV_SUIT_TYPES.includes(outfitType)) w *= 3;
+      if(part==='shoes' && name==='無地ノーブランド') w *= 0.12;
+      if(persona && !FV_SUIT_TYPES.includes(outfitType)){
+        if(part==='shoes'){ if(persona.favShoeBrand && name===persona.favShoeBrand) w *= 8; }
+        else if(part!=='socks' && persona.favBrand && name===persona.favBrand) w *= 8;
+      }
       if(part==='socks'){
         if(sockCare==='mute') w *= /無地ノーブランド|しまむら|UNIQLO/.test(name) ? 3 : 0.25;
       }
@@ -2316,7 +2327,7 @@
   }
 
 
-  // ===== V3.9.9 コーデ部位ヘルパー・アクセサリー・季節連動 =====
+  // ===== V3.9.14 コーデ部位ヘルパー・アクセサリー・季節連動 =====
   const COORD_TYPE_TAG = FASHION_CASUAL_TAGS;
   function eraOptionsFor(kind, c, holiday){
     const y = Number(c.eraYear)||2026;
@@ -2475,7 +2486,7 @@
     return `アクセサリーは${l.length?l.join('・'):'なし'}${note}。`;
   }
   function applyCoordToCharacter(c, holiday){
-    const persona = { senseText: c.fashionSenseText, incomeText: c.incomeText, assetText: c.assetText, gambleText: c.gambleText, role: c.role, nat: c.nationality, res: c.residenceText, favBrand: c.favBrandText, baseColor: c.baseColorText, scheme: c.colorSchemeText, sockCycle: c.sockCycleText, sockDrawer: c.sockDrawerText, sockPair: c.sockPairText, sizeFeel: c.sizeFeelText };
+    const persona = { senseText: c.fashionSenseText, incomeText: c.incomeText, assetText: c.assetText, gambleText: c.gambleText, role: c.role, nat: c.nationality, res: c.residenceText, favBrand: c.favBrandText, favShoeBrand: c.favShoeBrandText, baseColor: c.baseColorText, scheme: c.colorSchemeText, sockCycle: c.sockCycleText, sockDrawer: c.sockDrawerText, sockPair: c.sockPairText, sizeFeel: c.sizeFeelText };
     const co = generateCoordinatedOutfit(holiday?(c.holidayOutfitType||c.outfitType):c.outfitType, c.age, false, c.nationality, c.vibe, c.eraYear, c.season, c.mbti, persona);
     if(holiday){
       c.holidayOutfitBrand=co.outfitBrand; c.holidayJacket=co.jacket; c.holidayTop=co.top; c.holidayBottom=co.bottom; c.holidayShoes=co.shoes;
@@ -3647,7 +3658,7 @@
   })();
   function sportYears(x){ const Y=[2,6,3,3,4,5]; let t=0; for(let i=x.from;i<=x.to;i++) t+=Y[i]||3; return t; }
 
-  // ===== V3.9.9 サリエンスエンジン＋二軸キャッチ＋人物要約 =====
+  // ===== V3.9.14 サリエンスエンジン＋二軸キャッチ＋人物要約 =====
   const ROLE_ALIAS = {'銀行員':'銀行マン','ITエンジニア':'キーボードの人','人力車の車夫':'人力車乗り','公務員':'役所の人','営業職':'営業マン','経理・事務職':'経理マン','美容師':'ハサミ使い','大工':'現場の男','看護師':'夜勤明けの白衣','消防士':'火消し','警察官':'制服の人','タクシー運転手':'夜の運転手','コンサルタント':'横文字の人','商社勤務':'商社マン','高校教師':'先生','バーテンダー':'カウンターの人','カフェ店員':'エプロンの人','農家':'土の人','漁師':'海の男'};
   function roleAlias(role){ return ROLE_ALIAS[String(role||'')] || String(role||'').replace(/（.+）/,'') || '男'; }
   function salienceTop(c, n){
@@ -4133,7 +4144,7 @@
     return e;
   }
 
-  /* ===== V3.9.9 Midjourneyモード：4:3 diptych基準カード（英語＋日本語訳） ===== */
+  /* ===== V3.9.14 Midjourneyモード：4:3 diptych基準カード（英語＋日本語訳） ===== */
   // 対訳辞書：''=標準値のため省略、未登録=省略（日本語訳側に注記）
   const MJ_EN = {
   // フェイスライン
@@ -4289,7 +4300,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     return [en, ja];
   }
 
-  // ===== V3.9.9 笑い方（表情変化）モジュール =====
+  // ===== V3.9.14 笑い方（表情変化）モジュール =====
   const SMILE_EYES=['笑うと目が糸のように細くなり三日月形に消える','笑うと目尻が下がって垂れ目になる','笑っても目の形はあまり変わらない（口で笑うタイプ）','笑うと目尻に若い笑い皺が寄る','笑うと片目だけ強く細くなる','笑うと下まぶたが持ち上がる涙袋笑い','笑うと目を見開いて輝かせる','笑うと細まりつつ目に光をたたえる'];
   const SMILE_STYLES=['上の歯をしっかり見せる満面のくしゃ笑い','八重歯がのぞく笑い','口角だけ上げる控えめな笑み','歯を見せない照れ笑い','笑うと鼻に軽くしわが寄る','声が出そうな大口の笑い','口角が左右非対称に上がるニヒルな笑み','はにかんで口元を手で隠しがちな笑い','ふっと息が漏れるような笑い方','にっと横に大きく広がる笑い'];
   const CHEEK_SMILES=['笑うと頬がリンゴのように高く盛り上がる','笑うと頬に縦の笑いジワが入る','笑ってもシャープな頬のまま','笑うと頬とえくぼが連動してへこむ','頬全体が柔らかく持ち上がる'];
@@ -4931,8 +4942,8 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
       if(english) return `Work outfit contents: ${natUniformFix(c, c.workUniformEn, true)} — top: ${c.top}${uniformJacketPhrase(c, true)}, bottom: ${c.bottom}, shoes: ${c.shoes}${uniformHatPhrase(c, true)}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${sockRenderNote(c,true)}${accText(c,false,true)} Do not reproduce real organizations' insignia or logos. `;
       return `職業服装の内容：${c.workUniform}。トップスは${c.top}${uniformJacketPhrase(c, false)}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。${sockRenderNote(c,false)}${accText(c,false,false)}実在組織の記章・ロゴは正確に再現しない。`;
     }
-    if(english) return `Work outfit contents: ${c.outfitBrand?`${c.outfitBrand} `:''}${c.outfitType} — outerwear: ${c.jacket}, top: ${c.topBrand?`${c.topBrand} `:''}${c.top}, bottom: ${c.bottomBrand?`${c.bottomBrand} `:''}${c.bottom}, shoes: ${c.shoesBrand?`${c.shoesBrand} `:''}${c.shoes}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${sockRenderNote(c,true)}${c.tie?` Tie: ${c.tie}.`:''}${c.coat?` Coat: ${c.coat}.`:''}${c.suitSilhouette?` Suit silhouette: ${c.suitSilhouette}.`:''}${c.workFitNote?` ${c.workFitNote}.`:''}${accText(c,false,true)} `;
-    return `職業服装の内容：${c.outfitBrand?`${c.outfitBrand}の`:''}${c.outfitType}。上着は${c.jacket}、トップスは${c.topBrand?`${c.topBrand}の`:''}${c.top}、ボトムスは${c.bottomBrand?`${c.bottomBrand}の`:''}${c.bottom}、靴は${c.shoesBrand?`${c.shoesBrand}の`:''}${c.shoesColor?`${c.shoesColor}の`:''}${c.shoes}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。${sockRenderNote(c,false)}${c.tie?`ネクタイは${c.tie}。`:''}${c.coat?`コートは${c.outerBrand?`${c.outerBrand}の`:''}${c.coat}。`:''}${c.suitSilhouette?`スーツのシルエットは「${c.suitSilhouette}」。`:''}${c.workFitNote?`${c.workFitNote}。`:''}${accText(c,false,false)}`;
+    if(english) return `Work outfit contents: ${c.outfitBrand?`${c.outfitBrand} `:''}${c.outfitType} — outerwear: ${c.jacket}, top: ${c.topBrand?`${c.topBrand} `:''}${c.top}, bottom: ${c.bottomBrand?`${c.bottomBrand} `:''}${c.bottom}, shoes: ${c.shoesBrand?`${c.shoesBrand} `:''}${c.shoes}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${sockRenderNote(c,true)}${c.tie?` Tie: ${c.tie}.`:''}${c.coat?` Coat: ${c.coat}.`:''}${c.suitSilhouette?` Suit silhouette: ${c.suitSilhouette}.${c.slacksFitText?` Slacks fit "${c.slacksFitText}", hem finish "${c.hemFinishText}", length "${suitHemOf(c)}".`:''}`:''}${c.workFitNote?` ${c.workFitNote}.`:''}${accText(c,false,true)} `;
+    return `職業服装の内容：${c.outfitBrand?`${c.outfitBrand}の`:''}${c.outfitType}。上着は${c.jacket}、トップスは${c.topBrand?`${c.topBrand}の`:''}${c.top}、ボトムスは${c.bottomBrand?`${c.bottomBrand}の`:''}${c.bottom}、靴は${c.shoesBrand?`${c.shoesBrand}の`:''}${c.shoesColor?`${c.shoesColor}の`:''}${c.shoes}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。${sockRenderNote(c,false)}${c.tie?`ネクタイは${c.tie}。`:''}${c.coat?`コートは${c.outerBrand?`${c.outerBrand}の`:''}${c.coat}。`:''}${c.suitSilhouette?`スーツのシルエットは「${c.suitSilhouette}」。`:''}${c.slacksFitText?`スラックスは${c.slacksFitText}で、裾は${c.hemFinishText||'シングル（プレーン）仕上げ'}、丈は${suitHemOf(c)}。`:''}${c.workFitNote?`${c.workFitNote}。`:''}${accText(c,false,false)}`;
   }
   function innerCasualNotes(c, english=false){
     const notes = [c.holidayGapSuit ? (english?'He wears a suit even on his day off — to him, this IS casual':'休日なのにスーツ。本人は私服のつもり') : '', c.holidayStyleNote || c.styleNote, c.muscleFashionNote, c.senseFashionNote].filter(Boolean);
@@ -5132,8 +5143,8 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
       if(S.basic) catLines.push(`【基本】生年月日：${c.birthdateText}／出身地：${String(c.birthplaceText||'').replace('：','')}／血液型：${c.bloodType}／一人称：${c.pronoun}／口調：${c.speechText}／あだ名：${c.nicknameText}`);
       if(S.life) catLines.push(`【暮らし・家族】${c.maritalText}・恋人：${c.loverText}／家族構成：${c.familyText}／${c.livingText}・住居：${c.residenceText}／出自：${c.originText}／学歴：${c.educationText}／収入：${c.incomeText}／資産：${c.assetText}`);
       if(S.daily) catLines.push(`【日常・嗜好】健康：${c.healthText}／趣味：${c.hobbyText}／マイブーム：${c.myBoomText}／好物：${c.foodLikeText}・苦手：${c.foodHateText}`);
-      if(S.mind) catLines.push(`【内面】行動原理：${c.principleText}／夢：${c.innerDream}／本音の欲望：${c.innerDesire}／弱点：${c.weaknessMind}・${c.weaknessBody}／才能：${c.innerTalent}／コンプレックス：${c.complexText}／許せないこと：${c.unforgivableText}／コーデ基準：${c.fashionSenseText}`);
-      if(S.mind) catLines.push(`【ファッション】重視：${c.fashionValueText||'—'}／好きなブランド：${c.favBrandText||'—'}／サイズ感：${c.sizeFeelText||'—'}／基調色：${c.baseColorText||'—'}（${c.colorSchemeText||'—'}）／靴下：買い替えは${c.sockCycleText||'—'}・内訳は${c.sockDrawerText||'—'}・悩みは${c.sockTroubleText||'—'}・合わせ方は${c.sockPairText||'—'}`);
+      if(S.mind) catLines.push(`【内面】行動原理：${c.principleText}／夢：${c.innerDream}／本音の欲望：${c.innerDesire}／弱点：${c.weaknessMind}・${c.weaknessBody}／才能：${c.innerTalent}／コンプレックス：${c.complexText}／許せないこと：${c.unforgivableText}／好きな言葉：${c.favoriteWordText||'—'}／コーデ基準：${c.fashionSenseText}`);
+      if(S.mind) catLines.push(`【ファッション】重視：${c.fashionValueText||'—'}／好きなブランド：服は${c.favBrandText||'—'}・靴は${c.favShoeBrandText||'—'}／サイズ感：${c.sizeFeelText||'—'}／丈感：${c.hemPrefText||'—'}／スラックス：${c.slacksFitText||'—'}・${c.hemFinishText||'—'}／基調色：${c.baseColorText||'—'}（${c.colorSchemeText||'—'}）／靴下：買い替えは${c.sockCycleText||'—'}・内訳は${c.sockDrawerText||'—'}・連続着用は${c.sockWearText||'—'}・ニオイは${c.sockSmellText||'—'}・悩みは${c.sockTroubleText||'—'}・合わせ方は${c.sockPairText||'—'}`);
       if(S.past) catLines.push(`【過去・人間関係】${c.pastUpbringing}／${c.pastTrauma}／思い出：${c.memoryText}／親友：${String(c.friendText||'').replace(/〔.*?〕/,'')}／恋愛対象：${c.loveTarget}／恋愛経験：${c.loveCountText}`);
       if(S.adult) catLines.push(`【オトナの事情（小さく・婉曲表現で）】飲酒：${c.drinkText}／喫煙：${c.smokeText}／ギャンブル歴：${c.gambleText}／風俗経験：${c.fuzokuText}／初めての体験：${c.firstExpText}／経験人数：${c.expCountText}／週頻度：相手あり ${c.weekFreqText}・セルフ ${c.selfFreqText}`);
       const linesJa = catLines.join('。 ');
@@ -5159,8 +5170,8 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
       return `「人物特集雑誌ページ」として構成する。${nameKana(c)}（${c.age}歳・${c.role}）を特集する${c.nationality && c.nationality !== '日本' ? `${c.nationality}で発行されている` : ''}架空の雑誌の誌面で、レイアウトは${eraLabel(c.eraYear)}頃の${magazineStyleByEra(c.eraYear, false)}にする。構成：メイン写真（私服コーデ。${casualOutfitSpec(c, false)}）、小さめのサブカット（職業服装。${workOutfitSpec(c, false)}）、キャッチフレーズ「${catchphrase(c, false)}」を使った大見出し、プロフィール欄（名前・年齢・職業・身長${c.height}）、ミニインタビュー欄：${magazineQA(c, false)}。${c.season ? `${c.season}の特集号として、誌面全体に季節感も添える。` : ''}${innerMagazineBlock(c, false)}誌面の日本語はすべて読みやすく、文字化けさせない。実在の雑誌名・ロゴは使わず、架空の雑誌としてデザインする。`;
     }
     if(kind==='outfitref'){
-      if(english) return `Create an outfit reference sheet with an occupation-themed backdrop. The hero content is his full WORK outfit (shoes included). Panels: (1) full-body FRONT view in the complete work outfit with shoes, (2) full-body SIDE view, (3) an upper-body close-up showing fabric and layering details, (4) a shoe detail (side view and sole), and (5) a foot detail with the BARE foot front view and sole view (shoes and socks removed), and (6) a SOCK detail panel showing the foot wearing the suggested socks from the FRONT and from the SOLE side, rendering the sock condition (${c.sockUse}) accurately.${sockRenderNote(c,true)} Background: ${occupationBackdrop(c.role, true)}, conveying the atmosphere of his occupation. ${outfitSummaryLine(c, true)} Label every panel, keep every panel clearly the same person, and keep the sheet non-sexual.`;
-      return `服装リファレンスシートとして、職業に合わせた背景で構成する。主役は靴まで含めた職業服装のフルコーデ。パネル構成：①フルコーデの全身の正面（靴あり）、②全身の側面、③素材や重ね着が分かる上半身のディテールアップ、④靴の詳細（側面とソール）、⑤足元詳細（靴と靴下を脱いだ素足の正面と足裏）、⑥靴下詳細（提案靴下を履いた足の正面と足裏。靴下の使用感「${c.sockUse}」を正確に描く。${sockRenderNote(c,false)}）。背景は${occupationBackdrop(c.role, false)}とし、職業の空気感が伝わるようにする。${outfitSummaryLine(c, false)}各パネルにラベルを付け、全パネル同一人物として顔立ち・体型・身長感を完全に一致させ、非性的に描く。`;
+      if(english) return `Create an outfit reference sheet with an occupation-themed backdrop. The hero content is his full WORK outfit (shoes included). Panels: (1) full-body FRONT view in the complete work outfit with shoes, (2) full-body SIDE view, (3) an upper-body close-up showing fabric and layering details, (4) a shoe detail (side view and sole), and (5) a foot detail with the BARE foot front view and sole view (shoes and socks removed), and (6) a SOCK detail panel showing the foot wearing the suggested socks from the FRONT and from the SOLE side, rendering the sock condition (${c.sockUse}) accurately.${sockWearVisual(c,true)}${sockNoteFull(c,true)} Background: ${occupationBackdrop(c.role, true)}, conveying the atmosphere of his occupation. ${outfitSummaryLine(c, true)} Label every panel, keep every panel clearly the same person, and keep the sheet non-sexual.`;
+      return `服装リファレンスシートとして、職業に合わせた背景で構成する。主役は靴まで含めた職業服装のフルコーデ。パネル構成：①フルコーデの全身の正面（靴あり）、②全身の側面、③素材や重ね着が分かる上半身のディテールアップ、④靴の詳細（側面とソール）、⑤足元詳細（靴と靴下を脱いだ素足の正面と足裏）、⑥靴下詳細（提案靴下を履いた足の正面と足裏。靴下の使用感「${c.sockUse}」を正確に描く。${sockWearVisual(c,false)}${sockNoteFull(c,false)}）。背景は${occupationBackdrop(c.role, false)}とし、職業の空気感が伝わるようにする。${outfitSummaryLine(c, false)}各パネルにラベルを付け、全パネル同一人物として顔立ち・体型・身長感を完全に一致させ、非性的に描く。`;
     }
     if(kind==='poster'){
       if(english) return `Create a single character poster (magazine-cover / movie-poster style) that instantly communicates who he is and what he does. He wears his full work outfit and is placed large in the composition. ${workOutfitSpec(c, true)}${posterFootNote(c, true)}With the background (${occupationBackdrop(c.role, true)}), props, and lighting expressing his occupation and persona. Style the poster's typography, colors, and print texture like advertising from around ${c.eraYear || '2026'}. Place the catchphrase "${catchphrase(c, true)}" as a large, stylish title, and his name "${nameKana(c)}" as a smaller readable credit. At the bottom, add a small readable profile box: name, age ${c.age}, occupation ${roleWithSport(c, true)}, height ${c.height}, and a one-line profile "${profileShortText(c, true)}". Keep all text unbroken. The poster must be tasteful and non-sexual.`;
@@ -5937,6 +5948,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     if(has('selffreq')){ const r = chooseInnerSelfFreq(c); c.selfFreqText = r[0]; M.selffreq = r[1]; }
     if(has('expcount')){ const r = chooseInnerExpCount(c); c.expCountText = r[0]; M.expcount = r[1]; }
     if(has('lovetype')){ const r = chooseInnerLoveType(c); c.loveTypeText = r[0]; M.lovetype = r[1]; }
+    if(has('complex') || has('lovetype') || true){ if(!c.favoriteWordText){ const r = chooseInnerFavoriteWord(c); c.favoriteWordText = r[0]; } }
     if(has('fashionsense')){ const r = chooseInnerFashionSense(c); c.fashionSenseText = r[0]; M.fashionsense = r[1]; applyFashionSenseFx(c); chooseFashionProfile(c); }
 
     if(has('drink')){ const r = chooseInnerDrink(c); c.drinkText = r[0]; M.drink = r[1]; }
@@ -5947,8 +5959,8 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     return c;
   }
   // --- カテゴリ表示状態（初期はすべて非表示・表示したものだけプロンプト反映） ---
-  const INNER_CATS = [['basic','🪪 基本データ','🪪 Basic Data','icat-basic'],['life','🏠 暮らし・家族','🏠 Life & Family','icat-life'],['daily','☕ 日常・嗜好','☕ Daily & Tastes','icat-daily'],['mind','💭 内面','💭 Inner Self','icat-mind'],['past','🕰 過去・人間関係','🕰 Past & People','icat-past'],['adult','🌙 オトナの事情','🌙 Grown-up','icat-adult']];
-  let innerCatShow = {basic:false, life:false, daily:false, mind:false, past:false, adult:false};
+  const INNER_CATS = [['basic','🪪 基本データ','🪪 Basic Data','icat-basic'],['life','🏠 暮らし・家族','🏠 Life & Family','icat-life'],['daily','☕ 日常・嗜好','☕ Daily & Tastes','icat-daily'],['mind','💭 内面','💭 Inner Self','icat-mind'],['past','🕰 過去・人間関係','🕰 Past & People','icat-past'],['adult','🌙 オトナの事情','🌙 Grown-up','icat-adult'],['fashion','👔 ファッション','👔 Fashion','icat-fashion']];
+  let innerCatShow = {basic:false, life:false, daily:false, mind:false, past:false, adult:false, fashion:false};
   function innerAnyShown(){ return Object.values(innerCatShow).some(Boolean); }
   // --- 表示セクション（カテゴリ選択式・32項目） ---
   function buildInnerSection(c, L){
@@ -5990,7 +6002,23 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
         [en?'Weakness (Mind / Body)':'弱点（性格 / 身体）', V(`${c.weaknessMind||'—'}／${c.weaknessBody||'—'}`,'weakness'), 'weaknessMind,weaknessBody','icv-mind'],
         [en?'Talent':'秀でた才能', V(c.innerTalent,'talent'), 'innerTalent','icv-mind'],
         [en?'Complex':'コンプレックス', V(c.complexText,'complex'), 'complexText','icv-mind'],
-        [en?'Unforgivable':'許せないこと', V(c.unforgivableText,'unforgivable'), 'unforgivableText','icv-mind']
+        [en?'Unforgivable':'許せないこと', V(c.unforgivableText,'unforgivable'), 'unforgivableText','icv-mind'],
+        [en?'Favorite Words':'好きな言葉', V(c.favoriteWordText,'favoriteword'), 'favoriteWordText','icv-mind']
+      ],
+      fashion: [
+        [en?'Fashion Priority':'重視する価値観', V(c.fashionValueText,'fashionvalue'), 'fashionValueText','icv-fashion'],
+        [en?'Favorite Brand (Clothes)':'好きなブランド（服）', V(c.favBrandText,'favbrand'), 'favBrandText','icv-fashion'],
+        [en?'Favorite Brand (Shoes)':'好きなブランド（靴）', V(c.favShoeBrandText,'favshoebrand'), 'favShoeBrandText','icv-fashion'],
+        [en?'Fit Preference':'サイズ感', V(c.sizeFeelText,'sizefeel'), 'sizeFeelText','icv-fashion'],
+        [en?'Trouser Hem Preference':'ボトムスの丈感', V(c.hemPrefText,'hempref'), 'hemPrefText','icv-fashion'],
+        [en?'Slacks Fit / Hem Finish':'スラックス（フィット・裾）', V(`${c.slacksFitText||'—'}・${c.hemFinishText||'—'}`,'slacksfit'), 'slacksFitText,hemFinishText','icv-fashion'],
+        [en?'Base Color / Scheme':'基調色・配色', V(`${c.baseColorText||'—'}（${c.colorSchemeText||'—'}）`,'basecolor'), 'baseColorText,colorSchemeText','icv-fashion'],
+        [en?'Sock Drawer':'靴下の内訳', V(c.sockDrawerText,'sockdrawer'), 'sockDrawerText','icv-fashion'],
+        [en?'Sock Replacement':'靴下の買い替え', V(c.sockCycleText,'sockcycle'), 'sockCycleText','icv-fashion'],
+        [en?'Sock Rotation':'靴下の連続着用', V(c.sockWearText,'sockwear'), 'sockWearText','icv-fashion'],
+        [en?'Sock Smell':'靴下のニオイ', V(c.sockSmellText,'socksmell'), 'sockSmellText','icv-fashion'],
+        [en?'Sock Trouble':'靴下の悩み', V(c.sockTroubleText,'socktrouble'), 'sockTroubleText','icv-fashion'],
+        [en?'Sock Pairing':'服との合わせ方', V(c.sockPairText,'sockpair'), 'sockPairText','icv-fashion']
       ],
       past: [
         [en?'Past / Trauma':'過去（生い立ち / トラウマ）', V(`${c.pastUpbringing||'—'}<br>${c.pastTrauma||'トラウマ：なし'}`,'past'), 'pastUpbringing,pastTrauma','icv-past'],
@@ -6517,6 +6545,239 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
   const SOCK_DRAWERS = [['黒・紺のビジネスソックス中心',5],['白スポーツソックス多め',3],['黒ビジネスと白スポーツが半々',3.5],['グレー系で統一',2],['柄物がじわじわ増殖中',1.5],['同じ靴下を色違いで揃えている',2],['もらい物と景品が混ざったカオス',1.5]];
   const SOCK_TROUBLES = [['かかとがすぐ薄くなる',4],['ずり落ちてくるのが地味にストレス',3],['毛玉ができやすい',3],['洗濯で片方が行方不明になる',3.5],['ゴムが伸びがち',2.5],['サイズが微妙に合わない',1.5],['特になし',3]];
   const SOCK_PAIRS = [['パンツと同系色でつなげる',4],['靴と色を合わせる',2.5],['見せない派（くるぶし・インビジブル）',2.5],['白ソックスで抜け感を出す',1.5],['柄物を差し色にする',1.2],['深く考えていない',4]];
+  const FAVORITE_WORDS = [
+    ['一期一会','kind'],['継続は力なり','effort'],['七転八起','hot'],['初心忘るべからず','wise'],['日々是好日','calm'],['明鏡止水','calm'],['質実剛健','effort'],['雲外蒼天','hot'],['急がば回れ','wise'],['なんとかなる','free'],
+['有言実行','hot'],['不言実行','calm'],['温故知新','wise'],['切磋琢磨','effort'],['一意専心','effort'],['勇往邁進','hot'],['泰然自若','calm'],['臥薪嘗胆','effort'],['粉骨砕身','hot'],['気宇壮大','hot'],
+['誠心誠意','kind'],['和顔愛語','kind'],['隠忍自重','calm'],['大器晩成','wise'],['不撓不屈','hot'],['百折不撓','hot'],['独立独歩','free'],['自由闊達','free'],['天真爛漫','free'],['威風堂々','hot'],
+['謹厳実直','calm'],['公明正大','wise'],['清廉潔白','calm'],['一心不乱','effort'],['全力投球','hot'],['真剣勝負','hot'],['意気軒昂','hot'],['心機一転','free'],['捲土重来','hot'],['再起一番','hot'],
+['一石二鳥','wise'],['先手必勝','hot'],['因果応報','wise'],['自業自得','wise'],['正々堂々','hot'],['冷静沈着','calm'],['沈思黙考','calm'],['熟慮断行','wise'],['即断即決','hot'],['一日一善','kind'],
+['報恩謝徳','kind'],['感謝感激','kind'],['笑門来福','kind'],['家内安全','kind'],['無病息災','calm'],['一病息災','wise'],['晴耕雨読','calm'],['悠々自適','free'],['花鳥風月','calm'],['行雲流水','free'],
+['虚心坦懐','calm'],['無我夢中','hot'],['疾風迅雷','hot'],['電光石火','hot'],['獅子奮迅','hot'],['猪突猛進','hot'],['勇猛果敢','hot'],['豪放磊落','free'],['談論風発','free'],['博学多才','wise'],
+['文武両道','effort'],['眉目秀麗','free'],['純真無垢','kind'],['素直一番','kind'],['謙虚謙遜','calm'],['実る稲穂','wise'],['塞翁が馬','wise'],['雨降って地固まる','wise'],['石の上にも三年','effort'],['千里の道も一歩から','effort'],
+['ちりも積もれば山となる','effort'],['継続こそ最大の才能','effort'],['努力は裏切らない','effort'],['習うより慣れよ','wise'],['好きこそものの上手なれ','free'],['芸は身を助ける','wise'],['七転び八起き','hot'],['失敗は成功のもと','wise'],['案ずるより産むが易し','free'],['思い立ったが吉日','hot'],
+['善は急げ','hot'],['鉄は熱いうちに打て','hot'],['明日は明日の風が吹く','free'],['なるようになる','free'],['ケセラセラ','free'],['笑う門には福来る','kind'],['情けは人のためならず','kind'],['袖振り合うも多生の縁','kind'],['縁の下の力持ち','kind'],['実るほど頭を垂れる稲穂かな','wise'],
+['能ある鷹は爪を隠す','calm'],['沈黙は金','calm'],['言わぬが花','calm'],['備えあれば憂いなし','wise'],['転ばぬ先の杖','wise'],['念には念を入れよ','calm'],['急いては事を仕損じる','calm'],['短気は損気','calm'],['腹八分目に医者いらず','wise'],['早起きは三文の徳','effort'],
+['時は金なり','effort'],['一寸の光陰軽んずべからず','effort'],['今日できることを明日に延ばすな','effort'],['明日死ぬかのように生きよ','hot'],['一日一生','wise'],['今を生きる','now'],['今日がいちばん若い日','now'],['人生一度きり','now'],['後悔しない生き方','now'],['やらぬ後悔よりやる後悔','hot'],
+['迷ったら進め','hot'],['迷ったらやめる','calm'],['直感を信じる','free'],['自分に嘘をつかない','wise'],['約束は守る','calm'],['嘘をつかない','calm'],['逃げない','hot'],['折れない心','hot'],['負けてたまるか','hot'],['勝つまでやる','hot'],
+['あきらめたらそこで終わり','hot'],['限界は自分が決める','hot'],['壁は超えるためにある','hot'],['ピンチはチャンス','hot'],['チャンスは準備した者に来る','wise'],['運も実力のうち','free'],['人事を尽くして天命を待つ','wise'],['果報は寝て待て','free'],['待てば海路の日和あり','calm'],['雲の上はいつも晴れ','free'],
+['止まない雨はない','kind'],['夜明け前が一番暗い','wise'],['冬来たりなば春遠からじ','wise'],['どんな夜にも朝は来る','kind'],['上を向いて歩こう','kind'],['前向きが正義','free'],['笑顔は最強','kind'],['元気があれば何でもできる','hot'],['健康第一','calm'],['体が資本','calm'],
+['よく食べよく寝る','free'],['腹が減っては戦はできぬ','free'],['食は命','free'],['一汁一菜','calm'],['もったいない精神','calm'],['足るを知る','calm'],['シンプルイズベスト','calm'],['引き算の美学','calm'],['余白を大切に','calm'],['丁寧な暮らし','calm'],
+['一つずつ片づける','effort'],['凡事徹底','effort'],['当たり前を丁寧に','effort'],['基本に忠実','effort'],['準備が九割','wise'],['段取り八分','wise'],['神は細部に宿る','wise'],['形から入る','free'],['道具を大切に','calm'],['靴を磨く者は道を誤らない','wise'],
+['挨拶は心の扉','kind'],['ありがとうは魔法の言葉','kind'],['おかげさま','kind'],['お互いさま','kind'],['来る者拒まず去る者追わず','free'],['人は鏡','wise'],['類は友を呼ぶ','free'],['持つべきものは友','kind'],['一人はみんなのために','kind'],['和を以て貴しとなす','kind'],
+['義を見てせざるは勇なきなり','hot'],['背中で語る','calm'],['男は黙って行動','calm'],['有終の美','effort'],['終わりよければすべてよし','free'],['旅の恥はかき捨て','free'],['郷に入っては郷に従え','wise'],['百聞は一見に如かず','wise'],['百見は一体験に如かず','hot'],['論より証拠','wise'],
+['習慣が人をつくる','effort'],['姿勢が人生をつくる','effort'],['言葉が現実をつくる','wise'],['夢は逃げない','hot'],['夢に日付を','hot'],['志高く','hot'],['青雲之志','hot'],['大志を抱け','hot'],['道は開ける','kind'],['歩けば道になる','hot'],
+['我が道を行く','free'],['オンリーワンでいい','free'],['比べない生き方','calm'],['マイペースが最強','free'],['急がず休まず','effort'],['ゆっくり急げ','wise'],['焦らず腐らず驕らず','calm'],['謙虚に貪欲に','effort'],['学びに終わりなし','wise'],['生涯現役','hot']
+  ];
+  function chooseInnerFavoriteWord(c){
+    const vibe = String(c.vibe||''); const mbti = String(c.mbti||'');
+    const hotV = /やりらふぃー|元気|ギャル男|陽キャ|スポーツ|体育会/.test(vibe) || /^E/.test(mbti);
+    const calmV = /クール|ミステリアス|紳士|塩顔|文学/.test(vibe) || /^I..J$/.test(mbti);
+    const wiseV = /INT|研究|理系|文学/.test(vibe + mbti);
+    const freeV = /P$/.test(mbti);
+    const list = FAVORITE_WORDS.map(([wd, tag])=>{
+      let w = 1;
+      if(hotV && tag==='hot') w*=2.5;
+      if(calmV && (tag==='calm'||tag==='wise')) w*=2.5;
+      if(wiseV && tag==='wise') w*=2;
+      if(freeV && tag==='free') w*=2;
+      if(tag==='kind') w*=1.2;
+      return [wd, w];
+    });
+    return [weighted(list), null];
+  }
+  function sockWearVisual(c, english=false){
+    const smellTxt = String(c.sockSmellText||''); const wearTxt = String(c.sockWearText||''); const cyc = String(c.sockCycleText||'');
+    let lv = 0;
+    if(/蒸れ|こもった|外回りのあと/.test(smellTxt) || /2日は履く|2日目|替えないことがある/.test(wearTxt) || /穴が開くまで/.test(cyc)) lv = 1;
+    if(/納豆|チーズ|指摘された|ブーツを脱いだ瞬間/.test(smellTxt) || /1週間履くこともある/.test(wearTxt)) lv = 2;
+    const tr = String(c.sockTroubleText||'');
+    const trJa = [/かかとがすぐ薄く/.test(tr)?'かかとの生地がやや薄く透け気味。':'', /毛玉/.test(tr)?'ところどころに小さな毛玉。':'', /ずり落ち/.test(tr)?'片方が少しずり下がった自然なよれ。':'', /ゴムが伸び/.test(tr)?'履き口のゴムがゆるくたるんでいる。':''].join('');
+    const trEn = [/かかとがすぐ薄く/.test(tr)?' The heel fabric looks slightly thin and worn.':'', /毛玉/.test(tr)?' A few small fabric pills here and there.':'', /ずり落ち/.test(tr)?' One sock has slipped down a little, naturally slouched.':'', /ゴムが伸び/.test(tr)?' The cuff elastic looks loose and relaxed.':''].join('');
+    if(english){
+      if(lv===2) return ` The socks show a heavily lived-in state: the sole side and toe fabric are clearly darker with dampness, the whole sock slightly misshapen and slouched, with his just-removed shoes placed beside him at an angle that shows the insoles.${trEn} No cartoonish steam or exaggeration — keep it photorealistic daily life.`;
+      if(lv===1) return ` The socks show a full day of natural wear: light slouching at the cuff and faintly darker fabric on the sole side, with his just-removed shoes sitting right next to him.${trEn} No cartoonish steam or exaggeration.`;
+      return trEn ? `${trEn} Keep it a clean, naturally worn state.` : '';
+    }
+    if(lv===2) return `靴下は着用感強めの状態で描く：足裏側とつま先の生地が湿り気で明確に色濃く、全体に軽い型崩れとよれ。中敷きが見える角度で脱ぎ置かれた靴をすぐ横に。${trJa}漫画的な湯気や誇張表現は使わない。`;
+    if(lv===1) return `靴下は一日履いたあとの自然な使用感で描く：履き口に軽いよれ、足裏側の生地がわずかに色濃い。脱いだばかりの靴をすぐ横に置く。${trJa}漫画的な湯気や誇張表現は使わない。`;
+    return trJa ? `${trJa}全体としては清潔に一日履いた自然な状態。` : '';
+  }
+  function innerSceneHeader(c, english=false){
+    if(english) return `[REFERENCE IMAGE PROVIDED] Generate the EXACT same person as in the attached base reference card, redrawn from scratch for this scene (never a cut-and-paste composite). Depict him alone — no other people. Non-sexual, natural daily-life depiction, photorealistic, natural light.\n`;
+    return `【参照画像あり】添付の基準リファレンスカードの人物と完全に同一人物として、この場面用に一から描き直す（切り抜き合成にしない）。本人以外の人物は描かない。非性的で自然な生活描写。実写風・自然光。\n`;
+  }
+  function hobbySceneOf(h, english=false){
+    const t = String(h||'');
+    const map = [
+      [/ランニング|ジョギング|マラソン/, '朝の川沿いをランニングウェアで走っている', 'jogging along a riverside path in the morning in running wear'],
+      [/筋トレ|ジム/, 'ジムでダンベルを手にトレーニングの合間に一息ついている', 'taking a breather mid-workout at the gym, dumbbell in hand'],
+      [/釣り/, '堤防で釣り竿を構え、海を眺めている', 'holding a fishing rod on a pier, gazing at the sea'],
+      [/ゲーム/, '自室でコントローラーを握り、画面の光に照らされている', 'in his room holding a game controller, lit by the screen glow'],
+      [/読書|小説/, '書店の棚の前で1冊を開いて立ち読みしている', 'standing in a bookstore aisle, absorbed in an open book'],
+      [/カフェ|コーヒー/, 'こだわりのカフェでコーヒーを片手に窓の外を見ている', 'at a favorite cafe with a coffee, looking out the window'],
+      [/料理|自炊/, '自宅のキッチンでフライパンを振っている', 'cooking at his home kitchen, working a frying pan'],
+      [/写真|カメラ/, 'カメラを構えて街角を切り取っている', 'framing a street corner with his camera'],
+      [/音楽|ギター|楽器|ピアノ/, '自室で楽器を手に音を確かめている', 'in his room with an instrument, testing a sound'],
+      [/旅行|旅/, '駅のホームで小さな旅行バッグを提げて時刻表を見上げている', 'on a station platform with a small travel bag, looking up at the timetable'],
+      [/サウナ|銭湯|温泉/, '風呂上がりの整った表情で施設の休憩所にいる（着衣・タオル姿ではなく部屋着）', 'relaxing post-bath in the rest area of a bathhouse, dressed in loungewear'],
+      [/映画|ドラマ|アニメ/, 'ソファで膝にブランケット、映画を観ている横顔', 'on the sofa with a blanket, profile lit while watching a film'],
+      [/登山|キャンプ|アウトドア/, '山道でザックを背負い、景色に目を細めている', 'on a mountain trail with a backpack, squinting at the view'],
+      [/サッカー|フットサル/, '公園でボールを軽くリフティングしている', 'lightly juggling a football at a park'],
+      [/野球|キャッチボール/, 'グラウンドの隅でグローブにボールを収めている', 'at the edge of a ballfield, pocketing a ball into his glove']
+    ];
+    const map2 = [
+      [/FPS|エーペックス|シューター|ヴァロラント/, 'ゲーミングマウスとキーボードに手を置き、複数モニターの光に照らされている', 'hands on a gaming mouse and keyboard, lit by multiple monitors', false],
+      [/格ゲー|格闘ゲーム/, 'アーケードコントローラーを膝に置き、集中した表情で画面に向かう', 'an arcade stick on his lap, focused on the screen', false],
+      [/麻雀/, '雀卓で牌を静かに切っている手元', 'quietly cutting tiles at a mahjong table', false],
+      [/将棋|囲碁/, '盤を前に長考している姿', 'deep in thought over the board', false],
+      [/DIY|日曜大工/, '作業台で木材にやすりをかけている', 'sanding a piece of wood at his workbench', false],
+      [/園芸|観葉植物|盆栽|ガーデニング/, 'ベランダの鉢植えに丁寧に水をやっている', 'carefully watering potted plants on his balcony', false],
+      [/ドライブ|車いじり/, '愛車の運転席でハンドルに手を置いている', 'in the driver seat of his car, hands on the wheel', false],
+      [/バイク|ツーリング/, 'バイクの傍らでヘルメットを小脇に抱えている', 'beside his motorcycle, helmet under his arm', false],
+      [/スニーカー/, '棚に並んだスニーカーの1足を手に取り眺めている', 'holding up one pair from his sneaker shelf', false],
+      [/プラモ|ガンプラ|模型/, 'デスクでピンセットを使い模型を組んでいる', 'assembling a model kit with tweezers at his desk', false],
+      [/御朱印|神社|寺めぐり/, '神社の境内で御朱印帳を手にしている', 'holding a stamp book in a shrine precinct', false],
+      [/ボルダリング|クライミング/, 'ボルダリングウォールのホールドに手をかけている', 'gripping holds on a bouldering wall', false],
+      [/ゴルフ/, '練習場の打席でクラブを構えている', 'addressing the ball at a driving range', false],
+      [/ダーツ/, 'ダーツバーでスローラインに立ち狙いを定めている', 'at the throw line in a darts bar, taking aim', false],
+      [/ビリヤード/, 'ビリヤード台にかがみ、キューを構えている', 'leaning over a pool table, lining up a shot', false],
+      [/熱帯魚|アクアリウム/, '水槽の前でライトに照らされた魚を眺めている', 'watching fish in a lit aquarium', false],
+      [/猫/, '自室で膝の上の猫を撫でながらくつろいでいる', 'relaxing with a cat on his lap in his room', true],
+      [/犬|散歩/, '公園で犬のリードを持ちしゃがんで目線を合わせている', 'crouching to a dog on a leash at the park', false],
+      [/焙煎|コーヒー豆/, 'キッチンで手回し焙煎機からコーヒー豆の様子を確かめている', 'checking beans in a hand roaster in his kitchen', true],
+      [/パン作り|お菓子作り/, 'キッチンで生地をこねている', 'kneading dough in his kitchen', true],
+      [/食べ歩き|ラーメン巡り|グルメ/, '暖簾をくぐって店に入るところ', 'stepping through a shop curtain into a restaurant', true],
+      [/漫画/, '積まれた単行本の横で1冊を読みふけっている', 'absorbed in a comic beside a stack of volumes', true],
+      [/カラオケ/, 'カラオケボックスでマイクを手に画面を見ている', 'mic in hand in a karaoke room, watching the screen', false],
+      [/ボードゲーム/, 'テーブルに広げたボードゲームの駒を動かしている', 'moving a piece on a board game spread on the table', true],
+      [/天体|星空|天文/, 'ベランダで望遠鏡を覗いている夜の姿', 'at his balcony telescope at night', false],
+      [/投資|株/, 'デスクのモニターでチャートを静かに確認している', 'quietly reviewing charts on his desk monitor', false],
+      [/語学|英会話/, '参考書とノートを広げイヤホンで発音を確認している', 'with textbooks open, checking pronunciation through earphones', true]
+    ];
+    for(const [re3, ja3, en3, fo] of map2){ if(re3.test(t)) return { text: english ? en3 : ja3, foodOk: !!fo }; }
+    for(const [re2, ja, en] of map){ if(re2.test(t)) return { text: english ? en : ja, foodOk: /カフェ|料理|読書|映画/.test(String(re2)) }; }
+    return { text: english ? `naturally enjoying his hobby "${t}"` : `趣味の${t}を楽しんでいる自然な一場面`, foodOk: false };
+  }
+  function buildInnerScenePrompts(c){
+    if(!c) return '';
+    const en = isEnglish(c);
+    const grok = normalizePromptTarget(c.promptTarget) === 'Grok Imagine';
+    const H = innerSceneHeader(c, en);
+    const P = en ? `Subject: ${c.name}, ${c.age}, ${roleWithSport(c, true)}.\n` : `人物：${c.name}、${c.age}歳、${roleWithSport(c, false)}。\n`;
+    const Q = en ? `\nBackground and light natural to the scene, photorealistic.` : `\n背景・光は場面に合わせた自然な実写風。`;
+    const secs = [];
+    const sec = (titleJa, titleEn, body) => { if(body) secs.push(`＝＝【${en?titleEn:titleJa}】＝＝\n${H}${P}${body}${Q}`); };
+    if(innerCatShow.basic){
+      const bp = String(c.birthplaceText||'').replace('：','') || (en?'his hometown':'出身地');
+      sec('基本・出身地の紹介','Basic / Hometown', en
+        ? `Scene: walking casually in everyday clothes along a shopping street near the station of his hometown ("${bp}"), the local atmosphere in the background — a daily-life snapshot, not a tourist photo.`
+        : `場面：出身地（${bp}）の空気感が伝わる駅前や商店街の通りを、私服で自然に歩いている。観光写真ではなく日常のスナップとして、土地らしい風景を背景に描く。`);
+    }
+    if(innerCatShow.life){
+      const married = /既婚|妻/.test(String(c.maritalText||''));
+      sec('暮らしの紹介','Home Life', en
+        ? `Scene: relaxing in loungewear inside a home that matches "${c.residenceText||'自宅'}".${married?' A wedding ring on his left ring finger.':''} Natural lived-in props (a mug, a half-read book) placed casually.`
+        : `場面：${c.residenceText||'自宅'}らしい室内で、部屋着でくつろいでいる。${married?'左手薬指に結婚指輪。':''}生活感のある小物（マグカップ、読みかけの本など）を自然に配置。`);
+    }
+    if(innerCatShow.daily){
+      const hbo = hobbySceneOf(c.hobbyText, en);
+      const fl = String(c.foodLikeText||'');
+      const setJa = `設定：趣味は${c.hobbyText||'—'}${c.myBoomText?`、マイブームは${c.myBoomText}`:''}${fl?`、好物は${fl}`:''}。\n`;
+      const setEn = `Profile: hobby "${c.hobbyText||''}"${c.myBoomText?`, current obsession "${c.myBoomText}"`:''}${fl?`, favorite food "${fl}"`:''}.\n`;
+      sec('日常・趣味の紹介','Daily Life & Hobby', en
+        ? `${setEn}Scene: ${hbo.text}. His gear looks lived-in and well used, not brand new.${(hbo.foodOk&&fl)?` His favorite food "${fl}" appears casually as a small prop nearby.`:''}`
+        : `${setJa}場面：${hbo.text}。道具は新品ではなく、手に馴染んだ使い込みの跡がある。${(hbo.foodOk&&fl)?`好物の${fl}を、そばにさりげなく小道具として添える。`:''}`);
+    }
+    if(innerCatShow.mind){
+      const wd = String(c.favoriteWordText||'');
+      if(grok || !wd){
+        sec('内面の紹介','Inner Self', en
+          ? `Scene: a quiet moment at his desk in his room. Express his inner steadiness through a calm, resolved expression and soft directional light — no text elements in the image.`
+          : `場面：自室のデスクで静かに過ごすひととき。落ち着いた決意のにじむ表情と柔らかな光で、内面の芯の強さを表現する（画像内に文字は入れない）。`);
+      } else {
+        sec('内面の紹介（好きな言葉）','Inner Self (Favorite Words)', en
+          ? `Scene: a quiet moment at his desk in his room. On the wall or on a small handwritten card on the desk, the words "${wd}" are clearly legible. Render the text exactly, crisp and unbroken. His expression is calm and quietly determined.`
+          : `場面：自室のデスクで静かに過ごすひととき。壁または卓上の手書きカードに「${wd}」という言葉がはっきり読める形で書かれている。文字は正確に表記し崩さない。表情は静かな決意のにじむ落ち着いたもの。`);
+      }
+    }
+    if(innerCatShow.adult){
+      if((Number(c.age)||25) < 20){
+        secs.push(`＝＝【${en?'Grown-up':'オトナの事情'}】＝＝\n${en?'(Not generated: under 20)':'（20歳未満のため生成対象外）'}`);
+      } else {
+        const dk = String(c.drinkText||'');
+        const drink = /飲まない|下戸|弱い/.test(dk) ? (en?'a cup of oolong tea':'ウーロン茶のグラス') : /ハイボール/.test(dk) ? (en?'a highball glass':'ハイボールのグラス') : /日本酒/.test(dk) ? (en?'a small sake cup':'日本酒のお猪口') : /ワイン/.test(dk) ? (en?'a glass of wine':'ワイングラス') : /サワー|レモン/.test(dk) ? (en?'a lemon sour':'レモンサワーのジョッキ') : (en?'a glass of draft beer':'生ビールのジョッキ');
+        const sm = String(c.smokeText||'');
+        const smoker = /加熱式|紙巻|吸う|1日|箱/.test(sm) && !/なし|吸わない|やめた|非喫煙/.test(sm);
+        const heat = /加熱式/.test(sm);
+        const gm = String(c.gambleText||'');
+        const gambler = /現役|通い|たしなむ|行きつけ/.test(gm);
+        const aSetJa = `設定：酒は${c.drinkText||'—'}・たばこは${c.smokeText||'—'}・ギャンブルは${c.gambleText||'—'}。\n`;
+        const aSetEn = `Profile: drink "${c.drinkText||''}", tobacco "${c.smokeText||''}", gambling "${c.gambleText||''}".\n`;
+        sec('オトナの事情（飲酒・喫煙・ギャンブル歴）','Grown-up (Drink / Smoke / Gambling)', en
+          ? `${aSetEn}Scene: alone at an izakaya counter after work, with ${drink} in front of him. ${smoker?`A ${heat?'heated tobacco device':'cigarette pack and lighter'} rests by his hand.`:'No cigarettes anywhere in the scene.'}${gambler?' A folded racing newspaper sits beside him.':''} A relaxed end-of-day mood, non-sexual, tasteful.`
+          : `${aSetJa}場面：仕事帰りの居酒屋のカウンターで一人、目の前に${drink}。${smoker?`手元に${heat?'加熱式たばこ':'たばことライター'}。`:'たばこは場面に一切描かない。'}${gambler?'脇に折りたたんだ競馬新聞。':''}一日の終わりの力の抜けた空気感で、品よく描く。`);
+      }
+    }
+    if(innerCatShow.fashion){
+      const tone = /ワントーン/.test(String(c.colorSchemeText||''));
+      sec('ファッションの紹介','Fashion', en
+        ? `Scene: choosing today's outfit in front of his open closet. The clothes inside are ${tone?'unified in':'centered on'} ${String(c.baseColorText||'')} tones, with items from "${c.favBrandText||''}" noticeably present. Fit preference: ${String(c.sizeFeelText||'')}. He holds a top up against himself in front of a mirror, a natural mid-motion moment.`
+        : `場面：開いたクローゼットの前で今日の服を選んでいる。中の服は${c.baseColorText||''}系${tone?'で統一されて':'が中心で'}おり、${c.favBrandText||''}のアイテムが目立つ。サイズ感は${c.sizeFeelText||''}。鏡の前で上着を体に当てている自然な動作の瞬間。`);
+      const pr = String(c.sockPairText||'');
+      const pairJa = /見せない派/.test(pr) ? '足元はくるぶし丈で靴下がほぼ見えない合わせ方' : /パンツと同系色/.test(pr) ? 'パンツと同系色の靴下でつながる足元' : /柄物/.test(pr) ? '柄物の靴下を差し色にした足元' : /白ソックス/.test(pr) ? '白ソックスで抜け感を出した足元' : '自然な足元';
+      const pairEn = /見せない派/.test(pr) ? 'ankle-length socks nearly invisible at the hem' : /パンツと同系色/.test(pr) ? 'socks matching the trouser color for a connected line' : /柄物/.test(pr) ? 'patterned socks as an accent' : /白ソックス/.test(pr) ? 'white socks adding lightness' : 'a natural sock choice';
+      sec('靴下の紹介','Socks', en
+        ? `Scene: a daily-life snapshot of him opening his sock drawer to pick today's pair. The drawer contents visibly read as "${c.sockDrawerText||''}". A foot-level cut shows ${pairEn}. ${sockWearVisual(c, true)}${sockNoteFull(c, true)} Photorealistic daily-life tone, non-sexual.`
+        : `場面：靴下の引き出しを開けて今日の1足を選んでいる生活スナップ。引き出しの中身は「${c.sockDrawerText||''}」という構成が見て取れる。足元カットでは${pairJa}。${sockWearVisual(c, false)}${sockNoteFull(c, false)}実写の生活描写として自然に、非性的に描く。`);
+    }
+    if(!secs.length) return '';
+    const head = en ? '*** Intro-scene prompts for the opened categories. Use each section as an individual prompt with the base reference card attached. ***\n\n' : '※開いているカテゴリの紹介場面プロンプトです。各セクションを、基準リファレンスカードを添付したうえで個別に使用してください。\n\n';
+    return head + secs.join('\n\n');
+  }
+  function footDetailFilter(text, mode, english=false){
+    let t = String(text||''); mode = mode || '詳細';
+    if(mode === '詳細') return t;
+    if(!english){
+      t = t.replace(/あわせて、同じ足裏の全体拡大パネルを併載する（[^）]*）。/g, '');
+      t = t.replace(/足裏は、人物が座って[^。]*。/g, '');
+      t = t.replace(/資料用拡大パネル以外での/g, '');
+      t = t.replace(/、足の正面と側面と足裏（[^）]*）/g, mode==='なし' ? '' : '、足の正面と側面');
+      t = t.replace(/、足の正面と側面と足裏/g, mode==='なし' ? '' : '、足の正面と側面');
+      t = t.replace(/足裏の詳細（[^）]*）：[^。]*。/g, '');
+      t = t.replace(/足の特徴：[^。]*。/g, '');
+      t = t.replace(/指の並びは[^。]*。/g, '');
+      t = t.replace(/しわは[^。]*。/g, '');
+      if(mode === 'なし'){
+        t = t.replace(/、足の正面と側面/g, '');
+        t = t.replace(/、足の形は[^。]*。/g, '。');
+        t = t.replace(/ワイズ[^：。]*：[^。]*。(甲の[^。]*。)?/g, '');
+        t = t.replace(/／ワイズ「[^」]*」/g, '');
+        t = t.replace(/かかとが小さめ[^。]*。/g, '');
+      }
+      return t;
+    }
+    t = t.replace(/[^.]*\bsole[s]?\b[^.]*\./gi, '');
+    if(mode === 'なし'){
+      t = t.replace(/[^.]*\bfeet \(front[^.]*\./gi, '');
+      t = t.replace(/[^.]*\bfoot shape\b[^.]*\./gi, '');
+      t = t.replace(/[^.]*\bwidth \"?2E[^.]*\./gi, '');
+    }
+    return t;
+  }
+  let innerSceneOpen = false;
+  function updateInnerSceneBox(){
+    const box = document.getElementById('innerSceneBox');
+    const ttl = document.getElementById('innerSceneTitle');
+    const btn = document.getElementById('innerSceneToggle');
+    if(!box || !ttl || !btn) return;
+    const avail = current && innerAnyShown();
+    ttl.style.display = avail ? '' : 'none';
+    if(btn && !btn.dataset.bound){ btn.dataset.bound = '1'; btn.onclick = () => { innerSceneOpen = !innerSceneOpen; updateInnerSceneBox(); }; }
+    btn.textContent = innerSceneOpen ? '▼ 紹介場面プロンプトを閉じる' : '▶ 紹介場面プロンプトを表示';
+    const show = avail && innerSceneOpen;
+    box.style.display = show ? '' : 'none';
+    box.value = show ? buildInnerScenePrompts(current) : '';
+  }
   function chooseFashionProfile(c){
     if(!c) return;
     const st = String(c.fashionSenseText||''); const y = Number(c.eraYear)||2026; const age = Number(c.age)||25;
@@ -6556,11 +6817,170 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     c.sockDrawerText = weighted(SOCK_DRAWERS.map(([v,w])=>[v, (/柄物は靴下だけで遊ぶ/.test(st)&&/柄物/.test(v))?w*6:((/色違いを5枚/.test(st)&&/色違い/.test(v))?w*5:w)]));
     c.sockTroubleText = weighted(SOCK_TROUBLES);
     c.sockPairText = weighted(SOCK_PAIRS.map(([v,w])=>[v, (/柄物は靴下だけで遊ぶ/.test(st)&&/柄物/.test(v))?w*6:w]));
+    // 好きなブランド（靴）
+    let shoeBr = [['NIKE',4],['adidas',3],['New Balance',3],['CONVERSE',2],['VANS',1.5],['ASICS',1.5],['PUMA',1.2],['Onitsuka Tiger',0.8],['REGAL',1.2],['Dr.Martens',0.8],['HOKA',0.8],['On',0.6]];
+    shoeBr = shoeBr.filter(([n])=>!(n==='HOKA'&&y<2018)&&!(n==='On'&&y<2019)&&!(n==='New Balance'&&y<1985));
+    if(incNum>=800) shoeBr = shoeBr.map(([n,w])=>[n, /REGAL|Dr\.Martens|New Balance/.test(n)?w*2.5:w]);
+    if(/靴から決める派|靴だけは絶対に妥協しない/.test(st)) shoeBr = shoeBr.map(([n,w])=>[n, /REGAL|Dr\.Martens|New Balance|Onitsuka/.test(n)?w*2:w]);
+    c.favShoeBrandText = weighted(shoeBr);
+    // 靴下の連続着用（日本では毎日交換が大多数）
+    let wearL = [['毎日洗濯した靴下に替える',10],['帰宅したらすぐ脱いで洗濯カゴへ（毎日交換）',2],['在宅の日は替えないことがある',1.5],['うっかり2日目に突入する日がある',1.2,'d'],['2日は履く',1,'d'],['1週間履くこともある',0.25,'d'],['ジム用と普段用を厳密に分けている',0.8]];
+    if(/几帳面|アイロンと毛玉取り|清潔感/.test(st)) wearL = wearL.map(([v,w,b])=>[v, /毎日/.test(v)?w*2:w*0.4, b]);
+    if(/穴が開くまで|量販店で3着/.test(st)) wearL = wearL.map(([v,w,b])=>[v, /2日目|替えないことがある/.test(v)?w*2.5:w, b]);
+    const wr = weighted(wearL.map(x=>[x, x[1]]));
+    c.sockWearText = wr[0];
+    // 靴下のニオイ（強度×傾向。職業の実態・性格・他の靴下項目から補正）
+    const wearTxt = String(c.sockWearText||'');
+    const role2 = String(c.role||'');
+    const deskSuit = /会計士|銀行|弁護士|公務員|アナウンサー|コンサル/.test(role2);
+    const walkSuit = /営業|商社|不動産|保険/.test(role2);
+    const bootsJob = /消防士|警察官|自衛官|救急隊員|大工|電気工事士|自動車整備士|工場勤務|配送ドライバー|防衛大学校/.test(role2);
+    const standJob = /寿司職人|ラーメン店|パティシエ|バーテンダー|ホテル|看護師|研修医|美容師/.test(role2);
+    const sportJob = /サッカー|野球|バスケ|アスリート|スポーツ|インストラクター/.test(role2) || /部活|体育会/.test(String(c.sportsHistory||''));
+    const tidyMind = /几帳面|清潔感|アイロン/.test(st) || /J$/.test(String(c.mbti||''));
+    let smell = [
+      ['ほぼ無臭（こまめにケア）',2],
+      ['ほんのり洗剤の香りが残る程度',1.5],
+      ['脱いだ直後にかすかな汗のニオイ（うっすら酸っぱい系）',5],
+      ['夕方になると靴の中が蒸れがち（こもった酸味系）',3],
+      ['革靴の日は少しこもったニオイ（蒸れた革×汗の系統）',2],
+      ['外回りのあとはかなりくる（ツンとした酸っぱい系）',1],
+      ['運動後はしっかり汗のニオイ（酸味強めの系統）',1.5],
+      ['ブーツを脱いだ瞬間に広がる（蒸れ濃縮系）',0.8],
+      ['納豆みたいなニオイと自覚している',0.5],
+      ['チーズっぽいと言われたことがある',0.3],
+      ['本人は無自覚だが家族に指摘されたことがある',0.8]
+    ];
+    smell = smell.map(([v,w])=>{
+      if(/2日は履く|2日目|替えないことがある/.test(wearTxt)){ if(/蒸れ|こもった|指摘された|納豆|チーズ|ツンと/.test(v)) w*=2.5; if(/ほぼ無臭|洗剤の香り/.test(v)) w*=0.3; }
+      if(/1週間履くこともある/.test(wearTxt)){ if(/納豆|チーズ|指摘された|ブーツを脱いだ瞬間/.test(v)) w*=8; if(/ほぼ無臭|洗剤の香り|かすかな汗/.test(v)) w*=0.05; }
+      if(/毎日/.test(wearTxt) && /指摘された|納豆|チーズ/.test(v)) w*=0.4;
+      if(tidyMind){ if(/ほぼ無臭|洗剤の香り/.test(v)) w*=3.5; if(/指摘された|納豆|チーズ/.test(v)) w*=0.25; }
+      if(deskSuit && /革靴の日/.test(v)) w*=2.5;
+      if(walkSuit){ if(/外回りのあと|革靴の日/.test(v)) w*=4; if(/ほぼ無臭/.test(v)) w*=0.4; }
+      if(bootsJob){ if(/ブーツを脱いだ瞬間|蒸れ|こもった/.test(v)) w*=3.5; if(/ほぼ無臭|洗剤の香り/.test(v)) w*=0.35; }
+      if(standJob && /蒸れ|こもった/.test(v)) w*=2;
+      if(sportJob && /運動後/.test(v)) w*=4;
+      if(/穴が開くまで/.test(String(c.sockCycleText||'')) && /蒸れ|指摘された|納豆/.test(v)) w*=2;
+      return [v,w];
+    });
+    c.sockSmellText = weighted(smell);
+    // スラックスフィット→ボトムス丈感→裾仕上げ（整合制約つき）
+    let fitL = [['標準テーパード',4],['タイトめテーパード', y>=2012?2.5:0.8],['ストレート',3],['ワイドタック', (y<=1999||y>=2019)?2.5:1]];
+    if(/タイトめ/.test(String(c.sizeFeelText||'')) || /細身シルエット/.test(st)) fitL = fitL.map(([v,w])=>[v, /タイトめ/.test(v)?w*3:w]);
+    if(/オーバーサイズ/.test(String(c.sizeFeelText||''))) fitL = fitL.map(([v,w])=>[v, /ワイド|ストレート/.test(v)?w*2:(/タイトめ/.test(v)?w*0.3:w)]);
+    if(age>=50) fitL = fitL.map(([v,w])=>[v, /ストレート|ワイド/.test(v)?w*1.8:w]);
+    c.slacksFitText = weighted(fitL);
+    let hemL;
+    if(/タイトめ/.test(c.slacksFitText)) hemL = [['ノークッション（くるぶしで止まるジャスト丈）',4],['アンクル丈（くるぶしが見える九分丈）', y>=2012?3:0.5]];
+    else if(/ワイドタック/.test(c.slacksFitText)) hemL = [['ワンクッション（裾が靴にゆったりたまるクラシック丈）',4],['ハーフクッション（裾が靴に軽く触れる標準丈）',3]];
+    else hemL = [['ハーフクッション（裾が靴に軽く触れる標準丈）',4],['ワンクッション（裾が靴にゆったりたまるクラシック丈）',2.5],['ノークッション（くるぶしで止まるジャスト丈）',2],['アンクル丈（くるぶしが見える九分丈）', y>=2012?1.5:0.3],['クロップド（すねが少し見える短め丈）', y>=2012?1:0.2]];
+    if(/流行|雑誌やSNS/.test(st) && y>=2012) hemL = hemL.map(([v,w])=>[v, /アンクル|クロップド|ノークッション/.test(v)?w*2:w]);
+    c.hemPrefText = weighted(hemL);
+    let finL = [['シングル（プレーン）仕上げ',6],['ダブル（4cm幅）仕上げ', (y<=1999||y>=2018)?4:2.5]];
+    if(/タイトめ/.test(c.slacksFitText)) finL = finL.map(([v,w])=>[v, /ダブル/.test(v)?w*0.4:w]);
+    if(/古着|定番を10年/.test(st)) finL = finL.map(([v,w])=>[v, /ダブル/.test(v)?w*1.8:w]);
+    c.hemFinishText = weighted(finL);
+  }
+  function suitHemOf(c){
+    const h = String(c.hemPrefText||'');
+    if(/アンクル|クロップド/.test(h)) return 'ノークッション（くるぶしで止まるジャスト丈）';
+    return h || 'ハーフクッション（裾が靴に軽く触れる標準丈）';
+  }
+  function sockLengthClass(t){ t = String(t||''); if(/インビジブル/.test(t)) return 'inv'; if(/くるぶし|アンクル|スニーカー丈/.test(t)) return 'ankle'; return 'crew'; }
+  function hemClassOf(c){
+    const b = String(c.bottom||'');
+    if(/ハーフパンツ|ショートパンツ|短パン/.test(b)) return 'shorts';
+    const h = String(c.hemPrefText||'') + b;
+    if(/クロップド|アンクル丈|九分/.test(h)) return 'crop';
+    if(/ノークッション/.test(h)) return 'no';
+    if(/ワンクッション/.test(h)) return 'one';
+    return 'half';
+  }
+  function sockLengthNote(c, english=false){
+    const sc = sockLengthClass(c.sockType);
+    const hc = hemClassOf(c);
+    if(hc === 'shorts') return '';
+    if(english){
+      let ln = sc==='crew' ? 'The socks are mid-calf crew length — never shorter ankle length than specified.' : sc==='ankle' ? 'The socks are ankle length, ending just above the ankle bone.' : 'The socks are invisible/no-show length, hidden inside the shoes.';
+      let vis = '';
+      if(sc==='crew'){
+        if(hc==='crop') vis = ' A little shin showing between hem and cuff is natural.';
+        else if(hc==='no') vis = ' A sliver of skin peeking when he sits and the hem rides up is natural.';
+      } else vis = ' Visible ankle or shin here is intended.';
+      return ` ${ln}${vis}`;
+    }
+    let ln = sc==='crew' ? '丈はふくらはぎ中ほどまでのクルー丈で、指定より短いアンクル丈にしない。' : sc==='ankle' ? '丈はくるぶしの少し上までのアンクル丈。' : '履き口が靴に隠れる浅履きのインビジブル丈。';
+    let vis = '';
+    if(sc==='crew'){
+      if(hc==='crop') vis = 'ボトムスの裾と履き口の間にすねが少し見えるのは自然。';
+      else if(hc==='no') vis = '座って裾が上がったときに素肌がわずかにのぞく程度は自然。';
+    } else vis = 'すねやくるぶしが見えるのは意図どおり。';
+    return `${ln}${vis}`;
+  }
+  function sockSlackLevel(c){
+    if(/靴下|アイロンと毛玉取り|几帳面/.test(String(c.fashionSenseText||''))) return 'up';
+    if(/ずり落ち/.test(String(c.sockTroubleText||'')) || /1週間履くこともある|2日は履く/.test(String(c.sockWearText||'')) || /納豆|チーズ|ブーツを脱いだ瞬間/.test(String(c.sockSmellText||''))) return 'strong';
+    return 'normal';
+  }
+  function sockToeClass(c){
+    const m = String(c.sockMaterial||'') + String(c.sockShape||'') + String(c.sockType||'');
+    if(/ナイロン|シルク|薄手/.test(m)) return 'thin';
+    if(/パイル|ウール|厚手/.test(m)) return 'thick';
+    return 'std';
+  }
+  function sockNoteFull(c, english=false){
+    const sc = sockLengthClass(c.sockType);
+    const slack = sockSlackLevel(c);
+    const toe = sockToeClass(c);
+    if(english){
+      let body;
+      if(sc==='crew'){
+        const slackEn = slack==='up' ? 'pulled up neatly to the cuff with no slack'
+          : slack==='strong' ? 'clearly slipped down with several soft folds gathered at the ankle (still never loose-sock style bunching)'
+          : 'the cuff slipped down 2-3cm with one or two soft folds resting at the ankle — this is slack, not a shorter sock; never replace with ankle socks and never bunch it loose-sock style';
+        body = `Mid-calf crew socks worn through a full day, ${slackEn}.`;
+      } else if(sc==='ankle') body = 'Ankle-length socks ending just above the ankle bone.';
+      else body = 'Invisible no-show socks hidden inside the shoes.';
+      const toeEn = toe==='thin'
+        ? ' The thin fabric follows the foot closely: the big-toe outline and the gentle rise at the toe joints show faintly, but the fabric stays one continuous surface with no individual toe grooves.'
+        : toe==='thick'
+        ? ' The thick fabric barely registers the toes — one rounded silhouette with a little spare fabric at the tip.'
+        : ' The fabric covers the toes as one rounded silhouette: the big toe swells gently and the toe area undulates softly, but individual toes never press through.';
+      return ` ${body}${toeEn} Keep the wear natural and laundered-clean, never exaggerated; never five-toe socks.`;
+    }
+    let body;
+    if(sc==='crew'){
+      const slackJa = slack==='up' ? '履き口までまっすぐ引き上げられ、たるみのない状態'
+        : slack==='strong' ? '履き口がはっきりずり下がり、足首に生地が数段寄った状態（それでもルーズソックスのようには溜めない）'
+        : '履き口が2〜3cmずり下がり、足首に生地が1〜2段軽く寄った自然な状態（丈が短いのではなくたるみであり、アンクルソックスに置き換えず、ルーズソックス状にも溜めない）';
+      body = `ふくらはぎ中ほどまでのクルー丈の靴下を一日履き、${slackJa}。`;
+    } else if(sc==='ankle') body = 'くるぶしの少し上までのアンクル丈。';
+    else body = '履き口が靴に隠れる浅履きのインビジブル丈。';
+    const toeJa = toe==='thin'
+      ? '薄手の生地が足先にぴったり沿い、親指の輪郭と指の付け根のゆるやかな起伏がうっすら分かる。ただし指一本一本の分かれ目までは浮き出させず、生地は一枚の連続した面として描く。'
+      : toe==='thick'
+      ? '厚みのある生地で指の形はほとんど拾わず、丸いシルエットと先端の生地の余りだけで足先を表現する。'
+      : 'つま先は生地が足先をひとつの面として覆い、親指の膨らみと足先のなだらかな起伏で指の存在感を残しつつ、分かれ目は浮き出させない。';
+    return `${body}${toeJa}汚れや生地の傷みは誇張せず、5本指ソックスにしない。`;
   }
   function sockRenderNote(c, english=false){
-    const five = /5本指|五本指/.test(String(c.sockType||'')+String(c.holidaySockType||''));
-    if(english) return ` Render the socks with the natural lived-in look of having been worn through a full day of work or being out; even at their cleanest they read as freshly laundered at most, and dirt or fabric damage is never exaggerated${five?'':', with the normal rounded toe shape (never five-toe socks)'}.`;
-    return `靴下は朝から仕事や外出で一日履いて過ごしたあとの自然な着用感を基準に描く。最もきれいな場合でも洗濯された清潔感のある自然な範囲までとし、汚れや生地の傷みは誇張しない${five?'':'。つま先は通常の丸い形状（5本指ソックスにしない）'}。`;
+    const sc = sockLengthClass(c.sockType);
+    const hc = hemClassOf(c);
+    if(english){
+      const nm = sc==='crew' ? 'crew length' : sc==='ankle' ? 'ankle length' : 'no-show length';
+      let vis = '';
+      if(sc==='crew' && hc==='crop') vis = ', a little shin showing between hem and cuff is natural';
+      else if(sc==='crew' && hc==='no') vis = ', a sliver of skin peeking when seated is natural';
+      else if(sc!=='crew') vis = ', visible ankle here is intended';
+      return ` Socks: ${nm}${vis}; never five-toe socks.`;
+    }
+    const nm = sc==='crew' ? 'クルー丈' : sc==='ankle' ? 'アンクル丈' : 'インビジブル丈';
+    let vis = '';
+    if(sc==='crew' && hc==='crop') vis = '。裾との間にすねが少し見えるのは自然';
+    else if(sc==='crew' && hc==='no') vis = '。座って素肌がわずかにのぞく程度は自然';
+    else if(sc!=='crew' && hc!=='shorts') vis = '。すねやくるぶしが見えるのは意図どおり';
+    return `靴下は${nm}${vis}（5本指にしない）。`;
   }
   const ORIGIN_ROOTS = [['中国',26],['韓国',14],['ベトナム',18],['フィリピン',11],['ブラジル',7],['ネパール',6],['インドネシア',3],['ミャンマー',3],['タイ',2],['ペルー',2]];
   function applyOriginRoots(c){
@@ -7133,7 +7553,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
       shoes: base.shoes || coord.shoes, sockBrand: base.sockBrand || coord.sockBrand, sockType: base.sockType || coord.sockType, sockShape: base.sockShape || coord.sockShape, sockMaterial: base.sockMaterial || coord.sockMaterial, sockColor: base.sockColor || coord.sockColor, sockUse: base.sockUse || coord.sockUse,
       personality: mbtiDescription(mbti, false),
       background: initial.background, lighting: initial.lighting, quality: initial.quality, outputType: initial.outputType, count: initial.count,
-      promptLanguage: initial.promptLanguage || '日本語', promptTarget: normalizePromptTarget(initial.promptTarget) || 'ChatGPT', captionMode: initial.captionMode || '表記する', bioCaptionMode: base.bioCaptionMode || initial.bioCaptionMode || '入れない', promptDetail: initial.promptDetail || '自動（生成先に合わせる）', captionFields: initial.captionFields || {name:true,era:true,height:true,weight:true,footSize:true,mbti:true},
+      promptLanguage: initial.promptLanguage || '日本語', promptTarget: normalizePromptTarget(initial.promptTarget) || 'ChatGPT', footDetailMode: initial.footDetailMode || '詳細', captionMode: initial.captionMode || '表記する', bioCaptionMode: base.bioCaptionMode || initial.bioCaptionMode || '入れない', promptDetail: initial.promptDetail || '自動（生成先に合わせる）', captionFields: initial.captionFields || {name:true,era:true,height:true,weight:true,footSize:true,mbti:true},
       cardStyle: initial.cardStyle || 'スタンダード', cardRarity: initial.cardRarity || 'おすすめ自動', cardTheme: initial.cardTheme || 'ネイビー', cardLayout: initial.cardLayout || '縦長カード', cardWearMode: initial.cardWearMode || 'ボクサーパンツのみ', cardEffect: initial.cardEffect || 'なし', cardFields: initial.cardFields || {name:true,age:true,era:true,height:true,weight:true,footSize:true,role:true,mbti:true,rarity:true},
       sceneIdea: buildEncounterScene({role, outfitType, vibe, nationality, ethnicity, mbti, eraYear, season, occInfluence, occupationMode}),
       createdAt: new Date().toISOString()
@@ -7695,7 +8115,7 @@ ${promptTargetGuide(c, false)}`;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
     generateInnerProfile(f, ['friend']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.9'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.14'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -7725,7 +8145,7 @@ ${promptTargetGuide(c, false)}`;
     half.forEach(k=>{ if(baseC[k] && Math.random()<0.5) f[k]=baseC[k]; });
     f.siblingOf = {name: baseC.name, kind, age: baseC.age};
     generateInnerProfile(f, ['family']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.9'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.14'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -8029,7 +8449,7 @@ Preserve the character's identity. Era setting: ${c.eraYear || '2026'} CE. ${era
 
 ${mode==='holiday'
   ? `[Casual outfit] This is his personal, off-duty style that reflects his personality and vibe. Base the outfit on ${c.holidayOutfitBrand || c.outfitBrand} ${c.holidayOutfitType || c.outfitType}. Outerwear: ${c.holidayOuterBrand?`${c.holidayOuterBrand} `:''}${c.holidayJacket || 'none'}. Top: ${c.holidayTopBrand?`${c.holidayTopBrand} `:''}${c.holidayTopColor?`${c.holidayTopColor} `:''}${c.holidayTop || c.top}. Bottom: ${c.holidayBottomBrand?`${c.holidayBottomBrand} `:''}${c.holidayBottomColor?`${c.holidayBottomColor} `:''}${c.holidayBottom || c.bottom}. Shoes: ${c.holidayShoesBrand?`${c.holidayShoesBrand} `:''}${c.holidayShoes || c.shoes}. Socks: ${c.holidaySockBrand || c.sockBrand} ${c.holidaySockType || c.sockType} (${c.holidaySockColor || c.sockColor}).${c.holidayEraFashionNote?` Overall silhouette: ${c.holidayEraFashionNote}.`:''}${accText(c,true,true)}${innerCasualNotes(c, true)}`
-  : c.workUniform ? `[Work uniform — as a ${(typeof valueTranslations!=='undefined' && valueTranslations[c.role]) || displayValue('role', c.role) || c.role}] He wears ${natUniformFix(c, c.workUniformEn, true)}. Depict it as practical issued workwear. Do NOT reproduce insignia or logos of any real organization, unit, or company; any fictional organization names, lettering, and design details specified in the outfit description (such as "足草消防" / "足草県警察") must be rendered exactly as written. Outerwear: ${c.jacket && c.jacket !== 'なし' ? c.jacket : 'none'}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}${uniformHatPhrase(c, true)}. Socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${sockRenderNote(c,true)}${accText(c,false,true)}` : `[Work outfit${c.role ? ` — as a ${displayValue('role', c.role)}` : ''}] Base the outfit on ${c.outfitBrand?`${c.outfitBrand} `:''}${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.topBrand?`${c.topBrand} `:''}${c.top}. Bottom: ${c.bottomBrand?`${c.bottomBrand} `:''}${c.bottom}. Shoes: ${c.shoesBrand?`${c.shoesBrand} `:''}${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.${sockRenderNote(c,true)}${c.tie?` Tie: ${c.tie}.`:''}${c.coat?` Coat: ${c.coat}.`:''}${c.suitSilhouette?` Suit silhouette: ${c.suitSilhouette}.`:''}${c.workFitNote?` ${c.workFitNote}.`:''}${accText(c,false,true)}`}
+  : c.workUniform ? `[Work uniform — as a ${(typeof valueTranslations!=='undefined' && valueTranslations[c.role]) || displayValue('role', c.role) || c.role}] He wears ${natUniformFix(c, c.workUniformEn, true)}. Depict it as practical issued workwear. Do NOT reproduce insignia or logos of any real organization, unit, or company; any fictional organization names, lettering, and design details specified in the outfit description (such as "足草消防" / "足草県警察") must be rendered exactly as written. Outerwear: ${c.jacket && c.jacket !== 'なし' ? c.jacket : 'none'}. Top: ${c.top}. Bottom: ${c.bottom}. Shoes: ${c.shoes}${uniformHatPhrase(c, true)}. Socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${sockRenderNote(c,true)}${accText(c,false,true)}` : `[Work outfit${c.role ? ` — as a ${displayValue('role', c.role)}` : ''}] Base the outfit on ${c.outfitBrand?`${c.outfitBrand} `:''}${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.topBrand?`${c.topBrand} `:''}${c.top}. Bottom: ${c.bottomBrand?`${c.bottomBrand} `:''}${c.bottom}. Shoes: ${c.shoesBrand?`${c.shoesBrand} `:''}${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.${sockRenderNote(c,true)}${c.tie?` Tie: ${c.tie}.`:''}${c.coat?` Coat: ${c.coat}.`:''}${c.suitSilhouette?` Suit silhouette: ${c.suitSilhouette}.${c.slacksFitText?` Slacks fit "${c.slacksFitText}", hem finish "${c.hemFinishText}", length "${suitHemOf(c)}".`:''}`:''}${c.workFitNote?` ${c.workFitNote}.`:''}${accText(c,false,true)}`}
 
 ${styleEn}
 Era setting: around ${c.eraYear || '2026'}. Match the garment silhouettes, fabrics, and accessories to this period.\n${adultUniformEn}
@@ -8044,7 +8464,7 @@ ${targetEn}`;
 
 ${mode==='holiday'
   ? `【私服コーデ】仕事とは違う、本人の性格や雰囲気が表れる私服として描く。服装は${c.holidayOutfitBrand || c.outfitBrand}の${c.holidayOutfitType || c.outfitType}を基調にする。上着は${c.holidayOuterBrand?`${c.holidayOuterBrand}の`:''}${c.holidayJacket || 'なし'}、トップスは${c.holidayTopBrand?`${c.holidayTopBrand}の`:''}${c.holidayTopColor?`${c.holidayTopColor}の`:''}${c.holidayTop || c.top}、ボトムスは${c.holidayBottomBrand?`${c.holidayBottomBrand}の`:''}${c.holidayBottomColor?`${c.holidayBottomColor}の`:''}${c.holidayBottom || c.bottom}、靴は${c.holidayShoesBrand?`${c.holidayShoesBrand}の`:''}${c.holidayShoesColor?`${c.holidayShoesColor}の`:''}${c.holidayShoes || c.shoes}。靴下は${c.holidaySockBrand || c.sockBrand}の${c.holidaySockType || c.sockType}（${c.holidaySockColor || c.sockColor}）。${c.holidayEraFashionNote?`全体は${c.holidayEraFashionNote}。`:''}${accText(c,true,false)}${innerCasualNotes(c)}`
-  : c.workUniform ? `【職業コーデ（${c.role}の勤務服）】服装は${c.workUniform}。支給品らしい実用的な着こなしで描く。実在の特定組織・部隊・企業の記章やロゴは再現しない。服装指定に含まれる架空の組織名・文字・デザイン（「足草消防」「足草県警察」など）は、指定どおり正確に描く。上着は${c.jacket && c.jacket !== 'なし' ? c.jacket : 'なし'}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}。靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。${sockRenderNote(c,false)}${accText(c,false,false)}` : `【職業コーデ${c.role ? `（${c.role}の仕事着・仕事帰りの装い）` : ''}】服装は${c.outfitBrand?`${c.outfitBrand}の`:''}${c.outfitType}を基調にする。上着は${c.jacket}、トップスは${c.topBrand?`${c.topBrand}の`:''}${c.top}、ボトムスは${c.bottomBrand?`${c.bottomBrand}の`:''}${c.bottom}、靴は${c.shoesBrand?`${c.shoesBrand}の`:''}${c.shoesColor?`${c.shoesColor}の`:''}${c.shoes}。靴下は${c.sockBrand}の${c.sockType}で、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。${sockRenderNote(c,false)}${c.tie?`ネクタイは${c.tie}。`:''}${c.coat?`コートは${c.outerBrand?`${c.outerBrand}の`:''}${c.coat}。`:''}${c.suitSilhouette?`スーツのシルエットは「${c.suitSilhouette}」。`:''}${c.workFitNote?`${c.workFitNote}。`:''}${accText(c,false,false)}`}
+  : c.workUniform ? `【職業コーデ（${c.role}の勤務服）】服装は${c.workUniform}。支給品らしい実用的な着こなしで描く。実在の特定組織・部隊・企業の記章やロゴは再現しない。服装指定に含まれる架空の組織名・文字・デザイン（「足草消防」「足草県警察」など）は、指定どおり正確に描く。上着は${c.jacket && c.jacket !== 'なし' ? c.jacket : 'なし'}、トップスは${c.top}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}。靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。${sockRenderNote(c,false)}${accText(c,false,false)}` : `【職業コーデ${c.role ? `（${c.role}の仕事着・仕事帰りの装い）` : ''}】服装は${c.outfitBrand?`${c.outfitBrand}の`:''}${c.outfitType}を基調にする。上着は${c.jacket}、トップスは${c.topBrand?`${c.topBrand}の`:''}${c.top}、ボトムスは${c.bottomBrand?`${c.bottomBrand}の`:''}${c.bottom}、靴は${c.shoesBrand?`${c.shoesBrand}の`:''}${c.shoesColor?`${c.shoesColor}の`:''}${c.shoes}。靴下は${c.sockBrand}の${c.sockType}で、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。${sockRenderNote(c,false)}${c.tie?`ネクタイは${c.tie}。`:''}${c.coat?`コートは${c.outerBrand?`${c.outerBrand}の`:''}${c.coat}。`:''}${c.suitSilhouette?`スーツのシルエットは「${c.suitSilhouette}」。`:''}${c.slacksFitText?`スラックスは${c.slacksFitText}で、裾は${c.hemFinishText||'シングル（プレーン）仕上げ'}、丈は${suitHemOf(c)}。`:''}${c.workFitNote?`${c.workFitNote}。`:''}${accText(c,false,false)}`}
 
 ${styleJa}
 時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${seasonLine(c, false)}服のシルエット・素材感・小物もこの年代に合わせる。\n${adultUniformJa}
@@ -8625,6 +9045,7 @@ ${promptTargetGuide(b, false)}`;
       if(mfBtn) mfBtn.onclick = () => makeInnerFriend();
       root.querySelectorAll('[data-make-sibling]').forEach(b=>{ b.onclick = () => makeSibling(b.dataset.makeSibling); });
       root.querySelectorAll('[data-icat]').forEach(b=>{ b.onclick = () => { innerCatShow[b.dataset.icat] = !innerCatShow[b.dataset.icat]; renderAll(); }; });
+      try{ updateInnerSceneBox(); }catch(e){}
       const allBtn = root.querySelector('[data-icat-all]');
       if(allBtn) allBtn.onclick = () => { const on = allBtn.dataset.icatAll === '1'; INNER_CATS.forEach(([k])=>{ innerCatShow[k] = on; }); renderAll(); };
     });
@@ -8660,7 +9081,7 @@ ${promptTargetGuide(b, false)}`;
         if(mjv){ mjv.style.display='block'; mjv.textContent = mjJa; }
       } else {
         const grokTarget = normalizePromptTarget(current.promptTarget) === 'Grok Imagine';
-        els.promptBox.value = grokTarget ? buildGrokCardPrompts(current, isEnglish(current)) : (siblingRefNote(current, isEnglish(current)) + buildPrompt(current, true));
+        els.promptBox.value = footDetailFilter(grokTarget ? buildGrokCardPrompts(current, isEnglish(current)) : (siblingRefNote(current, isEnglish(current)) + buildPrompt(current, true)), current.footDetailMode, isEnglish(current));
         if(mjv){ mjv.style.display='none'; mjv.textContent=''; }
       }
       const pref = refPrefix(current, isEnglish(current));
@@ -8760,7 +9181,7 @@ ${promptTargetGuide(b, false)}`;
     p(`収入・資産：${c.incomeText||''}／${c.assetText||''}`);
     p(`思い出：${c.memoryText||''}`);
     p(`コーデ基準：${c.fashionSenseText||''}`);
-    if(c.fashionValueText) p(`【ファッション】重視：${c.fashionValueText||'—'}／好きなブランド：${c.favBrandText||'—'}／サイズ感：${c.sizeFeelText||'—'}／基調色：${c.baseColorText||'—'}（${c.colorSchemeText||'—'}）／靴下：買い替えは${c.sockCycleText||'—'}・内訳は${c.sockDrawerText||'—'}・悩みは${c.sockTroubleText||'—'}・合わせ方は${c.sockPairText||'—'}`);
+    if(c.fashionValueText) p(`【ファッション】重視：${c.fashionValueText||'—'}／好きなブランド：服は${c.favBrandText||'—'}・靴は${c.favShoeBrandText||'—'}／サイズ感：${c.sizeFeelText||'—'}／丈感：${c.hemPrefText||'—'}／スラックス：${c.slacksFitText||'—'}・${c.hemFinishText||'—'}／基調色：${c.baseColorText||'—'}（${c.colorSchemeText||'—'}）／靴下：買い替えは${c.sockCycleText||'—'}・内訳は${c.sockDrawerText||'—'}・連続着用は${c.sockWearText||'—'}・ニオイは${c.sockSmellText||'—'}・悩みは${c.sockTroubleText||'—'}・合わせ方は${c.sockPairText||'—'}`);
     p('―――― 提案服装 ――――');
     if(typeof workOutfitSpec==='function') p(`【職業】${workOutfitSpec(c,false)}`);
     if(typeof casualOutfitSpec==='function') p(`【私服】${casualOutfitSpec(c,false)}`);
@@ -8779,7 +9200,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); if(current && current.id !== lastRarityPlayed){ lastRarityPlayed = current.id; playRaritySound(r); } els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ setTimeout(()=>{ try{ renderVideoBoxes(); }catch(e){} }, 0); renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.9.9'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.9.14'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function deleteHistoryItem(i){
     const h = loadHistory();
