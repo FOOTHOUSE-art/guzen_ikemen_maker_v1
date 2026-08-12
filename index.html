@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V3.9.16</title>
+  <title>Guzen Ikemen Maker V3.9.17</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -133,8 +133,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V3.9.16</span>
-        <h1 class="title">Guzen Ikemen Maker V3.9.16</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V3.9.17</span>
+        <h1 class="title">Guzen Ikemen Maker V3.9.17</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -444,7 +444,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.9.16</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.9.17</p>
   </div>
 
 <script>
@@ -1198,8 +1198,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.9.16';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.9.16';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.9.17';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.9.17';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1974,7 +1974,7 @@
     return sc;
   }
 
-  /* ===== V3.9.16 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
+  /* ===== V3.9.17 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
   // 項目: [名称, from, peak, to, tags]  tags: c=カジュアル s=ストリート k=きれいめ f=古着 o=オフィス可 p=スポーツ / アウターのみ W=冬 L=春秋 S=夏羽織
   const FVOCAB = {
   top: [
@@ -2145,7 +2145,7 @@
     if(outfitType==='ストリート系') pool = pool.concat(eraBrandList(BRAND_TIER_STREET_ADD, eraYear, null).filter(Boolean));
     return pool.length ? pool : basePool;
   }
-  // ===== V3.9.16 ブランドDB（部位×系統×tier×人気カーブ）＋整合システム =====
+  // ===== V3.9.17 ブランドDB（部位×系統×tier×人気カーブ）＋整合システム =====
   // 形式: [名, 部位(t/b/s/o/k=socks 複数可), 系統タグ(k/c/s/f/p/w), tier(h/m/l/w), from, peak, to(9999=現役), ピーク係数]
   const BRAND_DB = [
     ['UNIQLO','tbok','ck','l',1984,2012,9999,3.0],['GU','tbok','c','l',2006,2020,9999,2.2],['無印良品','tbok','ck','l',1980,2016,9999,1.8],['しまむら','tbok','c','l',1961,2010,9999,1.4],['無地ノーブランド','tbsok','ckcfspw','l',1900,2000,9999,1.5],
@@ -2335,7 +2335,7 @@
   }
 
 
-  // ===== V3.9.16 コーデ部位ヘルパー・アクセサリー・季節連動 =====
+  // ===== V3.9.17 コーデ部位ヘルパー・アクセサリー・季節連動 =====
   const COORD_TYPE_TAG = FASHION_CASUAL_TAGS;
   function eraOptionsFor(kind, c, holiday){
     const y = Number(c.eraYear)||2026;
@@ -3232,12 +3232,29 @@
     const r = Math.random();
     const count = r < 0.211 ? 0 : r < 0.80 ? 1 : 2; // 経験なし≒21.1%（経験率78.9%）
     const used = [];
+    const LESSON_SPORTS = /水泳|体操|柔道|空手/; // 幼少〜小学校の習い事は部活と並行可
     for(let i=0;i<count;i++){
       const nm = sportExpPick(age, used);
       used.push(nm);
       let from, to;
-      if(nm === '水泳' && Math.random() < 0.6){ from = 0; to = Math.min(rnd(0,1,1), maxSt); }
-      else { from = rnd(0, Math.min(3, maxSt), 1); to = rnd(from, maxSt, 1); }
+      if(i === 0){
+        if(nm === '水泳' && Math.random() < 0.6){ from = 0; to = Math.min(rnd(0,1,1), maxSt); }
+        else { from = rnd(0, Math.min(3, maxSt), 1); to = rnd(from, maxSt, 1); }
+      } else {
+        const p = hist[0];
+        if(LESSON_SPORTS.test(nm) && p.from <= 1 && maxSt >= 0 && Math.random() < 0.6){
+          // 習い事として幼少〜小学校のみ並行
+          from = 0; to = Math.min(1, maxSt);
+          if(to > p.to) to = Math.min(to, p.to); // 期間感の暴れ防止
+        } else {
+          // 部活年代は1競技：前後の空き区間へ（乗り換え型）
+          const canBefore = p.from >= 1;
+          const canAfter = p.to < maxSt;
+          if(canBefore && (!canAfter || Math.random() < 0.6)){ from = rnd(0, p.from - 1, 1); to = rnd(from, p.from - 1, 1); }
+          else if(canAfter){ from = rnd(p.to + 1, maxSt, 1); to = rnd(from, maxSt, 1); }
+          else { continue; } // 空き区間なし→2競技目は生成しない
+        }
+      }
       hist.push({name:nm, from, to, strength: mkStrength(from,to)});
     }
     hist.sort((a,b)=> (b.to-b.from) - (a.to-a.from));
@@ -3669,7 +3686,7 @@
   })();
   function sportYears(x){ const Y=[2,6,3,3,4,5]; let t=0; for(let i=x.from;i<=x.to;i++) t+=Y[i]||3; return t; }
 
-  // ===== V3.9.16 サリエンスエンジン＋二軸キャッチ＋人物要約 =====
+  // ===== V3.9.17 サリエンスエンジン＋二軸キャッチ＋人物要約 =====
   const ROLE_ALIAS = {'銀行員':'銀行マン','ITエンジニア':'キーボードの人','人力車の車夫':'人力車乗り','公務員':'役所の人','営業職':'営業マン','経理・事務職':'経理マン','美容師':'ハサミ使い','大工':'現場の男','看護師':'夜勤明けの白衣','消防士':'火消し','警察官':'制服の人','タクシー運転手':'夜の運転手','コンサルタント':'横文字の人','商社勤務':'商社マン','高校教師':'先生','バーテンダー':'カウンターの人','カフェ店員':'エプロンの人','農家':'土の人','漁師':'海の男'};
   function roleAlias(role){ return ROLE_ALIAS[String(role||'')] || String(role||'').replace(/（.+）/,'') || '男'; }
   function salienceTop(c, n){
@@ -4155,7 +4172,7 @@
     return e;
   }
 
-  /* ===== V3.9.16 Midjourneyモード：4:3 diptych基準カード（英語＋日本語訳） ===== */
+  /* ===== V3.9.17 Midjourneyモード：4:3 diptych基準カード（英語＋日本語訳） ===== */
   // 対訳辞書：''=標準値のため省略、未登録=省略（日本語訳側に注記）
   const MJ_EN = {
   // フェイスライン
@@ -4311,7 +4328,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     return [en, ja];
   }
 
-  // ===== V3.9.16 笑い方（表情変化）モジュール =====
+  // ===== V3.9.17 笑い方（表情変化）モジュール =====
   const SMILE_EYES=['笑うと目が糸のように細くなり三日月形に消える','笑うと目尻が下がって垂れ目になる','笑っても目の形はあまり変わらない（口で笑うタイプ）','笑うと目尻に若い笑い皺が寄る','笑うと片目だけ強く細くなる','笑うと下まぶたが持ち上がる涙袋笑い','笑うと目を見開いて輝かせる','笑うと細まりつつ目に光をたたえる'];
   const SMILE_STYLES=['上の歯をしっかり見せる満面のくしゃ笑い','八重歯がのぞく笑い','口角だけ上げる控えめな笑み','歯を見せない照れ笑い','笑うと鼻に軽くしわが寄る','声が出そうな大口の笑い','口角が左右非対称に上がるニヒルな笑み','はにかんで口元を手で隠しがちな笑い','ふっと息が漏れるような笑い方','にっと横に大きく広がる笑い'];
   const CHEEK_SMILES=['笑うと頬がリンゴのように高く盛り上がる','笑うと頬に縦の笑いジワが入る','笑ってもシャープな頬のまま','笑うと頬とえくぼが連動してへこむ','頬全体が柔らかく持ち上がる'];
@@ -6946,6 +6963,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     return 'std';
   }
   function sockNoteFull(c, english=false){
+    const five = /5本指|五本指/.test(String(c.sockType||'') + String(c.sockShape||''));
     const sc = sockLengthClass(c.sockType);
     const slack = sockSlackLevel(c);
     const toe = sockToeClass(c);
@@ -6958,12 +6976,12 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
         body = `Mid-calf crew socks worn through a full day, ${slackEn}.`;
       } else if(sc==='ankle') body = 'Ankle-length socks ending just above the ankle bone.';
       else body = 'Invisible no-show socks hidden inside the shoes.';
-      const toeEn = toe==='thin'
+      const toeEn = five ? ' Render them as true five-toe socks, each toe separately wrapped as the sock is constructed.' : toe==='thin'
         ? ' The thin fabric follows the foot closely: the big-toe outline and the gentle rise at the toe joints show faintly, but the fabric stays one continuous surface with no individual toe grooves.'
         : toe==='thick'
         ? ' The thick fabric barely registers the toes — one rounded silhouette with a little spare fabric at the tip.'
         : ' The fabric covers the toes as one rounded silhouette: the big toe swells gently and the toe area undulates softly, but individual toes never press through.';
-      return ` ${body}${toeEn} Keep the wear natural and laundered-clean, never exaggerated; never five-toe socks.`;
+      return ` ${body}${toeEn} Keep the wear natural and laundered-clean, never exaggerated${five?'':'; never five-toe socks'}.`;
     }
     let body;
     if(sc==='crew'){
@@ -6973,12 +6991,12 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
       body = `ふくらはぎ中ほどまでのクルー丈の靴下を一日履き、${slackJa}。`;
     } else if(sc==='ankle') body = 'くるぶしの少し上までのアンクル丈。';
     else body = '履き口が靴に隠れる浅履きのインビジブル丈。';
-    const toeJa = toe==='thin'
+    const toeJa = five ? '5本指ソックスとして、各指が分かれた形を靴下の構造どおり正確に描く。' : toe==='thin'
       ? '薄手の生地が足先にぴったり沿い、親指の輪郭と指の付け根のゆるやかな起伏がうっすら分かる。ただし指一本一本の分かれ目までは浮き出させず、生地は一枚の連続した面として描く。'
       : toe==='thick'
       ? '厚みのある生地で指の形はほとんど拾わず、丸いシルエットと先端の生地の余りだけで足先を表現する。'
       : 'つま先は生地が足先をひとつの面として覆い、親指の膨らみと足先のなだらかな起伏で指の存在感を残しつつ、分かれ目は浮き出させない。';
-    return `${body}${toeJa}汚れや生地の傷みは誇張せず、5本指ソックスにしない。`;
+    return `${body}${toeJa}汚れや生地の傷みは誇張せず${five?'':'、5本指ソックスにしない'}。`;
   }
   function sockRenderNote(c, english=false){
     const sc = sockLengthClass(c.sockType);
@@ -6989,14 +7007,16 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
       if(sc==='crew' && hc==='crop') vis = ', a little shin showing between hem and cuff is natural';
       else if(sc==='crew' && hc==='no') vis = ', a sliver of skin peeking when seated is natural';
       else if(sc!=='crew') vis = ', visible ankle here is intended';
-      return ` Socks: ${nm}${vis}; never five-toe socks.`;
+      const five2 = /5本指|五本指/.test(String(c.sockType||''));
+      return ` Socks: ${nm}${vis}; ${five2?'true five-toe socks':'never five-toe socks'}.`;
     }
     const nm = sc==='crew' ? 'クルー丈' : sc==='ankle' ? 'アンクル丈' : 'インビジブル丈';
     let vis = '';
     if(sc==='crew' && hc==='crop') vis = '。裾との間にすねが少し見えるのは自然';
     else if(sc==='crew' && hc==='no') vis = '。座って素肌がわずかにのぞく程度は自然';
     else if(sc!=='crew' && hc!=='shorts') vis = '。すねやくるぶしが見えるのは意図どおり';
-    return `靴下は${nm}${vis}（5本指にしない）。`;
+    const five2 = /5本指|五本指/.test(String(c.sockType||''));
+    return `靴下は${nm}${vis}（${five2?'5本指ソックス':'5本指にしない'}）。`;
   }
   const ORIGIN_ROOTS = [['中国',26],['韓国',14],['ベトナム',18],['フィリピン',11],['ブラジル',7],['ネパール',6],['インドネシア',3],['ミャンマー',3],['タイ',2],['ペルー',2]];
   function applyOriginRoots(c){
@@ -7341,6 +7361,16 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     const bodyType = fixed.bodyType || base.bodyType || (()=>{
       let entries = profile ? profile.bodyTypes.map(([v,w])=>[v,w]) : pools.bodyTypes.map(v=>[v,1]);
       if(!profile){ const hb = chooseBody(height, rareMode); const f = entries.find(x=>x[0]===hb); if(f) f[1]+=3; }
+      if(['消防士','警察官','自衛官','救急隊員','防衛大学校学生'].includes(role)){
+        // 採用時の体力試験と日常訓練があるため、やせ型はほぼ存在しない
+        entries = entries.map(([v,w])=>{
+          if(/ガリガリ|華奢|線が細い|痩せ型|やせ型/.test(v)) return [v, w * 0.05];
+          if(v === '細身') return [v, w * 0.2]; // 制服職の細身は「引き締まった」側で表現
+          if(/マッチョ|筋肉質/.test(v)) return [v, w * 2];
+          if(/がっしり/.test(v)) return [v, w * 1.5];
+          return [v, w];
+        });
+      }
       if(occBodyW){
         (occBodyW.weights||[]).forEach(([v,w])=>{ const f = entries.find(x=>x[0]===v); if(f) f[1]+=w; else entries.push([v,w]); });
         if(occBodyW.exclude){ occBodyW.exclude.forEach(v=>{ const f = entries.find(x=>x[0]===v); if(f) f[1] = 0.5; else entries.push([v, 0.5]); }); }
@@ -7513,6 +7543,50 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
         const hp = String(initial.fireHatPref || (base && base.fireHatPref) || '自動');
         if(FIRE_SHOES[sp] && !/訓練軽装/.test(String(uniform[0]))) coord.shoes = FIRE_SHOES[sp];
         if(FIRE_HATS[hp] && !/訓練軽装/.test(String(uniform[0]))) coord.headwear = FIRE_HATS[hp];
+      }
+      if(['消防士','警察官','自衛官','救急隊員','防衛大学校学生'].includes(role) && !/訓練軽装/.test(String(uniform[0]))){
+        // 職務時の靴下：官品支給／自前の機能性ソックス（実態準拠）
+        if(role === '警察官'){
+          if(Math.random() < 0.4){
+            const five = Math.random() < 0.5; // 自前層は5本指と厚手パイルが人気を二分
+            coord.sockBrand = '自前の機能性ソックス';
+            coord.sockType = five ? '5本指の機能ソックス（クルー丈）' : '先丸の厚手パイルソックス（クルー丈）';
+            coord.sockShape = five ? '5本指形状' : '先丸・厚手パイル編み';
+            coord.sockMaterial = '吸汗速乾の機能繊維混（つま先・かかと補強）';
+          } else {
+            coord.sockBrand = '官品支給';
+            coord.sockType = '無地のクルー丈ソックス';
+            coord.sockShape = '標準的な薄手〜中厚（厚手パイルではない）';
+            coord.sockMaterial = 'コストを抑えた綿ポリエステル混';
+          }
+          coord.sockColor = pick(['黒','黒','紺']);
+        } else if(role === '自衛官' || role === '防衛大学校学生'){
+          const own = Math.random() < (role === '自衛官' ? 0.6 : 0.3);
+          if(own){
+            const five = Math.random() < 0.4;
+            coord.sockBrand = '自前の機能性ソックス';
+            coord.sockType = five ? '行軍用の5本指ソックス（ハイソックス丈）' : '先丸の厚手パイルソックス（クルー〜ハイソックス丈）';
+            coord.sockShape = five ? '5本指形状・超肉厚' : '先丸・厚手パイル編み';
+            coord.sockMaterial = '抗菌防臭・吸汗速乾（つま先・かかと補強、半長靴の履き口に擦れない長め丈）';
+          } else {
+            coord.sockBrand = '官品支給';
+            coord.sockType = '無地のクルー丈ソックス';
+            coord.sockShape = '標準的な中厚';
+            coord.sockMaterial = 'コストを抑えた綿ポリエステル混';
+          }
+          coord.sockColor = Math.random() < 0.3 ? 'OD（オリーブ）' : '黒';
+        } else {
+          // 消防士・救急隊員：規定が緩く自由度が高い
+          const src = Math.random();
+          coord.sockBrand = src < 0.5 ? '自前の機能性ソックス' : src < 0.8 ? 'ワークショップの軍足系（3足組）' : '官品支給';
+          const tp = Math.random();
+          if(tp < 0.5){ coord.sockType = '先丸の厚手パイルソックス（クルー丈）'; coord.sockShape = '先丸・厚手パイル編み（出動時に即座に履ける）'; }
+          else if(tp < 0.75){ coord.sockType = 'アンクルソックス'; coord.sockShape = '先丸・くるぶし上まで'; }
+          else if(tp < 0.9){ coord.sockType = '無地のクルー丈ソックス'; coord.sockShape = '標準的な中厚'; }
+          else { coord.sockType = '5本指の機能ソックス（クルー丈）'; coord.sockShape = '5本指形状'; }
+          coord.sockMaterial = season === '夏' ? '吸汗速乾の通気性素材' : season === '冬' ? '保温性のある厚手素材' : '吸汗速乾の機能繊維混';
+          coord.sockColor = pick(['黒','黒','紺','白','グレー']);
+        }
       }
     }
     const PREWAR_COORD = {
@@ -8139,7 +8213,7 @@ ${promptTargetGuide(c, false)}`;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
     generateInnerProfile(f, ['friend']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.16'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.17'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -8169,7 +8243,7 @@ ${promptTargetGuide(c, false)}`;
     half.forEach(k=>{ if(baseC[k] && Math.random()<0.5) f[k]=baseC[k]; });
     f.siblingOf = {name: baseC.name, kind, age: baseC.age};
     generateInnerProfile(f, ['family']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.16'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.17'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -9231,7 +9305,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); if(current && current.id !== lastRarityPlayed){ lastRarityPlayed = current.id; playRaritySound(r); } els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ setTimeout(()=>{ try{ renderVideoBoxes(); }catch(e){} }, 0); renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.9.16'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.9.17'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function deleteHistoryItem(i){
     const h = loadHistory();
