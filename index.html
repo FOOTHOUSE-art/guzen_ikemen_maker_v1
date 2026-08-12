@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V3.9.14</title>
+  <title>Guzen Ikemen Maker V3.9.16</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -133,8 +133,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V3.9.14</span>
-        <h1 class="title">Guzen Ikemen Maker V3.9.14</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V3.9.16</span>
+        <h1 class="title">Guzen Ikemen Maker V3.9.16</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -199,6 +199,8 @@
           <label class="field"><span>指示文言語</span><select id="initialPromptLanguage"></select></label>
           <label class="field"><span>生成先</span><select id="initialPromptTarget"></select></label>
           <label class="field"><span>足の詳細表現</span><select id="initialFootDetail"></select></label>
+          <label class="field"><span>消防の靴（制服職）</span><select id="initialFireShoe"></select></label>
+          <label class="field"><span>消防の帽子（制服職）</span><select id="initialFireHat"></select></label>
         </div></div>
         <div class="subcard" data-ui-card="initialProfileText"><h3>画像内プロフィール表記</h3><div class="form">
           <label class="field"><span>画像内スペック表示</span><select id="initialCaptionMode"></select></label>
@@ -442,7 +444,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.9.14</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V3.9.16</p>
   </div>
 
 <script>
@@ -1196,8 +1198,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.9.14';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.9.14';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V3.9.16';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V3.9.16';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1373,6 +1375,10 @@
     const target = document.getElementById('initialPromptTarget');
     const fdSel = document.getElementById('initialFootDetail');
     if(fdSel && !fdSel.options.length){ ['詳細','標準','なし'].forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; fdSel.appendChild(o); }); }
+    const fsSel = document.getElementById('initialFireShoe');
+    if(fsSel && !fsSel.options.length){ ['自動','編み上げ半長靴','制式短靴（紳士靴型）','制式短靴（スリッポン型）'].forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; fsSel.appendChild(o); }); }
+    const fhSel = document.getElementById('initialFireHat');
+    if(fhSel && !fhSel.options.length){ ['自動','紺アポロキャップ','銀色の防火ヘルメット','白の救助ヘルメット'].forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; fhSel.appendChild(o); }); }
     const caption = document.getElementById('initialCaptionMode');
     const cardStyle = document.getElementById('initialCardStyle');
     const cardRarity = document.getElementById('initialCardRarity');
@@ -1471,6 +1477,8 @@
       promptLanguage: document.getElementById('initialPromptLanguage')?.value || pools.promptLanguages[0],
       promptTarget: document.getElementById('initialPromptTarget')?.value || pools.promptTargets[0],
       footDetailMode: document.getElementById('initialFootDetail')?.value || '詳細',
+      fireShoePref: document.getElementById('initialFireShoe')?.value || '自動',
+      fireHatPref: document.getElementById('initialFireHat')?.value || '自動',
       captionMode: document.getElementById('initialCaptionMode')?.value || '表記する',
       bioCaptionMode: document.getElementById('initialBioCaption')?.value || '入れない',
       promptDetail: document.getElementById('initialPromptDetail')?.value || '自動（生成先に合わせる）',
@@ -1966,7 +1974,7 @@
     return sc;
   }
 
-  /* ===== V3.9.14 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
+  /* ===== V3.9.16 時代別ファッション語彙エンジン（年タグ＋近接年代ウィンドウ） ===== */
   // 項目: [名称, from, peak, to, tags]  tags: c=カジュアル s=ストリート k=きれいめ f=古着 o=オフィス可 p=スポーツ / アウターのみ W=冬 L=春秋 S=夏羽織
   const FVOCAB = {
   top: [
@@ -2137,7 +2145,7 @@
     if(outfitType==='ストリート系') pool = pool.concat(eraBrandList(BRAND_TIER_STREET_ADD, eraYear, null).filter(Boolean));
     return pool.length ? pool : basePool;
   }
-  // ===== V3.9.14 ブランドDB（部位×系統×tier×人気カーブ）＋整合システム =====
+  // ===== V3.9.16 ブランドDB（部位×系統×tier×人気カーブ）＋整合システム =====
   // 形式: [名, 部位(t/b/s/o/k=socks 複数可), 系統タグ(k/c/s/f/p/w), tier(h/m/l/w), from, peak, to(9999=現役), ピーク係数]
   const BRAND_DB = [
     ['UNIQLO','tbok','ck','l',1984,2012,9999,3.0],['GU','tbok','c','l',2006,2020,9999,2.2],['無印良品','tbok','ck','l',1980,2016,9999,1.8],['しまむら','tbok','c','l',1961,2010,9999,1.4],['無地ノーブランド','tbsok','ckcfspw','l',1900,2000,9999,1.5],
@@ -2327,7 +2335,7 @@
   }
 
 
-  // ===== V3.9.14 コーデ部位ヘルパー・アクセサリー・季節連動 =====
+  // ===== V3.9.16 コーデ部位ヘルパー・アクセサリー・季節連動 =====
   const COORD_TYPE_TAG = FASHION_CASUAL_TAGS;
   function eraOptionsFor(kind, c, holiday){
     const y = Number(c.eraYear)||2026;
@@ -2925,8 +2933,9 @@
       ['夏の車夫スタイル（半袖法被・脚絆）','a summer rickshaw puller outfit (short-sleeve happi and leg wraps)','半袖の法被','短めの股引','地下足袋',3,'','手ぬぐい鉢巻き']
     ],
     '消防士': [
-      ['消防署の活動服（紺の作業服スタイル）','the navy station duty uniform of the Ashikusa Fire Department — a navy shirt-jacket style duty top with two buttoned-flap chest pockets, a silver rank bar on the left chest, a yellow fabric name tape on the right chest, and the back marked in yellow with the Japanese characters "足草消防" above "ASHIKUSA FIRE DEPT." (render both lines exactly, crisp and unbroken); no shoulder emblems or shoulder boards','紺の活動服上衣（シャツジャケット型、両胸にボタン留めフラップ付きポケット、左胸に銀色の階級章バー、右胸に黄色の布製ネーム、背中に黄色の文字で「足草消防」と「ASHIKUSA FIRE DEPT.」を2段表記。肩の紋章・肩章はなし。文字は正確に表記し崩さない）','紺の活動服パンツ','編み上げの作業ブーツ',5,'','紺のアポロキャップ型活動帽（正面に金色の英字刺繍「ASHIKUSA FIRE DEPT.」と金色の帽章のみ。漢字の刺繍は入れない）'],
-      ['救助服（オレンジのレスキュー隊服）','the orange rescue-squad duty uniform of the Ashikusa Fire Department — an orange duty top with a silver rank bar on the left chest, silver reflective tape on the forearms and hem, and the back marked with the Japanese characters "足草消防" above "ASHIKUSA FIRE DEPT." (render both lines exactly, crisp and unbroken); no shoulder emblems','オレンジの救助服上衣（左胸に銀色の階級章バー、前腕と裾に銀色の反射帯、背中に「足草消防」と「ASHIKUSA FIRE DEPT.」を2段表記。肩の紋章なし。文字は正確に表記し崩さない）','オレンジの救助服パンツ','編み上げの救助ブーツ',3,'','紺のアポロキャップ型活動帽（正面に金色の英字刺繍「ASHIKUSA FIRE DEPT.」と金色の帽章のみ。漢字の刺繍は入れない）'],
+      ['消防署の活動服（紺の作業服スタイル）','the navy station duty uniform of the Ashikusa Fire Department — a navy stand-collar shirt-jacket duty top with a zip-and-button front, two flap chest pockets (pen slot on the left pocket), a silver rank bar on the left chest, a yellow fabric name tape on the right chest, a navy duty belt with a silver square buckle, and the back marked in yellow with the Japanese characters "足草消防" above "ASHIKUSA FIRE DEPT." (render both lines exactly, crisp and unbroken); no shoulder emblems or shoulder boards','紺の活動服上衣（立ち襟気味のシャツジャケット型、前面はファスナー＋ボタン留め、両胸にフラップ付きポケットで左胸ポケットにペン差し、左胸に銀色の階級章バー、右胸に黄色の布製ネーム、背中に黄色の文字で「足草消防」と「ASHIKUSA FIRE DEPT.」を2段表記、腰に紺の制式ベルト（銀色の角型バックル）。肩の紋章・肩章はなし。文字は正確に表記し崩さない）','紺の活動服パンツ','黒革の編み上げ半長靴（前面レースアップ＋サイドファスナー、履き口にクッション入りのベルクロベルト、かかと側にオレンジの反射材、丸みのある先芯入りつま先、滑りにくいラバーソール）',5,'','紺のアポロキャップ型活動帽（正面に金色の英字刺繍「ASHIKUSA FIRE DEPT.」と金色の帽章のみ。漢字の刺繍は入れない）'],
+      ['救助服（オレンジのレスキュー隊服）','the orange rescue-squad duty uniform of the Ashikusa Fire Department — a stand-collar orange duty top with two vertical-zip chest pockets, a fabric name tape on the left chest, a round English-only shoulder patch reading "ASHIKUSA RESCUE" on the left sleeve, tone-on-tone reinforcement patches at the elbows, a wide orange two-pin-buckle belt, and the back marked with the Japanese characters "足草消防" above "ASHIKUSA FIRE DEPT." (render both lines exactly, crisp and unbroken)','オレンジの救助服上衣（立ち襟、胸に縦ファスナーポケット×2、左胸に布製ネーム、左肩に円形の英字ワッペン「ASHIKUSA RESCUE」のみで漢字なし、肘に同色の補強パッチ、腰にオレンジの2ピンバックル幅広ベルト、背中に「足草消防」と「ASHIKUSA FIRE DEPT.」を2段表記。文字は正確に表記し崩さない）','オレンジの救助服パンツ（膝に同色の補強パッチ、裾は絞って半長靴にブーツイン）','黒革の編み上げ半長靴（前面レースアップ＋サイドファスナー、履き口にクッション入りのベルクロベルト、かかと側にオレンジの反射材、丸みのある先芯入りつま先、滑りにくいラバーソール）',3,'','白の救助ヘルメット（黒のあご紐付き。ゴーグルを上に上げて装着した状態も可。文字なし）'],
+      ['訓練軽装（紺Tシャツ＋救助ズボン）','fire-department training gear — a navy quick-dry T-shirt with a small white circular logo on the left chest reading "119" over "ASHIKUSA FIRE DEPT." (English and numerals only), orange rescue duty pants with an orange two-pin-buckle belt, hems gathered at the ankle','紺の速乾Tシャツ（左胸に白の円形ロゴ「119」と英字「ASHIKUSA FIRE DEPT.」のみ。漢字なし。文字は正確に表記し崩さない）','オレンジの救助服パンツ（裾は足首で絞る）','トレーニングシューズ（赤や青などの色つきランニングシューズ可）',1.2,'summer',''],
       ['防火衣（訓練場面向けの耐火装備スタイル）','protective fire gear of the Ashikusa Fire Department in a training-style setting — a beige turnout coat with silver reflective bands on the chest, sleeves, and hem, and the back marked in silver reflective lettering with the Japanese characters "足草消防" above "ASHIKUSA FIRE DEPT." (render both lines exactly, crisp and unbroken)','ベージュの防火衣上衣（胸・袖・裾に銀色の反射帯、背中に銀色反射材の文字で「足草消防」と「ASHIKUSA FIRE DEPT.」を2段表記。文字は正確に表記し崩さない）','防火衣のズボン（銀色反射帯付き）','防火用ブーツ',1,'','防火用ヘルメット（銀色・文字なし）']
     ],
     '警察官': [
@@ -2936,7 +2945,9 @@
       ['冬制服・装備ベストなし（濃紺ジャケット＋ネクタイ）','the winter duty uniform of the Ashikusa Prefectural Police without the equipment vest — a dark-navy winter police uniform jacket with gold buttons on a single-breasted front, shoulder straps, and a silver identification badge on the left chest, worn over a light-blue shirt with a navy tie, with dark-navy uniform slacks','濃紺の冬制服ジャケット（シングルの前合わせに金色ボタン、肩章、左胸に銀色の識別章）＋内側に薄青の制服シャツと紺のネクタイ','濃紺の制服スラックス','黒の革靴',2,'winter','濃紺の制帽（黒つば・黒あご紐・金色の帽章風エンブレムのみ。文字は入れない）'],
       ['警察官の活動服風（出動服スタイル）','the field-duty uniform of the Ashikusa Prefectural Police — a navy duty top with a silver identification badge on the left chest and the back marked with the Japanese characters "足草県警察" above "POLICE" (render both lines exactly, crisp and unbroken), with navy duty pants','紺の活動服上衣（左胸に銀色の識別章、背中に「足草県警察」と「POLICE」を2段表記。文字は正確に表記し崩さない）','紺の活動服パンツ','編み上げブーツ',2,'','紺のキャップ型活動帽（正面に金色の英字「POLICE」のみ。漢字の刺繍は入れない）'],
       ['交通機動隊風の乗車服（白ヘルメット着用）','a traffic-motorcycle-unit rider uniform (white riding helmet worn)','乗車服の上衣','乗車用パンツ','ライディングブーツ',1,'','白のライディングヘルメット'],
-      ['機動隊の出動服風（ヘルメット携行）','a riot-unit duty uniform style (helmet carried)','紺の出動服上衣','紺の出動服パンツ','半長靴',1,'','紺のキャップ型活動帽（出動ヘルメットは携行）']
+      ['機動隊警備服・夏（シャツ×装備ベスト）','the summer security-duty uniform of the Ashikusa Prefectural Police riot unit — a light-blue uniform shirt (short sleeves, or long sleeves rolled up, with a dark-navy shoulder yoke) under a navy multi-pocket equipment vest with a front zipper, the back of the vest marked in white two-line lettering "足草県警察" over "POLICE" (render exactly), navy slacks bloused into black lace-up half boots with two buckle straps','薄青の制服シャツ（半袖、または長袖の袖まくり。肩から上腕に濃紺のヨーク切替）の上に紺の装備ベスト（前面ファスナー・多ポケット、背中に白文字2段で「足草県警察」と「POLICE」を表記。文字は正確に表記し崩さない）を着用','紺のスラックス（裾は半長靴にブーツイン）','黒革の編み上げ半長靴（甲に2本のバックルストラップ付き）',1,'summer','濃紺の制帽（黒つば・黒あご紐・金色の帽章風エンブレムのみ。文字は入れない）※紺のアポロキャップ型活動帽（金色の英字「POLICE」のみ）でも可'],
+      ['機動隊警備服・冬（防寒ブルゾン）','the winter security-duty uniform of the Ashikusa Prefectural Police riot unit — a navy cold-weather blouson with a fleece-lined collar, a gold-button flap-and-zip front, flap chest pockets, an English-only shield-shaped patch on the left shoulder, and the back marked in white two-line lettering "足草県警察" over "POLICE" (render exactly), worn over a white shirt and navy tie, with black gloves and navy slacks bloused into two-buckle half boots','紺の防寒ブルゾン（襟にボアライナー、前面は金ボタン留めフラップ＋ファスナー、胸フラップポケット、左肩に盾形の英字ワッペンのみで漢字なし、背中に白文字2段で「足草県警察」と「POLICE」を表記。文字は正確に表記し崩さない）＋内側に白シャツと紺のネクタイ、黒手袋','紺のスラックス（裾は半長靴にブーツイン）','黒革の編み上げ半長靴（甲に2本のバックルストラップ付き）',1,'winter','濃紺の制帽（黒つば・黒あご紐・金色の帽章風エンブレムのみ。文字は入れない）※紺のアポロキャップ型活動帽（金色の英字「POLICE」のみ）でも可'],
+      ['機動隊警備服・春秋（警備ジャケット）','the spring-autumn security-duty uniform of the Ashikusa Prefectural Police riot unit — a navy open-collar guard jacket with a single row of gold buttons, four flap pockets on the chest and waist, shoulder straps, an English-only shield-shaped patch on the left shoulder, worn over a light shirt and navy tie with white gloves, a radio clipped to the chest, and navy slacks bloused into two-buckle half boots','紺の警備ジャケット（開襟・金ボタン単列、胸と腰に4つのフラップポケット、肩章、左肩に盾形の英字ワッペンのみで漢字なし）＋白または薄青のシャツと紺のネクタイ、白手袋、胸に無線機','紺のスラックス（裾は半長靴にブーツイン）','黒革の編み上げ半長靴（甲に2本のバックルストラップ付き）',1,'','濃紺の制帽（黒つば・黒あご紐・金色の帽章風エンブレムのみ。文字は入れない）※紺のアポロキャップ型活動帽（金色の英字「POLICE」のみ）でも可']
     ],
     '自衛官': [
       ['緑系迷彩の作業服＋半長靴＋識別帽','the instantly recognizable green camouflage fatigues of a Japan self-defense force member with half boots and a field cap','制服上衣','制服パンツ','制式の靴',4,'','制帽'],
@@ -3658,7 +3669,7 @@
   })();
   function sportYears(x){ const Y=[2,6,3,3,4,5]; let t=0; for(let i=x.from;i<=x.to;i++) t+=Y[i]||3; return t; }
 
-  // ===== V3.9.14 サリエンスエンジン＋二軸キャッチ＋人物要約 =====
+  // ===== V3.9.16 サリエンスエンジン＋二軸キャッチ＋人物要約 =====
   const ROLE_ALIAS = {'銀行員':'銀行マン','ITエンジニア':'キーボードの人','人力車の車夫':'人力車乗り','公務員':'役所の人','営業職':'営業マン','経理・事務職':'経理マン','美容師':'ハサミ使い','大工':'現場の男','看護師':'夜勤明けの白衣','消防士':'火消し','警察官':'制服の人','タクシー運転手':'夜の運転手','コンサルタント':'横文字の人','商社勤務':'商社マン','高校教師':'先生','バーテンダー':'カウンターの人','カフェ店員':'エプロンの人','農家':'土の人','漁師':'海の男'};
   function roleAlias(role){ return ROLE_ALIAS[String(role||'')] || String(role||'').replace(/（.+）/,'') || '男'; }
   function salienceTop(c, n){
@@ -4144,7 +4155,7 @@
     return e;
   }
 
-  /* ===== V3.9.14 Midjourneyモード：4:3 diptych基準カード（英語＋日本語訳） ===== */
+  /* ===== V3.9.16 Midjourneyモード：4:3 diptych基準カード（英語＋日本語訳） ===== */
   // 対訳辞書：''=標準値のため省略、未登録=省略（日本語訳側に注記）
   const MJ_EN = {
   // フェイスライン
@@ -4300,7 +4311,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     return [en, ja];
   }
 
-  // ===== V3.9.14 笑い方（表情変化）モジュール =====
+  // ===== V3.9.16 笑い方（表情変化）モジュール =====
   const SMILE_EYES=['笑うと目が糸のように細くなり三日月形に消える','笑うと目尻が下がって垂れ目になる','笑っても目の形はあまり変わらない（口で笑うタイプ）','笑うと目尻に若い笑い皺が寄る','笑うと片目だけ強く細くなる','笑うと下まぶたが持ち上がる涙袋笑い','笑うと目を見開いて輝かせる','笑うと細まりつつ目に光をたたえる'];
   const SMILE_STYLES=['上の歯をしっかり見せる満面のくしゃ笑い','八重歯がのぞく笑い','口角だけ上げる控えめな笑み','歯を見せない照れ笑い','笑うと鼻に軽くしわが寄る','声が出そうな大口の笑い','口角が左右非対称に上がるニヒルな笑み','はにかんで口元を手で隠しがちな笑い','ふっと息が漏れるような笑い方','にっと横に大きく広がる笑い'];
   const CHEEK_SMILES=['笑うと頬がリンゴのように高く盛り上がる','笑うと頬に縦の笑いジワが入る','笑ってもシャープな頬のまま','笑うと頬とえくぼが連動してへこむ','頬全体が柔らかく持ち上がる'];
@@ -6730,6 +6741,11 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
         ? `Scene: a daily-life snapshot of him opening his sock drawer to pick today's pair. The drawer contents visibly read as "${c.sockDrawerText||''}". A foot-level cut shows ${pairEn}. ${sockWearVisual(c, true)}${sockNoteFull(c, true)} Photorealistic daily-life tone, non-sexual.`
         : `場面：靴下の引き出しを開けて今日の1足を選んでいる生活スナップ。引き出しの中身は「${c.sockDrawerText||''}」という構成が見て取れる。足元カットでは${pairJa}。${sockWearVisual(c, false)}${sockNoteFull(c, false)}実写の生活描写として自然に、非性的に描く。`);
     }
+    if(['消防士','救急隊員'].includes(String(c.role||'')) && (innerCatShow.daily || innerCatShow.fashion)){
+      sec('消防の屋内訓練（脱靴）','Fire Dept. Indoor Training (Boots Off)', en
+        ? `Scene: on green training mats in a drill hall, he has taken off his lace-up half boots and trains core exercises in socks (mostly white, though some members wear black or navy), wearing the navy training T-shirt and orange rescue pants. Even with the boots off, the pant hems keep their gathered shape at the ankle with soft creases left from being tucked into the boots, and when he sits the hems ride up slightly so his ankles show between hem and socks. The removed half boots sit neatly at the edge of the mat and white towels are spread on the floor. A matter-of-fact, wholesome training tone, non-sexual.${sockNoteFull(c, true)}`
+        : `場面：講堂の緑の訓練マットの上で、編み上げ半長靴を脱ぎ、紺の訓練Tシャツ＋オレンジの救助ズボンに靴下姿（白が多いが、黒や紺の靴下の隊員もいる）で体幹トレーニングをしている。半長靴を脱いでも救助ズボンの裾は足首で絞られた形を保ち、ブーツインしていた名残の折りじわで軽くふくらむ。座ると裾がやや持ち上がり、裾と靴下の間に足首がのぞく。脱いだ半長靴はマットの端に揃えて置かれ、床には白いタオルが敷かれている。訓練の即物的で健全なトーン、非性的。${sockNoteFull(c, false)}`);
+    }
     if(!secs.length) return '';
     const head = en ? '*** Intro-scene prompts for the opened categories. Use each section as an individual prompt with the base reference card attached. ***\n\n' : '※開いているカテゴリの紹介場面プロンプトです。各セクションを、基準リファレンスカードを添付したうえで個別に使用してください。\n\n';
     return head + secs.join('\n\n');
@@ -7490,6 +7506,14 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
       coord.bottom = uniform[3];
       coord.shoes = uniform[4];
       coord.headwear = uniform[7] || '';
+      if(['消防士','救急隊員'].includes(role)){
+        const FIRE_SHOES = {'編み上げ半長靴':'黒革の編み上げ半長靴（前面レースアップ＋サイドファスナー、履き口にクッション入りのベルクロベルト、かかと側にオレンジの反射材、丸みのある先芯入りつま先、滑りにくいラバーソール）','制式短靴（紳士靴型）':'黒の制式短靴（紳士靴型：甲にストラップと小さな金色の飾り金具のあるローファー風、通気性のあるヒール付きラバーソール）','制式短靴（スリッポン型）':'黒の制式短靴（スリッポン型：飾りのないプレーンな甲、かかとに反射材の付いた引き手ループ、厚めの滑りにくいラバーソール）'};
+        const FIRE_HATS = {'紺アポロキャップ':'紺のアポロキャップ型活動帽（正面に金色の英字刺繍「ASHIKUSA FIRE DEPT.」と金色の帽章のみ。漢字の刺繍は入れない）','銀色の防火ヘルメット':'銀色の防火ヘルメット（文字なし）','白の救助ヘルメット':'白の救助ヘルメット（黒のあご紐付き。ゴーグルを上に上げて装着した状態も可。文字なし）'};
+        const sp = String(initial.fireShoePref || (base && base.fireShoePref) || '自動');
+        const hp = String(initial.fireHatPref || (base && base.fireHatPref) || '自動');
+        if(FIRE_SHOES[sp] && !/訓練軽装/.test(String(uniform[0]))) coord.shoes = FIRE_SHOES[sp];
+        if(FIRE_HATS[hp] && !/訓練軽装/.test(String(uniform[0]))) coord.headwear = FIRE_HATS[hp];
+      }
     }
     const PREWAR_COORD = {
       '書生風スタイル（着物＋袴＋学帽）':{jacket:'なし', top:'絣の着物', bottom:'袴', shoes:'下駄'},
@@ -7553,7 +7577,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
       shoes: base.shoes || coord.shoes, sockBrand: base.sockBrand || coord.sockBrand, sockType: base.sockType || coord.sockType, sockShape: base.sockShape || coord.sockShape, sockMaterial: base.sockMaterial || coord.sockMaterial, sockColor: base.sockColor || coord.sockColor, sockUse: base.sockUse || coord.sockUse,
       personality: mbtiDescription(mbti, false),
       background: initial.background, lighting: initial.lighting, quality: initial.quality, outputType: initial.outputType, count: initial.count,
-      promptLanguage: initial.promptLanguage || '日本語', promptTarget: normalizePromptTarget(initial.promptTarget) || 'ChatGPT', footDetailMode: initial.footDetailMode || '詳細', captionMode: initial.captionMode || '表記する', bioCaptionMode: base.bioCaptionMode || initial.bioCaptionMode || '入れない', promptDetail: initial.promptDetail || '自動（生成先に合わせる）', captionFields: initial.captionFields || {name:true,era:true,height:true,weight:true,footSize:true,mbti:true},
+      promptLanguage: initial.promptLanguage || '日本語', promptTarget: normalizePromptTarget(initial.promptTarget) || 'ChatGPT', footDetailMode: initial.footDetailMode || '詳細', fireShoePref: base.fireShoePref || initial.fireShoePref || '自動', fireHatPref: base.fireHatPref || initial.fireHatPref || '自動', captionMode: initial.captionMode || '表記する', bioCaptionMode: base.bioCaptionMode || initial.bioCaptionMode || '入れない', promptDetail: initial.promptDetail || '自動（生成先に合わせる）', captionFields: initial.captionFields || {name:true,era:true,height:true,weight:true,footSize:true,mbti:true},
       cardStyle: initial.cardStyle || 'スタンダード', cardRarity: initial.cardRarity || 'おすすめ自動', cardTheme: initial.cardTheme || 'ネイビー', cardLayout: initial.cardLayout || '縦長カード', cardWearMode: initial.cardWearMode || 'ボクサーパンツのみ', cardEffect: initial.cardEffect || 'なし', cardFields: initial.cardFields || {name:true,age:true,era:true,height:true,weight:true,footSize:true,role:true,mbti:true,rarity:true},
       sceneIdea: buildEncounterScene({role, outfitType, vibe, nationality, ethnicity, mbti, eraYear, season, occInfluence, occupationMode}),
       createdAt: new Date().toISOString()
@@ -8115,7 +8139,7 @@ ${promptTargetGuide(c, false)}`;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
     generateInnerProfile(f, ['friend']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.14'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.16'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -8145,7 +8169,7 @@ ${promptTargetGuide(c, false)}`;
     half.forEach(k=>{ if(baseC[k] && Math.random()<0.5) f[k]=baseC[k]; });
     f.siblingOf = {name: baseC.name, kind, age: baseC.age};
     generateInnerProfile(f, ['family']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.14'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V3.9.16'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -8657,6 +8681,7 @@ ${targetJa}
     '防火衣（訓練場面向けの耐火装備スタイル）':'防火衣（訓練場面向けの耐火装備スタイル）',
     '救急隊の活動服（白シャツ＋紺パンツ）':'救急隊の活動服（白シャツ＋紺パンツ）',
     '警察官の活動服風（出動服スタイル）':'警察官の活動服風（出動服スタイル）',
+    '機動隊の出動服風（ヘルメット携行）':'機動隊警備服・春秋（警備ジャケット）',
     '防衛大学校の校内服装（OD色の作業服＋指定ジャンパー）':'防衛大学校の校内服装（水色シャツ＋ネクタイ）'
   };
   function migrateUniformFields(c){
@@ -8668,6 +8693,12 @@ ${targetJa}
     c.workUniform = v[0]; c.workUniformEn = v[1];
     c.top = v[2]; c.bottom = v[3]; c.shoes = v[4];
     c.headwear = v[7] || '';
+    if(['消防士','救急隊員'].includes(String(c.role||'')) && !/訓練軽装/.test(String(v[0]))){
+      const FIRE_SHOES2 = {'編み上げ半長靴':'黒革の編み上げ半長靴（前面レースアップ＋サイドファスナー、履き口にクッション入りのベルクロベルト、かかと側にオレンジの反射材、丸みのある先芯入りつま先、滑りにくいラバーソール）','制式短靴（紳士靴型）':'黒の制式短靴（紳士靴型：甲にストラップと小さな金色の飾り金具のあるローファー風、通気性のあるヒール付きラバーソール）','制式短靴（スリッポン型）':'黒の制式短靴（スリッポン型：飾りのないプレーンな甲、かかとに反射材の付いた引き手ループ、厚めの滑りにくいラバーソール）'};
+      const FIRE_HATS2 = {'紺アポロキャップ':'紺のアポロキャップ型活動帽（正面に金色の英字刺繍「ASHIKUSA FIRE DEPT.」と金色の帽章のみ。漢字の刺繍は入れない）','銀色の防火ヘルメット':'銀色の防火ヘルメット（文字なし）','白の救助ヘルメット':'白の救助ヘルメット（黒のあご紐付き。ゴーグルを上に上げて装着した状態も可。文字なし）'};
+      if(FIRE_SHOES2[String(c.fireShoePref||'')]) c.shoes = FIRE_SHOES2[c.fireShoePref];
+      if(FIRE_HATS2[String(c.fireHatPref||'')]) c.headwear = FIRE_HATS2[c.fireHatPref];
+    }
     if(c.headwearOn === undefined) c.headwearOn = true;
     c.jacket = (v[8] && c.season === '冬') ? v[8] : 'なし';
   }
@@ -9200,7 +9231,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); if(current && current.id !== lastRarityPlayed){ lastRarityPlayed = current.id; playRaritySound(r); } els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ setTimeout(()=>{ try{ renderVideoBoxes(); }catch(e){} }, 0); renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.9.14'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V3.9.16'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function deleteHistoryItem(i){
     const h = loadHistory();
