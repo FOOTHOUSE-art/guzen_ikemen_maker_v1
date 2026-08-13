@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V4.6.3</title>
+  <title>Guzen Ikemen Maker V4.6.4</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -153,6 +153,7 @@
     .sheet .kv .pf-actions{display:flex;align-items:center;gap:2px;padding:2px 6px}
     .sheet .kv .pf-editor{grid-column:1/-1;padding:6px 8px}
     .sheet .band .dice{position:static;padding:2px 7px;font-size:12px}
+    .sw{display:inline-block;width:12px;height:12px;border-radius:4px;border:1px solid #ffffff55;margin-right:3px;vertical-align:-1px;flex:0 0 auto}
     @media(max-width:760px){.sheet-2col{grid-template-columns:1fr}.sheet .halfL{border-right:0}}
     .oc-head{font-size:12px;font-weight:950;color:#ffe9a3;border-bottom:1px solid #ffffff22;padding:6px 0 4px;letter-spacing:.04em}
     @container (min-width:560px){.pc-outfit .pc-rows{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:row dense;column-gap:18px;align-items:start}.pc-outfit .pc-rows .oc-w{grid-column:1}.pc-outfit .pc-rows .oc-h{grid-column:2}}
@@ -181,8 +182,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V4.6.3</span>
-        <h1 class="title">Guzen Ikemen Maker V4.6.3</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V4.6.4</span>
+        <h1 class="title">Guzen Ikemen Maker V4.6.4</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -295,7 +296,7 @@
         </div></div>
         <div class="subcard" data-ui-card="initialProfileText"><h3>画像内プロフィール表記</h3><div class="form">
           <label class="field"><span>画像内スペック表示</span><select id="initialCaptionMode"></select></label>
-          <label class="field"><span>プロンプト最適化</span><select id="initialPromptDetail"><option value="自動（生成先に合わせる）">自動（生成先に合わせる）</option><option value="フル記述">フル記述</option><option value="要点圧縮">要点圧縮（ChatGPT向け）</option></select></label>
+          <label class="field"><span>プロンプト最適化</span><select id="initialPromptDetail"><option value="自動（生成先に合わせる）">自動（生成先に合わせる）</option><option value="フル記述">フル記述</option><option value="要点圧縮">標準（要点圧縮）</option><option value="ライト（最小）">ライト（最小）</option></select></label>
           <label class="field"><span>ひとこと背景</span><select id="initialBioCaption"><option value="入れない">入れない</option><option value="情報欄に入れる">情報欄に入れる</option></select></label>
           <div class="field" style="grid-column:1/-1">
             <span id="initialCaptionFieldsLabel">画像内に表示する項目</span>
@@ -555,7 +556,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V4.6.3</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V4.6.4</p>
   </div>
 
 <script>
@@ -1312,8 +1313,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V4.6.3';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V4.6.3';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V4.6.4';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V4.6.4';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -5226,7 +5227,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     return `眉は${eb}で、${ed}。${c.eyebrowGroom&&c.eyebrowGroom!=='自然なまま'?`眉の手入れは${c.eyebrowGroom}。`:''}${c.eyebrowGap&&c.eyebrowGap!=='標準的な眉間'?`${c.eyebrowGap}。`:''}まぶたは${el}、目の形は${esh}${c.eyeBalance&&c.eyeBalance!=='標準的な黒目の位置'?`、${c.eyeBalance}（誇張せず自然な範囲で）`:''}、目の印象は${ei}。まつ毛は${ela}（化粧をしているようには見せない）。`;
   }
   function faceExtraLine(c, english=false){
-    const LIMIT = promptOpt(c).compact ? 6 : 99;
+    const LIMIT = promptOpt(c).detail === 'light' ? 3 : (promptOpt(c).compact ? 6 : 99);
     const parts = [];
     const add = (key, jaFmt, enFmt)=>{
       const v = c[key];
@@ -5251,9 +5252,11 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
   }
   function promptOpt(c){
     const mode = c?.promptDetail || '自動（生成先に合わせる）';
-    const compact = mode === '要点圧縮' || (mode !== 'フル記述' && c?.promptTarget === 'ChatGPT');
+    // V4.6.4 T5: 自動＝標準（要点圧縮）を既定に（承認③）。ライトを新設
+    const detail = mode === 'フル記述' ? 'full' : mode === 'ライト（最小）' ? 'light' : 'std';
+    const compact = detail !== 'full';
     const antiAI = /Nanobanana/i.test(String(c?.promptTarget || '')) && !/イラスト|アニメ|漫画|設定画/.test(String(c?.quality || '実写風'));
-    return { compact, antiAI };
+    return { compact, antiAI, detail };
   }
   function realismSpec(c, english=false){
     const q = String(c.quality || '実写風');
@@ -6930,7 +6933,8 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
   const FASHION_BASE_COLORS = [['黒',4],['ネイビー',4],['グレー',3.5],['白ベース',2.5],['ベージュ・アースカラー',2],['カーキ',1.5],['ブラウン',1.2]];
   const FASHION_SCHEMES = [['ベーシック＋差し色',4],['ワントーン・同系色でまとめる',3],['色数多め・ミックス',1.5]];
   const SOCK_CYCLES = [['穴が開くまで履く',2],['よれたら替える（年1回まとめて）',4],['半年ごとに数足ずつ入れ替え',3],['季節の変わり目にまとめ買い',2.5],['気づいたときに1足ずつ',3],['頻繁に新調する（消耗品と割り切り）',1.2]];
-  const SOCK_DRAWERS = [['黒・紺のビジネスソックス中心',5],['白スポーツソックス多め',3],['黒ビジネスと白スポーツが半々',3.5],['グレー系で統一',2],['柄物がじわじわ増殖中',1.5],['同じ靴下を色違いで揃えている',2],['もらい物と景品が混ざったカオス',1.5]];
+  const SOCK_DRAWERS = [['黒・紺のビジネスソックス中心',5],['白スポーツソックス多め',3],['黒ビジネスと白スポーツが半々',3.5],['グレー系で統一',2],['柄物がじわじわ増殖中',1.5],['同じ靴下を色違いで揃えている',2],['もらい物と景品が混ざったカオス',1.5],
+    ['同一品番の黒で完全統一（迷わない主義）',2],['黒ビジネスの中に柄物が数足だけ潜んでいる',1.8],['厚手のワークソックスがぎっしり',1.2],['白の医療用ソックスで統一',0.6],['5本指ソックスが幅を利かせている',0.8],['スポーツブランドのロゴソックスばかり',1.5],['お気に入りブランドの靴下を少しずつ集めている',1.2],['ペアで几帳面に畳まれて色順に並ぶ',1.5],['左右バラバラ・似た色で乗り切る日もある',1.5],['学生時代の部活ソックスがまだ現役',1],['くたびれた白と新品の白が混在',1.5],['夏用メッシュと冬用パイルで衣替え管理',1],['ハイソックスと足袋型が混ざる個性派',0.5],['ライン入りスポーツソックスがずらり',1],['靴下は消耗品と割り切り3足パックのみ',2],['インビジブル中心で長物はわずか',1.2],['紺一色（会社規定に合わせた名残）',1],['家用のもこもこソックスが冬だけ増える',0.8],['アウトドア用の厚手メリノが数足',0.8],['白黒グレーの無彩色だけで構成',1.8],['もらったブランド靴下を大事に温存',0.8],['穴あき予備軍を捨てられずにいる',1.2]];
   const SOCK_TROUBLES = [['かかとがすぐ薄くなる',4],['ずり落ちてくるのが地味にストレス',3],['毛玉ができやすい',3],['洗濯で片方が行方不明になる',3.5],['ゴムが伸びがち',2.5],['サイズが微妙に合わない',1.5],['特になし',3]];
   const SOCK_PAIRS = [['パンツと同系色でつなげる',4],['靴と色を合わせる',2.5],['見せない派（くるぶし・インビジブル）',2.5],['白ソックスで抜け感を出す',1.5],['柄物を差し色にする',1.2],['深く考えていない',4]];
   const FAVORITE_WORDS = [
@@ -7197,7 +7201,111 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     box.style.display = show ? '' : 'none';
     box.value = show ? buildInnerScenePrompts(current) : '';
   }
-  function chooseFashionProfile(c){
+  // ===== V4.6.4 T2: ファッション項目の候補（生成コードと同一系の値・全開放用） =====
+  const FASHION_EDIT_KEYS = ['fashionValueText','favBrandText','favShoeBrandText','sizeFeelText','hemPrefText','slacksFitText','hemFinishText','baseColorText','colorSchemeText','sockCycleText','sockDrawerText','sockWearText','sockSmellText','sockTroubleText','sockPairText'];
+  const FASHION_EDIT_POOLS = {
+    fashionValueText: ['清潔感・他者からの見られ方','動きやすさ・機能性','無難さ・浮かないこと','コスパ','トレンド','自己表現・個性','質の良さ・長持ち','着心地'],
+    sizeFeelText: ['ジャストサイズ','やや余裕のあるサイズ感','タイトめ','明らかにオーバーサイズ'],
+    hemPrefText: ['ノークッション（くるぶしで止まるジャスト丈）','アンクル丈（くるぶしが見える九分丈）','ハーフクッション（裾が靴に軽く触れる標準丈）','ワンクッション（裾が靴にゆったりたまるクラシック丈）','クロップド（すねが少し見える短め丈）'],
+    slacksFitText: ['標準テーパード','タイトめテーパード','ストレート','ワイドタック'],
+    hemFinishText: ['シングル（プレーン）仕上げ','ダブル（4cm幅）仕上げ'],
+    baseColorText: ['黒','ネイビー','グレー','白ベース','ベージュ・アースカラー','カーキ','ブラウン'],
+    colorSchemeText: ['ベーシック＋差し色','ワントーン・同系色でまとめる','色数多め・ミックス'],
+    sockCycleText: ['穴が開くまで履く','よれたら替える（年1回まとめて）','半年ごとに数足ずつ入れ替え','季節の変わり目にまとめ買い','気づいたときに1足ずつ','頻繁に新調する（消耗品と割り切り）'],
+    get sockDrawerText(){ return SOCK_DRAWERS.map(x=>x[0]); },
+    sockWearText: ['毎日洗濯した靴下に替える','帰宅したらすぐ脱いで洗濯カゴへ（毎日交換）','在宅の日は替えないことがある','うっかり2日目に突入する日がある','2日は履く','1週間履くこともある','ジム用と普段用を厳密に分けている'],
+    sockSmellText: ['ほぼ無臭（こまめにケア）','ほんのり洗剤の香りが残る程度','脱いだ直後にかすかな汗のニオイ（うっすら酸っぱい系）','夕方になると靴の中が蒸れがち（こもった酸味系）','革靴の日は少しこもったニオイ（蒸れた革×汗の系統）','外回りのあとはかなりくる（ツンとした酸っぱい系）','運動後はしっかり汗のニオイ（酸味強めの系統）','ブーツを脱いだ瞬間に広がる（蒸れ濃縮系）','納豆みたいなニオイと自覚している','チーズっぽいと言われたことがある','本人は無自覚だが家族に指摘されたことがある'],
+    sockTroubleText: ['かかとがすぐ薄くなる','ずり落ちてくるのが地味にストレス','毛玉ができやすい','洗濯で片方が行方不明になる','ゴムが伸びがち','サイズが微妙に合わない','特になし'],
+    sockPairText: ['パンツと同系色でつなげる','靴と色を合わせる','見せない派（くるぶし・インビジブル）','白ソックスで抜け感を出す','柄物を差し色にする','深く考えていない']
+  };
+  function fashionRecFor(key, c){
+    const role4 = String(c.role||''), st4 = String(c.fashionSenseText||''), mb4 = String(c.mbti||''), vibe4 = String(c.vibe||''), y4 = Number(c.eraYear)||2026;
+    const suit4 = /会計士|銀行|弁護士|公務員|コンサル|営業|商社|不動産|保険|アナウンサー/.test(role4);
+    const site4 = /消防|警察|自衛|大工|電気工事|整備|工場|配送|引越|農|漁|警備/.test(role4);
+    const tidy4 = /几帳面|アイロン|清潔感/.test(st4) || /J$/.test(mb4);
+    const boots4 = /消防士|警察官|自衛官|救急隊員|大工|電気工事士|自動車整備士|工場勤務|配送ドライバー|防衛大学校/.test(role4);
+    const R = (reason, list) => ({reason, list});
+    switch(key){
+      case 'fashionValueText':
+        if(suit4 || tidy4) return R(uiLang==='en'?'job & mindset':'職業・性格', ['清潔感・他者からの見られ方','無難さ・浮かないこと','質の良さ・長持ち']);
+        if(site4) return R('職業柄', ['動きやすさ・機能性','コスパ','着心地']);
+        if(/古着|モード|ストリート/.test(st4+vibe4)) return R('コーデ基準', ['自己表現・個性','トレンド']);
+        return R('人物に合う', ['清潔感・他者からの見られ方','着心地']);
+      case 'sizeFeelText':
+        if(suit4) return R('スーツ職向け', ['ジャストサイズ']);
+        if(/ストリート|古着|オーバー/.test(st4+vibe4)) return R('コーデ基準', ['やや余裕のあるサイズ感','明らかにオーバーサイズ']);
+        return R('人物に合う', ['ジャストサイズ','やや余裕のあるサイズ感']);
+      case 'hemPrefText':
+        if(y4>=2012 && /細身|タイト/.test(String(c.slacksFitText||''))) return R('フィットに合う', ['ノークッション（くるぶしで止まるジャスト丈）','アンクル丈（くるぶしが見える九分丈）']);
+        if(/ワイド/.test(String(c.slacksFitText||''))) return R('フィットに合う', ['ワンクッション（裾が靴にゆったりたまるクラシック丈）','ハーフクッション（裾が靴に軽く触れる標準丈）']);
+        return R('時代・標準', ['ハーフクッション（裾が靴に軽く触れる標準丈）','ノークッション（くるぶしで止まるジャスト丈）']);
+      case 'slacksFitText':
+        if(y4<=1999 || y4>=2019) return R('時代に合う', ['ワイドタック','ストレート']);
+        return R('時代に合う', ['標準テーパード','タイトめテーパード']);
+      case 'hemFinishText':
+        return (y4<=1999||y4>=2018) ? R('時代に合う',['ダブル（4cm幅）仕上げ','シングル（プレーン）仕上げ']) : R('時代に合う',['シングル（プレーン）仕上げ']);
+      case 'baseColorText':
+        if(/クール|ミステリアス|モード/.test(vibe4)) return R('雰囲気に合う', ['黒','グレー']);
+        if(/爽やか|清楚|清潔/.test(vibe4+st4)) return R('雰囲気に合う', ['ネイビー','白ベース','グレー']);
+        if(/アウトドア/.test(vibe4)) return R('雰囲気に合う', ['カーキ','ベージュ・アースカラー']);
+        return R('人物に合う', ['黒','ネイビー','グレー']);
+      case 'colorSchemeText':
+        if(/柄物|差し色/.test(st4)) return R('コーデ基準', ['ベーシック＋差し色']);
+        if(/ミニマル|同一|無難/.test(st4)) return R('コーデ基準', ['ワントーン・同系色でまとめる']);
+        return R('人物に合う', ['ベーシック＋差し色','ワントーン・同系色でまとめる']);
+      case 'sockCycleText':
+        if(tidy4) return R('性格に合う', ['半年ごとに数足ずつ入れ替え','頻繁に新調する（消耗品と割り切り）']);
+        if(/P$/.test(mb4)) return R('性格に合う', ['穴が開くまで履く','気づいたときに1足ずつ']);
+        return R('人物に合う', ['よれたら替える（年1回まとめて）','気づいたときに1足ずつ']);
+      case 'sockDrawerText': {
+        const list = [];
+        if(suit4) list.push('黒・紺のビジネスソックス中心','同一品番の黒で完全統一（迷わない主義）','紺一色（会社規定に合わせた名残）');
+        if(site4) list.push('厚手のワークソックスがぎっしり');
+        if(/看護師|医師|研修医|歯科|薬剤師/.test(role4)) list.push('白の医療用ソックスで統一');
+        if(/大学|学生|浪人|専門学校/.test(role4)) list.push('白スポーツソックス多め','学生時代の部活ソックスがまだ現役');
+        if(/柄物/.test(st4)) list.push('柄物がじわじわ増殖中','黒ビジネスの中に柄物が数足だけ潜んでいる');
+        if(tidy4) list.push('ペアで几帳面に畳まれて色順に並ぶ');
+        if(c.favBrandText && c.favBrandText!=='—') list.push('お気に入りブランドの靴下を少しずつ集めている');
+        return R(uiLang==='en'?'person & wardrobe':'人物像・コーデに合う', list.length?list:['黒・紺のビジネスソックス中心','白黒グレーの無彩色だけで構成']);
+      }
+      case 'sockWearText':
+        return tidy4 ? R('性格に合う', ['毎日洗濯した靴下に替える','帰宅したらすぐ脱いで洗濯カゴへ（毎日交換）']) : R('人物に合う', ['毎日洗濯した靴下に替える','在宅の日は替えないことがある']);
+      case 'sockSmellText':
+        if(tidy4) return R('性格に合う', ['ほぼ無臭（こまめにケア）','ほんのり洗剤の香りが残る程度']);
+        if(boots4) return R('職業柄（ブーツ・長靴）', ['ブーツを脱いだ瞬間に広がる（蒸れ濃縮系）','夕方になると靴の中が蒸れがち（こもった酸味系）']);
+        if(/営業|商社|不動産|保険/.test(role4)) return R('職業柄（外回り）', ['外回りのあとはかなりくる（ツンとした酸っぱい系）','革靴の日は少しこもったニオイ（蒸れた革×汗の系統）']);
+        return R('人物に合う', ['脱いだ直後にかすかな汗のニオイ（うっすら酸っぱい系）']);
+      case 'sockTroubleText':
+        if(boots4) return R('職業柄', ['かかとがすぐ薄くなる','ゴムが伸びがち']);
+        return R('あるある', ['洗濯で片方が行方不明になる','かかとがすぐ薄くなる']);
+      case 'sockPairText':
+        if(/柄物/.test(st4)) return R('コーデ基準', ['柄物を差し色にする']);
+        if(suit4) return R('スーツ職向け', ['パンツと同系色でつなげる']);
+        if(/ストリート|スポーツ/.test(vibe4)) return R('雰囲気に合う', ['白ソックスで抜け感を出す','靴と色を合わせる']);
+        return R('人物に合う', ['パンツと同系色でつなげる','深く考えていない']);
+    }
+    return null;
+  }
+  function fashionFieldReroll(key){
+    // V4.6.4: ファッション項目の🎲も人物基準（推奨70%／全体30%）
+    const c = current || {};
+    if(key==='favBrandText' || key==='favShoeBrandText'){
+      const g = null; // ブランドはbrandEditGroupsの推奨集合から
+      const bg = (typeof slotEditPool==='function') ? slotEditPool(key) : null;
+      if(bg && bg.groups){
+        const recG = bg.groups.filter(x=>/^★/.test(x.label)).flatMap(x=>x.items);
+        const allG = bg.groups.flatMap(x=>x.items);
+        const pool = (Math.random()<0.7 && recG.length) ? recG : allG;
+        return pool[Math.floor(Math.random()*pool.length)] || c[key];
+      }
+      return c[key];
+    }
+    const all = key==='sockDrawerText' ? SOCK_DRAWERS.map(x=>x[0]) : (FASHION_EDIT_POOLS[key]||[]);
+    const rec = fashionRecFor(key, c);
+    const pool = (Math.random()<0.7 && rec && rec.list.length) ? rec.list : all;
+    return pool[Math.floor(Math.random()*pool.length)] || c[key];
+  }
+    function chooseFashionProfile(c){
     if(!c) return;
     const st = String(c.fashionSenseText||''); const y = Number(c.eraYear)||2026; const age = Number(c.age)||25;
     let vals = FASHION_VALUES.map(([v,w])=>{ let ww=w;
@@ -7233,7 +7341,29 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     if(/穴が開くまで/.test(st)) cyc = [['穴が開くまで履く',10]];
     else if(/靴下|アイロンと毛玉取り|几帳面/.test(st)) cyc = cyc.map(([v,w])=>[v, /半年ごと|頻繁/.test(v)?w*3:w]);
     c.sockCycleText = weighted(cyc);
-    c.sockDrawerText = weighted(SOCK_DRAWERS.map(([v,w])=>[v, (/柄物は靴下だけで遊ぶ/.test(st)&&/柄物/.test(v))?w*6:((/色違いを5枚/.test(st)&&/色違い/.test(v))?w*5:w)]));
+    c.sockDrawerText = (()=>{
+      const role3 = String(c.role||''); const mb = String(c.mbti||'');
+      const suit3 = /会計士|銀行|弁護士|公務員|コンサル|営業|商社|不動産|保険|アナウンサー/.test(role3);
+      const site3 = /消防|警察|自衛|大工|電気工事|整備|工場|配送|引越|農|漁|警備/.test(role3);
+      const med3 = /看護師|医師|研修医|歯科|薬剤師|理学療法士/.test(role3);
+      const stu3 = /大学|学生|浪人|専門学校|高校卒業/.test(role3);
+      const spo3 = /トレーナー|インストラクター|スポーツ選手|体育/.test(role3);
+      const tidy3 = /几帳面|アイロン|清潔感/.test(st) || /J$/.test(mb);
+      const lazy3 = /P$/.test(mb);
+      return weighted(SOCK_DRAWERS.map(([v,w])=>{ let ww=w;
+        if(/柄物は靴下だけで遊ぶ/.test(st)&&/柄物/.test(v)) ww*=6;
+        if(suit3 && /ビジネス|紺一色|同一品番の黒/.test(v)) ww*=3;
+        if(site3 && /ワークソックス|厚手/.test(v)) ww*=5;
+        if(med3 && /医療用|白の医療/.test(v)) ww*=8;
+        if(stu3 && /白スポーツ|部活|くたびれた白|3足パック/.test(v)) ww*=3;
+        if(spo3 && /スポーツブランド|ライン入り/.test(v)) ww*=4;
+        if(tidy3 && /几帳面|色順|完全統一|衣替え/.test(v)) ww*=3;
+        if(tidy3 && /バラバラ|カオス|穴あき/.test(v)) ww*=0.2;
+        if(lazy3 && /バラバラ|カオス|穴あき|捨てられず/.test(v)) ww*=2.5;
+        if(/お気に入りブランド|もらったブランド/.test(v) && c.favBrandText && c.favBrandText!=='—') ww*=2;
+        return [v, ww];
+      }));
+    })();
     c.sockTroubleText = weighted(SOCK_TROUBLES);
     c.sockPairText = weighted(SOCK_PAIRS.map(([v,w])=>[v, (/柄物は靴下だけで遊ぶ/.test(st)&&/柄物/.test(v))?w*6:w]));
     // 好きなブランド（靴）
@@ -8639,7 +8769,7 @@ ${promptTargetGuide(c, true)}`;
     return `【出力形式】16:9の「参考画像作成シート（引継ぎ用）」を1枚作成する。パネル構成：全身前面／全身側面／顔正面／顔側面／顔正面（歯が見える：「イー」と口を横に広げて上下の歯列を見せる、歯科の資料撮影風の即物的な表情。このパネル以外では歯は笑ったときに自然に見える範囲のみ）／裸足の正面／足裏（人物が座って自分の足裏をこちらへ見せる姿として描き、足裏だけが切り離されて描写された状態にしない）／足裏の全体拡大（人物パネルと同一の足。足裏の指紋＝皮膚の隆線やしわ、土踏まずの起伏が分かる精細さ。常につま先が上・かかとが下の向き。資料用の即物的で非性的な拡大）。全パネルを完全に同一人物として一致させる。${soleDetailLine(c, false)}
 【情報欄】（読みやすい文字組で、次の項目のみ記載）氏名「${nameKana(c)}」／撮影年代：${eraLabel(c.eraYear)}／生年：${eraLabel((Number(c.eraYear)||2026)-(Number(c.age)||25))}（${c.age}歳）／身長${c.height}・体重${c.weight}／体型「${c.bodyType}」／体格の目安「約${headCount(c)}頭身」／足サイズ${c.footSize}／ワイズ「${fw}」${c.bioCaptionMode==='情報欄に入れる' ? `／ひとこと：「${c.bioText || bioLine(c, false)}」` : ''}。文字は崩さない。
 【人物】撮影年代：${eraLabel(c.eraYear)}。${countryLine(c, false)}${eraStyleNote(c, false)}${c.age}歳、${c.nationality}、${c.ethnicity}。${sportsHistoryLine(c, false)}${facePresetPhrase(c)}${eyeAreaLine(c, false)}鼻は${c.nose}、基本表情は${c.mouth}。${smileLine(c,false)}${faceExtraLine(c, false)}左右差は${c.faceAsym || 'ほぼ対称（ごく自然な左右差）'}。${realismSpec(c, false)}${teethLine(c, false)}髪は${c.hairColor}の${c.hairStyle}。ひげは${c.facialHair}。
-【体格】${physiqueSpec(c, false, true)}臀部は${c.hipShape || '標準的な丸みの臀部'}（体型確認のための中立的な記載であり、強調や演出はしない）。${muscleLine(c, false)}${trainingLine(c, false)}${bodyRealismLine(c, false)}
+【体格】${physiqueSpec(c, false, true)}臀部は${c.hipShape || '標準的な丸みの臀部'}${(promptOpt(c).detail)==='full'?'（体型確認のための中立的な記載であり、強調や演出はしない）':'（中立的な記載・強調しない）'}。${muscleLine(c, false)}${trainingLine(c, false)}${bodyRealismLine(c, false)}
 【足】足の形は${c.footShape}。${footWidthDesc(c, false)}。${footFeatureLine(c, false, true)}裸足パネルでは指の本数・関節を正確に描き、足裏は本人の1人分のみとする。
 【服装】基準服装は${underwearDesc(c, false)}のみ。体型確認のための中立的な資料表現であり、衣料品カタログの商品写真と同じ即物的なトーンで描く。性的な演出・強調・ポーズは一切しない。上着・トップス・ボトムス・靴・靴下は描写しない。
 【用途】このシートは、別チャット・別セッションへ人物を引き継ぐための参照画像として使う。
@@ -8696,7 +8826,7 @@ ${promptTargetGuide(c, false)}`;
         const c = current || {};
         const y = Number(c.eraYear) || 2026;
         const holB = bk.startsWith('holiday');
-        const partMap = {outfitBrand:'coord', holidayOutfitBrand:'coord', outerBrand:'o', holidayOuterBrand:'o', topBrand:'t', holidayTopBrand:'t', bottomBrand:'b', holidayBottomBrand:'b', shoesBrand:'s', holidayShoesBrand:'s'};
+        const partMap = {outfitBrand:'coord', holidayOutfitBrand:'coord', outerBrand:'o', holidayOuterBrand:'o', topBrand:'t', holidayTopBrand:'t', bottomBrand:'b', holidayBottomBrand:'b', shoesBrand:'s', holidayShoesBrand:'s', favBrandText:'coord', favShoeBrandText:'s'};
         const part = partMap[bk];
         const groups = []; const seenB = new Set();
         const addG = (label, items) => { const li = (items||[]).filter(v=>v && !seenB.has(v)); if(li.length){ li.forEach(v=>seenB.add(v)); groups.push({label, items:li}); } };
@@ -8727,7 +8857,7 @@ ${promptTargetGuide(c, false)}`;
         allB.push('無地ノーブランド');
         if(part === 's') allB.push('REGAL','HARUTA','CONVERSE','VANS');
         addG(uiLang==='en'?'All brands':'その他すべて', [...new Set(allB)].sort((a,b)=>String(a).localeCompare(String(b),'ja')));
-        return { pre:['（指定なし）'], groups };
+        return { pre: bk.startsWith('fav') ? [] : ['（指定なし）'], groups };
       };
 
     if(key==='name') return nameCandidates();
@@ -8760,6 +8890,17 @@ ${promptTargetGuide(c, false)}`;
         const y=Number(current.eraYear)||2026; const l=FV_COLORS.map(x=>x[0]);
         for(const [c0,f,t2] of FV_COLORS_ERA) if(y>=f&&y<=t2) l.push(c0);
         return { pre:['（指定なし）'], groups:[{label:`★${uiLang==='en'?'Recommended for this style':'推奨（職業系統に合う）'}`, items:rec},{label:uiLang==='en'?'All colors':'その他すべて', items:l.filter(v=>!rec.includes(v))}] };
+      }
+      // ===== V4.6.4 T2: 内面・背景＞ファッション14項目の✎（★推奨＋その他すべて） =====
+      if(FASHION_EDIT_KEYS.includes(key)){
+        if(key==='favBrandText' || key==='favShoeBrandText') return brandEditGroups(key);
+        const all = (FASHION_EDIT_POOLS[key]||[]).slice();
+        const rec = fashionRecFor(key, current||{});
+        if(rec && rec.list && rec.list.length){
+          return { groups: [ {label:`★${uiLang==='en'?'Recommended':'推奨'}（${rec.reason}）`, items: rec.list.filter(v=>all.includes(v))},
+                            {label: uiLang==='en'?'All options':'その他すべて', items: all.filter(v=>!rec.list.includes(v))} ] };
+        }
+        return all;
       }
       const HB_KEYS=['holidayOuterBrand','holidayTopBrand','holidayBottomBrand'];
       if(HB_KEYS.includes(key) || key==='outfitBrand' || key==='holidayOutfitBrand') return brandEditGroups(key);
@@ -9013,7 +9154,7 @@ ${promptTargetGuide(c, false)}`;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
     generateInnerProfile(f, ['friend']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.6.3'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.6.4'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -9043,7 +9184,7 @@ ${promptTargetGuide(c, false)}`;
     half.forEach(k=>{ if(baseC[k] && Math.random()<0.5) f[k]=baseC[k]; });
     f.siblingOf = {name: baseC.name, kind, age: baseC.age};
     generateInnerProfile(f, ['family']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.6.3'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.6.4'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -9248,6 +9389,50 @@ ${promptTargetGuide(c, false)}`;
     if(s>=66) return [s,'LEGEND','legend']; if(s>=48) return [s,'SUPER RARE','super']; if(s>=30) return [s,'RARE','rare']; return [s,'NORMAL','normal'];
   }
   const BODYHAIR_KEYS = ['bodyHairOverall','chestHair','abdominalHair','lowerAbdomenHair','armHair','shinHair','thighHair','armpitHair','handFingerHair','footToeHair','backHair'];
+  function coordDraw(c, holiday){
+    // V4.6.4 T1: 現在の人物の内面一式を渡した1回抽選（好きなブランド8倍・経済・年代連動が効く既存経路）
+    const persona = { senseText: c.fashionSenseText, incomeText: c.incomeText, assetText: c.assetText, gambleText: c.gambleText, role: c.role, nat: c.nationality, res: c.residenceText, favBrand: c.favBrandText, favShoeBrand: c.favShoeBrandText, baseColor: c.baseColorText, scheme: c.colorSchemeText, sockCycle: c.sockCycleText, sockDrawer: c.sockDrawerText, sockPair: c.sockPairText, sizeFeel: c.sizeFeelText };
+    return generateCoordinatedOutfit(holiday?(c.holidayOutfitType||c.outfitType):c.outfitType, c.age, false, c.nationality, c.vibe, c.eraYear, c.season, c.mbti, persona);
+  }
+  function baseColorWords(c){
+    const t = String(c.baseColorText||'');
+    const M = {'黒':['黒'],'ネイビー':['ネイビー','紺'],'グレー':['グレー','チャコール'],'白ベース':['白','アイボリー','生成り'],'ベージュ・アースカラー':['ベージュ','カーキ','ブラウン'],'カーキ':['カーキ','オリーブ'],'ブラウン':['ブラウン','茶']};
+    for(const k in M) if(t.includes(k)) return M[k];
+    return [];
+  }
+  function proposeItemReroll(c, part, holiday){
+    // V4.6.4 T1: 別人物コピーをやめ、現在の人物（コーデタイプ・好きなブランド・基調色・丈感）を基準に該当部位の3軸だけ再提案。
+    //           推奨70%（4回抽選から最適採用）／全体30%（1回抽選そのまま）＝承認①
+    const bw = baseColorWords(c);
+    const fav = part === 'shoes' ? c.favShoeBrandText : c.favBrandText;
+    const useRec = Math.random() < 0.7;
+    let best = null, bestScore = -1;
+    const tries = useRec ? 4 : 1;
+    for(let i = 0; i < tries; i++){
+      const co = coordDraw(c, holiday);
+      let s = Math.random() * 0.5;
+      const colK = part === 'jacket' ? 'outerColor' : part + 'Color';
+      const brK = part === 'jacket' ? 'outerBrand' : part + 'Brand';
+      if(bw.length && (bw.some(w => String(co[colK]||'').includes(w)) || bw.some(w => String(co[part]||'').includes(w)))) s += 2;
+      if(fav && fav !== '—' && String(co[brK]||'') === fav) s += 2;
+      if(part === 'bottom' && /クロップド|九分|アンクル/.test(String(c.hemPrefText||'')) && /クロップド|アンクル|九分/.test(String(co.bottom||''))) s += 1;
+      if(part === 'bottom' && /ワイド/.test(String(c.slacksFitText||'')) && /ワイド/.test(String(co.bottom||''))) s += 1;
+      if(s > bestScore){ bestScore = s; best = co; }
+    }
+    const co = best;
+    if(holiday){
+      if(part==='jacket'){ c.holidayJacket=co.jacket; c.holidayOuterBrand=co.outerBrand||''; c.holidayOuterColor=co.outerColor||''; }
+      if(part==='top'){ c.holidayTop=co.top; c.holidayTopBrand=co.topBrand||''; c.holidayTopColor=co.topColor||''; }
+      if(part==='bottom'){ c.holidayBottom=co.bottom; c.holidayBottomBrand=co.bottomBrand||''; c.holidayBottomColor=co.bottomColor||''; }
+      if(part==='shoes'){ c.holidayShoes=co.shoes; c.holidayShoesBrand=co.shoesBrand||''; c.holidayShoesColor=co.shoesColor||''; }
+    } else {
+      if(part==='jacket'){ c.jacket=co.jacket; c.coat=co.coat||''; c.outerBrand=co.outerBrand||''; c.outerColor=co.outerColor||''; }
+      if(part==='top'){ c.top=co.top; c.topBrand=co.topBrand||''; c.topColor=co.topColor||''; }
+      if(part==='bottom'){ c.bottom=co.bottom; c.bottomBrand=co.bottomBrand||''; c.bottomColor=co.bottomColor||''; }
+      if(part==='shoes'){ c.shoes=co.shoes; c.shoesBrand=co.shoesBrand||''; c.shoesColor=co.shoesColor||''; }
+    }
+    if(c._brandManual) delete c._brandManual[(holiday?'h:':'w:') + part];
+  }
   function rerollProfile(key){
     if(!current || spinning) return;
     if(key==='skinDetail' || key==='skinDetail2'){
@@ -9316,6 +9501,28 @@ ${promptTargetGuide(c, false)}`;
       if(current.bloodType) generateInnerProfile(current, ['income','education','dream']);
       renderAll(); return;
     }
+    const PART_DICE = {jacket:['jacket',false], top:['top',false], bottom:['bottom',false], shoes:['shoes',false], holidayJacket:['jacket',true], holidayTop:['top',true], holidayBottom:['bottom',true], holidayShoes:['shoes',true]};
+    if(PART_DICE[key]){ proposeItemReroll(current, PART_DICE[key][0], PART_DICE[key][1]); renderAll(); return; }
+    if(key==='outfitType'){
+      // V4.6.4: 職業は変えず（承認②）、人物基準でタイプ＋品目一式を再提案
+      if(current.workUniform && (UNIFORM_VARIANTS[current.role] || UNIFORM_WORKWEAR[current.role])){
+        const uni = chooseUniformVariant(current.role, current.season||'', current.eraYear) || UNIFORM_WORKWEAR[current.role];
+        if(uni){ current.workUniform=uni[0]; current.workUniformEn=uni[1]; current.top=uni[2]; current.bottom=uni[3]; current.shoes=uni[4]; current.headwear=uni[7]||''; current.jacket=(uni[8]&&current.season==='冬')?uni[8]:'なし'; }
+      } else {
+        const yN = Number(current.eraYear)||2026;
+        current.outfitType = (OCC_WORK_STYLES(current.role, yN) ? roleWorkType(current.role, yN, current.mbti) : (Math.random()<0.75 && roleWorkType(current.role, yN, current.mbti))) || pickOutfitType(true);
+        if(current._brandManual){ Object.keys(current._brandManual).forEach(k2=>{ if(k2.startsWith('w:')) delete current._brandManual[k2]; }); }
+        applyCoordToCharacter(current, false);
+      }
+      rerollSocks(current, true); renderAll(); return;
+    }
+    if(key==='holidayOutfitType'){
+      const fresh2 = generateCharacter('full');
+      current.holidayOutfitType = fresh2.holidayOutfitType || current.holidayOutfitType;
+      if(current._brandManual){ Object.keys(current._brandManual).forEach(k2=>{ if(k2.startsWith('h:')) delete current._brandManual[k2]; }); }
+      applyCoordToCharacter(current, true); rerollSocks(current, false); renderAll(); return;
+    }
+    if(FASHION_EDIT_KEYS.includes(key)){ current[key] = fashionFieldReroll(key); if(key==='fashionSenseText') applyFashionSenseFx(current); renderAll(); return; }
     rerollOne(key);
   }
   function openProfileEdit(btn){
@@ -9583,10 +9790,10 @@ ${targetEn}
     return `成人男性キャラクター「${c.name}」の非性的な全身画像を作成する。
 
 【人物基本・時代】撮影年代：${eraLabel(c.eraYear)}。生年：${eraLabel((Number(c.eraYear)||2026)-(Number(c.age)||25))}（現在${c.age}歳）。${countryLine(c, false)}${fullOutfitSheet ? seasonLine(c, false) : ''}${fullOutfitSheet ? eraStyleNote(c, false) : ''}${c.age}歳、${c.nationality}、${c.ethnicity}。職業は${roleWithSport(c, false)}。雰囲気は${c.vibe}。性格・立ち居振る舞いの雰囲気は${mbtiDescription(c.mbti,false)}。${c.holidayPersona ? `平日は${c.role}として堅実に働いているが、休日は${c.vibe}の雰囲気に一変するタイプであり、この画像は休日の姿として描く。` : ''}${sportsHistoryLine(c, false)}
-【顔】${facePresetPhrase(c)}年齢感は${c.ageAppearance}。フェイスラインは${c.faceLine}。${eyeAreaLine(c, false)}涙袋は${c.tearBags}。鼻は${c.nose}。基本表情は${c.mouth}。${smileLine(c,false)}唇は${c.lips || '標準的な厚さの唇'}で、口は${c.mouthPos || '標準的な位置・大きさの口'}。顔のパーツ配置は${c.faceSpacing || '標準的な配置'}で、目鼻口の比率は${c.faceRatio || '標準的なバランスの比率'}。左右差は${c.faceAsym || 'ほぼ対称（ごく自然な左右差）'}。${realismSpec(c, false)}${teethLine(c, false)}${faceExtraLine(c, false)}肌は${c.skin}。${skinDetailLine(c, false)}ひげは${c.facialHair}${c.facialHair!=='なし' ? `（${c.facialHairGroom || '自然に整えている'}）` : ''}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? '（白髪まじりのひげ）' : ''}。${c.glasses && c.glasses!=='なし' ? `眼鏡は${c.glasses}をかけている。` : ''}髪は${c.hairColor}の${c.hairStyle}で、毛質は${c.hairTexture || '直毛'}。${hairDetailLine(c, false)}${originFaceLine(c,false)}
-【体毛】${bodyJa}
+【顔】${facePresetPhrase(c)}年齢感は${c.ageAppearance}。フェイスラインは${c.faceLine}。${eyeAreaLine(c, false)}${((promptOpt(c).detail)==='full'||!/^標準/.test(c.tearBags||''))?`涙袋は${c.tearBags}。`:''}鼻は${c.nose}。基本表情は${c.mouth}。${(promptOpt(c).detail)==='light'?'':smileLine(c,false)}唇は${c.lips || '標準的な厚さの唇'}${((promptOpt(c).detail)==='full'||!/^標準/.test(c.mouthPos||''))?`で、口は${c.mouthPos || '標準的な位置・大きさの口'}`:''}。${((promptOpt(c).detail)==='full'||!/^標準/.test(c.faceSpacing||''))?`顔のパーツ配置は${c.faceSpacing || '標準的な配置'}。`:''}${((promptOpt(c).detail)==='full'||!/^標準/.test(c.faceRatio||''))?`目鼻口の比率は${c.faceRatio || '標準的なバランスの比率'}。`:''}${((promptOpt(c).detail)==='full'||!/^ほぼ対称/.test(c.faceAsym||''))?`左右差は${c.faceAsym || 'ほぼ対称（ごく自然な左右差）'}。`:''}${(promptOpt(c).detail)!=='full'?'（特記のないパーツは標準的な造作）':''}${realismSpec(c, false)}${teethLine(c, false)}${faceExtraLine(c, false)}肌は${c.skin}。${skinDetailLine(c, false)}ひげは${c.facialHair}${c.facialHair!=='なし' ? `（${c.facialHairGroom || '自然に整えている'}）` : ''}${c.facialHair!=='なし' && ['白髪まじり','ロマンスグレー','ごま塩頭','ほぼ白髪'].includes(c.hairColor) ? '（白髪まじりのひげ）' : ''}。${c.glasses && c.glasses!=='なし' ? `眼鏡は${c.glasses}をかけている。` : ''}髪は${c.hairColor}の${c.hairStyle}で、毛質は${c.hairTexture || '直毛'}。${hairDetailLine(c, false)}${originFaceLine(c,false)}
+【体毛】${(promptOpt(c).detail)==='light' ? `体毛は全体として${c.bodyHairOverall||'自然'}。非性的で、成人男性の自然な身体特徴として扱う。` : bodyJa}
 
-【体格・足】身長${c.height}、体重${c.weight}、体型は${bodyTypeDesc(c.bodyType, false)}${bmiLine(c,false)}。${physiqueSpec(c, false, true)}臀部は${c.hipShape || '標準的な丸みの臀部'}（体型確認のための中立的な記載であり、強調や演出はしない）。${muscleLine(c, false)}${trainingLine(c, false)}${bodyRealismLine(c, false)}足のサイズは${c.footSize}、足の形は${c.footShape}。${footWidthDesc(c, false)}。${footFeatureLine(c, false, true)}${soleDetailLine(c, false)}全身パネルでは、足の大きさを身長${c.height}に対して足のサイズ${c.footSize}相当の自然な比率で描く（小さすぎ・大きすぎにしない）。身長、体重、足サイズのバランスが自然に分かる直立姿勢にする。
+【体格・足】身長${c.height}、体重${c.weight}、体型は${bodyTypeDesc(c.bodyType, false)}${bmiLine(c,false)}。${physiqueSpec(c, false, true)}臀部は${c.hipShape || '標準的な丸みの臀部'}${(promptOpt(c).detail)==='full'?'（体型確認のための中立的な記載であり、強調や演出はしない）':'（中立的な記載・強調しない）'}。${muscleLine(c, false)}${trainingLine(c, false)}${bodyRealismLine(c, false)}足のサイズは${c.footSize}、足の形は${c.footShape}。${footWidthDesc(c, false)}。${footFeatureLine(c, false, true)}${soleDetailLine(c, false)}${(promptOpt(c).detail)==='full' ? `全身パネルでは、足の大きさを身長${c.height}に対して足のサイズ${c.footSize}相当の自然な比率で描く（小さすぎ・大きすぎにしない）。身長、体重、足サイズのバランスが自然に分かる直立姿勢にする。` : `全身パネルでは身長${c.height}と足サイズ${c.footSize}の比率が自然に分かる直立姿勢で描く。`}
 
 【服装（カード内）】${fullOutfitSheet ? sheetWearJa : `基準服装は${underwearDesc(c, false)}のみ。${underwearShapeGuide(c, false)}下着姿のパネルは体型確認のための中立的な資料表現であり、衣料品の商品写真・体型資料と同じ即物的なトーンで描く。性的な演出・強調・ポーズは一切しない。`}${fullOutfitSheet ? '' : allowsOutfitPanels ? '下着のみのパネルでは上着・トップス・ボトムス・靴・靴下を描かない。提案服装のパネルでは指定された提案服装を正確に着用させるが、靴は指示で許可されたパネル以外では履かせない。' : `身につけているのは指定の下着のみで、それ以外の衣類・履物（上着・トップス・ボトムス・靴・靴下など）は一切描かない。`}下着表現は非性的で、体型確認用の自然な見せ方にする。
 
@@ -9729,7 +9936,7 @@ function buildOutfitLinkedMemo(c, holiday){
           grpSel(`data-sockedit="${pfx}mat"`, SOCK_MATS, g('sockMaterial'), recFor('mat', work), rsn) + ' ' +
           grpSel(`data-sockedit="${pfx}use"`, SOCK_USES, g('sockUse'), recFor('use', work), rsn);
         rows.push([label,
-          `<span class="sock-tx">${txt||'—'}</span><span class="sock-ed hidden" style="display:inline-flex;flex-wrap:wrap;gap:3px;margin-left:4px">${eds}</span>` +
+          `<span class="sock-tx">${(typeof window!=='undefined'&&window.__gimSwatches)?window.__gimSwatches(txt):''}${txt||'—'}</span><span class="sock-ed hidden" style="display:inline-flex;flex-wrap:wrap;gap:3px;margin-left:4px">${eds}</span>` +
           `<span class="pf-actions"><button class="pf-btn" data-sock-open="${scope}" title="${uiLang==='en'?'Edit':'選択修正'}">\u270e</button><button class="pf-btn" data-sock-dice="${scope}" title="${uiLang==='en'?'Reroll all 5':'5項目一括抽選'}">\ud83c\udfb2</button></span>`]);
       };
       mkRow(uiLang==='en'?'Socks (work)':'提案靴下（職場）', 'w:', true);
@@ -10112,11 +10319,28 @@ ${promptTargetGuide(b, false)}`;
     const ikm = current.ikemenIndexMode === '表示する' ? (()=>{ const sc = ikemenScore(current); return `<div class="subcard" style="margin:0 0 12px"><h3>${uiLang==='en' ? 'Handsome Index' : 'イケメン指数'} <span class="pill" style="margin-left:8px">${sc} / 100 — ${ikemenRank(sc, uiLang==='en')}</span></h3><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${ikemenBreakdown(current).map(([l,d])=>`<span class="pill">${l} ${d>0?'+':''}${d}</span>`).join('') || `<span class="notice">${uiLang==='en' ? 'All standard features.' : 'すべて標準的な造形。'}</span>`}</div><p class="notice" style="margin:6px 0 0">${uiLang==='en' ? 'Standard features score exactly 50. Computed from 19 facial axes; never written into prompts.' : '標準的な造形がちょうど50ptになる設計です（顔の19軸から算出。プロンプトには含めません）。'}</p></div>` })() : '';
     const bdHtml = ikm + `<div class="subcard" style="margin:0 0 12px"><h3>${uiLang==='en' ? 'Rarity Breakdown' : 'レア内訳'} <span class="pill" style="margin-left:8px">${rr[0]} pt / ${rr[1]}</span></h3><div style="display:flex;flex-wrap:wrap;gap:4px">${bd.length ? bd.map(([l,p])=>`<span class="pill">${l} +${p}</span>`).join('') : `<span class="notice">${uiLang==='en' ? 'No rare points this time.' : '今回はレア該当なし。'}</span>`}</div></div>`;
     const pfBtns = (pk)=>{ const hasPool = pk === 'sportsHistory' || pk.split(',').some(k=>{ const p = slotEditPool(k); return p && (p.length || (p.groups && p.groups.length)); }); return `<span class="pf-actions">${hasPool ? `<button class="pf-btn" data-p-edit="${pk}" title="${T('editTitle')}">✎</button>` : ''}<button class="pf-btn" data-p-dice="${pk}" title="🎲">🎲</button></span>`; };
-    const renderPCard = ([key,title,rows])=>`<div class="profile-card pc-${key}"><h3><span class="pc-icon">${pcIcons[key]||''}</span>${title}${key==='scene' ? ` <button class="dice" style="position:static;margin-left:auto" data-scene-edit title="${T('editTitle')}">✎</button>` : ''}</h3><div class="pc-rows">${rows.map(r=>{const [k,v,pk,cc]=r; if(k==='__HEAD__') return v; const cls=cc?` ${cc}`:''; return pk ? `<div class="kv kv3${cls}"><b>${k}</b><span>${v}</span>${pfBtns(pk)}</div>` : `<div class="kv${cls}"><b>${k}</b><span>${v}</span></div>`;}).join('')}</div></div>`;
+    const renderPCard = ([key,title,rows])=>`<div class="profile-card pc-${key}"><h3><span class="pc-icon">${pcIcons[key]||''}</span>${title}${key==='scene' ? ` <button class="dice" style="position:static;margin-left:auto" data-scene-edit title="${T('editTitle')}">✎</button>` : ''}</h3><div class="pc-rows">${rows.map(r=>{const [k,v,pk,cc]=r; if(k==='__HEAD__') return v; const cls=cc?` ${cc}`:''; return pk ? `<div class="kv kv3${cls}"><b>${k}</b><span>${(pk&&/baseColorText|colorSchemeText|hairColor/.test(String(pk))&&window.__gimSwatches)?window.__gimSwatches(v):''}${v}</span>${pfBtns(pk)}</div>` : `<div class="kv${cls}"><b>${k}</b><span>${(pk&&/baseColorText|colorSchemeText|hairColor/.test(String(pk))&&window.__gimSwatches)?window.__gimSwatches(v):''}${v}</span></div>`;}).join('')}</div></div>`;
     const bySec = k => sections.find(s=>s[0]===k);
     // ===== V4.5.1 案B：参照画像準拠のシート描画（色帯見出し＋左右2ブロック） =====
     const en3 = uiLang==='en';
-    const rowHtml = r => { const [k,v,pk,cc]=r; if(k==='__HEAD__') return ''; const cls=cc?` ${cc}`:''; return pk ? `<div class="kv kv3${cls}"><b>${k}</b><span>${v}</span>${pfBtns(pk)}</div>` : `<div class="kv${cls}"><b>${k}</b><span>${v}</span></div>`; };
+    // ===== V4.6.4 T3: 色名→カラーチップ（表示のみ・プロンプト非干渉） =====
+    const COLOR_SWATCH = {'ブルーブラック':'#151a33','ネイビーブラック':'#14172b','黒に近いダークブラウン':'#2b2119','ダークアッシュ':'#4c4f52','ダークチェリーブラウン':'#4a2530','チョコレートブラウン':'#5b3a26','赤みブラウン':'#7a4a35','マロンブラウン':'#8a5a3a','カーキブラウン':'#6f6242','アッシュブラウン':'#7a6a58','オリーブアッシュ':'#6f7355','ミルクティーベージュ':'#cbb59a','ラベンダーグレージュ':'#b3a6bd','グレージュ':'#a99f92','ブルージュ':'#8e99a8','ナチュラルブロンド':'#d9b877','ダークブロンド':'#b3944f','明るめブラウン':'#96683d','オレンジブラウン':'#b06a35','ハイトーンアッシュ':'#c9c9cd','シルバーアッシュ':'#b9bcc1','ブリーチベージュ':'#e3d3ae','金髪':'#e6c25a','白髪まじり':'#9a9da3','ロマンスグレー':'#8d9299','ごま塩頭':'#7d8187','ほぼ白髪':'#d8dade','チャコールグレー':'#4a4f57','ライトグレー':'#c9cdd4','ダークグレー':'#3a3f46','ダークグリーン':'#2c4d38','ミントグリーン':'#a8dcc8','サックスブルー':'#9ec7e8','ライトブルー':'#a8d4f0','淡いブルー':'#bcd8f0','淡いピンク':'#f2c7d2','淡いグリーン':'#c6e2c9','ワインレッド':'#7a2333','バーガンディ':'#6e1f2e','ダークブラウン':'#5b3a22','赤茶':'#8b4a2f','ソルト＆ペッパー':'#8a8f98','チャコール':'#4a4f57','アイボリー':'#efe7d6','クリーム':'#f0e3c0','生成り':'#efe7d6','オフホワイト':'#f0ede6','モスグリーン':'#5a6b3c','オリーブ':'#6b7a3a','花紺':'#20263f','濃紺':'#1a2350','水色':'#a8d4f0','紺':'#1f2a5e','ネイビー':'#1f2a5e','グレー':'#8a8f98','ベージュ':'#d9c7a7','カーキ':'#6b6b45','ブラウン':'#7a5230','サックス':'#9ec7e8','ブルー':'#2a5fb4','シルバー':'#c0c4c9','ゴールド':'#cfa94b','墨黒':'#22252a','ピンク':'#e59ab0','グリーン':'#3f7d4e','オレンジ':'#e08a3c','パープル':'#7a5aa0','ラベンダー':'#b7a8d6','イエロー':'#e8c93f','レッド':'#c0392b','ホワイト':'#f5f5f5','ブラック':'#111418','茶':'#7a5230','赤':'#c0392b','青':'#2a5fb4','緑':'#3f7d4e','紫':'#7a5aa0','黄':'#e8c93f','白':'#f5f5f5','黒':'#111418'};
+    const SWATCH_KEYS_SORTED = Object.keys(COLOR_SWATCH).sort((a,b)=>b.length-a.length);
+    const swatchesFor = (txt) => {
+      const t = String(txt||'').replace(/<[^>]+>/g,'');
+      const hits = [];
+      let scan = t;
+      for(const name of SWATCH_KEYS_SORTED){
+        const idx = scan.indexOf(name);
+        if(idx >= 0){ hits.push([idx, name]); scan = scan.replace(new RegExp(name,'g'), '＿'.repeat(name.length)); }
+        if(hits.length >= 4) break;
+      }
+      hits.sort((a,b)=>a[0]-b[0]);
+      return hits.slice(0,2).map(([_,n])=>`<span class="sw" style="background:${COLOR_SWATCH[n]}" title="${n}"></span>`).join('');
+    };
+    window.__gimSwatches = swatchesFor;
+    const SWATCH_PK_HINTS = ['hairColor','outerColor','topColor','bottomColor','shoesColor','holidayOuterColor','holidayTopColor','holidayBottomColor','holidayShoesColor'];
+    const rowHtml = r => { const [k,v,pk,cc]=r; if(k==='__HEAD__') return ''; const cls=cc?` ${cc}`:''; const swOn = (pk && SWATCH_PK_HINTS.some(h=>String(pk).includes(h))) || /基準服装|髪型/.test(String(k)); const sw = swOn ? swatchesFor(v) : ''; return pk ? `<div class="kv kv3${cls}"><b>${k}</b><span>${sw}${v}</span>${pfBtns(pk)}</div>` : `<div class="kv${cls}"><b>${k}</b><span>${sw}${v}</span></div>`; };
     const bandBlock = (cls,label,rows,extra='') => `<div class="band ${cls}">${label}${extra}</div><div class="trows">${rows.map(rowHtml).join('')}</div>`;
     // 顔行を5帯に分類（先頭キーで判定、未知キーは顔立ち帯へ）
     const FACE_BAND_OF = {facePreset:0,faceLine:0,faceSpacing:0,faceRatio:0,faceAsym:0,jawChin:0,forehead:0,cheek:0, eyebrow:1,eyebrowGroom:1,eyelid:1,eyeBalance:1,eyelash:1,nose:1,ear:1, mouth:2,smileEyes:2,cheekSmile:2,lips:2,mouthPos:2, mole:3,adamsApple:3,skin:3,facialHair:3,glasses:3, hairColor:4,bangs:4};
@@ -10337,7 +10561,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); if(current && current.id !== lastRarityPlayed){ lastRarityPlayed = current.id; playRaritySound(r); } els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ setTimeout(()=>{ try{ renderVideoBoxes(); }catch(e){} }, 0); renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V4.6.3'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V4.6.4'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function deleteHistoryItem(i){
     const h = loadHistory();
@@ -10730,7 +10954,7 @@ ${promptTargetGuide(b, false)}`;
   function exportFullCode(){
     if(!current){ alert('先に人物を生成してください'); return; }
     try{
-      const payload = { v:'GIMFULL1', app:'V4.6.3', when: Date.now(), c: current };
+      const payload = { v:'GIMFULL1', app:'V4.6.4', when: Date.now(), c: current };
       const code = 'GIMFULL1:' + btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
       document.getElementById('restoreCodeInput').value = code;
       const note = document.getElementById('restoreNote');
