@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V4.6.2</title>
+  <title>Guzen Ikemen Maker V4.6.3</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -181,8 +181,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V4.6.2</span>
-        <h1 class="title">Guzen Ikemen Maker V4.6.2</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V4.6.3</span>
+        <h1 class="title">Guzen Ikemen Maker V4.6.3</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -555,7 +555,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V4.6.2</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V4.6.3</p>
   </div>
 
 <script>
@@ -1312,8 +1312,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V4.6.2';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V4.6.2';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V4.6.3';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V4.6.3';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -2531,6 +2531,7 @@
     return out;
   }
   function partBrandRedraw(c, kind, holiday){
+    if(c._brandManual && c._brandManual[(holiday?'h:':'w:') + kind]) return; // V4.6.3 ②-4: 手動ブランドを保持
     const y = c.eraYear; const type = holiday ? (c.holidayOutfitType||c.outfitType) : c.outfitType;
     const isSuit = FV_SUIT_TYPES.includes(type);
     const denim = eraBrandList(["Levi's",'EDWIN','BIG JOHN','UNIQLO','GU','無印良品','GLOBAL WORK','WEGO','ZARA','無地ノーブランド'], y);
@@ -8690,6 +8691,45 @@ ${promptTargetGuide(c, false)}`;
     return [...new Set(out)];
   }
   function slotEditPool(key){
+      // ===== V4.6.3: ブランド✎プール＝「理由つき推奨グループ＋全ブランド開放」 =====
+      const brandEditGroups = (bk) => {
+        const c = current || {};
+        const y = Number(c.eraYear) || 2026;
+        const holB = bk.startsWith('holiday');
+        const partMap = {outfitBrand:'coord', holidayOutfitBrand:'coord', outerBrand:'o', holidayOuterBrand:'o', topBrand:'t', holidayTopBrand:'t', bottomBrand:'b', holidayBottomBrand:'b', shoesBrand:'s', holidayShoesBrand:'s'};
+        const part = partMap[bk];
+        const groups = []; const seenB = new Set();
+        const addG = (label, items) => { const li = (items||[]).filter(v=>v && !seenB.has(v)); if(li.length){ li.forEach(v=>seenB.add(v)); groups.push({label, items:li}); } };
+        const fav = part === 's' ? c.favShoeBrandText : c.favBrandText;
+        if(fav && fav !== '—') addG(uiLang==='en'?'★ Favorite brand':'★好きなブランド', [fav]);
+        const senseS = String(c.fashionSenseText||''), assetsS = String(c.assetText||''), gambleS = String(c.gambleText||''), valS = String(c.fashionValueText||'');
+        const incN = Number((String(c.incomeText||'').match(/約(\d+)万円/)||[])[1]) || 0;
+        const muteM = senseS.match(/量販店で3着|色違いを5枚|サイズ表記だけ|穴が開くまで/);
+        const poorM = assetsS.match(/ほぼゼロ|一桁万円|返済/) || gambleS.match(/借金/);
+        const stretchM = senseS.match(/1点だけ明らかに背伸び|ハイブランド1点/);
+        const richB = incN >= 700 || /1000万|1500万/.test(assetsS);
+        if(muteM || poorM) addG(`★${uiLang==='en'?'Fits budget & habits':'経済状況・買い方に合う'}（${(muteM&&muteM[0])||(poorM&&poorM[0])||''}）`, eraBrandList(BRAND_TIER_MASS, y, '無地ノーブランド'));
+        if(richB || stretchM) addG(`★${uiLang==='en'?'Budget to spare':'予算に余裕'}（${stretchM?stretchM[0]:(incN?`年収約${incN}万円`:'資産に余裕')}）`, eraBrandList(BRAND_TIER_HIGH, y, null).filter(Boolean));
+        const senseSrc = senseS + '／' + valS;
+        const CLEAN_B = ['無印良品','UNIQLO','GLOBAL WORK','green label relaxing','UNITED ARROWS','BEAMS','SHIPS','ORIHICA'];
+        const sm = senseSrc.match(/清潔感|見られ方|ベーシック|定番|きれいめ/);
+        const um = senseSrc.match(/古着/); const mo = senseSrc.match(/モード/); const stm = senseSrc.match(/ストリート/);
+        const wm = senseSrc.match(/ワークマンで全部|機能性最優先/);
+        const gLabel = m2 => `★${uiLang==='en'?'Matches style values':'コーデ基準に合う'}（${m2[0]}）`;
+        if(sm) addG(gLabel(sm), eraBrandList(CLEAN_B, y, null).filter(Boolean));
+        if(um) addG(gLabel(um), eraBrandList(["Levi's",'EDWIN','Champion','Carhartt WIP','WEGO'], y, null).filter(Boolean));
+        if(mo) addG(gLabel(mo), eraBrandList(['STUDIOUS','kolor','sacai','N.HOOLYWOOD','UNITED TOKYO'], y, null).filter(Boolean));
+        if(stm) addG(gLabel(stm), eraBrandList(['NIKE','adidas','Supreme','X-LARGE','Carhartt WIP','WEGO'], y, null).filter(Boolean));
+        if(wm) addG(gLabel(wm), eraBrandList(BRAND_TIER_WORK, y, null).filter(Boolean));
+        else if(!holB && /現場|職人|整備|工場|大工|鳶|建設|農|漁|配送|引越/.test(String(c.role||''))) addG(`★${uiLang==='en'?'For the job':'職業柄（現場・機能重視）'}`, eraBrandList(BRAND_TIER_WORK, y, null).filter(Boolean));
+        const pl = part === 'coord' ? /[tbo]/ : new RegExp(part);
+        const allB = BRAND_DB.filter(r => pl.test(String(r[1])) && y >= r[4] && y <= r[6]).map(r => r[0]);
+        allB.push('無地ノーブランド');
+        if(part === 's') allB.push('REGAL','HARUTA','CONVERSE','VANS');
+        addG(uiLang==='en'?'All brands':'その他すべて', [...new Set(allB)].sort((a,b)=>String(a).localeCompare(String(b),'ja')));
+        return { pre:['（指定なし）'], groups };
+      };
+
     if(key==='name') return nameCandidates();
     if(current){
       if(key==='jacket') return eraOptionsFor('jacket', current, false);
@@ -8703,19 +8743,14 @@ ${promptTargetGuide(c, false)}`;
       if(key==='tie') return eraOptionsFor('tie', current, false);
       if(key==='suitSilhouette') return eraOptionsFor('sil', current, false);
       if(key==='accessoriesEdit' || key==='holidayAccessoriesEdit') return ['なし','ビジネス腕時計','タフネス系デジタル腕時計','スマートウォッチ','機械式の高級腕時計','シンプルな腕時計','革ベルトの腕時計','シルバーチェーンネックレス','華奢なシルバーネックレス','喜平ネックレス','片耳のシルバーピアス','両耳の小ぶりなピアス','左薬指に結婚指輪','ミサンガ','アンクレット'];
-      if(['shoesBrand','holidayShoesBrand'].includes(key)){ const hol=key.startsWith('holiday'); const item=hol?current.holidayShoes:current.shoes; const type=hol?(current.holidayOutfitType||current.outfitType):current.outfitType; const pool=[]; for(let i2=0;i2<40;i2++){ const b=resolvePartBrand('shoes', item, type, {senseText:current.fashionSenseText, incomeText:current.incomeText}, current.vibe, current.eraYear, 'normal'); if(!pool.includes(b)) pool.push(b); } return ['（指定なし）'].concat(pool.sort()); }
-      if(['shoesColor','holidayShoesColor'].includes(key)) return ['（指定なし）','白','黒','グレー','ネイビー','ダークブラウン','赤茶','バーガンディ','ベージュ','赤の差し色','白の厚底ダッド系','黒鼻緒','紺鼻緒'];
-      // V4.6.0 B3: 職業側の部位ブランド・色。推奨候補を先頭に置き、以降は全候補から自由選択
-      if(['outerBrand','topBrand','bottomBrand'].includes(key)){
-        const t=current.outfitType||'';
-        const suitT=FV_SUIT_TYPES.includes(t);
-        const rec = suitT ? ['SUIT SELECT','洋服の青山','AOKI','ORIHICA','THE SUIT COMPANY','UNIQLO']
-                  : /ワークウェア/.test(t) ? ['ワークマン','Dickies','BURTLE','寅壱','UNIQLO']
-                  : ['UNIQLO','無印良品','GLOBAL WORK','GU','BEAMS','UNITED ARROWS'];
-        const base = eraBrandList(['UNIQLO','GU','無印良品','BEAMS','UNITED ARROWS','SHIPS','GLOBAL WORK','URBAN RESEARCH','JOURNAL STANDARD','coen',"Levi's",'EDWIN','NIKE','adidas','Champion','無地ノーブランド','SUIT SELECT','洋服の青山','AOKI','ORIHICA','THE SUIT COMPANY','ワークマン','Dickies','BURTLE','寅壱'], current.eraYear);
-        const pool = rec.concat(base.filter(v=>!rec.includes(v)));
-        return ['（指定なし）'].concat(pool.filter((v,i2,a)=>a.indexOf(v)===i2));
+      if(['shoesBrand','holidayShoesBrand'].includes(key)) return brandEditGroups(key);
+      if(['shoesColor','holidayShoesColor'].includes(key)){
+        const item = key.startsWith('holiday') ? current.holidayShoes : current.shoes;
+        const rec = []; for(let i2=0;i2<12;i2++){ const cN = chooseShoeColor(item, current.eraYear, null); if(cN && !rec.includes(cN)) rec.push(cN); }
+        const allC = ['白','黒','グレー','ネイビー','ダークブラウン','赤茶','バーガンディ','ベージュ','赤の差し色','白の厚底ダッド系','黒鼻緒','紺鼻緒'];
+        return { pre:['（指定なし）'], groups:[{label:`★${uiLang==='en'?'Suits this shoe':'この靴に合う色'}`, items:rec},{label:uiLang==='en'?'All colors':'その他すべて', items:allC.filter(v=>!rec.includes(v))}] };
       }
+      if(['outerBrand','topBrand','bottomBrand'].includes(key)) return brandEditGroups(key);
       if(['outerColor','topColor','bottomColor'].includes(key)){
         const t=current.outfitType||'';
         const suitT=FV_SUIT_TYPES.includes(t);
@@ -8724,23 +8759,15 @@ ${promptTargetGuide(c, false)}`;
                   : ['白','ネイビー','グレー','黒','ベージュ'];
         const y=Number(current.eraYear)||2026; const l=FV_COLORS.map(x=>x[0]);
         for(const [c0,f,t2] of FV_COLORS_ERA) if(y>=f&&y<=t2) l.push(c0);
-        const pool = rec.concat(l.filter(v=>!rec.includes(v)));
-        return ['（指定なし）'].concat(pool.filter((v,i2,a)=>a.indexOf(v)===i2));
+        return { pre:['（指定なし）'], groups:[{label:`★${uiLang==='en'?'Recommended for this style':'推奨（職業系統に合う）'}`, items:rec},{label:uiLang==='en'?'All colors':'その他すべて', items:l.filter(v=>!rec.includes(v))}] };
       }
       const HB_KEYS=['holidayOuterBrand','holidayTopBrand','holidayBottomBrand'];
-      if(HB_KEYS.includes(key)){
-        const base = eraBrandList(['UNIQLO','GU','無印良品','BEAMS','UNITED ARROWS','SHIPS','GLOBAL WORK','URBAN RESEARCH','JOURNAL STANDARD','WEGO','coen',"Levi's",'EDWIN','NIKE','adidas','Champion','無地ノーブランド'], current.eraYear);
-        const pool = personaPool(base, {senseText:current.fashionSenseText, incomeText:current.incomeText, assetText:current.assetText, gambleText:current.gambleText, role:current.role}, current.holidayOutfitType, current.eraYear);
-        return ['（指定なし）'].concat(pool.filter((v,i2,a)=>a.indexOf(v)===i2));
-      }
+      if(HB_KEYS.includes(key) || key==='outfitBrand' || key==='holidayOutfitBrand') return brandEditGroups(key);
       if(['holidayOuterColor','holidayTopColor','holidayBottomColor'].includes(key)){
         const y=Number(current.eraYear)||2026; const l=FV_COLORS.map(x=>x[0]);
         for(const [c0,f,t] of FV_COLORS_ERA) if(y>=f&&y<=t) l.push(c0);
         return ['（指定なし）'].concat(l);
       }
-      if(key==='holidaySockBrand') return eraBrandList(['UNIQLO','Tabio','靴下屋','NIKE','adidas','Champion','Fukuske','無地ノーブランド'], current.eraYear);
-      if(key==='holidaySockColor') return ['白','黒','グレー','ネイビー','生成り','ライン入り白','ワンポイント白'];
-      if(key==='holidaySockType') return ['クルー丈ソックス','ライン入りソックス','ワンポイントソックス','インビジブルソックス','ビジネスソックス','厚手のパイルソックス','リブソックス'];
       if(key==='holidayStyleNote') return ['—','清潔感重視のベーシックな着こなし','柄物や差し色をその日の気分で','モノトーン中心・機能優先','柔らかい色味と肌ざわり重視','サイズ感が微妙に合っていない','古着ミックスの味のある風合い'];
       if(key==='bodyHairAll' || key==='bodyHairOverall') return pools.bodyHairOverall.slice();
       if(['chestHair','abdominalHair','lowerAbdomenHair','armHair','shinHair','thighHair','armpitHair','handFingerHair','footToeHair','backHair'].includes(key)) return pools.bodyHairLevels.slice();
@@ -8784,11 +8811,24 @@ ${promptTargetGuide(c, false)}`;
   }
   function applySlotEdit(key, value){
     if(!current) return;
-    if(['holidayOuterBrand','holidayTopBrand','holidayBottomBrand','holidayOuterColor','holidayTopColor','holidayBottomColor','shoesBrand','holidayShoesBrand','shoesColor','holidayShoesColor'].includes(key) && value==='（指定なし）') value='';
-    if(key==='accessoriesEdit'){ current.accessories = value==='なし' ? [] : [value]; return; }
-    if(key==='holidayAccessoriesEdit'){ current.holidayAccessories = value==='なし' ? [] : [value]; return; }
+    if(['holidayOuterBrand','holidayTopBrand','holidayBottomBrand','holidayOuterColor','holidayTopColor','holidayBottomColor','shoesBrand','holidayShoesBrand','shoesColor','holidayShoesColor','outerBrand','topBrand','bottomBrand','outerColor','topColor','bottomColor','outfitBrand','holidayOutfitBrand'].includes(key) && value==='（指定なし）') value='';
     if(key==='holidayStyleNote'){ current.holidayStyleNote = value==='—' ? '' : value; return; }
+    // V4.6.3 ①-1: コーデタイプ変更は確認のうえ品目一式を連動再抽選
+    if(key==='outfitType' || key==='holidayOutfitType'){
+      const hol2 = key==='holidayOutfitType';
+      current[key] = value;
+      const doRegen = window.confirm(uiLang==='en' ? 'Re-roll the outfit items (outer/top/bottom/shoes/socks) to match the new style? Manual tweaks will be overwritten.' : '品目（上着・トップス・ボトムス・靴・靴下）も新しいスタイルに合わせて再抽選しますか？\n（手動調整分は上書きされます）');
+      if(doRegen){
+        if(!hol2){ current.workUniform=''; current.workUniformEn=''; current.headwear=''; }
+        if(current._brandManual){ Object.keys(current._brandManual).forEach(k2=>{ if(k2.startsWith(hol2?'h:':'w:')) delete current._brandManual[k2]; }); }
+        applyCoordToCharacter(current, hol2);
+      }
+      renderAll(); return;
+    }
     current[key] = value;
+    // V4.6.3 ②-4: 手動で選んだブランドは品目変更で上書きしない
+    const BRAND_MANUAL_FLAGS = {outerBrand:'w:jacket', topBrand:'w:top', bottomBrand:'w:bottom', shoesBrand:'w:shoes', holidayOuterBrand:'h:jacket', holidayTopBrand:'h:top', holidayBottomBrand:'h:bottom', holidayShoesBrand:'h:shoes'};
+    if(BRAND_MANUAL_FLAGS[key]){ (current._brandManual || (current._brandManual = {}))[BRAND_MANUAL_FLAGS[key]] = true; }
     if(current.bloodType){
       if(key==='age') generateInnerProfile(current, ['income','education','marital','birthdate']);
       if(key==='role') generateInnerProfile(current, ['income','education']);
@@ -8809,8 +8849,34 @@ ${promptTargetGuide(c, false)}`;
     if(key==='bodyType'){
       const h = current.heightRaw || parseInt(current.height, 10) || 175;
       current.weight = calcWeight(h, value) + 'kg';
+      current.neckImpression = chooseFrameAxes(current).neckImpression; // V4.6.3 ③-5: 首の印象を体型に整合
+    }
+    if(key==='age'){ current.ageAppearance = ageAppearanceByAge(parseInt(value,10) || Number(current.age) || 25); } // V4.6.3 ③-6
+    if(key==='role'){ // V4.6.3 ①-2: 服装・場面の連動（確認つき）
+      if(window.confirm(uiLang==='en' ? 'Update the outfit and encounter scene for the new occupation?' : '服装（制服・職業コーデ・靴下）と偶然見かけた場面も新しい職業に合わせて更新しますか？')){ relinkRoleOutfit(current); }
+    }
+    if(key==='nationality'){ // V4.6.3 ①-3: 名前の連動（確認つき）
+      if(window.confirm(uiLang==='en' ? 'Re-roll the name to match the new nationality?' : '名前も新しい国籍に合わせて再抽選しますか？')){ current.name = nameByNationality(value, current.eraYear, Number(current.age)||25); }
     }
     renderAll();
+  }
+  function relinkRoleOutfit(c){
+    // V4.6.3: 職業✎変更時の服一式・場面の整合更新（🎲側の専用処理と同等の内容を選択済み職業で実行）
+    const role = c.role, season = c.season || '', y = c.eraYear;
+    c._brandManual = {};
+    const uni = chooseUniformVariant(role, season, y) || UNIFORM_WORKWEAR[role] || null;
+    if(uni){
+      c.outfitType = '職業制服'; c.workUniform = uni[0]; c.workUniformEn = uni[1];
+      c.outfitBrand = '支給品・制服'; c.jacket = (uni[8] && season === '冬') ? uni[8] : 'なし';
+      c.top = uni[2]; c.bottom = uni[3]; c.shoes = uni[4]; c.headwear = uni[7] || '';
+    } else {
+      c.workUniform = ''; c.workUniformEn = ''; c.headwear = '';
+      const yN = Number(y) || 2026;
+      c.outfitType = (OCC_WORK_STYLES(role, yN) ? roleWorkType(role, yN, c.mbti) : (Math.random() < 0.75 && roleWorkType(role, yN, c.mbti))) || c.outfitType || '社会人カジュアル';
+      applyCoordToCharacter(c, false);
+    }
+    rerollSocks(c, true);
+    c.sceneIdea = buildEncounterScene(c);
   }
   function buildSportsHistoryEditor(container, onSave){
     const STR_PRESETS = [['自動（期間から計算）','auto'],['影響なし','0'],['名残程度','0.5'],['ほどよく','1.2'],['しっかり','2.2']];
@@ -8883,6 +8949,14 @@ ${promptTargetGuide(c, false)}`;
     height:['height','heightRaw','weight','footSize'],
     bodyType:['bodyType','weight'],
     sockType:['sockType','sockColor','sockShape','sockMaterial'],
+    jacket:['jacket','coat','outerBrand','outerColor'],
+    top:['top','topBrand','topColor'],
+    bottom:['bottom','bottomBrand','bottomColor'],
+    shoes:['shoes','shoesBrand','shoesColor'],
+    holidayJacket:['holidayJacket','holidayOuterBrand','holidayOuterColor'],
+    holidayTop:['holidayTop','holidayTopBrand','holidayTopColor'],
+    holidayBottom:['holidayBottom','holidayBottomBrand','holidayBottomColor'],
+    holidayShoes:['holidayShoes','holidayShoesBrand','holidayShoesColor'],
     outfitType:['outfitType','outfitBrand','jacket','top','bottom','shoes','sockBrand','sockType','sockShape','sockMaterial','sockColor','sockUse'],
     holidayOutfitType:['holidayOutfitType','holidayOutfitBrand','holidayJacket','holidayTop','holidayBottom','holidayShoes','holidaySockBrand','holidaySockType','holidaySockColor','holidaySockUse'],
     mbti:['mbti','personality'],
@@ -8939,7 +9013,7 @@ ${promptTargetGuide(c, false)}`;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
     generateInnerProfile(f, ['friend']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.6.2'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.6.3'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -8969,7 +9043,7 @@ ${promptTargetGuide(c, false)}`;
     half.forEach(k=>{ if(baseC[k] && Math.random()<0.5) f[k]=baseC[k]; });
     f.siblingOf = {name: baseC.name, kind, age: baseC.age};
     generateInnerProfile(f, ['family']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.6.2'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.6.3'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -8988,6 +9062,8 @@ ${promptTargetGuide(c, false)}`;
     const fresh = generateCharacter('full');
     const keys = DICE_GROUPS[key] || [key];
     keys.forEach(k=>{ if(fresh[k]!==undefined) current[k]=fresh[k]; });
+    const PART_FLAG = {jacket:'w:jacket', top:'w:top', bottom:'w:bottom', shoes:'w:shoes', holidayJacket:'h:jacket', holidayTop:'h:top', holidayBottom:'h:bottom', holidayShoes:'h:shoes'};
+    if(PART_FLAG[key] && current._brandManual) delete current._brandManual[PART_FLAG[key]]; // 🎲は明示的な再抽選＝手動保持を解除
     if(keys.includes('mbti')) current.personality = mbtiDescription(current.mbti, false);
     renderAll();
   }
@@ -9279,14 +9355,26 @@ ${promptTargetGuide(c, false)}`;
     const sels = [];
     keys.forEach(k=>{
       const pool = slotEditPool(k);
-      if(!pool || !pool.length) return;
+      const grouped = pool && pool.groups && pool.groups.length;
+      if(!pool || (!grouped && !pool.length)) return;
       const cur = current[k] !== undefined && current[k] !== null ? String(current[k]) : '';
-      const opts = pool.map(String);
-      if(cur && !opts.includes(cur)) opts.unshift(cur);
       const lab = document.createElement('label'); lab.textContent = slotLabel(k, k);
       const sel = document.createElement('select');
+      const opt = v => `<option value="${String(v).replace(/"/g,'&quot;')}"${String(v)===cur?' selected':''}>${displayOptionLabel(k, v)}</option>`;
       if(k==='role') sel.innerHTML = occupationOptionsHTML(cur, false);
-      else sel.innerHTML = opts.map(v=>`<option value="${String(v).replace(/"/g,'&quot;')}"${String(v)===cur?' selected':''}>${displayOptionLabel(k, v)}</option>`).join('');
+      else if(grouped){
+        // V4.6.3: 理由つき推奨グループ（optgroup）＋全開放
+        const inAny = new Set((pool.pre||[]).map(String));
+        pool.groups.forEach(g=>g.items.forEach(v=>inAny.add(String(v))));
+        let htmlS = (pool.pre||[]).map(opt).join('');
+        if(cur && !inAny.has(cur)) htmlS = opt(cur) + htmlS;
+        htmlS += pool.groups.map(g=>`<optgroup label="${String(g.label).replace(/"/g,'&quot;')}">${g.items.map(opt).join('')}</optgroup>`).join('');
+        sel.innerHTML = htmlS;
+      } else {
+        const opts = pool.map(String);
+        if(cur && !opts.includes(cur)) opts.unshift(cur);
+        sel.innerHTML = opts.map(opt).join('');
+      }
       ed.appendChild(lab); ed.appendChild(sel); sels.push([k, sel]);
     });
     if(!sels.length) return;
@@ -9549,6 +9637,15 @@ ${targetJa}
   }
   function sockEditContext(c){
     const SOCK_BRANDS = ['Fukuske','靴下屋','Tabio','無印良品','ユニクロ','しまむら','ワークマン','GU','NIKE','adidas','Champion','ROTOTO','CHICSTOCKS','無地ノーブランド','官品支給','自前の機能性ソックス','ワークショップの軍足系（3足組）','私物'];
+    try{ const yS=Number(c.eraYear)||2026; BRAND_DB.filter(r=>/k/.test(String(r[1]))&&yS>=r[4]&&yS<=r[6]).forEach(r=>{ if(!SOCK_BRANDS.includes(r[0])) SOCK_BRANDS.push(r[0]); }); }catch(e){}
+    const sockReason = (work) => {
+      const dutyR2 = ['消防士','警察官','自衛官','救急隊員','防衛大学校学生'].includes(String(c.role||''));
+      const suitish2 = /会計士|銀行|弁護士|公務員|コンサル|営業|商社|不動産|保険|アナウンサー/.test(String(c.role||''));
+      if(work && dutyR2) return uiLang==='en'?'duty issue':'職務支給・訓練対応';
+      if(work && suitish2) return uiLang==='en'?'suits the office job':'スーツ職向け';
+      if(/靴下/.test(String(c.fashionSenseText||'')+String(c.sockPairText||''))) return uiLang==='en'?'sock preference':'靴下へのこだわり';
+      return uiLang==='en'?'fits the person':'人物・コーデに合う';
+    };
     const SOCK_TYPES = {'ビジネスソックス':'薄手ビジネス形状','無地のクルー丈ソックス':'標準的な中厚','リブ編みのクルー丈ソックス':'リブ編み','柄物のクルーソックス':'標準的な中厚','白のスポーツソックス':'先丸・スポーツ形状','先丸の厚手パイルソックス（クルー丈）':'先丸・厚手パイル編み','5本指の機能ソックス（クルー丈）':'5本指形状','行軍用の5本指ソックス（ハイソックス丈）':'5本指形状・超肉厚','アンクルソックス':'先丸・くるぶし上まで','インビジブルソックス':'浅履き形状','足袋型ソックス':'親指だけが分かれた2本指構造'};
     const SOCK_COLORS = ['黒','紺','白','グレー','チャコール','ベージュ','柄（差し色）','OD（オリーブ）'];
     const SOCK_MATS = ['綿混','綿ポリエステル混','ナイロン混（薄手）','綿混パイル','ウール混（厚手）','吸汗速乾の機能繊維混（つま先・かかと補強）','コストを抑えた綿ポリエステル混'];
@@ -9565,7 +9662,7 @@ ${targetJa}
       return [];
     };
     window.SOCK_TYPE_SHAPE_MAP = SOCK_TYPES;
-    return {SOCK_BRANDS, SOCK_TYPES, SOCK_COLORS, SOCK_MATS, SOCK_USES, recFor};
+    return {SOCK_BRANDS, SOCK_TYPES, SOCK_COLORS, SOCK_MATS, SOCK_USES, recFor, sockReason};
   }
   function rerollSocks(c, work){
     // V4.6.0 A4: 人物・コーデ・職業（平日文脈）に沿って5項目一括抽選
@@ -9611,24 +9708,26 @@ function buildOutfitLinkedMemo(c, holiday){
     {
       const ctx = sockEditContext(c);
       const {SOCK_BRANDS, SOCK_TYPES, SOCK_COLORS, SOCK_MATS, SOCK_USES, recFor} = ctx;
-      const grpSel = (attr, list, cur, rec) => {
+      const grpSel = (attr, list, cur, rec, reason) => {
         if(cur && !list.includes(cur)) list = [cur].concat(list); // 現在値がリスト外でも保持
         const rs = rec.filter(v=>list.includes(v));
         const others = list.filter(v=>!rs.includes(v));
         const op = v => `<option value="${v}"${v===cur?' selected':''}>${v}</option>`;
-        return `<select ${attr} style="max-width:130px;background:#0d1a2c;border:1px solid var(--gold);border-radius:8px;color:#eaf2ff;padding:3px 4px;font-size:11px"><optgroup label="★推奨">${rs.map(op).join('')}</optgroup><optgroup label="その他">${others.map(op).join('')}</optgroup></select>`;
+        const recLab = `★推奨${reason?`（${reason}）`:''}`;
+        return `<select ${attr} style="max-width:130px;background:#0d1a2c;border:1px solid var(--gold);border-radius:8px;color:#eaf2ff;padding:3px 4px;font-size:11px"><optgroup label="${recLab}">${rs.map(op).join('')}</optgroup><optgroup label="${uiLang==='en'?'All':'その他すべて'}">${others.map(op).join('')}</optgroup></select>`;
       };
       // V4.6.0 A4: 通常行と同じ「値テキスト＋✎🎲」表記。✎で5セレクトを行内展開、🎲は5項目一括抽選
       const mkRow = (label, pfx, work) => {
         const g = k => work ? c[k] : (c['holidayS'+k.slice(1)] || c[k]);
         const scope = work ? 'w' : 'h';
         const txt = [g('sockBrand'), g('sockType'), g('sockColor'), g('sockMaterial')].filter(Boolean).join('・') + (g('sockUse')?`／${g('sockUse')}`:'');
+        const rsn = ctx.sockReason ? ctx.sockReason(work) : '';
         const eds =
-          grpSel(`data-sockedit="${pfx}brand"`, SOCK_BRANDS, g('sockBrand'), recFor('brand', work)) + ' ' +
-          grpSel(`data-sockedit="${pfx}type"`, Object.keys(SOCK_TYPES), g('sockType'), recFor('type', work)) + ' ' +
-          grpSel(`data-sockedit="${pfx}color"`, SOCK_COLORS, g('sockColor'), recFor('color', work)) + ' ' +
-          grpSel(`data-sockedit="${pfx}mat"`, SOCK_MATS, g('sockMaterial'), recFor('mat', work)) + ' ' +
-          grpSel(`data-sockedit="${pfx}use"`, SOCK_USES, g('sockUse'), recFor('use', work));
+          grpSel(`data-sockedit="${pfx}brand"`, SOCK_BRANDS, g('sockBrand'), recFor('brand', work), rsn) + ' ' +
+          grpSel(`data-sockedit="${pfx}type"`, Object.keys(SOCK_TYPES), g('sockType'), recFor('type', work), rsn) + ' ' +
+          grpSel(`data-sockedit="${pfx}color"`, SOCK_COLORS, g('sockColor'), recFor('color', work), rsn) + ' ' +
+          grpSel(`data-sockedit="${pfx}mat"`, SOCK_MATS, g('sockMaterial'), recFor('mat', work), rsn) + ' ' +
+          grpSel(`data-sockedit="${pfx}use"`, SOCK_USES, g('sockUse'), recFor('use', work), rsn);
         rows.push([label,
           `<span class="sock-tx">${txt||'—'}</span><span class="sock-ed hidden" style="display:inline-flex;flex-wrap:wrap;gap:3px;margin-left:4px">${eds}</span>` +
           `<span class="pf-actions"><button class="pf-btn" data-sock-open="${scope}" title="${uiLang==='en'?'Edit':'選択修正'}">\u270e</button><button class="pf-btn" data-sock-dice="${scope}" title="${uiLang==='en'?'Reroll all 5':'5項目一括抽選'}">\ud83c\udfb2</button></span>`]);
@@ -9951,7 +10050,7 @@ ${promptTargetGuide(b, false)}`;
         const H=(r)=>{ r[3]=r[3]?r[3]+' oc-h':'oc-h'; return r; };
         const rows=[['__HEAD__', `<div class="oc-head oc-w">👔 ${en2?'Work (weekday)':'職業（平日）'}</div>`]];
         if(current.holidayOutfitType) rows.push(['__HEAD__', `<div class="oc-head oc-h">👕 ${en2?'Casual (day off)':'私服（休日）'}</div>`]);
-        rows.push(W([L.weekdayOutfit,`${current.outfitBrand?`${displayValue('outfitBrand',current.outfitBrand)}・`:''}${displayValue('outfitType',current.outfitType)}`,'outfitType']));
+        rows.push(W([L.weekdayOutfit,`${current.outfitBrand?`${displayValue('outfitBrand',current.outfitBrand)}・`:''}${displayValue('outfitType',current.outfitType)}`,'outfitType,outfitBrand']));
         // V4.5.1: 編集用靴下行を職業／私服で分離し、私服の靴下は私服ブロック内に配置（DOM順の根本修正）
         const uniRows = buildUniformEditRows(current, L);
         const uniHol = uniRows.filter(r=>/私服|casual/i.test(String(r[0]))).map(H);
@@ -9978,7 +10077,7 @@ ${promptTargetGuide(b, false)}`;
         const workMemo=[current.styleNote,current.muscleFashionNote,current.workFitNote].filter(Boolean).join('。');
         rows.push(W([en2?'Styling Memo (Work)':'着こなしメモ（職業）', (workMemo||'—')+` <button class="pf-btn" data-memo-link="w" title="${en2?'Rebuild from outfit':'服装連動で再生成'}">\ud83d\udd04</button>`, 'styleNote']));
         if(current.holidayOutfitType){
-          rows.push(H([L.holidayOutfit,`${current.holidayOutfitBrand?`${displayValue('outfitBrand',current.holidayOutfitBrand)}・`:''}${displayValue('outfitType',current.holidayOutfitType)}${current.holidayGapSuit?'⚡':''}`,'holidayOutfitType']));
+          rows.push(H([L.holidayOutfit,`${current.holidayOutfitBrand?`${displayValue('outfitBrand',current.holidayOutfitBrand)}・`:''}${displayValue('outfitType',current.holidayOutfitType)}${current.holidayGapSuit?'⚡':''}`,'holidayOutfitType,holidayOutfitBrand']));
           rows.push(H([en2?'Casual Outer':'上着（休日）', `${current.holidayOuterBrand?`${current.holidayOuterBrand}・`:''}${current.holidayOuterColor?`${current.holidayOuterColor}・`:''}${current.holidayJacket||'指定なし'}`, 'holidayJacket,holidayOuterBrand,holidayOuterColor']));
           rows.push(H([en2?'Casual Top':'トップス（休日）', `${current.holidayTopBrand?`${current.holidayTopBrand}・`:''}${current.holidayTopColor?`${current.holidayTopColor}・`:''}${current.holidayTop||''}`, 'holidayTop,holidayTopBrand,holidayTopColor']));
           rows.push(H([en2?'Casual Bottom':'ボトムス（休日）', `${current.holidayBottomBrand?`${current.holidayBottomBrand}・`:''}${current.holidayBottomColor?`${current.holidayBottomColor}・`:''}${current.holidayBottom||''}`, 'holidayBottom,holidayBottomBrand,holidayBottomColor']));
@@ -10012,7 +10111,7 @@ ${promptTargetGuide(b, false)}`;
     const rr = scoreRarity(current);
     const ikm = current.ikemenIndexMode === '表示する' ? (()=>{ const sc = ikemenScore(current); return `<div class="subcard" style="margin:0 0 12px"><h3>${uiLang==='en' ? 'Handsome Index' : 'イケメン指数'} <span class="pill" style="margin-left:8px">${sc} / 100 — ${ikemenRank(sc, uiLang==='en')}</span></h3><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${ikemenBreakdown(current).map(([l,d])=>`<span class="pill">${l} ${d>0?'+':''}${d}</span>`).join('') || `<span class="notice">${uiLang==='en' ? 'All standard features.' : 'すべて標準的な造形。'}</span>`}</div><p class="notice" style="margin:6px 0 0">${uiLang==='en' ? 'Standard features score exactly 50. Computed from 19 facial axes; never written into prompts.' : '標準的な造形がちょうど50ptになる設計です（顔の19軸から算出。プロンプトには含めません）。'}</p></div>` })() : '';
     const bdHtml = ikm + `<div class="subcard" style="margin:0 0 12px"><h3>${uiLang==='en' ? 'Rarity Breakdown' : 'レア内訳'} <span class="pill" style="margin-left:8px">${rr[0]} pt / ${rr[1]}</span></h3><div style="display:flex;flex-wrap:wrap;gap:4px">${bd.length ? bd.map(([l,p])=>`<span class="pill">${l} +${p}</span>`).join('') : `<span class="notice">${uiLang==='en' ? 'No rare points this time.' : '今回はレア該当なし。'}</span>`}</div></div>`;
-    const pfBtns = (pk)=>{ const hasPool = pk === 'sportsHistory' || pk.split(',').some(k=>{ const p = slotEditPool(k); return p && p.length; }); return `<span class="pf-actions">${hasPool ? `<button class="pf-btn" data-p-edit="${pk}" title="${T('editTitle')}">✎</button>` : ''}<button class="pf-btn" data-p-dice="${pk}" title="🎲">🎲</button></span>`; };
+    const pfBtns = (pk)=>{ const hasPool = pk === 'sportsHistory' || pk.split(',').some(k=>{ const p = slotEditPool(k); return p && (p.length || (p.groups && p.groups.length)); }); return `<span class="pf-actions">${hasPool ? `<button class="pf-btn" data-p-edit="${pk}" title="${T('editTitle')}">✎</button>` : ''}<button class="pf-btn" data-p-dice="${pk}" title="🎲">🎲</button></span>`; };
     const renderPCard = ([key,title,rows])=>`<div class="profile-card pc-${key}"><h3><span class="pc-icon">${pcIcons[key]||''}</span>${title}${key==='scene' ? ` <button class="dice" style="position:static;margin-left:auto" data-scene-edit title="${T('editTitle')}">✎</button>` : ''}</h3><div class="pc-rows">${rows.map(r=>{const [k,v,pk,cc]=r; if(k==='__HEAD__') return v; const cls=cc?` ${cc}`:''; return pk ? `<div class="kv kv3${cls}"><b>${k}</b><span>${v}</span>${pfBtns(pk)}</div>` : `<div class="kv${cls}"><b>${k}</b><span>${v}</span></div>`;}).join('')}</div></div>`;
     const bySec = k => sections.find(s=>s[0]===k);
     // ===== V4.5.1 案B：参照画像準拠のシート描画（色帯見出し＋左右2ブロック） =====
@@ -10238,7 +10337,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); if(current && current.id !== lastRarityPlayed){ lastRarityPlayed = current.id; playRaritySound(r); } els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ setTimeout(()=>{ try{ renderVideoBoxes(); }catch(e){} }, 0); renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V4.6.2'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V4.6.3'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function deleteHistoryItem(i){
     const h = loadHistory();
@@ -10631,7 +10730,7 @@ ${promptTargetGuide(b, false)}`;
   function exportFullCode(){
     if(!current){ alert('先に人物を生成してください'); return; }
     try{
-      const payload = { v:'GIMFULL1', app:'V4.6.2', when: Date.now(), c: current };
+      const payload = { v:'GIMFULL1', app:'V4.6.3', when: Date.now(), c: current };
       const code = 'GIMFULL1:' + btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
       document.getElementById('restoreCodeInput').value = code;
       const note = document.getElementById('restoreNote');
