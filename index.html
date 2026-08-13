@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Guzen Ikemen Maker V4.5.2</title>
+  <title>Guzen Ikemen Maker V4.6.1</title>
   <style>
     :root{
       --bg:#07111f;--panel:#0f1b2d;--panel2:#13233a;--text:#e8eef9;--muted:#9fb0c7;--line:#25405f;
@@ -129,15 +129,22 @@
       /* ===== V2.8 線画プレビュー ===== */
 
     /* ===== V4.5.0 ===== */
+    /* ===== V4.6.0 A2：初期設定の一行化（初期設定パネル限定） ===== */
+    #initialPanel .form{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:4px 18px}
+    #initialPanel .field{display:flex;align-items:center;gap:8px;min-height:30px;border-bottom:1px dashed #ffffff14;padding:1px 0}
+    #initialPanel .field>span{flex:0 0 108px;display:flex;align-items:center;gap:4px;font-size:11.5px;color:#bcd3ee;font-weight:800;margin:0;line-height:1.3}
+    #initialPanel .field select,#initialPanel .field input:not([type=checkbox]){flex:1;min-width:0;width:auto;padding:3px 6px;font-size:12px;font-weight:700;border-radius:8px}
+    #initialPanel .subcard{padding:10px 12px}
+    #initialPanel .subcard h3{margin:0 0 6px;font-size:13px}
     /* ===== V4.5.1 案B：結果画面シート（参照画像準拠） ===== */
     .sheet{border:1px solid #31567f;border-radius:14px;overflow:hidden;background:#0a1728;margin:0 0 12px}
     .sheet-2col{display:grid;grid-template-columns:1fr 1fr}
     .sheet .halfL{border-right:1px solid #ffffff14}
-    .sheet .band{padding:6px 10px;font-size:13.5px;font-weight:950;letter-spacing:.05em;color:#08111f;display:flex;align-items:center;gap:8px}
+    .sheet .band{--bandc:#f7c948;padding:7px 12px;font-size:13.5px;font-weight:950;letter-spacing:.08em;display:flex;align-items:center;gap:8px;color:var(--bandc);background:linear-gradient(90deg,color-mix(in srgb,var(--bandc) 14%,transparent),#ffffff04 65%);border-left:4px solid var(--bandc);border-bottom:1px solid #ffffff14;text-shadow:0 1px 8px #0009;backdrop-filter:blur(2px)}
     .sheet .band.full{grid-column:1/-1}
-    .sheet .b-face{background:#bfdbfe}.sheet .b-body{background:#bbf7d0}.sheet .b-foot{background:#a7f3d0}
-    .sheet .b-hair{background:#c7d2fe}.sheet .b-beard{background:#e9d5ff}.sheet .b-base{background:#fbcfe8}
-    .sheet .b-outfit{background:#fdba74}.sheet .b-sub{background:#ffedd5}.sheet .b-out{background:#e2e8f0}.sheet .b-scene{background:#fde68a}
+    .sheet .b-face{--bandc:#93c5fd}.sheet .b-body{--bandc:#86efac}.sheet .b-foot{--bandc:#5eead4}
+    .sheet .b-hair{--bandc:#a5b4fc}.sheet .b-beard{--bandc:#d8b4fe}.sheet .b-base{--bandc:#f9a8d4}
+    .sheet .b-outfit{--bandc:#fdba74}.sheet .b-sub{--bandc:#fed7aa}.sheet .b-out{--bandc:#cbd5e1}.sheet .b-scene{--bandc:#fde047}
     .sheet .trows{align-content:start}
     .sheet .kv,.sheet .kv.kv3{display:grid;grid-template-columns:104px minmax(0,1fr);gap:0;border-bottom:1px solid #ffffff0e;padding:0;margin:0}
     .sheet .kv.kv3{grid-template-columns:104px minmax(0,1fr) auto}
@@ -174,8 +181,8 @@
   <div class="wrap">
     <header class="hero">
       <div>
-        <span class="badge">GUZEN SLOT SYSTEM / V4.5.2</span>
-        <h1 class="title">Guzen Ikemen Maker V4.5.2</h1>
+        <span class="badge">GUZEN SLOT SYSTEM / V4.6.1</span>
+        <h1 class="title">Guzen Ikemen Maker V4.6.1</h1>
         <p class="subtitle">偶然がつくる、まだ見ぬイケメン。年齢・身長・体型・顔立ち・雰囲気系統・提案服装まで、スロットのようにランダムで決定します。メイン生成はボクサーパンツのみ着用とし、服装案や偶然見かけた場面は別枠で出力します。</p>
       </div>
       <div class="panel">
@@ -190,6 +197,7 @@
           <button class="btn dark" id="rerollUnlockedBtn">ロック以外を回す</button>
           <button class="btn dark" id="resetLocksBtn">ロック解除</button>
           <label class="pill" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none"><input type="checkbox" id="instantMode" style="accent-color:var(--gold)"> <span id="instantModeText">演出スキップ</span></label>
+          <label class="pill" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none"><input type="checkbox" id="useLayoutRefCb" style="accent-color:var(--gold)"> <span id="useLayoutRefCbText">レイアウト参照をプロンプトに使う</span></label>
           </div>
           <div id="settingChips"></div>
         </div>
@@ -547,7 +555,7 @@
       <p class="notice" style="margin-top:12px">固定条件を選んだ状態で「SLOT START」を押すと、指定した人物・服装項目を優先してランダム生成します。背景・光・画質・出力タイプ・出力枚数は上部の初期設定または結果画面の選択欄で指定します。</p>
     </section>
 
-    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V4.5.2</p>
+    <p class="footer">© DAZ_だいすけ：FOOTHOUSE(AI男子） / Guzen Ikemen Maker V4.6.1</p>
   </div>
 
 <script>
@@ -697,7 +705,7 @@
     eraYears:Array.from({length:2043-1900+1},(_,i)=>1900+i),
     nationalities:['日本','韓国','中国','台湾','ロシア','アメリカ','カナダ','イギリス','フランス','ドイツ','イタリア','スペイン','スウェーデン','ポーランド','トルコ','ブラジル','メキシコ','アルゼンチン','タイ','ベトナム','フィリピン','インドネシア','マレーシア','インド','モンゴル','ナイジェリア','オーストラリア'],
     ethnicities:['日本人','韓国系','東アジア系','中国系','東南アジア系','南アジア系','白人系','スラブ系','北欧系','南欧系','黒人系','中東系','ラテン系','中央アジア系','ミックス'],
-    roles:['救急隊員','防衛大学校学生','悠々自適（定年後）','お笑い芸人','声優','YouTuber','プロゲーマー','書道家','パティシエ','寿司職人','ラーメン店店主','僧侶','古着屋店主','大学生','大学1年生','高校卒業直後（進路準備中）','浪人生（予備校生）','大学院生','専門学校生','就活中の大学生','営業職','経理・事務職','企画職','公務員','銀行員','商社勤務','コンサルタント','不動産営業','ITエンジニア','Webデザイナー','ゲーム開発者','動画クリエイター','アプリ開発者','看護師','理学療法士','薬剤師','研修医','介護士','高校教師','塾講師','保育士','大学研究員','体育教師','アパレル店員','カフェ店員','美容師','バーテンダー','ホテルスタッフ','飲食店店長','書店員','コンビニ店長','自動車整備士','電気工事士','大工','建築士','工場勤務','配送ドライバー','農家','漁師','グラフィックデザイナー','カメラマン','ミュージシャン','編集者','イラストレーター','映像ディレクター','消防士','警察官','自衛官','ジムトレーナー','スポーツインストラクター','モデル','俳優','プロスポーツ選手','喫茶店マスター','新聞記者','国鉄職員','アナウンサー','小学校教員','中学校教員','ライフガード','プール監視員（バイト）','医師','歯科医師','弁護士','公認会計士','警備員','タクシー運転手','バス運転手','電車運転士','パイロット','郵便配達員','引越しスタッフ','スーパー店員','家電量販店店員','花屋店員','図書館司書','シェフ（洋食）','理容師','自動車教習所教官','銭湯・サウナ店スタッフ'],
+    roles:['救急隊員','防衛大学校学生','悠々自適（定年後）','お笑い芸人','声優','YouTuber','プロゲーマー','書道家','パティシエ','寿司職人','ラーメン店店主','僧侶','古着屋店主','大学生','大学1年生','高校卒業直後（進路準備中）','浪人生（予備校生）','大学院生','専門学校生','就活中の大学生','営業職','経理・事務職','企画職','公務員','銀行員','商社勤務','コンサルタント','不動産営業','ITエンジニア','Webデザイナー','ゲーム開発者','動画クリエイター','アプリ開発者','看護師','理学療法士','薬剤師','研修医','介護士','高校教師','塾講師','保育士','大学研究員','体育教師','アパレル店員','カフェ店員','美容師','バーテンダー','ホテルスタッフ','飲食店店長','書店員','コンビニ店長','自動車整備士','電気工事士','大工','建築士','工場勤務','配送ドライバー','農家','漁師','グラフィックデザイナー','カメラマン','ミュージシャン','編集者','イラストレーター','映像ディレクター','消防士','警察官','自衛官','ジムトレーナー','スポーツインストラクター','モデル','俳優','プロスポーツ選手','喫茶店マスター','新聞記者','鉄道職員','アナウンサー','小学校教員','中学校教員','ライフガード','プール監視員（バイト）','医師','歯科医師','弁護士','公認会計士','警備員','タクシー運転手','バス運転手','電車運転士','パイロット','郵便配達員','引越しスタッフ','スーパー店員','家電量販店店員','花屋店員','図書館司書','シェフ（洋食）','理容師','自動車教習所教官','銭湯・サウナ店スタッフ'],
     glasses:['なし','黒縁メガネ','細フレームメガネ','メタルフレームメガネ','丸メガネ','ハーフリムメガネ','縁なしメガネ','金縁メガネ'],
     occInfluences:['服装・場面・体型に反映','場面のみに反映','影響なし'],
     vibes:['ランダム','清潔感のある社会人系','爽やか系','真面目系','ワイルド系','スポーツ系','きれいめ系','カジュアル系','韓国風','中性系','大人っぽい系','やりらふぃー系','ストリート系','塩顔系','犬系男子','クール系','ミステリアス系','サブカル系','古着系','清楚系','陽キャ大学生系','レトロ系','モード系','アウトドア系','バンドマン系','紳士系','ギャル男系','普通系','ブサイク系','地味系','オタク系','ヤンキー系','ホスト系','おじさん系','メガネ知的系'],
@@ -967,7 +975,7 @@
     '自動車整備士':'Car mechanic','電気工事士':'Electrician','大工':'Carpenter','建築士':'Architect','工場勤務':'Factory worker','配送ドライバー':'Delivery driver','農家':'Farmer','漁師':'Fisherman',
     'グラフィックデザイナー':'Graphic designer','カメラマン':'Photographer','ミュージシャン':'Musician','編集者':'Editor','イラストレーター':'Illustrator','映像ディレクター':'Film director',
     '消防士':'Firefighter','警察官':'Police officer','自衛官':'JSDF member','ジムトレーナー':'Gym trainer','スポーツインストラクター':'Sports instructor','モデル':'Model','俳優':'Actor','プロスポーツ選手':'Professional athlete',
-    '喫茶店マスター':'Coffee shop master','新聞記者':'Newspaper reporter','国鉄職員':'National railway worker',
+    '喫茶店マスター':'Coffee shop master','新聞記者':'Newspaper reporter','国鉄職員':'National railway worker','鉄道職員':'Railway staff',
     'お笑い芸人':'Comedian','声優':'Voice actor','YouTuber':'YouTuber','プロゲーマー':'Pro gamer','書道家':'Calligrapher','パティシエ':'Pastry chef','寿司職人':'Sushi chef','ラーメン店店主':'Ramen shop owner','僧侶':'Buddhist monk (in casual clothes)','古着屋店主':'Vintage clothing shop owner','悠々自適（定年後）':'Comfortably retired','救急隊員':'Paramedic','防衛大学校学生':'National Defense Academy cadet',
     '野球':'Baseball','サッカー':'Soccer','バスケットボール':'Basketball','バレーボール':'Volleyball','ラグビー':'Rugby','柔道':'Judo','剣道':'Kendo','陸上短距離':'Sprinting','陸上長距離':'Long-distance running','水泳':'Swimming','テニス':'Tennis','卓球':'Table tennis','ボクシング':'Boxing','ゴルフ':'Golf','自転車ロード':'Road cycling','体操':'Gymnastics',
     'ネイビーブラック':'Navy black','ダークアッシュ':'Dark ash','ダークチェリーブラウン':'Dark cherry brown','チョコレートブラウン':'Chocolate brown','赤みブラウン':'Reddish brown','マロンブラウン':'Marron brown','カーキブラウン':'Khaki brown','オリーブアッシュ':'Olive ash','ブルージュ':'Blue-beige (bluege)','ラベンダーグレージュ':'Lavender greige','ミルクティーベージュ':'Milk tea beige','ナチュラルブロンド':'Natural blond','ダークブロンド':'Dark blond','既製の実用衣料':'Plain practical clothing','ロシア':'Russia','スウェーデン':'Sweden','ポーランド':'Poland','トルコ':'Turkey','アルゼンチン':'Argentina','モンゴル':'Mongolia','ナイジェリア':'Nigeria','スラブ系':'Slavic','北欧系':'Nordic','南欧系':'Southern European','オレンジブラウン':'Orange brown','ハイトーンアッシュ':'High-tone ash','シルバーアッシュ':'Silver ash','ブリーチベージュ':'Bleached beige','金髪（ブリーチ）':'Bleached blond','メッシュ入りブラック':'Black with highlights','インナーカラー（アッシュ）':'Ash inner color','プリン気味の伸びた茶髪':'Grown-out brown with dark roots','白髪まじり':'Salt-and-pepper (slight gray)','ロマンスグレー':'Distinguished gray','ごま塩頭':'Salt-and-pepper hair','ほぼ白髪':'Mostly white hair',
@@ -1302,8 +1310,8 @@
   }
   function applyUiLanguage(){
     document.documentElement.lang = uiLang==='ja' ? 'ja' : 'en';
-    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V4.5.2';
-    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V4.5.2';
+    document.querySelector('.badge').textContent = 'GUZEN SLOT SYSTEM / V4.6.1';
+    document.querySelector('.title').textContent = 'Guzen Ikemen Maker V4.6.1';
     document.querySelector('.subtitle').textContent = T('subtitle');
     const heroNotice = document.getElementById('heroNotice'); if(heroNotice) heroNotice.textContent = T('heroNotice');
     const tabMap = {slot:'tab_slot', result:'tab_result', history:'tab_history', settings:'tab_settings'};
@@ -1953,6 +1961,7 @@
     'プロスポーツ選手':['朝練へ向かう大きなスポーツバッグ姿を偶然見かけた場面','練習後のクールダウンでグラウンドを流す姿を偶然見かけた場面','ファンの子どもにサインをして頭を撫でる姿を偶然見かけた場面','遠征のバスにチームジャージで乗り込む姿を偶然見かけた場面','オフの日に静かなカフェで体をケアしながら過ごす姿を偶然見かけた場面'],
     '喫茶店マスター':['モーニングの仕込みを終えた喫茶店の前で、一息つく姿を偶然見かけた場面','サイフォンの火加減をじっと見つめる姿を窓越しに偶然見かけた場面','常連の席の新聞を丁寧に取り替える姿を偶然見かけた場面','閉店後にカウンターを磨きながらレコードを聴く姿を偶然見かけた場面'],
     '新聞記者':['取材ノートを片手に事件現場の周辺を歩き回る姿を偶然見かけた場面','締切前に公衆電話から原稿を吹き込む姿を偶然見かけた場面','記者クラブの前で他社の記者と情報交換する姿を偶然見かけた場面','夜討ち朝駆けで住宅街の角に立ち続ける姿を偶然見かけた場面'],
+    '鉄道職員':['ホームの端で列車の到着を指差確認する姿を偶然見かけた場面','改札で切符やICカードの通過を見守る姿を偶然見かけた場面','駅事務室の前で制帽を被り直して持ち場へ向かう姿を偶然見かけた場面','終電後のホームを点検して回る姿を偶然見かけた場面'],
     '国鉄職員':['ホームの端で列車の到着を指差確認する姿を偶然見かけた場面','改札で切符に鋏を入れる手つきを偶然見かけた場面','駅事務室の前で制帽を被り直して持ち場へ向かう姿を偶然見かけた場面','終電後のホームを点検して回る姿を偶然見かけた場面'],
     'お笑い芸人':['劇場や事務所の近くで、出番前にネタ合わせをしている姿を偶然見かけた場面','相方と公園でネタ合わせを繰り返す姿を偶然見かけた場面','バイト先から劇場へ衣装の入った紙袋を提げて急ぐ姿を偶然見かけた場面','出番を終えて楽屋口から充実した顔で出てくる姿を偶然見かけた場面','単独ライブのチラシを手配りする姿を偶然見かけた場面'],
     '声優':['収録スタジオの近くで、台本を持って歩く姿を偶然見かけた場面','スタジオ前でのど飴を口に入れて発声を整える姿を偶然見かけた場面','マネージャーと台本の束を抱えて移動する姿を偶然見かけた場面','夜の帰り道、マフラーで喉元をしっかり守って歩く姿を偶然見かけた場面'],
@@ -2173,8 +2182,53 @@
   const typeInEra = (t,y) => { const w=TYPE_ERA[t]; if(!w) return true; return w.some(([f,to])=>y>=f && y<=to); };
   const CASUAL_NEW = ['シティボーイ','ノームコア','Y2K','テックウェア','オールブラック・ミニマル','フレンチカジュアル','ブリティッシュトラッド','サーフ系','裏原系','お兄系','渋谷系','きれいめストリート','ワンマイルウェア','和カジュアル'];
   const WORK_STYLES = ['紺スーツ','黒スーツ','グレースーツ','三つ揃いスーツ','ジャケパン','ビジネスカジュアル','オフィスカジュアル','白シャツ×黒パン','きれいめ私服出勤','ワークウェアスタイル','社会人カジュアル'];
+  const NEW_WORK_STYLES = ['エプロンスタイル','ジャージスタイル','スタッフポロスタイル','作務衣スタイル','バーテンダースタイル','チームウェアスタイル'];
+  // V4.6.1 B2: 職業別ワークスタイル表（roleWorkTypeの先頭で参照。重み0は除外され、全滅時は既存グループ規則へフォールバック）
+  function OCC_WORK_STYLES(r, y){
+    const T = {
+      '保育士':[['エプロンスタイル',5],['社会人カジュアル',2]],
+      '花屋店員':[['エプロンスタイル',5],['社会人カジュアル',2]],
+      '体育教師':[['ジャージスタイル',5],['ジャケパン',1.5]],
+      '小学校教員':[['ジャージスタイル',4],['ビジネスカジュアル',y>=2000?3:1],['ジャケパン',1.5]],
+      '中学校教員':[['ジャケパン',3],['ジャージスタイル',3],['ビジネスカジュアル',y>=2000?2:0.6]],
+      '高校教師':[['ジャケパン',4],['ビジネスカジュアル',y>=2000?2:0.6],['紺スーツ',1.5],['ジャージスタイル',1.5]],
+      'ジムトレーナー':[['ジャージスタイル',4],['スタッフポロスタイル',4]],
+      'スポーツインストラクター':[['ジャージスタイル',5],['スタッフポロスタイル',3]],
+      'プロスポーツ選手':[['ジャージスタイル',5],['セットアップカジュアル',y>=2015?2:0.5]],
+      '大学生':[['大学生カジュアル',5],['ストリート系',2],['きれいめカジュアル',2],['古着系',1.5]],
+      '大学1年生':[['大学生カジュアル',5],['ストリート系',2],['きれいめカジュアル',2],['古着系',1.5]],
+      '専門学校生':[['大学生カジュアル',5],['ストリート系',2],['きれいめカジュアル',2],['古着系',1.5]],
+      '大学院生':[['大学生カジュアル',4],['きれいめカジュアル',3],['ノームコア',y>=2014?2:0]],
+      '就活中の大学生':[['黒スーツ',6],['紺スーツ',2]],
+      '高校卒業直後（進路準備中）':[['大学生カジュアル',5],['ストリート系',2],['アメカジ',1.5]],
+      '浪人生（予備校生）':[['大学生カジュアル',5],['ノームコア',y>=2014?2:0],['ワンマイルウェア',y>=2018?1.5:0]],
+      '悠々自適（定年後）':[['ノームコア',y>=2014?4:0],['ワンマイルウェア',y>=2018?3:0],['和カジュアル',2],['ブリティッシュトラッド',1.5],['社会人カジュアル',y<2014?4:0.5]],
+      '僧侶':[['作務衣スタイル',6],['ノームコア',y>=2014?1:0]],
+      '書道家':[['作務衣スタイル',4],['和カジュアル',3],['きれいめ私服出勤',1.5]],
+      '古着屋店主':[['古着系',6],['アメカジ',2],['渋谷系',(y>=1993&&y<=2010)?1.5:0.3]],
+      '美容師':[['きれいめ私服出勤',4],['オールブラック・ミニマル',y>=2015?3:1],['きれいめストリート',y>=2015?2:0.5]],
+      'アパレル店員':[['きれいめ私服出勤',4],['セットアップカジュアル',y>=2015?2:0.3],['きれいめストリート',y>=2015?2:0.5],['古着系',1.5]],
+      'モデル':[['オールブラック・ミニマル',y>=2015?3:1],['きれいめ私服出勤',3],['セットアップカジュアル',y>=2015?2:0.3],['Y2K',(y>=1998&&y<=2008)||y>=2020?1:0]],
+      '俳優':[['きれいめ私服出勤',4],['セットアップカジュアル',y>=2015?2:0.3],['社会人カジュアル',2]],
+      'お笑い芸人':[['社会人カジュアル',4],['ストリート系',2],['古着系',2],['ジャケパン',1]],
+      '声優':[['社会人カジュアル',4],['オフィスカジュアル',y>=2010?3:0],['古着系',1.5]],
+      'YouTuber':[['社会人カジュアル',4],['ストリート系',3],['オフィスカジュアル',y>=2010?2:0]],
+      'プロゲーマー':[['チームウェアスタイル',y>=2010?4:0],['ストリート系',3],['社会人カジュアル',2]],
+      '書店員':[['オフィスカジュアル',y>=2010?4:1],['ビジネスカジュアル',y>=2000?3:1],['ジャケパン',1]],
+      '図書館司書':[['オフィスカジュアル',y>=2010?4:1],['ビジネスカジュアル',y>=2000?3:1],['ジャケパン',1]],
+      '銭湯・サウナ店スタッフ':[['スタッフポロスタイル',4],['作務衣スタイル',3]],
+      'バーテンダー':[['バーテンダースタイル',5],['白シャツ×黒パン',2]],
+      '喫茶店マスター':[['バーテンダースタイル',3],['白シャツ×黒パン',3],['ブリティッシュトラッド',1.5]],
+      '自動車教習所教官':[['ビジネスカジュアル',y>=2000?4:1],['ジャケパン',2],['ワークウェアスタイル',1.5]],
+      '建築士':[['ジャケパン',4],['ビジネスカジュアル',y>=2000?3:1],['ワークウェアスタイル',1.5]],
+      '大学研究員':[['オフィスカジュアル',y>=2010?4:1],['ビジネスカジュアル',y>=2000?3:1],['ジャケパン',2]]
+    };
+    return T[r] || null;
+  }
   function roleWorkType(role, y, mbti){
     const r=String(role||'');
+    const occT = OCC_WORK_STYLES(r, y);
+    if(occT){ const lst = occT.filter(e=>e[1]>0); if(lst.length) return weighted(lst); }
     if(/銀行員|公務員|商社|コンサル|弁護士|会計士|不動産営業|アナウンサー/.test(r)) return weighted([['紺スーツ',5],['グレースーツ',3],['三つ揃いスーツ',/ENTJ|ESTJ/.test(mbti)?1.5:0.4],['黒スーツ',1]]);
     if(/営業職|企画職|経理|新聞記者|編集者/.test(r)) return weighted([['紺スーツ',3],['グレースーツ',2],['ジャケパン',y>=1985?3:0.5],['ビジネスカジュアル',y>=2000?2:0]]);
     if(/教師|教員|塾講師|教官/.test(r)) return weighted([['ジャケパン',3],['ビジネスカジュアル',y>=2000?3:0.6],['紺スーツ',2]]);
@@ -2299,7 +2353,7 @@
   function resolvePartBrand(part, itemName, outfitType, persona, vibe, eraYear, sockCare){
     const y = Number(eraYear)||2026;
     const pk = FV_PART_KEY[part];
-    const typeTags = ({'きれいめカジュアル':'k','ジャケットスタイル':'k','セットアップカジュアル':'k','社会人カジュアル':'kc','大学生カジュアル':'c','私服通学風':'c','ストリート系':'s','古着系':'f','スポーツ練習着':'p','ワークマン系機能カジュアル':'wc','アメカジ':'cf','ゴープコア':'cp','ジャケパン':'k','ビジネスカジュアル':'k','オフィスカジュアル':'kc','白シャツ×黒パン':'k','きれいめ私服出勤':'k','ワークウェアスタイル':'wc','シティボーイ':'kc','ノームコア':'k','Y2K':'s','テックウェア':'sc','オールブラック・ミニマル':'k','フレンチカジュアル':'k','ブリティッシュトラッド':'k','サーフ系':'c','裏原系':'s','お兄系':'k','渋谷系':'fk','きれいめストリート':'sk','ワンマイルウェア':'c','和カジュアル':'fc'})[outfitType] || 'c';
+    const typeTags = ({'きれいめカジュアル':'k','ジャケットスタイル':'k','セットアップカジュアル':'k','社会人カジュアル':'kc','大学生カジュアル':'c','私服通学風':'c','ストリート系':'s','古着系':'f','スポーツ練習着':'p','ワークマン系機能カジュアル':'wc','アメカジ':'cf','ゴープコア':'cp','ジャケパン':'k','ビジネスカジュアル':'k','オフィスカジュアル':'kc','白シャツ×黒パン':'k','きれいめ私服出勤':'k','ワークウェアスタイル':'wc','シティボーイ':'kc','ノームコア':'k','Y2K':'s','テックウェア':'sc','オールブラック・ミニマル':'k','フレンチカジュアル':'k','ブリティッシュトラッド':'k','サーフ系':'c','裏原系':'s','お兄系':'k','渋谷系':'fk','きれいめストリート':'sk','ワンマイルウェア':'c','和カジュアル':'fc','ジャージスタイル':'p','チームウェアスタイル':'sp','スタッフポロスタイル':'c','エプロンスタイル':'c','作務衣スタイル':'f','バーテンダースタイル':'k'})[outfitType] || 'c';
     const nm = String(itemName||'');
     const isSneaker = /(スニーカー|シューズ|スリッポン)/.test(nm), isLeather = /(ローファー|革靴|チップ|モンク|モカシン|ブーツ)/.test(nm), isDenim = /デニム|ジーンズ/.test(nm), isSandal = /サンダル/.test(nm);
     const inc = Number((String(persona&&persona.incomeText||'').match(/約(\d+)万円/)||[])[1])||0;
@@ -2410,6 +2464,7 @@
   }
 
   function assignPartBrands(res, outfitType, profile, eraYear, vibe, persona){
+    if(res && res.lockParts){ return res; } // V4.6.1: 新ワークスタイルは固定セット（部位ブランド上書きなし）
     if(FV_SUIT_TYPES.includes(outfitType)){
       // スーツ＝上下同一ブランド（セットアップ）
       const suitBrand = res.outfitBrand || pick(profile.formal);
@@ -2549,6 +2604,7 @@
     return Math.random()<0.5 ? weighted([['黒',3],['白',2],['グレー',2]]) : '';
   }
   function assignPartColors(res, outfitType, eraYear, season, persona){
+    if(res && res.lockParts){ res.shoesColor = res.shoesColor || ''; return res; } // V4.6.1: 色は品目文に内包
     if(FV_SUIT_TYPES.includes(outfitType)){ res.shoesColor = chooseShoeColor(res.shoes, eraYear, persona); return res; }
     res.shoesColor = chooseShoeColor(res.shoes, eraYear, persona);
     res.topColor = chooseItemColor(res.top, eraYear, persona);
@@ -2620,7 +2676,7 @@
       c.outfitBrand=co.outfitBrand; c.jacket=co.jacket; c.top=co.top; c.bottom=co.bottom; c.shoes=co.shoes;
       c.sockBrand=co.sockBrand; c.sockType=co.sockType; c.sockShape=co.sockShape; c.sockMaterial=co.sockMaterial; c.sockColor=co.sockColor; c.sockUse=co.sockUse;
       c.topBrand=co.topBrand||''; c.bottomBrand=co.bottomBrand||''; c.shoesBrand=co.shoesBrand||''; c.outerBrand=co.outerBrand||'';
-      c.shoesColor=co.shoesColor||''; c.tie=co.tie||''; c.coat=co.coat||''; c.suitSilhouette=co.silhouette||''; c.eraFashionNote=co.eraNote||''; c.styleNote=co.styleNote||c.styleNote||'';
+      c.shoesColor=co.shoesColor||''; c.topColor=co.topColor||''; c.bottomColor=co.bottomColor||''; c.outerColor=co.outerColor||''; c.tie=co.tie||''; c.coat=co.coat||''; c.suitSilhouette=co.silhouette||''; c.eraFashionNote=co.eraNote||''; c.styleNote=co.styleNote||c.styleNote||'';
     }
   }
   function refreshSeasonOutfits(c){
@@ -2720,7 +2776,64 @@
     const gakuranBrandsEra = eraBrandList(schoolGakuranBrands, eraYear, '学生服メーカー指定なし');
     const res = { outfitBrand:'無地ノーブランド', jacket:'指定なし', top:'白シャツ', bottom:'黒スラックス', shoes:'黒革靴', sockBrand:'Tabio', sockType:'ビジネスソックス', sockShape:'クルー丈', sockMaterial:'綿＋ナイロン', sockColor:'黒', sockUse:'新品に近い' };
 
-    if(['紺スーツ','黒スーツ','グレースーツ'].includes(outfitType)){
+    // ===== V4.6.1 B2: 新ワークスタイル7種（エプロン/ジャージ/スタッフポロ/作務衣/バーテンダー/チームウェア/ワークウェア） =====
+    const roleForStyle = String((persona && persona.role) || '');
+    if(outfitType==='エプロンスタイル'){
+      res.lockParts = true; res.outfitBrand = pick(['UNIQLO','無印良品','GLOBAL WORK','無地ノーブランド']);
+      const apron = /保育士/.test(roleForStyle) ? weighted([['淡いブルーの胸当てエプロン（キャラクター柄なし）',3],['淡いグリーンの胸当てエプロン',2]])
+                  : /花屋/.test(roleForStyle) ? weighted([['防水のダークグリーンのギャルソンエプロン',4],['デニム地の胸当てエプロン',2]])
+                  : '無地の胸当てエプロン';
+      res.top = weighted([['ポロシャツ',4],['無地Tシャツ',3],['長袖カットソー',2]]) + '＋' + apron;
+      res.bottom = weighted([['チノパン',4],['ストレッチパンツ',2],['デニム',2]]);
+      res.shoes = weighted([['白スニーカー',3],['黒スニーカー',3],['スリッポン',2]]);
+      if(season==='冬') res.jacket = 'フリースジャケット（エプロンの下に着用）'; else res.jacket = '指定なし';
+      res.sockBrand = pick(profile.socksCasual); res.sockType='無地のクルー丈ソックス'; res.sockShape='標準的な中厚'; res.sockMaterial='綿混'; res.sockColor=weighted([['白',3],['黒',3],['グレー',2]]);
+    } else if(outfitType==='ジャージスタイル'){
+      res.lockParts = true; res.outfitBrand = pick(profile.sports || ['NIKE','adidas','MIZUNO','ASICS']);
+      if(season==='夏'){ res.top = weighted([['ドライメッシュTシャツ',5],['ドライポロシャツ',2]]); res.bottom = weighted([['ハーフパンツ（ジャージ地）',4],['ジャージパンツ',2]]); }
+      else { res.top = weighted([['セットアップジャージの上（ハーフジップ）',4],['ドライTシャツ＋ジャージの上',3]]); res.bottom = weighted([['ジャージパンツ（サイドライン入り）',4],['ジョガーパンツ',2]]); }
+      res.shoes = weighted([['トレーニングシューズ',5],['ランニングシューズ',2]]);
+      res.jacket = season==='冬' ? '中綿入りのベンチコート' : '指定なし';
+      res.sockBrand = pick(['NIKE','adidas','MIZUNO','ASICS','無地ノーブランド']); res.sockType='白のスポーツソックス'; res.sockShape='先丸・スポーツ形状'; res.sockMaterial='吸汗速乾の機能繊維混（つま先・かかと補強）'; res.sockColor='白';
+    } else if(outfitType==='スタッフポロスタイル'){
+      res.lockParts = true; res.outfitBrand = pick(['UNIQLO','無地ノーブランド','GLOBAL WORK']);
+      res.top = weighted([['無地ポロシャツ（胸にワンポイント刺繍・実在ロゴは避ける）',5],['ドライポロシャツ',2]]);
+      res.bottom = weighted([['ストレッチパンツ',3],['チノパン',3]]);
+      res.shoes = weighted([['黒スニーカー',4],['白スニーカー',2]]);
+      res.jacket = season==='冬' ? 'フリースブルゾン' : '指定なし';
+      res.sockBrand = pick(profile.socksCasual); res.sockType='無地のクルー丈ソックス'; res.sockShape='標準的な中厚'; res.sockMaterial='綿混'; res.sockColor='黒';
+    } else if(outfitType==='作務衣スタイル'){
+      res.lockParts = true; res.outfitBrand = pick(['無印良品','和装専門店の既製品','無地ノーブランド']);
+      const smCol = weighted([['紺',4],['墨黒',3],['生成り',2]]);
+      res.top = `${smCol}の作務衣の上衣（綿）` + (season==='冬' ? '（中に長袖Tシャツ）' : '');
+      res.bottom = `${smCol}の作務衣のパンツ`;
+      res.shoes = weighted([['雪駄',3],['サンダル',2],['足袋型シューズ',1]]);
+      res.jacket = season==='冬' ? '綿入れ半纏' : '指定なし';
+      res.sockBrand = '無地ノーブランド'; res.sockType = weighted([['足袋型ソックス',3],['無地のクルー丈ソックス',2]]); res.sockShape = res.sockType==='足袋型ソックス' ? '親指だけが分かれた2本指構造' : '標準的な中厚'; res.sockMaterial='綿混'; res.sockColor='白';
+    } else if(outfitType==='バーテンダースタイル'){
+      res.lockParts = true; res.outfitBrand = pick(profile.formal);
+      res.top = '白の長袖シャツ＋黒のベスト';
+      res.tie = weighted([['黒の蝶タイ',4],['黒のナロータイ',3],['ノータイ（第一ボタンまで留める）',1.5]]);
+      res.bottom = '黒スラックス＋黒のギャルソンエプロン（腰巻き）';
+      res.shoes = '黒革靴（磨き上げたプレーントゥ）';
+      res.jacket = '指定なし';
+      res.sockBrand = pick(profile.socksBusiness); res.sockType='ビジネスソックス'; res.sockShape='薄手ビジネス形状'; res.sockMaterial='綿＋ナイロン'; res.sockColor='黒';
+    } else if(outfitType==='チームウェアスタイル'){
+      res.lockParts = true; res.outfitBrand = pick(['NIKE','adidas','PUMA','無地ノーブランド']);
+      res.top = weighted([['チームパーカー（架空チーム「ASHIKUSA FALCONS」のロゴ。実在チームのロゴは再現しない）',4],['チームユニフォームシャツ（架空チーム「ASHIKUSA FALCONS」。実在チームのロゴは再現しない）',2]]);
+      res.bottom = weighted([['ジョガーパンツ',4],['黒のスキニーパンツ',2]]);
+      res.shoes = weighted([['ハイテクスニーカー',4],['白スニーカー',2]]);
+      res.jacket = season==='冬' ? 'コーチジャケット' : '指定なし';
+      res.sockBrand = pick(['NIKE','adidas','無地ノーブランド']); res.sockType='白のスポーツソックス'; res.sockShape='先丸・スポーツ形状'; res.sockMaterial='綿混'; res.sockColor='白';
+    } else if(outfitType==='ワークウェアスタイル'){
+      res.lockParts = true; res.outfitBrand = pick(['ワークマン','Dickies','BURTLE','寅壱','無地ノーブランド']);
+      if(season==='夏'){ res.top = weighted([['半袖の作業シャツ',4],['ドライポロシャツ',2],['半袖ツナギ（上を腰に巻く着方も可）',1]]); }
+      else { res.top = weighted([['長袖の作業シャツ',4],['作業用ジャケット＋Tシャツ',2]]); }
+      res.bottom = weighted([['カーゴワークパンツ',4],['ストレッチ作業パンツ',3]]);
+      res.shoes = weighted([['安全スニーカー（先芯入り）',4],['編み上げワークブーツ',2]]);
+      res.jacket = season==='冬' ? '防寒ワークブルゾン' : '指定なし';
+      res.sockBrand = pick(['ワークマン','無地ノーブランド','ユニクロ']); res.sockType='先丸の厚手パイルソックス（クルー丈）'; res.sockShape='先丸・厚手パイル編み'; res.sockMaterial='綿混パイル'; res.sockColor=weighted([['黒',3],['グレー',3],['白',1]]);
+    } else if(['紺スーツ','黒スーツ','グレースーツ'].includes(outfitType)){
       res.outfitBrand = pick(profile.formal);
       res.jacket = 'テーラードジャケット';
       res.top = weighted([['白シャツ',5],['サックスブルーシャツ',2],['ネクタイ付きシャツ',3]]);
@@ -2942,7 +3055,7 @@
     ['自動車整備士','trade',0,0,18,68],['電気工事士','trade',0,0,18,68],['大工','trade',0,0,18,72],['建築士','trade',0,0,24,75],['工場勤務','trade',0,0,18,65],['配送ドライバー','trade',0,0,20,68],['農家','trade',0,0,18,80],['漁師','trade',0,0,18,75],
     ['グラフィックデザイナー','creative',1975,0,20,70],['カメラマン','creative',0,0,20,75],['ミュージシャン','creative',0,0,18,75],['編集者','creative',0,0,22,70],['イラストレーター','creative',0,0,18,75],['映像ディレクター','creative',1985,0,24,72],
     ['消防士','uniform',0,0,18,59],['警察官','uniform',0,0,18,59],['自衛官','uniform',0,0,18,54],['救急隊員','uniform',0,0,20,59],['防衛大学校学生','uniform',1953,0,18,24],['ジムトレーナー','uniform',1995,0,18,60],['スポーツインストラクター','uniform',1990,0,18,62],['モデル','uniform',0,0,18,55],['俳優','uniform',0,0,18,80],['プロスポーツ選手','uniform',0,0,18,42],
-    ['喫茶店マスター','showa',0,0,30,80],['新聞記者','showa',0,0,22,65],['国鉄職員','showa',0,1987,18,60],
+    ['喫茶店マスター','showa',0,0,30,80],['新聞記者','showa',0,0,22,65],['鉄道職員','showa',0,0,18,60],
     ['お笑い芸人','enta',0,0,18,75],['声優','enta',1980,0,18,75],['YouTuber','enta',2008,0,18,60],['プロゲーマー','enta',2010,0,18,40],
     ['書道家','creative',0,0,20,80],['パティシエ','service',1990,0,18,70],['寿司職人','service',0,0,18,80],['ラーメン店店主','service',0,0,25,75],['僧侶','other',0,0,20,80],['古着屋店主','service',1985,0,24,70],
     ['悠々自適（定年後）','retired',0,0,62,80],
@@ -3003,7 +3116,6 @@
     'ホテルスタッフ':['ホテルの制服（ベスト＋ネクタイ）','a hotel staff uniform with vest and tie','白シャツ＋ベスト＋ネクタイ','黒スラックス','黒の革靴'],
     'カフェ店員':['シャツ＋カフェエプロン','a shirt with a cafe apron','シャツ＋ロングエプロン','黒パンツ','黒のプレーントゥ'],
     'コンビニ店長':['コンビニの店員ユニフォーム','a convenience store staff uniform','店舗ユニフォームシャツ','黒パンツ','黒のスニーカー'],
-    'バーテンダー':['ベスト＋蝶ネクタイのバーテンダースタイル','a bartender style with vest and bow tie','白シャツ＋ベスト＋蝶ネクタイ','黒スラックス','黒の革靴'],
     '自動車整備士':['つなぎの作業服','mechanic coveralls','つなぎ（上）','つなぎ（下）','安全靴'],
     '電気工事士':['電気工事の作業服','an electrician work uniform','作業服上衣','作業服パンツ','安全靴'],
     '大工':['大工の作業着','carpenter work clothes','作業シャツ','ニッカポッカ風の作業ズボン','足袋風の作業靴'],
@@ -3011,15 +3123,10 @@
     '配送ドライバー':['配送業の制服','a delivery company uniform','制服ポロシャツ','制服パンツ','黒のスニーカー'],
     '農家':['農作業着','farm work clothes','作業シャツ','作業ズボン','長靴'],
     '漁師':['漁師の作業着（防水前掛け）','fisherman work gear with a waterproof apron','作業ジャンパー','防水パンツ','長靴'],
-    'ジムトレーナー':['ジムスタッフのトレーニングウェア','gym staff training wear','スタッフTシャツ','トレーニングパンツ','トレーニングシューズ'],
-    'スポーツインストラクター':['スタッフジャージ上下','a staff track suit','スタッフジャージ上','スタッフジャージ下','トレーニングシューズ'],
-    '体育教師':['ジャージ上下','a track suit','ジャージ上','ジャージ下','運動靴'],
     'パティシエ':['白のコックコート','a white chef coat','コックコート','コックパンツ','厨房用シューズ'],
     '寿司職人':['白衣＋和帽子の板前スタイル','a sushi chef white uniform with a traditional hat','板前白衣','白の調理パンツ','厨房用サンダルではなく作業靴'],
     'ラーメン店店主':['作務衣風の調理着＋タオル鉢巻','a samue-style cooking outfit with a towel headband','作務衣風上衣','作務衣風パンツ','厨房用の作業靴'],
-    '僧侶':['作務衣','a samue (monk work clothes)','作務衣上衣','作務衣パンツ','雪駄ではなく作業用の履物'],
     '国鉄職員':['国鉄の駅員制服風','a national-railway station staff uniform style','制服上衣＋制帽','制服スラックス','黒の革靴'],
-    'プロスポーツ選手':['チームのトレーニングウェア（実在チームのロゴなし）','team training wear (no real team logos)','トレーニングトップ','トレーニングパンツ','スポーツシューズ'],
     'ライフガード':['ライフガードの監視ユニフォーム（赤×黄）','a lifeguard patrol uniform (red and yellow)','GUARDと書かれた赤のタンクトップ（実在団体ロゴなし）','赤のサーフパンツ','ビーチサンダルまたは素足＋ホイッスルを首から下げる'],
     'プール監視員（バイト）':['プール監視員のスタッフウェア','a pool-attendant staff outfit','スタッフTシャツ（STAFF表記・実在ロゴなし）','スイムハーフパンツ','プールサンダル＋ホイッスル'],
     '警備員':['警備会社の制服風（グレー系）','a security-guard uniform style (gray tones)','グレーの制服シャツ＋肩章','濃紺の制服スラックス','黒の革靴＋白手袋を携行'],
@@ -3035,11 +3142,6 @@
     '家電量販店店員':['量販店の店員ユニフォーム','an electronics-store staff uniform','店舗カラーのユニフォームシャツ（実在店ロゴなし）','黒スラックス','黒のスニーカー'],
     'シェフ（洋食）':['白のコックコート＋ソムリエエプロン','a white chef coat with a bistro apron','白のコックコート','黒のソムリエエプロン＋コックパンツ','厨房用シューズ'],
     '理容師':['理容師のバーバースタイル','a barber work style','黒のバーバーエプロン＋白シャツ','黒パンツ','黒の革靴'],
-    '自動車教習所教官':['教習所指導員の制服風','a driving-school instructor uniform style','水色の制服シャツ＋ネクタイ','グレーの制服スラックス','黒の革靴'],
-    '銭湯・サウナ店スタッフ':['銭湯スタッフの作務衣スタイル','a bathhouse staff samue style','作務衣風の上衣（店名ロゴなし）','作務衣風パンツ','サンダル'],
-    '図書館司書':['司書のエプロンスタイル','a librarian apron style','シャツ＋無地エプロン','チノパン','歩きやすい革靴'],
-    '小学校教員':['小学校の先生スタイル（ジャージ＋ポロシャツ）','an elementary-school teacher style (track pants with a polo shirt)','ポロシャツ＋ジャージ上着','ジャージパンツ','上履き用の白スニーカー'],
-    '中学校教員':['中学校の先生スタイル（シャツ＋ジャージ）','a junior-high teacher style','ワイシャツ（腕まくり）','ジャージパンツまたはスラックス','白スニーカー']
   };
   const UNIFORM_VARIANTS = {
     '人力車の車夫': [
@@ -3080,15 +3182,123 @@
       ['防衛大学校の校内服装（水色シャツ＋ネクタイ）','an NDA-style on-campus uniform — a light-blue long-sleeve shirt with a pointed collar, buttoned front placket, two buttoned-flap chest pockets, shoulder straps, and buttoned cuffs, worn with a plain navy necktie held by a tie bar, tucked into dark blue trousers with a black belt','水色の長袖制服シャツ（尖った通常襟、前立てにボタン、両胸にボタン留めフラップ付きポケット、肩章、袖口はボタン留め、裾はスラックスにタックイン）＋紺の無地ネクタイ（タイピンで留める）','青紺色の制服スラックス（黒ベルト）','黒のプレーントゥ外羽根の短靴（履き込んだ使用感はあるが、つま先だけ鏡面のように磨き上げてある）',3,'','青紺色のキャップ型略帽（帽章風エンブレム）','ブルーのMA-1型ジャンパー（オレンジ色の裏地、リブ編みの襟・袖口・裾、ファスナー留め）'],
       ['防衛大学校の作業服装（65式作業服と同型・OD色）','an NDA work uniform of the same pattern as the Type-65 fatigues (olive-drab / moss-green cotton work clothes with chest pockets)','モスグリーン（OD色）の綿作業服上衣（胸ポケット付き）','モスグリーン（OD色）の作業服パンツ','黒のベルクロ（面ファスナー）留めトレーニングシューズ型の作業靴',2,'','OD色のキャップ型作業帽']
     ]
+,
+    '看護師': [
+      ['ネイビーのスクラブ＋ナースシューズ','navy medical scrubs of the fictional Ashikusa General Hospital — a short-sleeve V-neck scrub top with a staff ID card clipped to the chest, navy scrub pants and white lightweight nurse shoes; do not reproduce any real hospital logo','ネイビーの半袖Vネックスクラブトップス（ポリエステル混、胸に「足草総合病院」の院内IDカード）','ネイビーのスクラブパンツ','白の軽量ナースシューズ（スニーカー型）',4,'era>=1990'],
+      ['ネイビーのスクラブ＋医療用サンダル','navy scrubs of Ashikusa General Hospital worn with white heel-strap medical sandals over white socks','ネイビーの半袖Vネックスクラブトップス（胸に「足草総合病院」の院内IDカード）','ネイビーのスクラブパンツ','白の医療用サンダル（かかとバンド付き・白ソックス着用）',3,'era>=1990'],
+      ['ワインレッドのスクラブ','wine-red scrubs (ward color) of Ashikusa General Hospital with white nurse shoes','ワインレッドの半袖Vネックスクラブトップス（胸に院内IDカード）','ワインレッドのスクラブパンツ','白の軽量ナースシューズ（スニーカー型）',2,'era>=1990'],
+      ['白のケーシー型白衣','a white case-style（stand-collar, side-button）medical tunic with white slacks and heel-strap medical sandals over white socks','白のケーシー型上衣（立ち襟・肩口ボタン）','白のスラックス','白の医療用サンダル（かかとバンド付き・白ソックス着用）',2,'']
+    ],
+    '研修医': [
+      ['スクラブ＋聴診器＋医療用サンダル','navy scrubs of Ashikusa General Hospital with a stethoscope around the neck, a resident ID card, and white heel-strap medical sandals over white socks','ネイビーの半袖スクラブトップス（首に聴診器、胸に「足草総合病院」の研修医IDカード）','ネイビーのスクラブパンツ','白の医療用サンダル（かかとバンド付き・白ソックス着用）',5,'era>=1990'],
+      ['スクラブ＋白の半袖ケーシー','navy scrubs layered under a white short-sleeve case-style tunic, with white sneakers','スクラブの上に白の半袖ケーシー型上衣（胸に院内IDカード）','ネイビーのスクラブパンツ','白のスニーカー',2,'']
+    ],
+    '医師': [
+      ['白の長袖ドクターコート＋院内サンダル','a doctor of Ashikusa General Hospital — a long white doctor coat over a shirt and slacks, hospital sandals worn indoors with socks','白の長袖ドクターコート（胸に「足草総合病院」の名札）、中はシャツ（ノータイ可）','グレーのスラックス','白の医療用サンダル（かかとバンド付き・ソックス着用）',4,''],
+      ['白の長袖ドクターコート＋革靴','a long white doctor coat over a shirt and slacks with leather shoes (outpatient / meeting day)','白の長袖ドクターコート（胸に名札）、中はシャツ','チャコールのスラックス','黒の革靴',2,''],
+      ['スクラブ単体（手術部門）','surgical-department scrubs of Ashikusa General Hospital (no cap) with medical sandals','ネイビーの半袖スクラブトップス（胸に院内IDカード）','ネイビーのスクラブパンツ','白の医療用サンダル（かかとバンド付き・白ソックス着用）',3,'era>=1990'],
+      ['白ケーシー＋黒スラックス（外来）','a white case-style tunic with black slacks and medical sandals','白のケーシー型上衣（立ち襟・肩口ボタン、胸に名札）','黒のスラックス','白の医療用サンダル（かかとバンド付き・白ソックス着用）',2,'']
+    ],
+    '歯科医師': [
+      ['白のケーシー＋医療用サンダル','a dentist of the fictional Ashikusa Dental Clinic — a white-to-pale-blue case-style tunic, white pants, and white heel-strap medical sandals over white socks','白〜サックスのケーシー型上衣（立ち襟・肩口ボタン、胸に「足草歯科クリニック」の名札）','白のパンツ','白の医療用サンダル（かかとバンド付き・白ソックス着用）',5,''],
+      ['ミントグリーンのスクラブ','mint-green scrubs of Ashikusa Dental Clinic with medical sandals','ミントグリーンの半袖スクラブトップス（胸に名札）','ミントグリーンのスクラブパンツ','白の医療用サンダル（かかとバンド付き・白ソックス着用）',3,'era>=1995']
+    ],
+    '薬剤師': [
+      ['ハーフ丈白衣＋医療用サンダル','a pharmacist of the fictional Ashikusa Pharmacy — a half-length white lab coat over a shirt and chinos, with heel-strap medical sandals over socks','白のハーフ丈薬局衣（胸に「足草薬局」の名札）、中はシャツ','ベージュのチノパン','白の医療用サンダル（かかとバンド付き・ソックス着用）',3,''],
+      ['ハーフ丈白衣＋白スニーカー','a half-length white pharmacy coat over a shirt and chinos with white sneakers','白のハーフ丈薬局衣（胸に名札）、中はシャツ','ネイビーのチノパン','白のスニーカー',2,''],
+      ['ポロ＋店舗エプロン（ドラッグストア）','a drugstore-style staff polo with a store apron and sneakers','スタッフポロシャツ（無地・胸に名札）＋店舗の胸当てエプロン','黒のチノパン','黒のスニーカー',2,'era>=2000']
+    ],
+    '理学療法士': [
+      ['白×ネイビーのケーシー＋トレーニングシューズ','a physical therapist of the fictional Ashikusa Rehabilitation Hospital — a white-and-navy case-style tunic with jersey pants and indoor training shoes (no sandals, for patient-transfer safety)','白×ネイビーのケーシー型上衣（胸に「足草リハビリテーション病院」の名札）','ネイビーのジャージパンツ','白の室内用トレーニングシューズ',5,''],
+      ['スタッフポロ＋ストレッチパンツ','a staff polo with stretch pants and sneakers','スタッフポロシャツ（ネイビー・胸に名札）','黒のストレッチパンツ','黒のスニーカー',3,'']
+    ],
+    '介護士': [
+      ['施設ポロ＋チノ','a caregiver of the fictional Ashikusa Care Home — a pale staff polo with the facility name embroidered on the chest, chinos and non-slip sneakers','淡いブルーの施設ポロシャツ（胸に「足草ケアホーム」の刺繍名札）','ベージュのチノパン','滑りにくい白のスニーカー',5,''],
+      ['ジャージ上下','a facility jersey set for active care work','施設ジャージの上（ハーフジップ・胸に名札）','ジャージパンツ','滑りにくいスニーカー',2,'']
+    ],
+    'パイロット': [
+      ['白の半袖パイロットシャツ','an airline pilot of the fictional Ashikusa Airlines — a white short-sleeve pilot shirt with black-and-gold four-stripe epaulettes, a black tie, black slacks and black leather shoes; do not reproduce any real airline logo','白の半袖パイロットシャツ（黒×金4本線の肩章、黒ネクタイ、胸に「ASHIKUSA AIRLINES」のウイング章風バッジ）','黒の制服スラックス','黒の革靴',5,'','パイロット制帽（黒つば・金の帽章風エンブレム）'],
+      ['黒のダブルジャケット制服','the full uniform with a black double-breasted jacket bearing four gold sleeve stripes over the pilot shirt, with the pilot cap','白のパイロットシャツの上に黒のダブルジャケット（袖に金4本線、胸にウイング章風バッジ）、黒ネクタイ','黒の制服スラックス','黒の革靴',3,'','パイロット制帽（黒つば・金の帽章風エンブレム）']
+    ],
+    '電車運転士': [
+      ['濃紺の鉄道制服（通年）','a train driver of the fictional Ashikusa Railway — a dark-navy single-breasted railway uniform with a necktie, white gloves and a peaked cap; do not reproduce any real railway logo','濃紺のシングル制服ジャケット（金ボタン、胸に「足草鉄道」の徽章風バッジ）、中は白シャツ＋ネイビーのネクタイ、白手袋','濃紺の制服スラックス','黒の革靴',5,'','濃紺の制帽（黒つば・金の帽章風エンブレム）'],
+      ['夏制服（半袖シャツ）','the summer uniform — a light-gray short-sleeve uniform shirt with a name badge, worn with the peaked cap and white gloves','薄いグレーの半袖制服シャツ（胸に名札と徽章風バッジ）、白手袋','濃紺の制服スラックス','黒の革靴',3,'summer','濃紺の制帽（黒つば・金の帽章風エンブレム）']
+    ],
+    '鉄道職員': [
+      ['昭和の国鉄型制服','a Showa-era national-railway style station uniform of the fictional Ashikusa National Railway — a dark-navy tunic with gold buttons, a duty armband and a peaked cap','濃紺の国鉄型制服上衣（金ボタン、腕に業務腕章、胸に「足草国鉄」の徽章風バッジ）','濃紺の制服スラックス','黒の革靴',5,'era<=1987','濃紺の制帽（黒つば・金の帽章風エンブレム）'],
+      ['旧型の詰襟寄り制服','an older stand-collar style national-railway uniform with a peaked cap','詰襟に近い濃紺の旧型制服上衣（金ボタン）','濃紺の制服スラックス','黒の革靴',2,'era<=1987','濃紺の制帽（黒つば・金の帽章風エンブレム）'],
+      ['現代の鉄道制服','a modern station staff uniform of the fictional Ashikusa Railway — a dark-navy single-breasted jacket with a necktie and a peaked cap; do not reproduce any real railway logo','濃紺のシングル制服ジャケット（胸に「足草鉄道」の徽章風バッジ）、中は白シャツ＋ネイビーのネクタイ','濃紺の制服スラックス','黒の革靴',5,'era>=1988','濃紺の制帽（黒つば・銀の帽章風エンブレム）'],
+      ['現代の夏制服（半袖シャツ）','the modern summer uniform — a pale-blue short-sleeve uniform shirt with a name badge and the peaked cap','淡いブルーの半袖制服シャツ（胸に名札と徽章風バッジ）','濃紺の制服スラックス','黒の革靴',3,'summer+era>=1988','濃紺の制帽（黒つば・銀の帽章風エンブレム）']
+    ],
+    'バス運転手': [
+      ['水色シャツの運転士制服','a bus driver of the fictional Ashikusa Kotsu — a light-blue uniform shirt with navy slacks, white gloves and a peaked cap; do not reproduce any real bus company logo','水色の制服シャツ（胸に「足草交通」の名札）、白手袋','ネイビーの制服スラックス','黒の革靴',5,'','ネイビーの制帽（黒つば・銀の帽章風エンブレム)'],
+      ['冬制服（ベスト付き）','the winter uniform with a navy vest and necktie over the uniform shirt','水色の制服シャツの上にネイビーのベスト＋ネクタイ、白手袋','ネイビーの制服スラックス','黒の革靴',2,'winter','ネイビーの制帽（黒つば・銀の帽章風エンブレム)']
+    ],
+    'タクシー運転手': [
+      ['白シャツ＋ネクタイの乗務服','a taxi driver of the fictional Ashikusa Taxi — a white dress shirt with a necktie, black slacks and white gloves; no real company badges','白の長袖シャツ（ネイビーのネクタイ、胸に「足草タクシー」の乗務員証）、白手袋','黒のスラックス','黒の革靴',5,''],
+      ['紺の制服ジャケット','a navy uniform jacket over the shirt and tie, with white gloves','白シャツ＋ネクタイの上に紺の制服ジャケット（胸に乗務員証）、白手袋','黒のスラックス','黒の革靴',2,'winter']
+    ],
+    '郵便配達員': [
+      ['夏の配達服（ポロ型）','a mail carrier of the fictional Ashikusa Post — a pale-blue polo-type delivery shirt with navy pants and a delivery helmet; do not reproduce any real postal logo','淡いブルーのポロ型配達シャツ（胸に「足草郵便」のワッペン風マーク）','ネイビーの配達パンツ','黒のスニーカー',4,'summer','白の配達用ヘルメット（あご紐付き）'],
+      ['冬の配達ブルゾン','the winter delivery blouson in navy with the fictional Ashikusa Post mark, worn with the delivery helmet','ネイビーの配達ブルゾン（胸に「足草郵便」のワッペン風マーク）','ネイビーの配達パンツ','黒のスニーカー',4,'winter','白の配達用ヘルメット（あご紐付き）']
+    ],
+    '警備員': [
+      ['施設警備の紺制服','a security guard of the fictional Ashikusa Security — a dark-navy guard uniform with shoulder emblems, a necktie and a peaked cap; do not reproduce any real security company logo','濃紺の警備制服上衣（肩に「足草警備保障」のワッペン風エンブレム、ネクタイ）','濃紺の制服スラックス','黒の革靴',5,'','濃紺の制帽（銀の帽章風エンブレム）'],
+      ['交通誘導の作業服＋反射ベスト','a traffic-control guard outfit — a work uniform with a high-visibility reflective vest and a white helmet','グレーの作業服上衣の上に蛍光イエローの反射ベスト（「足草警備保障」の文字）','グレーの作業服パンツ','黒の安全スニーカー',3,'','白のヘルメット（あご紐付き）']
+    ],
+    'ライフガード': [
+      ['赤のラッシュガード','a lifeguard of the fictional Ashikusa Beach Patrol — a red rash guard with GUARD lettering, surf shorts, a whistle on a lanyard and a red cap; barefoot in beach sandals','赤の半袖ラッシュガード（胸と背に白で「GUARD」、首からホイッスル）','赤×白のサーフパンツ','ビーチサンダル（素足）',5,'','赤のキャップ（白で「GUARD」）'],
+      ['赤タンクトップ','a red guard tank top with board shorts, whistle and cap','赤のタンクトップ（「GUARD」ロゴ、首からホイッスル）','赤のハーフパンツ','ビーチサンダル（素足）',3,'summer','赤のキャップ（白で「GUARD」）']
+    ],
+    'プール監視員（バイト）': [
+      ['監視員のスタッフTシャツ','a pool lifeguard staff tee with STAFF on the back, half pants, a whistle and a cap; sports sandals barefoot','スタッフTシャツ（背中に「STAFF」、首からホイッスル）','ネイビーのハーフパンツ','スポーツサンダル（素足）',5,'','白のキャップ（「足草市民プール STAFF」)']
+    ],
+    '寿司職人': [
+      ['白の調理白衣＋和帽子','a sushi chef in a white chef tunic with a traditional low chef hat and a navy apron, white kitchen sandals over white socks','白の調理白衣（詰め袖・清潔なプレス）＋紺の前掛け','白の調理ズボン','白のキッチンサンダル（白ソックス着用）',5,'','白の和帽子（船形）'],
+      ['紺の作務衣＋前掛け','a navy samue work jacket with an apron and setta sandals','紺の作務衣上衣＋生成りの前掛け','紺の作務衣パンツ','雪駄（白ソックス）',3,'']
+    ],
+    'パティシエ': [
+      ['白のコックコート＋トック','a pâtissier in a white double-breasted chef coat with a tall toque and a black apron, white kitchen shoes','白のコックコート（比翼ダブルボタン）＋黒のロングエプロン','黒のコックパンツ','白のキッチンシューズ',5,'','白のトック帽（高め）'],
+      ['シャツ＋胸当てエプロン','a café-patisserie style shirt with a bib apron','白のバンドカラーシャツ＋ブラウンの胸当てエプロン','黒のチノパン','黒のスニーカー',2,'']
+    ],
+    'ラーメン店店主': [
+      ['黒T＋作務衣風上衣＋タオル鉢巻','a ramen shop owner in a black tee under a samue-style jacket with an apron and a towel headband, black kitchen sandals','黒Tシャツの上に黒の作務衣風上衣＋黒の前掛け','黒の作務衣パンツ','黒のキッチンサンダル（黒ソックス）',5,'','白タオルの鉢巻き'],
+      ['白の調理衣＋前掛け','a white cook jacket with an apron','白の調理衣＋紺の前掛け','黒の調理ズボン','黒のキッチンシューズ',3,'']
+    ],
+    'シェフ（洋食）': [
+      ['白のコックコート','a western-cuisine chef in a classic white double-breasted chef coat with salt-and-pepper checked pants and a chef hat','白のコックコート（比翼ダブルボタン・左胸に刺繍名）','ソルト＆ペッパー柄（千鳥格子）のコックパンツ','黒のキッチンシューズ',5,'','白のコック帽'],
+      ['黒のコックコート（ビストロ）','a modern bistro-style black chef coat with a long apron','黒のコックコート＋黒のロングエプロン','黒のコックパンツ','黒のキッチンシューズ',2,'era>=2005']
+    ],
+    'ホテルスタッフ': [
+      ['フロント制服','a front-desk staff of the fictional Ashikusa Grand Hotel — a black jacket with a vest and necktie and a gold name plate; do not reproduce any real hotel logo','黒のジャケット＋黒のベスト＋シルバーグレーのネクタイ（胸に「足草グランドホテル」の金色ネームプレート）','黒のスラックス','黒の革靴',5,''],
+      ['ベルスタッフ風の丸襟ジャケット','a bell-staff style round-collar jacket with gold buttons','丸襟のネイビージャケット（金ボタン、胸にネームプレート）','ネイビーのスラックス','黒の革靴',2,'','ベルボーイキャップ（ネイビー・金パイピング）']
+    ],
+    'コンビニ店長': [
+      ['店舗ユニフォームベスト','a convenience store manager of the fictional Ashikusa Mart — a striped store uniform vest over a shirt with a name badge; do not reproduce any real chain logo','白シャツの上にブルー系ストライプの店舗ユニフォームベスト（胸に「足草マート・店長」の名札）','黒のチノパン','黒のスニーカー',5,'']
+    ],
+    'スーパー店員': [
+      ['店舗エプロン＋ポロ','a supermarket staff of the fictional Ashikusa Store — a green bib apron over a polo shirt with a name badge','ポロシャツの上にグリーンの胸当てエプロン（胸に「足草ストア」の名札）','黒のチノパン','黒のスニーカー',5,''],
+      ['鮮魚・青果部門の前掛け＋長靴','a fresh-food section outfit with a waterproof apron, arm covers and boots','ポロシャツの上に防水の白い前掛け＋腕カバー（胸に名札）','黒のチノパン','白の長靴',2,'']
+    ],
+    '家電量販店店員': [
+      ['店舗ポロ＋名札','an electronics store staff of the fictional Ashikusa Denki — a store polo with a lanyard name card and slacks; do not reproduce any real chain logo','店舗カラー（ブルー）のポロシャツ（首から「足草電機」の名札ストラップ）','黒のスラックス','黒の革靴',5,'era>=2000'],
+      ['シャツ＋店舗ベスト','a dress shirt with a store vest and lanyard name card','白シャツの上にブルーの店舗ベスト（首から名札ストラップ）','黒のスラックス','黒の革靴',3,'']
+    ]
   };
+  UNIFORM_VARIANTS['国鉄職員'] = UNIFORM_VARIANTS['鉄道職員']; // 旧保存データ互換（V4.6.1改名）
+  UNIFORM_WORKWEAR['鉄道職員'] = UNIFORM_WORKWEAR['国鉄職員'];
   function chooseUniformVariant(role, season, eraYear){
     const list = UNIFORM_VARIANTS[role];
     if(!list) return null;
     const ey = Number(eraYear) || 2026;
     const entries = list.map(v=>{
       let w = v[5] || 1;
-      if(v[6] === 'summer') w = season === '夏' ? w * 4 : (season === '冬' ? Math.max(0.2, w * 0.2) : w);
-      if(v[6] === 'winter') w = season === '冬' ? w * 3 : (season === '夏' ? Math.max(0.3, w * 0.3) : w);
+      // V4.6.1: フラグは'+'区切りで複合可（summer/winter/era<=YYYY/era>=YYYY）
+      for(const f of String(v[6]||'').split('+').filter(Boolean)){
+        if(f === 'summer') w = season === '夏' ? w * 4 : (season === '冬' ? Math.max(0.2, w * 0.2) : w);
+        else if(f === 'winter') w = season === '冬' ? w * 3 : (season === '夏' ? Math.max(0.3, w * 0.3) : w);
+        else { const m = f.match(/^era(<=|>=)(\d+)$/); if(m){ const yy = +m[2]; if(m[1]==='<=' && ey > yy) w = 0; if(m[1]==='>=' && ey < yy) w = 0; } }
+      }
       if(/装備ベストあり/.test(String(v[0])) && ey < 2005) w = 0;
       return [v, w];
     }).filter(e => e[1] > 0);
@@ -3186,7 +3396,7 @@
     '清楚系':{good:['ホテルスタッフ','薬剤師','書店員','経理・事務職','看護師'], bad:['漁師','工場勤務','ラーメン店店主','大工']},
     '紳士系':{good:['ホテルスタッフ','銀行員','商社勤務','コンサルタント','バーテンダー'], bad:['大工','自動車整備士','電気工事士','工場勤務','配送ドライバー','農家','漁師']},
     'オタク系':{good:['ITエンジニア','アプリ開発者','ゲーム開発者','書店員','プロゲーマー','声優'], bad:['モデル','アパレル店員']},
-    'おじさん系':{good:['喫茶店マスター','ラーメン店店主','農家','新聞記者','国鉄職員','寿司職人'], bad:['モデル']},
+    'おじさん系':{good:['喫茶店マスター','ラーメン店店主','農家','新聞記者','鉄道職員','国鉄職員','寿司職人'], bad:['モデル']},
     'メガネ知的系':{good:['大学研究員','編集者','塾講師','薬剤師','建築士'], bad:[]},
     'ワイルド系':{good:['大工','漁師','自衛官','消防士'], bad:['経理・事務職']},
     'きれいめ系':{good:['アパレル店員','美容師','ホテルスタッフ'], bad:['漁師','工場勤務']},
@@ -3249,7 +3459,7 @@
     '白人系':[['自然な茶髪',4],['アッシュブラウン',3],['グレージュ',2],['黒',1]],
     'ミックス系':[['黒',4],['黒に近いダークブラウン',2],['自然な茶髪',1]]
   };
-  const STRICT_HAIR_OCC = ['銀行員','公務員','警察官','消防士','自衛官','救急隊員','防衛大学校学生','ホテルスタッフ','商社勤務','研修医','看護師','高校教師','僧侶','新聞記者','国鉄職員','経理・事務職'];
+  const STRICT_HAIR_OCC = ['銀行員','公務員','警察官','消防士','自衛官','救急隊員','防衛大学校学生','ホテルスタッフ','商社勤務','研修医','看護師','高校教師','僧侶','新聞記者','鉄道職員','国鉄職員','経理・事務職'];
   const FREE_HAIR_OCC = ['美容師','アパレル店員','ミュージシャン','YouTuber','お笑い芸人','古着屋店主','モデル','俳優','バーテンダー','プロゲーマー','動画クリエイター'];
   function occupationHairWeights(occ){
     if(STRICT_HAIR_OCC.includes(occ)) return [['黒',4],['黒に近いダークブラウン',1]];
@@ -5087,8 +5297,8 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
       if(english) return `Work outfit contents: ${natUniformFix(c, c.workUniformEn, true)} — top: ${c.top}${uniformJacketPhrase(c, true)}, bottom: ${c.bottom}, shoes: ${c.shoes}${uniformHatPhrase(c, true)}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${sockRenderNote(c,true)}${accText(c,false,true)} Do not reproduce real organizations' insignia or logos. `;
       return `職業服装の内容：${c.workUniform}。トップスは${c.top}${uniformJacketPhrase(c, false)}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。${sockRenderNote(c,false)}${accText(c,false,false)}実在組織の記章・ロゴは正確に再現しない。`;
     }
-    if(english) return `Work outfit contents: ${c.outfitBrand?`${c.outfitBrand} `:''}${c.outfitType} — outerwear: ${c.jacket}, top: ${c.topBrand?`${c.topBrand} `:''}${c.top}, bottom: ${c.bottomBrand?`${c.bottomBrand} `:''}${c.bottom}, shoes: ${c.shoesBrand?`${c.shoesBrand} `:''}${c.shoes}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${sockRenderNote(c,true)}${c.tie?` Tie: ${c.tie}.`:''}${c.coat?` Coat: ${c.coat}.`:''}${c.suitSilhouette?` Suit silhouette: ${c.suitSilhouette}.${c.slacksFitText?` Slacks fit "${c.slacksFitText}", hem finish "${c.hemFinishText}", length "${suitHemOf(c)}".`:''}`:''}${c.workFitNote?` ${c.workFitNote}.`:''}${accText(c,false,true)} `;
-    return `職業服装の内容：${c.outfitBrand?`${c.outfitBrand}の`:''}${c.outfitType}。上着は${c.jacket}、トップスは${c.topBrand?`${c.topBrand}の`:''}${c.top}、ボトムスは${c.bottomBrand?`${c.bottomBrand}の`:''}${c.bottom}、靴は${c.shoesBrand?`${c.shoesBrand}の`:''}${c.shoesColor?`${c.shoesColor}の`:''}${c.shoes}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。${sockRenderNote(c,false)}${c.tie?`ネクタイは${c.tie}。`:''}${c.coat?`コートは${c.outerBrand?`${c.outerBrand}の`:''}${c.coat}。`:''}${c.suitSilhouette?`スーツのシルエットは「${c.suitSilhouette}」。`:''}${c.slacksFitText?`スラックスは${c.slacksFitText}で、裾は${c.hemFinishText||'シングル（プレーン）仕上げ'}、丈は${suitHemOf(c)}。`:''}${c.workFitNote?`${c.workFitNote}。`:''}${accText(c,false,false)}`;
+    if(english) return `Work outfit contents: ${c.outfitBrand?`${c.outfitBrand} `:''}${c.outfitType} — outerwear: ${c.outerColor&&c.jacket&&c.jacket!=='なし'?`${c.outerColor} `:''}${c.jacket}, top: ${c.topBrand?`${c.topBrand} `:''}${c.topColor?`${c.topColor} `:''}${c.top}, bottom: ${c.bottomBrand?`${c.bottomBrand} `:''}${c.bottomColor?`${c.bottomColor} `:''}${c.bottom}, shoes: ${c.shoesBrand?`${c.shoesBrand} `:''}${c.shoes}, socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${sockRenderNote(c,true)}${c.tie?` Tie: ${c.tie}.`:''}${c.coat?` Coat: ${c.coat}.`:''}${c.suitSilhouette?` Suit silhouette: ${c.suitSilhouette}.${c.slacksFitText?` Slacks fit "${c.slacksFitText}", hem finish "${c.hemFinishText}", length "${suitHemOf(c)}".`:''}`:''}${c.workFitNote?` ${c.workFitNote}.`:''}${accText(c,false,true)} `;
+    return `職業服装の内容：${c.outfitBrand?`${c.outfitBrand}の`:''}${c.outfitType}。上着は${c.outerColor&&c.jacket&&c.jacket!=='なし'?`${c.outerColor}の`:''}${c.jacket}、トップスは${c.topBrand?`${c.topBrand}の`:''}${c.topColor?`${c.topColor}の`:''}${c.top}、ボトムスは${c.bottomBrand?`${c.bottomBrand}の`:''}${c.bottomColor?`${c.bottomColor}の`:''}${c.bottom}、靴は${c.shoesBrand?`${c.shoesBrand}の`:''}${c.shoesColor?`${c.shoesColor}の`:''}${c.shoes}、靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。${sockRenderNote(c,false)}${c.tie?`ネクタイは${c.tie}。`:''}${c.coat?`コートは${c.outerBrand?`${c.outerBrand}の`:''}${c.coat}。`:''}${c.suitSilhouette?`スーツのシルエットは「${c.suitSilhouette}」。`:''}${c.slacksFitText?`スラックスは${c.slacksFitText}で、裾は${c.hemFinishText||'シングル（プレーン）仕上げ'}、丈は${suitHemOf(c)}。`:''}${c.workFitNote?`${c.workFitNote}。`:''}${accText(c,false,false)}`;
   }
   function innerCasualNotes(c, english=false){
     const notes = [c.holidayGapSuit ? (english?'He wears a suit even on his day off — to him, this IS casual':'休日なのにスーツ。本人は私服のつもり') : '', c.holidayStyleNote || c.styleNote, c.muscleFashionNote, c.senseFashionNote].filter(Boolean);
@@ -7766,7 +7976,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
     const profile = vibeProfile(vibe, age);
     const gapMode = Math.random() < 0.15;
     let role = FRIEND_CTX ? (FRIEND_CTX.role || chooseRoleByMbti(age, vibe, mbti, eraYear, gapMode)) : (base.role || (initial.occupation && initial.occupation !== 'ランダム' ? initial.occupation : chooseRoleByMbti(age, vibe, mbti, eraYear, gapMode)));
-    if(nationality && nationality!=='日本' && /国鉄職員|自衛官|人力車の車夫|僧侶|寿司職人/.test(role)) role = pick(['営業職','ITエンジニア','カフェ店員','工場勤務','大学生']);
+    if(nationality && nationality!=='日本' && /国鉄職員|鉄道職員|自衛官|人力車の車夫|僧侶|寿司職人/.test(role)) role = pick(['営業職','ITエンジニア','カフェ店員','工場勤務','大学生']);
     const holidayPersona = !!(VIBE_OCC[vibe] && VIBE_OCC[vibe].bad.includes(role));
     const occRowForAge = OCCUPATIONS.find(o=>o[0]===role);
     if(occRowForAge && !base.age){
@@ -7887,7 +8097,7 @@ ${c.siblingOf?`◆兄弟モード：本人の基準カードを参照スロッ�
       if(!entries.length) return chooseOutfitByMbti(age, rareMode, vibe, mbti);
       return weighted(entries);
     };
-    let outfitType = fixed.outfitType || base.outfitType || (Math.random()<0.75 && roleWorkType(role, Number(eraYear)||2026, mbti)) || pickOutfitType(true);
+    let outfitType = fixed.outfitType || base.outfitType || ((OCC_WORK_STYLES(role, Number(eraYear)||2026) ? true : Math.random()<0.75) && roleWorkType(role, Number(eraYear)||2026, mbti)) || pickOutfitType(true); // V4.6.1: 職業別表がある職業は常に表から抽選
     if(occFull && (UNIFORM_WORKWEAR[role] || UNIFORM_VARIANTS[role]) && !fixed.outfitType && !base.outfitType) outfitType = '職業制服';
     let holidayOutfitType = base.holidayOutfitType || pickOutfitType(false);
     if(holidayOutfitType === outfitType){ const retry = pickOutfitType(false); if(retry !== outfitType) holidayOutfitType = retry; }
@@ -8480,6 +8690,28 @@ ${promptTargetGuide(c, false)}`;
       if(key==='accessoriesEdit' || key==='holidayAccessoriesEdit') return ['なし','ビジネス腕時計','タフネス系デジタル腕時計','スマートウォッチ','機械式の高級腕時計','シンプルな腕時計','革ベルトの腕時計','シルバーチェーンネックレス','華奢なシルバーネックレス','喜平ネックレス','片耳のシルバーピアス','両耳の小ぶりなピアス','左薬指に結婚指輪','ミサンガ','アンクレット'];
       if(['shoesBrand','holidayShoesBrand'].includes(key)){ const hol=key.startsWith('holiday'); const item=hol?current.holidayShoes:current.shoes; const type=hol?(current.holidayOutfitType||current.outfitType):current.outfitType; const pool=[]; for(let i2=0;i2<40;i2++){ const b=resolvePartBrand('shoes', item, type, {senseText:current.fashionSenseText, incomeText:current.incomeText}, current.vibe, current.eraYear, 'normal'); if(!pool.includes(b)) pool.push(b); } return ['（指定なし）'].concat(pool.sort()); }
       if(['shoesColor','holidayShoesColor'].includes(key)) return ['（指定なし）','白','黒','グレー','ネイビー','ダークブラウン','赤茶','バーガンディ','ベージュ','赤の差し色','白の厚底ダッド系','黒鼻緒','紺鼻緒'];
+      // V4.6.0 B3: 職業側の部位ブランド・色。推奨候補を先頭に置き、以降は全候補から自由選択
+      if(['outerBrand','topBrand','bottomBrand'].includes(key)){
+        const t=current.outfitType||'';
+        const suitT=FV_SUIT_TYPES.includes(t);
+        const rec = suitT ? ['SUIT SELECT','洋服の青山','AOKI','ORIHICA','THE SUIT COMPANY','UNIQLO']
+                  : /ワークウェア/.test(t) ? ['ワークマン','Dickies','BURTLE','寅壱','UNIQLO']
+                  : ['UNIQLO','無印良品','GLOBAL WORK','GU','BEAMS','UNITED ARROWS'];
+        const base = eraBrandList(['UNIQLO','GU','無印良品','BEAMS','UNITED ARROWS','SHIPS','GLOBAL WORK','URBAN RESEARCH','JOURNAL STANDARD','coen',"Levi's",'EDWIN','NIKE','adidas','Champion','無地ノーブランド','SUIT SELECT','洋服の青山','AOKI','ORIHICA','THE SUIT COMPANY','ワークマン','Dickies','BURTLE','寅壱'], current.eraYear);
+        const pool = rec.concat(base.filter(v=>!rec.includes(v)));
+        return ['（指定なし）'].concat(pool.filter((v,i2,a)=>a.indexOf(v)===i2));
+      }
+      if(['outerColor','topColor','bottomColor'].includes(key)){
+        const t=current.outfitType||'';
+        const suitT=FV_SUIT_TYPES.includes(t);
+        const rec = suitT ? (key==='topColor' ? ['白','サックスブルー','薄いストライプ'] : ['ネイビー','チャコールグレー','グレー'])
+                  : /ワークウェア/.test(t) ? ['ネイビー','カーキ','グレー','ベージュ']
+                  : ['白','ネイビー','グレー','黒','ベージュ'];
+        const y=Number(current.eraYear)||2026; const l=FV_COLORS.map(x=>x[0]);
+        for(const [c0,f,t2] of FV_COLORS_ERA) if(y>=f&&y<=t2) l.push(c0);
+        const pool = rec.concat(l.filter(v=>!rec.includes(v)));
+        return ['（指定なし）'].concat(pool.filter((v,i2,a)=>a.indexOf(v)===i2));
+      }
       const HB_KEYS=['holidayOuterBrand','holidayTopBrand','holidayBottomBrand'];
       if(HB_KEYS.includes(key)){
         const base = eraBrandList(['UNIQLO','GU','無印良品','BEAMS','UNITED ARROWS','SHIPS','GLOBAL WORK','URBAN RESEARCH','JOURNAL STANDARD','WEGO','coen',"Levi's",'EDWIN','NIKE','adidas','Champion','無地ノーブランド'], current.eraYear);
@@ -8495,12 +8727,14 @@ ${promptTargetGuide(c, false)}`;
       if(key==='holidaySockColor') return ['白','黒','グレー','ネイビー','生成り','ライン入り白','ワンポイント白'];
       if(key==='holidaySockType') return ['クルー丈ソックス','ライン入りソックス','ワンポイントソックス','インビジブルソックス','ビジネスソックス','厚手のパイルソックス','リブソックス'];
       if(key==='holidayStyleNote') return ['—','清潔感重視のベーシックな着こなし','柄物や差し色をその日の気分で','モノトーン中心・機能優先','柔らかい色味と肌ざわり重視','サイズ感が微妙に合っていない','古着ミックスの味のある風合い'];
+      if(key==='bodyHairAll' || key==='bodyHairOverall') return pools.bodyHairOverall.slice();
+      if(['chestHair','abdominalHair','lowerAbdomenHair','armHair','shinHair','thighHair','armpitHair','handFingerHair','footToeHair','backHair'].includes(key)) return pools.bodyHairLevels.slice();
       if(key==='facePresetOut') return ['含める','含めない'];
       if(key==='snapMode') return pools.snapModes;
       if(key==='mjMode') return ['OFF','ON'];
       if(key==='catchText'){ const s=new Set(); for(let i2=0;i2<14 && s.size<8;i2++) s.add(buildBioHook2(current)); s.add(buildBioHook(current)); return [...s]; }
       if(key==='bioText'){ const s=new Set(); for(let i2=0;i2<10 && s.size<6;i2++){ const v=buildBioLine2(current); if(v) s.add(v); } s.add(bioLine(current,false)); return [...s]; }
-      if(key==='outfitType') return WORK_STYLES.slice();
+      if(key==='outfitType') return WORK_STYLES.concat(NEW_WORK_STYLES);
       if(key==='holidayOutfitType'){ const y3=Number(current.eraYear)||2026; return pools.outfitTypes.filter(t=>!WORK_STYLES.includes(t)||t==='社会人カジュアル').concat(CASUAL_NEW.filter(t=>typeInEra(t,y3))).filter((v,i2,a)=>a.indexOf(v)===i2); }
       if(key==='smileEyes') return SMILE_EYES;
       if(key==='smileStyle') return SMILE_STYLES;
@@ -8690,7 +8924,7 @@ ${promptTargetGuide(c, false)}`;
     f.friendOf = {name: baseC.name, age: baseC.age, role: baseC.role, relation: relName, hierarchy: hierName};
     f.friendBase = baseC;
     generateInnerProfile(f, ['friend']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.5.2'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.6.1'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -8720,7 +8954,7 @@ ${promptTargetGuide(c, false)}`;
     half.forEach(k=>{ if(baseC[k] && Math.random()<0.5) f[k]=baseC[k]; });
     f.siblingOf = {name: baseC.name, kind, age: baseC.age};
     generateInnerProfile(f, ['family']);
-    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.5.2'});
+    const history = loadHistory(); history.unshift({...baseC, appVersion:'V4.6.1'});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0,50)));
     currentGroup = null; activeMember = 0;
     current = f;
@@ -8857,7 +9091,7 @@ ${promptTargetGuide(c, false)}`;
     ['引き締まり体型', 5, c=>/細マッチョ|痩せマッチョ|水泳選手|逆三角形|クライマー/.test(String(c.bodyType))],
     ['長いまつ毛', 4, c=>String(c.eyelash).includes('長め')],
     ['ふっくら涙袋', 4, c=>['ふっくら','ややはっきり'].includes(String(c.tearBags))],
-    ['珍しい職業', 8, c=>['僧侶','書道家','防衛大学校学生','国鉄職員','パイロット','アナウンサー','ライフガード','電車運転士','プロスポーツ選手','漁師'].includes(c.role)],
+    ['珍しい職業', 8, c=>['僧侶','書道家','防衛大学校学生','鉄道職員','国鉄職員','パイロット','アナウンサー','ライフガード','電車運転士','プロスポーツ選手','漁師'].includes(c.role)],
     ['珍しいMBTI', 6, c=>['INFJ','INTJ','ENTJ'].includes(c.mbti)],
     ['脚長スタイル', 6, c=>['長い','非常に長い'].includes(String(c.legLength))],
     ['特徴的な髪型', 5, c=>/マンバン|スキンフェード|アフロ|ツイスト|スパイラル|ウルフ|アシメ/.test(String(c.hairStyle))]
@@ -9004,7 +9238,27 @@ ${promptTargetGuide(c, false)}`;
       const ng = document.createElement('button'); ng.className='pf-btn'; ng.textContent = uiLang==='en'?'Cancel':'キャンセル'; ng.onclick=()=>ed.remove();
       ed.append(ok, ng); kv.append(ed); return;
     }
-    const keys = btn.dataset.pEdit.split(',');
+    if(btn.dataset.pEdit==='accessoriesEdit' || btn.dataset.pEdit==='holidayAccessoriesEdit'){
+      // V4.6.0 A5: アクセサリーは複数選択（最大3点）。「なし」は全解除
+      const hol = btn.dataset.pEdit==='holidayAccessoriesEdit';
+      const kv2 = btn.closest('.kv'); if(!kv2 || kv2.querySelector('.pf-editor')) return;
+      const cur = ((hol?current.holidayAccessories:current.accessories)||[]).slice();
+      const pool = slotEditPool(btn.dataset.pEdit).filter(v=>v!=='なし');
+      cur.forEach(v=>{ if(!pool.includes(v)) pool.unshift(v); });
+      const ed2 = document.createElement('div'); ed2.className='pf-editor';
+      const note = document.createElement('div'); note.className='notice'; note.textContent = uiLang==='en' ? 'Select up to 3 (none checked = "none")' : '最大3点まで選択（何も選ばなければ「なし」）'; ed2.appendChild(note);
+      const boxWrap = document.createElement('div'); boxWrap.style.cssText='display:flex;flex-wrap:wrap;gap:4px 12px;margin:4px 0';
+      const cbs = pool.map(v=>{ const l=document.createElement('label'); l.style.cssText='display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#dbeafe'; const cb=document.createElement('input'); cb.type='checkbox'; cb.value=v; cb.checked=cur.includes(v); cb.onchange=()=>{ const n=cbs.filter(x=>x.checked).length; if(n>3){ cb.checked=false; } }; l.appendChild(cb); l.appendChild(document.createTextNode(v)); boxWrap.appendChild(l); return cb; });
+      ed2.appendChild(boxWrap);
+      const bar2 = document.createElement('div'); bar2.style.cssText='display:flex;gap:6px';
+      const okB2 = document.createElement('button'); okB2.className='pf-btn'; okB2.textContent='OK';
+      const ngB2 = document.createElement('button'); ngB2.className='pf-btn'; ngB2.textContent='\u2715';
+      okB2.onclick=()=>{ const arr=cbs.filter(x=>x.checked).map(x=>x.value).slice(0,3); if(hol) current.holidayAccessories=arr; else current.accessories=arr; renderAll(); };
+      ngB2.onclick=()=>renderAll();
+      bar2.appendChild(okB2); bar2.appendChild(ngB2); ed2.appendChild(bar2);
+      kv2.appendChild(ed2); return;
+    }
+    const keys = btn.dataset.pEdit==='bodyHairAll' ? BODYHAIR_KEYS.slice() : btn.dataset.pEdit.split(',');
     const ed = document.createElement('div');
     ed.className = 'pf-editor';
     const sels = [];
@@ -9049,7 +9303,7 @@ Preserve the character's identity. Era setting: ${c.eraYear || '2026'} CE. ${era
 
 ${mode==='holiday'
   ? `[Casual outfit] This is his personal, off-duty style that reflects his personality and vibe. Base the outfit on ${c.holidayOutfitBrand || c.outfitBrand} ${c.holidayOutfitType || c.outfitType}. Outerwear: ${c.holidayOuterBrand?`${c.holidayOuterBrand} `:''}${c.holidayJacket || 'none'}. Top: ${c.holidayTopBrand?`${c.holidayTopBrand} `:''}${c.holidayTopColor?`${c.holidayTopColor} `:''}${c.holidayTop || c.top}. Bottom: ${c.holidayBottomBrand?`${c.holidayBottomBrand} `:''}${c.holidayBottomColor?`${c.holidayBottomColor} `:''}${c.holidayBottom || c.bottom}. Shoes: ${c.holidayShoesBrand?`${c.holidayShoesBrand} `:''}${c.holidayShoes || c.shoes}. Socks: ${c.holidaySockBrand || c.sockBrand} ${c.holidaySockType || c.sockType} (${c.holidaySockColor || c.sockColor}).${c.holidayEraFashionNote?` Overall silhouette: ${c.holidayEraFashionNote}.`:''}${accText(c,true,true)}${innerCasualNotes(c, true)}`
-  : c.workUniform ? `[Work uniform — as a ${(typeof valueTranslations!=='undefined' && valueTranslations[c.role]) || displayValue('role', c.role) || c.role}] He wears ${natUniformFix(c, c.workUniformEn, true)}. Depict it as practical issued workwear. Do NOT reproduce insignia or logos of any real organization, unit, or company; any fictional organization names, lettering, and design details specified in the outfit description (such as "足草消防" / "足草県警察") must be rendered exactly as written. Outerwear: ${c.jacket && c.jacket !== 'なし' ? c.jacket : 'none'}. Top: ${c.top}.${policeGearText(c,true)} Bottom: ${c.bottom}. Shoes: ${c.shoes}${uniformHatPhrase(c, true)}. Socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${sockRenderNote(c,true)}${accText(c,false,true)}` : `[Work outfit${c.role ? ` — as a ${displayValue('role', c.role)}` : ''}] Base the outfit on ${c.outfitBrand?`${c.outfitBrand} `:''}${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.topBrand?`${c.topBrand} `:''}${c.top}. Bottom: ${c.bottomBrand?`${c.bottomBrand} `:''}${c.bottom}. Shoes: ${c.shoesBrand?`${c.shoesBrand} `:''}${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.${sockRenderNote(c,true)}${c.tie?` Tie: ${c.tie}.`:''}${c.coat?` Coat: ${c.coat}.`:''}${c.suitSilhouette?` Suit silhouette: ${c.suitSilhouette}.${c.slacksFitText?` Slacks fit "${c.slacksFitText}", hem finish "${c.hemFinishText}", length "${suitHemOf(c)}".`:''}`:''}${c.workFitNote?` ${c.workFitNote}.`:''}${accText(c,false,true)}`}
+  : c.workUniform ? `[Work uniform — as a ${(typeof valueTranslations!=='undefined' && valueTranslations[c.role]) || displayValue('role', c.role) || c.role}] He wears ${natUniformFix(c, c.workUniformEn, true)}. Depict it as practical issued workwear. Do NOT reproduce insignia or logos of any real organization, unit, or company; any fictional organization names, lettering, and design details specified in the outfit description (such as "足草消防" / "足草県警察") must be rendered exactly as written. Outerwear: ${c.jacket && c.jacket !== 'なし' ? c.jacket : 'none'}. Top: ${c.top}.${policeGearText(c,true)} Bottom: ${c.bottom}. Shoes: ${c.shoes}${uniformHatPhrase(c, true)}. Socks: ${c.sockBrand} ${c.sockType} (${c.sockColor}, ${c.sockUse}).${sockRenderNote(c,true)}${accText(c,false,true)}` : `[Work outfit${c.role ? ` — as a ${displayValue('role', c.role)}` : ''}] Base the outfit on ${c.outfitBrand?`${c.outfitBrand} `:''}${c.outfitType}. Outerwear: ${c.jacket}. Top: ${c.topBrand?`${c.topBrand} `:''}${c.topColor?`${c.topColor} `:''}${c.top}. Bottom: ${c.bottomBrand?`${c.bottomBrand} `:''}${c.bottomColor?`${c.bottomColor} `:''}${c.bottom}. Shoes: ${c.shoesBrand?`${c.shoesBrand} `:''}${c.shoes}. Socks: ${c.sockBrand} ${c.sockType}; shape: ${c.sockShape}; material: ${c.sockMaterial}; color/pattern: ${c.sockColor}; condition: ${c.sockUse}.${sockRenderNote(c,true)}${c.tie?` Tie: ${c.tie}.`:''}${c.coat?` Coat: ${c.coat}.`:''}${c.suitSilhouette?` Suit silhouette: ${c.suitSilhouette}.${c.slacksFitText?` Slacks fit "${c.slacksFitText}", hem finish "${c.hemFinishText}", length "${suitHemOf(c)}".`:''}`:''}${c.workFitNote?` ${c.workFitNote}.`:''}${accText(c,false,true)}`}
 
 ${styleEn}
 Era setting: around ${c.eraYear || '2026'}. Match the garment silhouettes, fabrics, and accessories to this period.\n${adultUniformEn}
@@ -9064,7 +9318,7 @@ ${targetEn}`;
 
 ${mode==='holiday'
   ? `【私服コーデ】仕事とは違う、本人の性格や雰囲気が表れる私服として描く。服装は${c.holidayOutfitBrand || c.outfitBrand}の${c.holidayOutfitType || c.outfitType}を基調にする。上着は${c.holidayOuterBrand?`${c.holidayOuterBrand}の`:''}${c.holidayJacket || 'なし'}、トップスは${c.holidayTopBrand?`${c.holidayTopBrand}の`:''}${c.holidayTopColor?`${c.holidayTopColor}の`:''}${c.holidayTop || c.top}、ボトムスは${c.holidayBottomBrand?`${c.holidayBottomBrand}の`:''}${c.holidayBottomColor?`${c.holidayBottomColor}の`:''}${c.holidayBottom || c.bottom}、靴は${c.holidayShoesBrand?`${c.holidayShoesBrand}の`:''}${c.holidayShoesColor?`${c.holidayShoesColor}の`:''}${c.holidayShoes || c.shoes}。靴下は${c.holidaySockBrand || c.sockBrand}の${c.holidaySockType || c.sockType}（${c.holidaySockColor || c.sockColor}）。${c.holidayEraFashionNote?`全体は${c.holidayEraFashionNote}。`:''}${accText(c,true,false)}${innerCasualNotes(c)}`
-  : c.workUniform ? `【職業コーデ（${c.role}の勤務服）】服装は${c.workUniform}。支給品らしい実用的な着こなしで描く。実在の特定組織・部隊・企業の記章やロゴは再現しない。服装指定に含まれる架空の組織名・文字・デザイン（「足草消防」「足草県警察」など）は、指定どおり正確に描く。上着は${c.jacket && c.jacket !== 'なし' ? c.jacket : 'なし'}、トップスは${c.top}${policeGearText(c,false)}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}。靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。${sockRenderNote(c,false)}${accText(c,false,false)}` : `【職業コーデ${c.role ? `（${c.role}の仕事着・仕事帰りの装い）` : ''}】服装は${c.outfitBrand?`${c.outfitBrand}の`:''}${c.outfitType}を基調にする。上着は${c.jacket}、トップスは${c.topBrand?`${c.topBrand}の`:''}${c.top}、ボトムスは${c.bottomBrand?`${c.bottomBrand}の`:''}${c.bottom}、靴は${c.shoesBrand?`${c.shoesBrand}の`:''}${c.shoesColor?`${c.shoesColor}の`:''}${c.shoes}。靴下は${c.sockBrand}の${c.sockType}で、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。${sockRenderNote(c,false)}${c.tie?`ネクタイは${c.tie}。`:''}${c.coat?`コートは${c.outerBrand?`${c.outerBrand}の`:''}${c.coat}。`:''}${c.suitSilhouette?`スーツのシルエットは「${c.suitSilhouette}」。`:''}${c.slacksFitText?`スラックスは${c.slacksFitText}で、裾は${c.hemFinishText||'シングル（プレーン）仕上げ'}、丈は${suitHemOf(c)}。`:''}${c.workFitNote?`${c.workFitNote}。`:''}${accText(c,false,false)}`}
+  : c.workUniform ? `【職業コーデ（${c.role}の勤務服）】服装は${c.workUniform}。支給品らしい実用的な着こなしで描く。実在の特定組織・部隊・企業の記章やロゴは再現しない。服装指定に含まれる架空の組織名・文字・デザイン（「足草消防」「足草県警察」など）は、指定どおり正確に描く。上着は${c.jacket && c.jacket !== 'なし' ? c.jacket : 'なし'}、トップスは${c.top}${policeGearText(c,false)}、ボトムスは${c.bottom}、靴は${c.shoes}${uniformHatPhrase(c, false)}。靴下は${c.sockBrand}の${c.sockType}（${c.sockColor}、${c.sockUse}）。${sockRenderNote(c,false)}${accText(c,false,false)}` : `【職業コーデ${c.role ? `（${c.role}の仕事着・仕事帰りの装い）` : ''}】服装は${c.outfitBrand?`${c.outfitBrand}の`:''}${c.outfitType}を基調にする。上着は${c.outerColor&&c.jacket&&c.jacket!=='なし'?`${c.outerColor}の`:''}${c.jacket}、トップスは${c.topBrand?`${c.topBrand}の`:''}${c.topColor?`${c.topColor}の`:''}${c.top}、ボトムスは${c.bottomBrand?`${c.bottomBrand}の`:''}${c.bottomColor?`${c.bottomColor}の`:''}${c.bottom}、靴は${c.shoesBrand?`${c.shoesBrand}の`:''}${c.shoesColor?`${c.shoesColor}の`:''}${c.shoes}。靴下は${c.sockBrand}の${c.sockType}で、形状は${c.sockShape}、素材は${c.sockMaterial}、色・柄は${c.sockColor}、使用感は${c.sockUse}。${sockRenderNote(c,false)}${c.tie?`ネクタイは${c.tie}。`:''}${c.coat?`コートは${c.outerBrand?`${c.outerBrand}の`:''}${c.coat}。`:''}${c.suitSilhouette?`スーツのシルエットは「${c.suitSilhouette}」。`:''}${c.slacksFitText?`スラックスは${c.slacksFitText}で、裾は${c.hemFinishText||'シングル（プレーン）仕上げ'}、丈は${suitHemOf(c)}。`:''}${c.workFitNote?`${c.workFitNote}。`:''}${accText(c,false,false)}`}
 
 ${styleJa}
 時代設定は${eraLabel(c.eraYear)}頃。${countryLine(c, false)}${seasonLine(c, false)}服のシルエット・素材感・小物もこの年代に合わせる。\n${adultUniformJa}
@@ -9278,7 +9532,58 @@ ${targetJa}
     if(c.headwearOn === undefined) c.headwearOn = true;
     c.jacket = (v[8] && c.season === '冬') ? v[8] : 'なし';
   }
-  function buildUniformEditRows(c, L){
+  function sockEditContext(c){
+    const SOCK_BRANDS = ['Fukuske','靴下屋','Tabio','無印良品','ユニクロ','しまむら','ワークマン','GU','NIKE','adidas','Champion','ROTOTO','CHICSTOCKS','無地ノーブランド','官品支給','自前の機能性ソックス','ワークショップの軍足系（3足組）','私物'];
+    const SOCK_TYPES = {'ビジネスソックス':'薄手ビジネス形状','無地のクルー丈ソックス':'標準的な中厚','リブ編みのクルー丈ソックス':'リブ編み','柄物のクルーソックス':'標準的な中厚','白のスポーツソックス':'先丸・スポーツ形状','先丸の厚手パイルソックス（クルー丈）':'先丸・厚手パイル編み','5本指の機能ソックス（クルー丈）':'5本指形状','行軍用の5本指ソックス（ハイソックス丈）':'5本指形状・超肉厚','アンクルソックス':'先丸・くるぶし上まで','インビジブルソックス':'浅履き形状','足袋型ソックス':'親指だけが分かれた2本指構造'};
+    const SOCK_COLORS = ['黒','紺','白','グレー','チャコール','ベージュ','柄（差し色）','OD（オリーブ）'];
+    const SOCK_MATS = ['綿混','綿ポリエステル混','ナイロン混（薄手）','綿混パイル','ウール混（厚手）','吸汗速乾の機能繊維混（つま先・かかと補強）','コストを抑えた綿ポリエステル混'];
+    const SOCK_USES = ['新品に近い','洗濯が行き届いた使用感','清潔だが生活感あり','少し履き込まれている','かかとがやや薄くなっている','毛羽立ちが少しある'];
+    const suitish = /会計士|銀行|弁護士|公務員|コンサル|営業|商社|不動産|保険|アナウンサー/.test(String(c.role||''));
+    const dutyR = ['消防士','警察官','自衛官','救急隊員','防衛大学校学生'].includes(String(c.role||''));
+    const st2 = String(c.fashionSenseText||'') + String(c.sockPairText||'');
+    const recFor = (kind, work) => {
+      if(kind==='brand'){ if(work && dutyR) return ['官品支給','自前の機能性ソックス']; if(work && suitish) return ['Fukuske','靴下屋']; return /靴下|柄物/.test(st2) ? ['Tabio','靴下屋'] : ['ユニクロ','無印良品']; }
+      if(kind==='type'){ if(work && dutyR) return String(c.role)==='警察官' ? ['先丸の厚手パイルソックス（クルー丈）','5本指の機能ソックス（クルー丈）'] : ['先丸の厚手パイルソックス（クルー丈）','無地のクルー丈ソックス']; if(work && suitish) return ['ビジネスソックス']; if(/見せない派/.test(st2)) return ['アンクルソックス','インビジブルソックス']; if(/柄物/.test(st2)) return ['柄物のクルーソックス']; return ['無地のクルー丈ソックス','リブ編みのクルー丈ソックス']; }
+      if(kind==='color'){ if(work && (dutyR||suitish)) return ['黒','紺']; return /柄物/.test(st2) ? ['柄（差し色）','白'] : ['黒','白','グレー']; }
+      if(kind==='mat'){ if(work && dutyR) return ['吸汗速乾の機能繊維混（つま先・かかと補強）','コストを抑えた綿ポリエステル混']; if(work && suitish) return ['綿混','ナイロン混（薄手）']; return ['綿混']; }
+      if(kind==='use'){ if(/靴下|アイロン/.test(st2)) return ['洗濯が行き届いた使用感','新品に近い']; return ['清潔だが生活感あり','洗濯が行き届いた使用感']; }
+      return [];
+    };
+    window.SOCK_TYPE_SHAPE_MAP = SOCK_TYPES;
+    return {SOCK_BRANDS, SOCK_TYPES, SOCK_COLORS, SOCK_MATS, SOCK_USES, recFor};
+  }
+  function rerollSocks(c, work){
+    // V4.6.0 A4: 人物・コーデ・職業（平日文脈）に沿って5項目一括抽選
+    const ctx = sockEditContext(c);
+    const pickR = (rec, pool) => { const base = (rec && rec.length && Math.random()<0.85) ? rec.filter(v=>pool.includes(v)) : pool; const b2 = base.length?base:pool; return b2[Math.floor(Math.random()*b2.length)]; };
+    const brand = pickR(ctx.recFor('brand',work), ctx.SOCK_BRANDS);
+    const type  = pickR(ctx.recFor('type',work), Object.keys(ctx.SOCK_TYPES));
+    const color = pickR(ctx.recFor('color',work), ctx.SOCK_COLORS);
+    const mat   = pickR(ctx.recFor('mat',work), ctx.SOCK_MATS);
+    const use   = pickR(ctx.recFor('use',work), ctx.SOCK_USES);
+    if(work){ c.sockBrand=brand; c.sockType=type; c.sockColor=color; c.sockMaterial=mat; c.sockUse=use; c.sockShape=ctx.SOCK_TYPES[type]||c.sockShape; }
+    else { c.holidaySockBrand=brand; c.holidaySockType=type; c.holidaySockColor=color; c.holidaySockMaterial=mat; c.holidaySockUse=use; c.holidaySockShape=ctx.SOCK_TYPES[type]||c.holidaySockShape; }
+  }
+function buildOutfitLinkedMemo(c, holiday){
+    // V4.6.0 C1: 現在の品目・色・シルエット・センスから着こなしメモを再構成
+    const en = uiLang==='en';
+    const col = holiday ? (c.holidayTopColor||c.holidayOuterColor||c.holidayBottomColor||'') : (c.topColor||c.outerColor||c.bottomColor||'');
+    const type = holiday ? (c.holidayOutfitType||'') : (c.outfitType||'');
+    const sil = !holiday && c.suitSilhouette ? c.suitSilhouette : '';
+    const sense = String(c.fashionSenseText||'');
+    const bits=[];
+    if(col) bits.push(en?`coordinated around ${col}`:`${col}を軸にまとめた配色`);
+    if(sil) bits.push(en?`with a ${sil} silhouette`:`${sil}のシルエットを意識`);
+    else if(type) bits.push(en?`based on ${displayValue('outfitType',type)||type}`:`${displayValue('outfitType',type)||type}を基調に`);
+    if(/柄物|差し色/.test(sense)) bits.push(en?'patterns and accent colors to taste':'柄物や差し色をアクセントに');
+    else if(/古着/.test(sense)) bits.push(en?'with a vintage-mix texture':'古着ミックスの風合いを添えて');
+    else if(/シンプル|ベーシック|清潔|定番/.test(sense)) bits.push(en?'kept clean and basic':'清潔感重視でシンプルに');
+    if(/ゆる|オーバー|余裕|リラックス/.test(sense)) bits.push(en?'in a relaxed fit':'少し余裕のあるサイズ感で');
+    else if(/ジャスト|きっちり|サイズ感/.test(sense)) bits.push(en?'in a precise fit':'ジャストサイズを守った着こなし');
+    if(!bits.length) return en?'A straightforward, occasion-appropriate look.':'場に合わせた素直な着こなし。';
+    return en ? bits.join(', ')+'.' : bits.join('、')+'の着こなし';
+  }
+    function buildUniformEditRows(c, L){
     const rows = [];
     const hasUniform = !!(c.workUniform && UNIFORM_VARIANTS[c.role]);
     const variants = hasUniform ? UNIFORM_VARIANTS[c.role] : [];
@@ -9289,22 +9594,8 @@ ${targetJa}
       rows.push([L.uniformKind, displayValue('workUniform', c.workUniform) || c.workUniform]);
     }
     {
-      const SOCK_BRANDS = ['Fukuske','靴下屋','Tabio','無印良品','ユニクロ','しまむら','ワークマン','GU','NIKE','adidas','Champion','ROTOTO','CHICSTOCKS','無地ノーブランド','官品支給','自前の機能性ソックス','ワークショップの軍足系（3足組）','私物'];
-      const SOCK_TYPES = {'ビジネスソックス':'薄手ビジネス形状','無地のクルー丈ソックス':'標準的な中厚','リブ編みのクルー丈ソックス':'リブ編み','柄物のクルーソックス':'標準的な中厚','白のスポーツソックス':'先丸・スポーツ形状','先丸の厚手パイルソックス（クルー丈）':'先丸・厚手パイル編み','5本指の機能ソックス（クルー丈）':'5本指形状','行軍用の5本指ソックス（ハイソックス丈）':'5本指形状・超肉厚','アンクルソックス':'先丸・くるぶし上まで','インビジブルソックス':'浅履き形状','足袋型ソックス':'親指だけが分かれた2本指構造'};
-      const SOCK_COLORS = ['黒','紺','白','グレー','チャコール','ベージュ','柄（差し色）','OD（オリーブ）'];
-      const SOCK_MATS = ['綿混','綿ポリエステル混','ナイロン混（薄手）','綿混パイル','ウール混（厚手）','吸汗速乾の機能繊維混（つま先・かかと補強）','コストを抑えた綿ポリエステル混'];
-      const SOCK_USES = ['新品に近い','洗濯が行き届いた使用感','清潔だが生活感あり','少し履き込まれている','かかとがやや薄くなっている','毛羽立ちが少しある'];
-      const suitish = /会計士|銀行|弁護士|公務員|コンサル|営業|商社|不動産|保険|アナウンサー/.test(String(c.role||''));
-      const dutyR = ['消防士','警察官','自衛官','救急隊員','防衛大学校学生'].includes(String(c.role||''));
-      const st2 = String(c.fashionSenseText||'') + String(c.sockPairText||'');
-      const recFor = (kind, work) => {
-        if(kind==='brand'){ if(work && dutyR) return ['官品支給','自前の機能性ソックス']; if(work && suitish) return ['Fukuske','靴下屋']; return /靴下|柄物/.test(st2) ? ['Tabio','靴下屋'] : ['ユニクロ','無印良品']; }
-        if(kind==='type'){ if(work && dutyR) return String(c.role)==='警察官' ? ['先丸の厚手パイルソックス（クルー丈）','5本指の機能ソックス（クルー丈）'] : ['先丸の厚手パイルソックス（クルー丈）','無地のクルー丈ソックス']; if(work && suitish) return ['ビジネスソックス']; if(/見せない派/.test(st2)) return ['アンクルソックス','インビジブルソックス']; if(/柄物/.test(st2)) return ['柄物のクルーソックス']; return ['無地のクルー丈ソックス','リブ編みのクルー丈ソックス']; }
-        if(kind==='color'){ if(work && (dutyR||suitish)) return ['黒','紺']; return /柄物/.test(st2) ? ['柄（差し色）','白'] : ['黒','白','グレー']; }
-        if(kind==='mat'){ if(work && dutyR) return ['吸汗速乾の機能繊維混（つま先・かかと補強）','コストを抑えた綿ポリエステル混']; if(work && suitish) return ['綿混','ナイロン混（薄手）']; return ['綿混']; }
-        if(kind==='use'){ if(/靴下|アイロン/.test(st2)) return ['洗濯が行き届いた使用感','新品に近い']; return ['清潔だが生活感あり','洗濯が行き届いた使用感']; }
-        return [];
-      };
+      const ctx = sockEditContext(c);
+      const {SOCK_BRANDS, SOCK_TYPES, SOCK_COLORS, SOCK_MATS, SOCK_USES, recFor} = ctx;
       const grpSel = (attr, list, cur, rec) => {
         if(cur && !list.includes(cur)) list = [cur].concat(list); // 現在値がリスト外でも保持
         const rs = rec.filter(v=>list.includes(v));
@@ -9312,16 +9603,21 @@ ${targetJa}
         const op = v => `<option value="${v}"${v===cur?' selected':''}>${v}</option>`;
         return `<select ${attr} style="max-width:130px;background:#0d1a2c;border:1px solid var(--gold);border-radius:8px;color:#eaf2ff;padding:3px 4px;font-size:11px"><optgroup label="★推奨">${rs.map(op).join('')}</optgroup><optgroup label="その他">${others.map(op).join('')}</optgroup></select>`;
       };
+      // V4.6.0 A4: 通常行と同じ「値テキスト＋✎🎲」表記。✎で5セレクトを行内展開、🎲は5項目一括抽選
       const mkRow = (label, pfx, work) => {
         const g = k => work ? c[k] : (c['holidayS'+k.slice(1)] || c[k]);
-        rows.push([label,
+        const scope = work ? 'w' : 'h';
+        const txt = [g('sockBrand'), g('sockType'), g('sockColor'), g('sockMaterial')].filter(Boolean).join('・') + (g('sockUse')?`／${g('sockUse')}`:'');
+        const eds =
           grpSel(`data-sockedit="${pfx}brand"`, SOCK_BRANDS, g('sockBrand'), recFor('brand', work)) + ' ' +
           grpSel(`data-sockedit="${pfx}type"`, Object.keys(SOCK_TYPES), g('sockType'), recFor('type', work)) + ' ' +
           grpSel(`data-sockedit="${pfx}color"`, SOCK_COLORS, g('sockColor'), recFor('color', work)) + ' ' +
           grpSel(`data-sockedit="${pfx}mat"`, SOCK_MATS, g('sockMaterial'), recFor('mat', work)) + ' ' +
-          grpSel(`data-sockedit="${pfx}use"`, SOCK_USES, g('sockUse'), recFor('use', work))]);
+          grpSel(`data-sockedit="${pfx}use"`, SOCK_USES, g('sockUse'), recFor('use', work));
+        rows.push([label,
+          `<span class="sock-tx">${txt||'—'}</span><span class="sock-ed hidden" style="display:inline-flex;flex-wrap:wrap;gap:3px;margin-left:4px">${eds}</span>` +
+          `<span class="pf-actions"><button class="pf-btn" data-sock-open="${scope}" title="${uiLang==='en'?'Edit':'選択修正'}">\u270e</button><button class="pf-btn" data-sock-dice="${scope}" title="${uiLang==='en'?'Reroll all 5':'5項目一括抽選'}">\ud83c\udfb2</button></span>`]);
       };
-      window.SOCK_TYPE_SHAPE_MAP = SOCK_TYPES;
       mkRow(uiLang==='en'?'Socks (work)':'提案靴下（職場）', 'w:', true);
       mkRow(uiLang==='en'?'Socks (casual)':'私服の靴下', 'h:', false);
     }
@@ -9644,12 +9940,18 @@ ${promptTargetGuide(b, false)}`;
         // V4.5.1: 編集用靴下行を職業／私服で分離し、私服の靴下は私服ブロック内に配置（DOM順の根本修正）
         const uniRows = buildUniformEditRows(current, L);
         const uniHol = uniRows.filter(r=>/私服|casual/i.test(String(r[0]))).map(H);
-        rows.push(...uniRows.filter(r=>!/私服|casual/i.test(String(r[0]))).map(W));
+        // V4.6.0 B1: 提案靴下（職場）を靴（平日）の直後に配置
+        const isWSock = r=>/提案靴下（職場）|Socks \(work\)/.test(String(r[0]));
+        const uniWork = uniRows.filter(r=>!/私服|casual/i.test(String(r[0])));
+        const wSock = uniWork.filter(isWSock).map(W);
+        rows.push(...uniWork.filter(r=>!isWSock(r)).map(W));
+        if(current.workUniform) rows.push(...wSock);
         if(!current.workUniform){
-          rows.push(W([en2?'Work Outer':'上着（平日）', `${current.coat?`${B(current.outerBrand)}${current.coat}／中は`:''}${current.jacket||'指定なし'}`, 'jacket']));
-          rows.push(W([en2?'Work Top':'トップス（平日）', `${B(current.topBrand)}${current.top}`, 'top']));
-          rows.push(W([en2?'Work Bottom':'ボトムス（平日）', `${B(current.bottomBrand)}${current.bottom}`, 'bottom']));
+          rows.push(W([en2?'Work Outer':'上着（平日）', `${current.coat?`${B(current.outerBrand)}${current.outerColor?`${current.outerColor}・`:''}${current.coat}／中は`:''}${current.jacket||'指定なし'}`, 'jacket,outerBrand,outerColor']));
+          rows.push(W([en2?'Work Top':'トップス（平日）', `${B(current.topBrand)}${current.topColor?`${current.topColor}・`:''}${current.top}`, 'top,topBrand,topColor']));
+          rows.push(W([en2?'Work Bottom':'ボトムス（平日）', `${B(current.bottomBrand)}${current.bottomColor?`${current.bottomColor}・`:''}${current.bottom}`, 'bottom,bottomBrand,bottomColor']));
           rows.push(W([en2?'Work Shoes':'靴（平日）', `${B(current.shoesBrand)}${current.shoesColor?`${current.shoesColor}・`:''}${current.shoes}`, 'shoes,shoesBrand,shoesColor']));
+          rows.push(...wSock);
           if(isSuit){
             rows.push(W([en2?'Tie':'ネクタイ', current.tie||'ノータイ', 'tie']));
             rows.push(W([en2?'Suit Silhouette':'シルエット', current.suitSilhouette||'—', 'suitSilhouette']));
@@ -9659,7 +9961,7 @@ ${promptTargetGuide(b, false)}`;
         rows.push(W([en2?'Accessories (Work)':'アクセサリー（平日）', ((current.accessories||[]).join('・')||'なし')+accWorkNote(current), 'accessoriesEdit']));
         // V4.5.0: 着こなしメモを職業／私服に分割（職業＝styleNote系、私服＝holidayStyleNote系）
         const workMemo=[current.styleNote,current.muscleFashionNote,current.workFitNote].filter(Boolean).join('。');
-        rows.push(W([en2?'Styling Memo (Work)':'着こなしメモ（職業）', workMemo||'—', 'styleNote']));
+        rows.push(W([en2?'Styling Memo (Work)':'着こなしメモ（職業）', (workMemo||'—')+` <button class="pf-btn" data-memo-link="w" title="${en2?'Rebuild from outfit':'服装連動で再生成'}">\ud83d\udd04</button>`, 'styleNote']));
         if(current.holidayOutfitType){
           rows.push(H([L.holidayOutfit,`${current.holidayOutfitBrand?`${displayValue('outfitBrand',current.holidayOutfitBrand)}・`:''}${displayValue('outfitType',current.holidayOutfitType)}${current.holidayGapSuit?'⚡':''}`,'holidayOutfitType']));
           rows.push(H([en2?'Casual Outer':'上着（休日）', `${current.holidayOuterBrand?`${current.holidayOuterBrand}・`:''}${current.holidayOuterColor?`${current.holidayOuterColor}・`:''}${current.holidayJacket||'指定なし'}`, 'holidayJacket,holidayOuterBrand,holidayOuterColor']));
@@ -9669,7 +9971,7 @@ ${promptTargetGuide(b, false)}`;
           rows.push(...uniHol); // 私服の靴下（5セレクト行）は私服の靴の直後（V4.5.1）
           rows.push(H([en2?'Accessories (Casual)':'アクセサリー（休日）', ((current.holidayAccessories||[]).join('・')||'なし'), 'holidayAccessoriesEdit']));
           const memo=[current.holidayGapSuit?(en2?'Suit even on days off':'休日なのにスーツ（本人は私服のつもり）'):'',current.holidayStyleNote,current.senseFashionNote].filter(Boolean).join('。');
-          rows.push(H([en2?'Styling Memo (Casual)':'着こなしメモ（私服）', memo||'—', 'holidayStyleNote']));
+          rows.push(H([en2?'Styling Memo (Casual)':'着こなしメモ（私服）', (memo||'—')+` <button class="pf-btn" data-memo-link="h" title="${en2?'Rebuild from outfit':'服装連動で再生成'}">\ud83d\udd04</button>`, 'holidayStyleNote']));
         } else { rows.push(...uniHol); }
         return rows;
       })()],
@@ -9685,7 +9987,7 @@ ${promptTargetGuide(b, false)}`;
       <div class="measurement-row"><b>B</b><span class="measurement-value">${Number(current.measurementB).toFixed(1)}cm（A比 ${Math.round(Number(current.measurementB)/Number(current.measurementA)*100)}%）</span><button class="measurement-reroll" data-p-dice="measurementB" title="${uiLang==='en'?'Reroll B only':'Bだけ再抽選'}">🎲 ${uiLang==='en'?'Reroll B':'Bを再抽選'}</button></div>
       <div class="measurement-row"><b>C</b><span class="measurement-value">${profileMeasurementCLabel(current.measurementC, uiLang==='en')}</span><button class="measurement-reroll" data-p-dice="measurementC" title="${uiLang==='en'?'Reroll C only':'Cだけ再抽選'}">🎲 ${uiLang==='en'?'Reroll C':'Cを再抽選'}</button></div>
     </div>`;
-    const cpHtml = (cpMode !== '表示しない' ? `<div class="catchphrase">――${current.catchText || (current.catchText = buildBioHook2(current))} <button class="pf-btn" data-p-edit="catchText" title="✎">✎</button><button class="pf-btn" data-p-dice="catchText" title="🎲">🎲</button></div>` : '') + `<div class="bio-hook" style="margin:0 0 12px;font-size:14px;color:#cfe0f5;line-height:1.6;border-left:3px solid var(--blue);padding-left:10px">${current.bioText || bioLine(current, false)} <button class="pf-btn" data-p-edit="bioText" title="✎">✎</button><br><span style="font-size:12px;color:#9fb0c7">${nameKana(current)}：${current.height}／${current.weight}／${String(current.footSize).endsWith('cm') ? current.footSize : current.footSize + 'cm'}</span> <button class="pf-btn" data-p-dice="bioText" title="🎲">🎲</button></div>` + measurementHtml;
+    const cpHtml = (cpMode !== '表示しない' ? `<div class="catchphrase">――${current.catchText || (current.catchText = buildBioHook2(current))} <button class="pf-btn" data-p-edit="catchText" title="✎">✎</button><button class="pf-btn" data-p-dice="catchText" title="🎲">🎲</button></div>` : '') + `<div class="bio-hook" style="margin:0 0 12px;font-size:14px;color:#cfe0f5;line-height:1.6;border-left:3px solid var(--blue);padding-left:10px">${current.bioText || bioLine(current, false)} <button class="pf-btn" data-p-edit="bioText" title="✎">✎</button><br><span style="font-size:16px;font-weight:900;color:#e8f1ff;letter-spacing:.02em">${nameKana(current)}：${current.height}／${current.weight}／${String(current.footSize).endsWith('cm') ? current.footSize : current.footSize + 'cm'}</span> <button class="pf-btn" data-p-dice="bioText" title="🎲">🎲</button></div>` + measurementHtml;
     const badges = cpHtml + `<div class="badge-row">
       <span class="badge-mbti">★ ${mbtiDisplay(current)}</span>
       <span class="badge-target">⚡ Prompt Target: ${current.promptTarget || 'ChatGPT'}</span>
@@ -9762,6 +10064,9 @@ ${promptTargetGuide(b, false)}`;
         renderAll();
       };
     });
+    els.profileView.querySelectorAll('[data-memo-link]').forEach(b=>{ b.onclick=()=>{ if(!current) return; if(b.dataset.memoLink==='w') current.styleNote=buildOutfitLinkedMemo(current,false); else current.holidayStyleNote=buildOutfitLinkedMemo(current,true); renderAll(); }; });
+    els.profileView.querySelectorAll('[data-sock-open]').forEach(b=>{ b.onclick=()=>{ const kv=b.closest('.kv'); if(!kv) return; const ed=kv.querySelector('.sock-ed'), tx=kv.querySelector('.sock-tx'); if(ed){ ed.classList.toggle('hidden'); if(tx) tx.classList.toggle('hidden', !ed.classList.contains('hidden')); } }; });
+    els.profileView.querySelectorAll('[data-sock-dice]').forEach(b=>{ b.onclick=()=>{ if(!current) return; rerollSocks(current, b.dataset.sockDice==='w'); renderAll(); }; });
     const ds = els.profileView.querySelector('[data-dutysock-edit]');
     if(ds) ds.onchange = () => { const v = (window.DUTY_SOCK_EDIT_MAP||{})[ds.value]; if(v && current){ current.sockBrand=v[0]; current.sockType=v[1]; current.sockShape=v[2]; current.sockMaterial=v[3]; renderAll(); } };
     const dsc = els.profileView.querySelector('[data-dutysockcolor-edit]');
@@ -9918,7 +10223,7 @@ ${promptTargetGuide(b, false)}`;
     const [s,r,note] = scoreRarity(current); if(current && current.id !== lastRarityPlayed){ lastRarityPlayed = current.id; playRaritySound(r); } els.rarity.textContent=r; els.rarity.className='rare rarity-'+(r==='SUPER RARE'?'SUPER':r); els.rareScore.textContent=s+' pt'; els.rarityNote.textContent = note==='idle' ? T('rarityNoteIdle') : T('rarityNotes')[note];
   }
   function renderAll(){ setTimeout(()=>{ try{ renderVideoBoxes(); }catch(e){} }, 0); renderSlots(current,true); renderProfile(); renderRarity(); renderHistory(); renderGroupUI(); renderPromptTabs(); renderSettingChips(); updateCharCounts(); }
-  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V4.5.2'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
+  function saveCurrent(){ if(!current) return alert(T('saveFirst')); const history=loadHistory(); history.unshift({...current, appVersion:'V4.6.1'}); localStorage.setItem(STORAGE_KEY,JSON.stringify(history.slice(0,50))); renderHistory(); alert(T('saved')); }
   function loadHistory(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return[]} }
   function deleteHistoryItem(i){
     const h = loadHistory();
@@ -10283,6 +10588,11 @@ ${promptTargetGuide(b, false)}`;
   if(makerLangSel){ uiLang = makerLangSel.value || 'ja'; makerLangSel.onchange=()=>{ uiLang = makerLangSel.value || 'ja'; applyUiLanguage(); }; }
   document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode; document.querySelectorAll('[data-mode]').forEach(x=>x.className='btn dark'); b.className=mode==='full'?'btn blue':'btn primary'; updateModeNote();});
   document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>switchTab(t.dataset.tab));
+  { // V4.6.0 A1: レイアウト参照チェックの双方向同期（コマンドバー⇔出力設定）
+    const a=document.getElementById('useLayoutRef'), b=document.getElementById('useLayoutRefCb');
+    if(a&&b){ b.checked=a.checked;
+      const sync=(from,to)=>{ to.checked=from.checked; if(current) renderAll(); };
+      a.addEventListener('change',()=>sync(a,b)); b.addEventListener('change',()=>sync(b,a)); } }
   document.getElementById('saveBtn').onclick=saveCurrent;
   document.getElementById('jsonBtn').onclick=downloadJson;
   function flashCopied(btn){ if(!btn) return; const orig = T('copyLabel'); btn.textContent = T('copiedLabel'); btn.classList.add('copied'); setTimeout(()=>{ btn.textContent = orig; btn.classList.remove('copied'); }, 1600); }
